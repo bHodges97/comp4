@@ -38,10 +38,11 @@ public class MathUtil {
 	 * 
 	 * @param theta Sector size in radians, theta > 6.28(2 pi) for full circle ,theta < 0 returns null.
 	 * @param r Radius
+	 * @param polygon true if polygon,false if polyline
 	 * @return <b>Shape</b> Polygonal representation of a circle sector.
 	 */
 	
-	public  static Shape genCirc(double theta,double r){
+	public  static Shape genCirc(double theta,double r,boolean polygon){
 		ArrayList<MyPoint> list = new ArrayList<>();
 		if(theta < 0) return null;
 		double limit = 2*Math.PI;
@@ -51,7 +52,9 @@ public class MathUtil {
 			if(i > limit)break;
 			list.add(new MyPoint(r*Math.cos(i),r*Math.sin(i)));
 		}
-		if(theta < limit)list.add(new MyPoint(0,0));	
+		list.add(new MyPoint(r*Math.cos(theta),r*Math.sin(theta)));
+		
+		if(theta < limit || !polygon)list.add(new MyPoint(0,0));	
 		return new Shape(list);
 	}
 }

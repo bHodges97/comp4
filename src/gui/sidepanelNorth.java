@@ -79,7 +79,7 @@ public class sidepanelNorth extends JScrollPane{
 			//circsector 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				plane.add(new Obj(0,new MyPoint(0,0),MathUtil.genCirc(Math.PI/2,5d),0d,0f));
+				plane.add(new Obj(0,new MyPoint(0,0),MathUtil.genCirc(Math.PI/2,5d,false),0d,0f));
 				
 			}
 		});
