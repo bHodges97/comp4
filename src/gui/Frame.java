@@ -22,7 +22,7 @@ public class Frame extends JFrame{
 	Panel canvas = new Panel("Default");
 	JPanel sidepanel = new JPanel();
 	sidepanelNorth sideNorth;
-	sidepanelSouth sideSouth = new sidepanelSouth(0);
+	sidepanelSouth sideSouth;
 	
 	public Frame(){
 		//this.setLayout();
@@ -31,12 +31,19 @@ public class Frame extends JFrame{
 		this.add(canvas,BorderLayout.CENTER);		
 		this.add(sidepanel,BorderLayout.EAST);
 		sideNorth = new sidepanelNorth(canvas.plane);
-		
+		sideSouth = new sidepanelSouth(0,canvas.plane);		
 		sidepanel.setPreferredSize(new Dimension(300,this.getHeight()));
 		sidepanel.setBorder(BorderFactory.createLineBorder(Color.black));
-		sidepanel.add(sideNorth.p,BorderLayout.NORTH);
 		
-		sidepanel.add(sideSouth,BorderLayout.SOUTH);
+		sidepanel.setLayout(new GridBagLayout());
+		GridBagConstraints c =  new GridBagConstraints();
+		c.weighty=1;
+		c.weightx=1;
+		c.fill = c.BOTH;
+		c.gridy=0;
+		sidepanel.add(sideNorth.p,c);
+		c.gridy++;
+		sidepanel.add(sideSouth,c);
 		
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.pack();

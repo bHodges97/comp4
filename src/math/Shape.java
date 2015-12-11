@@ -131,11 +131,27 @@ public class Shape {
         }
         return result;
       }
-	public void rotate(Double x) {
-		for(MyPoint p : points){
+	public void rotate(Double x, MyPoint origin,MyPoint offset) {
+		MyPoint[] offPoints = new MyPoint[points.length];
+		if(origin == null){			
+			for(int i = 0; i< points.length;i++){
+				offPoints[i] = new MyPoint(points[i].x-origin.x,points[i].y-origin.y);
+			}
+		}
+		else{
+			offPoints = points;
+		}
+		for(MyPoint p : offPoints){
 			double tempx = p.x * Math.cos(x) - p.y * Math.sin(x);
 			p.y = p.x * Math.sin(x) + p.y * Math.cos(x);
 			p.x = tempx;
+		}
+		if(origin != null){			
+			for(int i = 0; i< points.length;i++){
+				points[i] = new MyPoint(offPoints[i].x,offPoints[i].y);
+			}
+		}else{
+			points = offPoints;
 		}
 		
 	}

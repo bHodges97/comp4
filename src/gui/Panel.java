@@ -44,7 +44,6 @@ public class Panel extends JPanel{
 	                for (Obj s : plane.objects) {
 	                    if (s.PointInPolygon(e.getPoint(),ox,oy,scale)) {
 	                    	currentObj = s;
-	                    	
 	                    	return;
 	                    }
 	                } 
@@ -59,17 +58,22 @@ public class Panel extends JPanel{
 		Dimension d = getSize();
 		ox = d.width/2;
 		oy = d.height/2;
+		
 		Graphics2D g2d = (Graphics2D)g;
 		g2d.drawOval(ox-2, oy+2,4,4);
-		for(Obj obj : plane.objects){
-			int s = (int) (1/scale);
-			if(obj.getType() == obj.Polygon){
-				g2d.drawPolygon(obj.createShape(scale,ox,oy));
-				//g2d.drawOval(obj.getWorldX(scale,ox),obj.getWorldY(scale,oy), s,s);
-			}else if(obj.getType() == obj.PointMass){
-				g2d.fillOval(obj.getWorldX(scale,ox)-s/2,obj.getWorldY(scale,oy)-s/2,s,s);
-				//TODO: Implement none poly shapes! :)
+		int s = (int) (1/scale)/4;
+		for(Obj obj : plane.objects){			
+			obj.prepareForPaint(ox,oy,scale);
+				Polygon renderPoly = null;
+			if(obj.getType() != obj.PointMass){
+				renderPoly = obj.getRenderPoly();			
 			}
+			if(obj.getType() == obj.Polygon){
+				g2d.drawPolygon(renderPoly);
+			}else if(obj.getType() == obj.Polyline){
+				g2d.drawPolyline(renderPoly.xpoints,renderPoly.ypoints,renderPoly.npoints);			
+			}
+			g2d.fillOval(obj.getWorldX(scale,ox)-s/2,obj.getWorldY(scale,oy)-s/2,s,s);
 		}
 		
 		update();	

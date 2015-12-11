@@ -7,6 +7,7 @@ public class Plane {
 	String topic;
 	MyPoint cOfm = new MyPoint(0,0);
 	Float g = -9.8f;
+			
 	public Plane(String t){
 		topic = t;
 		
@@ -32,6 +33,13 @@ public class Plane {
 	}
 	public void add(Obj obj) {
 		objects.add(obj);
-		System.out.println("Object added");
+		if(obj.Name == null){
+			if(objects.indexOf(obj)+'A'<='Z'){
+				obj.Name = (char)(objects.indexOf(obj)+'A')+"";
+			}else{
+				obj.Name = "Object "+ objects.indexOf(obj);
+			}
+		}
+		System.out.println("Object added("+obj.Name+")");
 	}
 }
