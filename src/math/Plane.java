@@ -12,6 +12,16 @@ public class Plane {
 		topic = t;
 		
 	}
+	public void circleTheorem(){
+		/*
+		 * Center 0,0
+		 * 
+		 * 
+		 */
+	}
+	public void interpret(){
+		
+	}
 	public void findCofM() {
 		Double x;
 		Double y;
