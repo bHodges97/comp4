@@ -14,6 +14,7 @@ public class Obj {
 	String Name;
 	float density;
 	float e;
+	float mu = 0;
 	float mass;
 	float invMass;	
 	float r;
@@ -130,6 +131,7 @@ public class Obj {
 		 */
 		public boolean PointInPolygon(Point point,int ox,int oy,float scale) {		
 			float tolerance = 1/scale/4;
+			//Polygon
 			 if(type == 0){
 				  int i, j, nvert = xpoints.length;
 				  boolean c = false;
@@ -141,18 +143,18 @@ public class Obj {
 				  }
 				  return c;
 			 }
+			 //Point
 			 else if(type == 1){					 
 				if(Math.abs(point.x-(cOfM.x/scale + ox))<tolerance  && Math.abs(point.y-(oy - cOfM.y/scale))<tolerance){
 					System.out.println("Tested");
 					return true;
 				}		 
 			 }
+			 //PolyLine
 			 else if(type == 2){
 
 				 for(int i = 0; i < renderPoly.npoints-1;i++){
-					float a = Math.abs((renderPoly.xpoints[i+1]-renderPoly.xpoints[i])*(renderPoly.ypoints[i]-point.y)-(renderPoly.xpoints[i]-point.x)*(renderPoly.ypoints[i+1]-renderPoly.ypoints[i]));
-					double b = Math.sqrt(Math.pow(renderPoly.xpoints[i+1]-renderPoly.xpoints[i],2)+Math.pow(renderPoly.ypoints[i+1]-renderPoly.ypoints[i],2));
-					if(a/b<tolerance)return true;
+					return MathUtil.PointInLineSegment(new MyPoint(point.x,point.y),new MyPoint( renderPoly.xpoints[i],renderPoly.ypoints[i] ),new MyPoint( renderPoly.xpoints[i+1],renderPoly.ypoints[i+1] ), tolerance);
 				 }
 			 }
 			 
@@ -222,6 +224,9 @@ public class Obj {
 		}
 		public Polygon getRenderPoly(){
 			return renderPoly;
+		}
+		public double[][] getWorldPoints(){
+			return new double[][]{xpoints,ypoints};
 		}
 		
 	}

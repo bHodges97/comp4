@@ -57,4 +57,24 @@ public class MathUtil {
 		System.out.println(list.size());
 		return new Shape(list);
 	}
+	/**
+	 * Test if point is on line segement within a certain degree of tolerance;
+	 * .=
+	 * @param p Point to test.
+	 * @param p1 Start of line segment.
+	 * @param p2 End of line segement.
+	 * @param tolerance The amount of tolerance.
+	 * 
+	 * @return Boolean true for point is on line, false if is not.
+	 * 
+	 * @see //https://en.wikipedia.org/wiki/Distance_from_a_point_to_a_line
+	 */	
+	public static boolean PointInLineSegment(MyPoint p,MyPoint p1,MyPoint p2,float tolerance){
+		if(tolerance == 0)tolerance = 0.01f;
+		double a = Math.abs((p2.x-p1.x)*(p1.y-p.y)-(p1.x-p.x)*(p2.y-p1.y));
+		double b = Math.sqrt(Math.pow(p2.x-p1.x,2)+Math.pow(p2.y-p1.y,2));
+		if(a/b<tolerance)return true;
+		
+		return false;
+	}
 }

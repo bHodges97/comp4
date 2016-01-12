@@ -23,6 +23,7 @@ public class Panel extends JPanel{
 		setPreferredSize(new Dimension(800,500));
 		this.setFocusable(true);
 		setTopic(t);
+		
 		addMouseMotionListener(new MouseMotionListener(){
 
 			@Override
@@ -48,10 +49,17 @@ public class Panel extends JPanel{
 	                    }
 	                } 
 	                currentObj = null;
-	                }
+	            }
+	            
+	            @Override
+	            public void mouseReleased(MouseEvent e){
+	            	plane.update();
+	            }
 	          
 	        });
+		  
 	}
+		
 	@Override
 	public void paintComponent(Graphics g){
 		super.paintComponent(g);		

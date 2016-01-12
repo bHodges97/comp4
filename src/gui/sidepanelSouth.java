@@ -84,7 +84,7 @@ public class sidepanelSouth extends JPanel {
 						double x = Double.valueOf(responce);
 						boolean radians = true;
 						if(c == 'D'|| c == 'd')radians = false;
-						current.rotate(x,radians,new MyPoint(-5,0));
+						current.rotate(x,radians,new MyPoint(0,0));
 					}
 					else{
 						JOptionPane.showMessageDialog(null,"Not a valid input!");
