@@ -68,7 +68,7 @@ public class Frame extends JFrame{
 		Thread update  = new Thread(){
 			public void run(){
 				
-				
+				//test comit
 				
 				while(true){
 					repaint();
