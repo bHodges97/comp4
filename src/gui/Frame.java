@@ -37,7 +37,7 @@ public class Frame extends JFrame{
 		setExtendedState(MAXIMIZED_BOTH);		
 		setTopic(popup.topic);
 		
-		if(popup.topic.equals("circles")){
+		if(popup.topic.equals("Circles")){
 			initCircularMotion();
 		}
 		if(popup.topic.equals("Center")){
@@ -57,18 +57,17 @@ public class Frame extends JFrame{
 		window = new Frame();
 	}
 	private void initCircularMotion(){
+		
 		circCanvas = new CircCanvas();
 		this.add(circCanvas,BorderLayout.CENTER);
 		circDiagram = new CircDiagram();
 		this.add(circDiagram,BorderLayout.EAST);		
-		
-		
-		
+	
 		
 		Thread update  = new Thread(){
 			public void run(){
-				
-				//test comit
+				CircDialog form = new CircDialog();
+			
 				
 				while(true){
 					repaint();
@@ -92,8 +91,7 @@ public class Frame extends JFrame{
 			sideNorth = new sidepanelNorth(canvas.plane);
 			sideSouth = new sidepanelSouth(0,canvas.plane);		
 			sidepanel.setPreferredSize(new Dimension(300,this.getHeight()));
-			sidepanel.setBorder(BorderFactory.createLineBorder(Color.black));
-			
+			sidepanel.setBorder(BorderFactory.createLineBorder(Color.black));			
 			sidepanel.setLayout(new GridBagLayout());
 			GridBagConstraints c =  new GridBagConstraints();
 			c.weighty=1;

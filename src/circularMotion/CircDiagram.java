@@ -24,20 +24,17 @@ public class CircDiagram extends JPanel{
 		setBorder(BorderFactory.createLineBorder(Color.black));
 		this.setVisible(true);
 		this.setFocusable(true);
+		
 	}
 	@Override
 	public void paintComponent(Graphics g){
 		super.paintComponent(g);
 		Graphics2D g2d = (Graphics2D)g;
 		g2d.setColor(Color.black);
-		
+				
 		Dimension d = getSize();
 		int ox = d.width/2;
 		int oy = d.height/2;
-		
-		
-		
+						
 	}
-	
-	
 }
