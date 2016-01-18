@@ -15,6 +15,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
 import math.MathUtil;
+import math.Obj;
 
 public class CircDialog extends JDialog{
 	/**
@@ -31,49 +32,100 @@ public class CircDialog extends JDialog{
 	JTextField textVelocity = new JTextField(n);
 	JTextField textRadius = new JTextField(n);
 	JTextField textAccCent = new JTextField(n);
-	
-	public CircDialog(){	
-		Open();	
+	JTextField textTime = new JTextField(n);
+
+	Double mass,v,angularv,theta,startTheta,r;
+
+
+	public CircDialog(){
+		Open();
 		placeField();
 		setTitle("Input details");
 		setResizable(false);
 		setModal(true);
 		GraphicsEnvironment g = GraphicsEnvironment.getLocalGraphicsEnvironment();
-        Point center = g.getCenterPoint();   
-        setLocation(center.x-500/2, center.y-500/2);    
+		Point center = g.getCenterPoint();
+		setLocation(center.x-500/2, center.y-500/2);
 		pack();
 		Done.addActionListener(
-			new ActionListener(){
-				@Override
-				public void actionPerformed(ActionEvent arg0) {
-					for (Component c : getContentPane().getComponents()) {
-						if (c instanceof JTextField) { 
-							//Tests if each field is valid(blank or numeric)
-					    	if(!MathUtil.isNumeric(((JTextField)c).getText()) && !((JTextField)c).getText().isEmpty()) {
-					    		JOptionPane.showMessageDialog(getThis(),
-					    				"One of the variables wasn't numeric or blank ("+((JTextField)c).getText()+")",
-					    	            "Warning", JOptionPane.ERROR_MESSAGE);
-					    		 return;
-					    	}
-					    }
+				new ActionListener(){
+					@Override
+					public void actionPerformed(ActionEvent arg0) {
+						for (Component c : getContentPane().getComponents()) {
+							if (c instanceof JTextField) {
+								//Tests if each field is valid(blank or numeric)
+								if(!MathUtil.isNumeric(((JTextField)c).getText()) && !((JTextField)c).getText().isEmpty()) {
+									JOptionPane.showMessageDialog(getThis(),
+											"One of the variables wasn't numeric or blank ("+((JTextField)c).getText()+")",
+											"Warning", JOptionPane.ERROR_MESSAGE);
+									return;
+								}
+							}
+						}
+
+						for (Component c : getContentPane().getComponents()) {
+							if (c instanceof JTextField && ((JTextField)c).getText().isEmpty()) {
+								if(c == textAccCent){
+									if(!textRadius.getText().isEmpty()){
+										if(!textVelocity.getText().isEmpty()){
+											textAccCent.setText(""+
+													// v^2/r
+													Math.pow(Double.parseDouble(textVelocity.getText()),2)/
+													Double.parseDouble(textRadius.getText())
+													);
+
+										}else if(!textAngularV.getText().isEmpty()){
+											textAccCent.setText(""+
+													// omega^2*r
+													Math.pow(Double.parseDouble(textAngularV.getText()),2)*
+													Double.parseDouble(textRadius.getText())
+													);
+										}
+									}
+								}
+								if(c == textAngularV){
+									if(!textRadius.getText().isEmpty() && !textVelocity.getText().isEmpty()){
+										textAngularV.setText(""+
+												//v/r
+												Double.parseDouble(textVelocity.getText())/
+												Double.parseDouble(textRadius.getText())
+												);
+									}
+								}
+								if(c == textVelocity){
+									if(!textRadius.getText().isEmpty() && !textAngularV.getText().isEmpty()){
+										textAngularV.setText(""+
+												//v/r
+												Double.parseDouble(textAngularV.getText())*
+												Double.parseDouble(textRadius.getText())
+												);
+									}
+								}
+
+							}
+						}
+
+
+
+
+
 					}
-				}		
-			}
-		);
+				}
+				);
 	}
 	public void Open(){
 		for (Component c : this.getContentPane().getComponents()) {
-			if (c instanceof JTextField) { 
-		    	((JTextField)c).setText("");
-		    
-		    }
+			if (c instanceof JTextField) {
+				((JTextField)c).setText("");
+
+			}
 		}
 		setVisible(true);
 	}
 	public void Close(){
 		setVisible(false);
-		
-		
+
+
 	}
 	private void placeField(){
 		setLayout(new GridBagLayout());
@@ -86,6 +138,10 @@ public class CircDialog extends JDialog{
 		this.add(new JLabel("Start Angle"),c);
 		c.gridy++;
 		this.add(textStart,c);
+		c.gridy++;
+		this.add(new JLabel("Time"),c);
+		c.gridy++;
+		this.add(textTime,c);
 		c.gridy++;
 		this.add(new JLabel("End Angle"),c);
 		c.gridy++;
