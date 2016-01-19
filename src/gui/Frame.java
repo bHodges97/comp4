@@ -68,6 +68,7 @@ public class Frame extends JFrame{
 			public void run(){
 				CircDialog form = new CircDialog();
 				circDiagram.c = form;
+				circCanvas.c = form;
 
 				while(true){
 					repaint();
