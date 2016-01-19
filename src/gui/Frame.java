@@ -25,25 +25,25 @@ public class Frame extends JFrame{
 	//CircularMotion
 	CircCanvas circCanvas;
 	CircDiagram circDiagram;
-	
+
 	//CenterOfMass
 	Panel canvas = new Panel("Default");
 	JPanel sidepanel = new JPanel();
 	sidepanelNorth sideNorth;
 	sidepanelSouth sideSouth;
-	
+
 	public Frame(){
 		//this.setLayout();
-		setExtendedState(MAXIMIZED_BOTH);		
+		setExtendedState(MAXIMIZED_BOTH);
 		setTopic(popup.topic);
-		
+
 		if(popup.topic.equals("Circles")){
 			initCircularMotion();
 		}
 		if(popup.topic.equals("Center")){
 			initCenterOfMass();
 		}
-		
+
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.pack();
 		this.setVisible(true);
@@ -57,18 +57,18 @@ public class Frame extends JFrame{
 		window = new Frame();
 	}
 	private void initCircularMotion(){
-		
+
 		circCanvas = new CircCanvas();
 		this.add(circCanvas,BorderLayout.CENTER);
 		circDiagram = new CircDiagram();
-		this.add(circDiagram,BorderLayout.EAST);		
-	
-		
+		this.add(circDiagram,BorderLayout.EAST);
+
+
 		Thread update  = new Thread(){
 			public void run(){
 				CircDialog form = new CircDialog();
-			
-				
+				circDiagram.c = form;
+
 				while(true){
 					repaint();
 					revalidate();
@@ -83,40 +83,40 @@ public class Frame extends JFrame{
 			}
 		};
 		update.start();
-		
+
 	}
 	private void initCenterOfMass(){
-		this.add(canvas,BorderLayout.CENTER);		
-			this.add(sidepanel,BorderLayout.EAST);
-			sideNorth = new sidepanelNorth(canvas.plane);
-			sideSouth = new sidepanelSouth(0,canvas.plane);		
-			sidepanel.setPreferredSize(new Dimension(300,this.getHeight()));
-			sidepanel.setBorder(BorderFactory.createLineBorder(Color.black));			
-			sidepanel.setLayout(new GridBagLayout());
-			GridBagConstraints c =  new GridBagConstraints();
-			c.weighty=1;
-			c.weightx=1;
-			c.fill = c.BOTH;
-			c.gridy=0;
-			sidepanel.add(sideNorth.p,c);
-			c.gridy++;
-			sidepanel.add(sideSouth,c);
-			Thread update  = new Thread(){
-				public void run(){
-					while(true){
-						repaint();
-						revalidate();
-						sideSouth.setObj(canvas.currentObj);
-						canvas.repaint();
-							
-						try {
-							Thread.sleep((long) 0.03);
-						} catch (InterruptedException e) {
-							e.printStackTrace();
-						}
+		this.add(canvas,BorderLayout.CENTER);
+		this.add(sidepanel,BorderLayout.EAST);
+		sideNorth = new sidepanelNorth(canvas.plane);
+		sideSouth = new sidepanelSouth(0,canvas.plane);
+		sidepanel.setPreferredSize(new Dimension(300,this.getHeight()));
+		sidepanel.setBorder(BorderFactory.createLineBorder(Color.black));
+		sidepanel.setLayout(new GridBagLayout());
+		GridBagConstraints c =  new GridBagConstraints();
+		c.weighty=1;
+		c.weightx=1;
+		c.fill = c.BOTH;
+		c.gridy=0;
+		sidepanel.add(sideNorth.p,c);
+		c.gridy++;
+		sidepanel.add(sideSouth,c);
+		Thread update  = new Thread(){
+			public void run(){
+				while(true){
+					repaint();
+					revalidate();
+					sideSouth.setObj(canvas.currentObj);
+					canvas.repaint();
+
+					try {
+						Thread.sleep((long) 0.03);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
 					}
 				}
-			};
-			update.start();
+			}
+		};
+		update.start();
 	}
 }

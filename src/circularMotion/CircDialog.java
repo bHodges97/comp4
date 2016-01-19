@@ -62,53 +62,49 @@ public class CircDialog extends JDialog{
 								}
 							}
 						}
+						Close();
+						for(int iterator = 0; iterator < 2; iterator++){
+							for (Component c : getContentPane().getComponents()) {
+								if (c instanceof JTextField && ((JTextField)c).getText().isEmpty()) {
+									if(c == textAccCent){
+										if(!textRadius.getText().isEmpty()){
+											if(!textVelocity.getText().isEmpty()){
+												textAccCent.setText(""+
+														// v^2/r
+														Math.pow(Double.parseDouble(textVelocity.getText()),2)/
+														Double.parseDouble(textRadius.getText())
+														);
 
-						for (Component c : getContentPane().getComponents()) {
-							if (c instanceof JTextField && ((JTextField)c).getText().isEmpty()) {
-								if(c == textAccCent){
-									if(!textRadius.getText().isEmpty()){
-										if(!textVelocity.getText().isEmpty()){
-											textAccCent.setText(""+
-													// v^2/r
-													Math.pow(Double.parseDouble(textVelocity.getText()),2)/
+											}else if(!textAngularV.getText().isEmpty()){
+												textAccCent.setText(""+
+														// omega^2*r
+														Math.pow(Double.parseDouble(textAngularV.getText()),2)*
+														Double.parseDouble(textRadius.getText())
+														);
+											}
+										}
+									}
+									if(c == textAngularV){
+										if(!textRadius.getText().isEmpty() && !textVelocity.getText().isEmpty()){
+											textAngularV.setText(""+
+													//v/r
+													Double.parseDouble(textVelocity.getText())/
 													Double.parseDouble(textRadius.getText())
 													);
-
-										}else if(!textAngularV.getText().isEmpty()){
-											textAccCent.setText(""+
-													// omega^2*r
-													Math.pow(Double.parseDouble(textAngularV.getText()),2)*
+										}
+									}
+									if(c == textVelocity){
+										if(!textRadius.getText().isEmpty() && !textAngularV.getText().isEmpty()){
+											textAngularV.setText(""+
+													//v/r
+													Double.parseDouble(textAngularV.getText())*
 													Double.parseDouble(textRadius.getText())
 													);
 										}
 									}
 								}
-								if(c == textAngularV){
-									if(!textRadius.getText().isEmpty() && !textVelocity.getText().isEmpty()){
-										textAngularV.setText(""+
-												//v/r
-												Double.parseDouble(textVelocity.getText())/
-												Double.parseDouble(textRadius.getText())
-												);
-									}
-								}
-								if(c == textVelocity){
-									if(!textRadius.getText().isEmpty() && !textAngularV.getText().isEmpty()){
-										textAngularV.setText(""+
-												//v/r
-												Double.parseDouble(textAngularV.getText())*
-												Double.parseDouble(textRadius.getText())
-												);
-									}
-								}
-
 							}
 						}
-
-
-
-
-
 					}
 				}
 				);
