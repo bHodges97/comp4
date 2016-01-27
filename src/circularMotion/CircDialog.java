@@ -70,6 +70,9 @@ public class CircDialog extends JDialog{
 				}
 				);
 	}
+	/**
+	 * Find Unknowns.
+	 */
 	public void Solve(){
 		for (Component c : getContentPane().getComponents()) {
 			if (c instanceof JTextField && ((JTextField)c).getText().isEmpty()) {
@@ -112,6 +115,10 @@ public class CircDialog extends JDialog{
 			}
 		}
 	}
+	/**
+	 * Shows the dialog window.
+	 * Clears each field.
+	 */
 	public void Open(){
 		for (Component c : this.getContentPane().getComponents()) {
 			if (c instanceof JTextField) {
@@ -121,9 +128,12 @@ public class CircDialog extends JDialog{
 		}
 		setVisible(true);
 	}
+	/**
+	 * Hides the dialog window.
+	 * 
+	 */
 	public void Close(){
 		setVisible(false);
-
 
 	}
 	private void placeField(){
