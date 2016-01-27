@@ -178,7 +178,7 @@ public class CircDialog extends JDialog{
 	}
 	/**
 	 * Alternative to "this" keyword.
-	 * returns this object
+	 * @return this object
 	 */
 	public CircDialog getThis(){
 		return this;
