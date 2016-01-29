@@ -8,7 +8,7 @@ public class MathUtil {
 	 * Checks if a string is numeric. Blank strings are not numeric.
 	 * 
 	 * @param str The string to be tested.
-	 * @return boolean true for numerical strings false is otherwire.
+	 * @return boolean true for numerical strings false if otherwire.
 	 */
 	public static boolean isNumeric(String str){
 		if(str.isEmpty())return false;
