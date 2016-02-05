@@ -19,7 +19,13 @@ public class Solver {
 	public Solver(Definition[] d, Var[] n){
 		defs = d;
 	}
-
+	/**
+	 * Attempts to solve a variable based on known.
+	 * 
+	 * @param v variable to be solved.
+	 * @param recursiveDepth Not implemented to avoid stack overflow.
+	 * @return Solved variable.
+	 */
 	public Var solve(Var v, int recursiveDepth){
 		//TODO: Remove recursion?
 
@@ -109,6 +115,9 @@ public class Solver {
 					c.resolve();
 				}
 
+		}
+		for(Definition c : defs){
+			c.clearRef();
 		}
 
 		return var;

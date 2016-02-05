@@ -43,7 +43,7 @@ public class Definition {
 		 */
 		method  = parts[1];
 		if(method.contains("=")){
-			throw new IllegalArgumentException("Illegal Argument: Definition contains to many \"=\"");
+			throw new IllegalArgumentException("Illegal Argument: Definition contains too many \"=\"");
 		}
 		terms = method.split("((?<=[+-/*^])|(?=[+-/*^]))");
 

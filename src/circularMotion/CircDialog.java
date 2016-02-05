@@ -16,6 +16,8 @@ import javax.swing.JTextField;
 
 import math.Definition;
 import math.MathUtil;
+import math.Solver;
+import math.Var;
 
 public class CircDialog extends JDialog{
 	/**
@@ -75,22 +77,50 @@ public class CircDialog extends JDialog{
 	 * Initialise definitions.
 	 */
 	private void initDefs() {
-		defs = new Definition[5];
+		defs = new Definition[9];
 		defs[0] = new Definition("v=r*w");
 		defs[1] = new Definition("w=v/r");
 		defs[2] = new Definition("f=m*a");
 		defs[3] = new Definition("a=v^2/r");
-		defs[4] = new Definition("a=w*r");
+		defs[4] = new Definition("a=w^2*r");
+		defs[5] = new Definition("x=t*w+o");
+		defs[6] = new Definition("t=x-0/t");
+		defs[7] = new Definition("r=v/w");
+		defs[8] = new Definition("r=v^2/a");
+		defs[9] = new Definition("w=2*3.13 /t");
 	}
 	/**
 	 * Find Unknowns.
 	 */
 	public void Solve(){
-		for (Component c : getContentPane().getComponents()) {
-			if (c instanceof JTextField && ((JTextField)c).getText().isEmpty()) {
+		Var[] vars = new Var[8];
+		vars[0] =  new Var("w",textAngularV.getText());
+		vars[1] = new Var("m",textMass.getText());
+		vars[2] = new Var("u",textStart.getText());
+		vars[3] = new Var("t",textEnd.getText());
+		vars[4] = new Var("v",textVelocity.getText());
+		vars[5] = new Var("t",textRadius.getText());
+		vars[6] = new Var("a",textAccCent.getText());
+		vars[7] = new Var("t",textTime.getText());
+
+		for(Var var : vars){
+			if(var.contents.isEmpty()){
+				var.contents =  "Unknown";
+			}
+		}
+		Solver s = new Solver(defs,vars);
+		for(Var var : vars){
+			if(var.contents.equals("Unkown")){
+				s.solve(var,0);
+			}
+		}
+		for(Var var : vars){
+			if(!var.contents.equals("Unkown")){
 
 			}
 		}
+
+
 	}
 	/**
 	 * Shows the dialog window.

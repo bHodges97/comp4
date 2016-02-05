@@ -1,8 +1,8 @@
 package math;
 
 public class Var {
-	String contents;
-	String name;
+	public String contents;
+	public String name;
 
 	/**
 	 * Constructs a variable
