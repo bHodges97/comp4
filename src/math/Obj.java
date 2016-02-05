@@ -155,10 +155,10 @@ public class Obj {
 		}
 		//PolyLine
 		else if(type == 2){
+			int i = 0;
 
-			for(int i = 0; i < renderPoly.npoints-1;i++){
-				return MathUtil.PointInLineSegment(new MyPoint(point.x,point.y),new MyPoint( renderPoly.xpoints[i],renderPoly.ypoints[i] ),new MyPoint( renderPoly.xpoints[i+1],renderPoly.ypoints[i+1] ), tolerance);
-			}
+			return MathUtil.PointInLineSegment(new MyPoint(point.x,point.y),new MyPoint( renderPoly.xpoints[i],renderPoly.ypoints[i] ),new MyPoint( renderPoly.xpoints[i+1],renderPoly.ypoints[i+1] ), tolerance);
+
 		}
 
 		return false;

@@ -14,8 +14,8 @@ import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
+import math.Definition;
 import math.MathUtil;
-import math.Obj;
 
 public class CircDialog extends JDialog{
 	/**
@@ -36,6 +36,8 @@ public class CircDialog extends JDialog{
 
 	Double mass,v,angularv,theta,startTheta,r;
 
+	Definition[] defs;
+
 
 	public CircDialog(){
 		Open();
@@ -47,6 +49,7 @@ public class CircDialog extends JDialog{
 		Point center = g.getCenterPoint();
 		setLocation(center.x-500/2, center.y-500/2);
 		pack();
+		initDefs();
 		Done.addActionListener(
 				new ActionListener(){
 					@Override
@@ -63,12 +66,21 @@ public class CircDialog extends JDialog{
 							}
 						}
 						Close();
-						for(int iterator = 0; iterator < 2; iterator++){
-							Solve();
-						}
+						Solve();
 					}
 				}
 				);
+	}
+	/**
+	 * Initialise definitions.
+	 */
+	private void initDefs() {
+		defs = new Definition[5];
+		defs[0] = new Definition("v=r*w");
+		defs[1] = new Definition("w=v/r");
+		defs[2] = new Definition("f=m*a");
+		defs[3] = new Definition("a=v^2/r");
+		defs[4] = new Definition("a=w*r");
 	}
 	/**
 	 * Find Unknowns.
@@ -76,42 +88,7 @@ public class CircDialog extends JDialog{
 	public void Solve(){
 		for (Component c : getContentPane().getComponents()) {
 			if (c instanceof JTextField && ((JTextField)c).getText().isEmpty()) {
-				if(c == textAccCent){
-					if(!textRadius.getText().isEmpty()){
-						if(!textVelocity.getText().isEmpty()){
-							textAccCent.setText(""+
-									// v^2/r
-									Math.pow(Double.parseDouble(textVelocity.getText()),2)/
-									Double.parseDouble(textRadius.getText())
-									);
 
-						}else if(!textAngularV.getText().isEmpty()){
-							textAccCent.setText(""+
-									// omega^2*r
-									Math.pow(Double.parseDouble(textAngularV.getText()),2)*
-									Double.parseDouble(textRadius.getText())
-									);
-						}
-					}
-				}
-				if(c == textAngularV){
-					if(!textRadius.getText().isEmpty() && !textVelocity.getText().isEmpty()){
-						textAngularV.setText(""+
-								//v/r
-								Double.parseDouble(textVelocity.getText())/
-								Double.parseDouble(textRadius.getText())
-								);
-					}
-				}
-				if(c == textVelocity){
-					if(!textRadius.getText().isEmpty() && !textAngularV.getText().isEmpty()){
-						textAngularV.setText(""+
-								//v*r
-								Double.parseDouble(textAngularV.getText())*
-								Double.parseDouble(textRadius.getText())
-								);
-					}
-				}
 			}
 		}
 	}

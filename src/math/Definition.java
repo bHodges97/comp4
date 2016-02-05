@@ -1,10 +1,11 @@
 package math;
 
+
 /**
  * 
  */
 public class Definition {
-	// y=mx+C
+	// y=m*x+C
 
 	String name;
 	String method;
@@ -21,7 +22,8 @@ public class Definition {
 		}
 		/*
 		 * Removed to support mathematic functions.
-		 * 
+		 */
+		/*
 		 * if(in.contains("(") || in.contains(")"))
 		 *	throw new IllegalArgumentException("Illegal Argument: Contains brackets");
 		 */
@@ -64,7 +66,42 @@ public class Definition {
 			}
 		}
 
-		for(String t:terms)	System.out.print(t+",");
+		for(String t:terms){
+			System.out.print(t+",");
+		}
 
+	}
+
+	public void clearRef(){
+		int counter = 0;
+		for(int i = 0;i < terms.length;i++){
+			if(!MathUtil.isNumeric(terms[i])){
+				vars[counter] = new Var(terms[i],"Unknown");
+				counter++;
+			}
+		}
+	}
+
+
+	/**
+	 * Finds the variable.
+	 */
+	public void resolve(){
+
+		String[] temp = new String[terms.length];
+		System.arraycopy(terms,0,temp,0,terms.length);
+
+		for(String s : temp){
+			for(Var v: vars){
+				if(v.name.equals(s)){
+					s = new String(v.contents);
+				}
+			}
+		}
+
+		for(int i = 2; i < temp.length; i+=2){
+			temp[i] = MathUtil.evaluate(temp[i-2],temp[i-1],temp[i]);
+		}
+		vars[0].contents = new String(temp[temp.length]);
 	}
 }

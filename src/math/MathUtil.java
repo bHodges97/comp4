@@ -77,4 +77,77 @@ public class MathUtil {
 
 		return false;
 	}
+	/**
+	 * Evaluates an expression.
+	 * Valid operators or +,-*,/,^.
+	 * Functions as operands will be evaluated.
+	 * Eg. 5 + 10 -> evaluate("5","+","10");
+	 * 
+	 * @param operandA First operand
+	 * @param operator + - * / ^
+	 * @param operandB Second operand
+	 * @return String representation of answer.
+	 * @throws ArithmeticException Dividing by zero
+	 * @throws IllegalArgumentException When missing operator
+	 */
+	public static String evaluate(String operandA, String operator, String operandB) throws ArithmeticException,IllegalArgumentException{
+
+
+		/*
+		 * Resolves functions first.
+		 * Functions should have numeric parameters.
+		 */
+		if(!isNumeric(operandA)){
+			String a = operandA.split("(")[0];
+			String b = operandA.split("(")[1].substring(0,operandA.split("(")[1].length());
+			operandA = solveFunc(a,b);
+		}
+		if(!isNumeric(operandB)){
+			String a = operandB.split("(")[0];
+			String b = operandB.split("(")[1].substring(0,operandB.split("(")[1].length());
+			operandB = solveFunc(a,b);
+		}
+
+
+		if(operator.equals("+")){
+			return ""+(Double.parseDouble(operandA)+Double.parseDouble(operandB));
+		}
+		if(operator.equals("*")){
+			return ""+(Double.parseDouble(operandA)*Double.parseDouble(operandB));
+		}
+		if(operator.equals("-")){
+			return ""+(Double.parseDouble(operandA)-Double.parseDouble(operandB));
+		}
+		if(operator.equals("/")){
+			return ""+(Double.parseDouble(operandA)/Double.parseDouble(operandB));
+		}
+		if(operator.equals("^")){
+			return ""+(Math.pow(Double.parseDouble(operandA),Double.parseDouble(operandB)));
+		}
+
+		throw new IllegalArgumentException("Missing operator");
+	}
+	/**
+	 * Solves a function.
+	 * 
+	 * @param func The function name. Avaliable names: sin,cos,tan,abs
+	 * @param x The function's parameter.
+	 * @return String representation of answer.
+	 * @throws IllegalArgumentException
+	 */
+	private static String solveFunc (String func,String x) throws IllegalArgumentException	{
+		if(func.equals("sin")){
+			return ""+Math.sin(Double.parseDouble(x));
+		}
+		if(func.equals("cos")){
+			return ""+Math.cos(Double.parseDouble(x));
+		}
+		if(func.equals("tan")){
+			return ""+Math.tan(Double.parseDouble(x));
+		}
+		if(func.equals("abs")){
+			return ""+Math.abs(Double.parseDouble(x));
+		}
+		throw new IllegalArgumentException("Argument is not a valid function");
+	}
 }

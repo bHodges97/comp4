@@ -1,49 +1,116 @@
 package math;
 
+
+/*
+ * Should really test this thing.
+ */
 public class Solver {
 
 	Var var;
 	Definition[] defs;
 	Var[] knowns;
 
-	public Solver(){
 
+
+	/*
+	 * 
+	 * 
+	 */
+	public Solver(Definition[] d, Var[] n){
+		defs = d;
 	}
 
-	public Var solve(Var v, Definition[] d, Var[] n, int recursiveDepth){
-		var = v;
-		int x = 0;
-		for(int i = 0; i<d.length;i++){
-			if(d[i].name.equals(var.name)){
-				x++;
-			}
-		}
-		defs = new Definition[x];
-		x = 0;
-		for(int i = 0; i<d.length;i++){
-			if(d[i].name.equals(var)){
-				defs[x] = d[i];
-				x++;
-			}
-		}
+	public Var solve(Var v, int recursiveDepth){
+		//TODO: Remove recursion?
+
 		/*
 		 * Resets the references.
 		 */
 		for(Definition c : defs){
 			for(Var var : c.vars){
-				var = new Var(var.name,"Unkown");
+				var = new Var(var.name,"Unknown");
 			}
 		}
 
-		for(Definition c : defs){
-			for(Var var : c.vars){
-				for(Var varIn : n){
-					var = varIn;
+		/*
+		 * Links the variables
+		 * Iterates through each def
+		 */
+		for(int i = 0; i < defs.length ;i++){
+			for(int u = i;u <defs.length ;u++){
+				/*
+				 * iterate through each var
+				 */
+				for(int w = 0;w< defs[i].vars.length ;w++ ){
+					for(int x = 0; x < defs[u].vars.length; x++){
+
+						/*
+						 * Link the vars;
+						 */
+						if (defs[u].vars[w].name.equals(defs[u].vars[x].name)){
+							if(!defs[u].vars[w].name.equals("Unknown")){
+								defs[u].vars[x] = defs[u].vars[w];
+							}else{
+								defs[u].vars[w] = defs[u].vars[x];
+							}
+						}
+
+						/*
+						 * Link to variable to be solved.
+						 */
+						if (defs[u].vars[w].name.equals(var.name)){
+							if(!defs[u].vars[w].name.equals("Unknown")){
+								var = defs[u].vars[w];
+							}else{
+								defs[u].vars[w] = var;
+							}
+						}
+					}
+					/*
+					 * Link to variable to be solved.
+					 */
+					if (defs[i].vars[w].name.equals(var.name)){
+						if(!defs[i].vars[w].name.equals("Unknown")){
+							var = defs[i].vars[w];
+						}else{
+							defs[i].vars[w] = var;
+						}
+					}
+
 				}
 			}
 		}
 
+		long t = System.currentTimeMillis();
+		while(!var.contents.equals("Unknown")){
+			/*
+			 * limit time spent on operation as the problem could be unsolveable.
+			 */
+			if(t-System.currentTimeMillis()>500){
+				System.out.println("Maximum time reached");
+				break;
+			}
 
-		return null;
+			/*
+			 * Fills in unkown variables
+			 */
+			outer:
+				for(Definition c : defs){
+
+					/*
+					 * Checks for unknowns in the variable.
+					 */
+					for(Var var: c.vars){
+						if(var.contents.equals("Unkown")){
+							break outer;
+						}
+					}
+
+					c.resolve();
+				}
+
+		}
+
+		return var;
 	}
 }
