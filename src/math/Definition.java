@@ -14,22 +14,19 @@ public class Definition {
 
 	public Definition(String in) throws IllegalArgumentException{
 		in = in.toLowerCase();
+		in = in.replace(" ","");
 		if(!in.contains("=")){
 			throw new IllegalArgumentException("Illegal Argument: Missing \"=\"");
 		}
-		if(in.contains(" ")){
-			throw new IllegalArgumentException("Illegal Argument: Contains spaces");
-		}
 		/*
 		 * Removed to support mathematic functions.
-		 */
-		/*
+		 *
 		 * if(in.contains("(") || in.contains(")"))
 		 *	throw new IllegalArgumentException("Illegal Argument: Contains brackets");
 		 */
 
-		if(in.contains("%") || in.contains("|") || in.contains("⋅") || in.contains("×")||name.contains("±")
-				|| name.contains("∓")|| name.contains("÷")|| name.contains("√")){
+		if(in.contains("%") || in.contains("|") || in.contains("⋅") || in.contains("×")||in.contains("±")
+				|| in.contains("∓")|| in.contains("÷")|| in.contains("√")){
 			throw new IllegalArgumentException("Illegal Argument: Illegal operators");
 		}
 		String[] parts =in.split("=",2);
@@ -64,10 +61,6 @@ public class Definition {
 				vars[counter] = new Var(terms[i],"Unknown");
 				counter++;
 			}
-		}
-
-		for(String t:terms){
-			System.out.print(t+",");
 		}
 
 	}

@@ -27,14 +27,14 @@ public class CircDialog extends JDialog{
 	JButton Done = new JButton("Done");
 	JLabel Explanation = new JLabel("<html>Fill in all known fields as numbers.<br>Leave unknowns blank.");
 	int n = 18;
-	JTextField textAngularV = new JTextField(n);
-	JTextField textMass = new JTextField(n);
-	JTextField textStart = new JTextField(n);
-	JTextField textEnd = new JTextField(n);
-	JTextField textVelocity = new JTextField(n);
-	JTextField textRadius = new JTextField(n);
-	JTextField textAccCent = new JTextField(n);
-	JTextField textTime = new JTextField(n);
+	JTextField textW = new JTextField(n);
+	JTextField textM = new JTextField(n);
+	JTextField textU = new JTextField(n);
+	JTextField textX = new JTextField(n);
+	JTextField textV = new JTextField(n);
+	JTextField textR = new JTextField(n);
+	JTextField textA = new JTextField(n);
+	JTextField textT = new JTextField(n);
 
 	Double mass,v,angularv,theta,startTheta,r;
 
@@ -77,7 +77,7 @@ public class CircDialog extends JDialog{
 	 * Initialise definitions.
 	 */
 	private void initDefs() {
-		defs = new Definition[9];
+		defs = new Definition[10];
 		defs[0] = new Definition("v=r*w");
 		defs[1] = new Definition("w=v/r");
 		defs[2] = new Definition("f=m*a");
@@ -87,21 +87,21 @@ public class CircDialog extends JDialog{
 		defs[6] = new Definition("t=x-0/t");
 		defs[7] = new Definition("r=v/w");
 		defs[8] = new Definition("r=v^2/a");
-		defs[9] = new Definition("w=2*3.13 /t");
+		defs[9] = new Definition("w=2*3.13/t");
 	}
 	/**
 	 * Find Unknowns.
 	 */
 	public void Solve(){
 		Var[] vars = new Var[8];
-		vars[0] =  new Var("w",textAngularV.getText());
-		vars[1] = new Var("m",textMass.getText());
-		vars[2] = new Var("u",textStart.getText());
-		vars[3] = new Var("t",textEnd.getText());
-		vars[4] = new Var("v",textVelocity.getText());
-		vars[5] = new Var("t",textRadius.getText());
-		vars[6] = new Var("a",textAccCent.getText());
-		vars[7] = new Var("t",textTime.getText());
+		vars[0] = new Var("w",textW.getText());
+		vars[1] = new Var("m",textM.getText());
+		vars[2] = new Var("u",textU.getText());
+		vars[3] = new Var("x",textX.getText());
+		vars[4] = new Var("v",textV.getText());
+		vars[5] = new Var("r",textR.getText());
+		vars[6] = new Var("a",textA.getText());
+		vars[7] = new Var("t",textT.getText());
 
 		for(Var var : vars){
 			if(var.contents.isEmpty()){
@@ -116,6 +116,30 @@ public class CircDialog extends JDialog{
 		}
 		for(Var var : vars){
 			if(!var.contents.equals("Unkown")){
+				if		(var.name.equals("v")){
+					textW.setText(var.contents);
+				}
+				else if(var.name.equals("m")){
+					textM.setText(var.contents);
+				}
+				else if(var.name.equals("u")){
+					textU.setText(var.contents);
+				}
+				else if(var.name.equals("x")){
+					textX.setText(var.contents);
+				}
+				else if(var.name.equals("v")){
+					textV.setText(var.contents);
+				}
+				else if(var.name.equals("r")){
+					textR.setText(var.contents);
+				}
+				else if(var.name.equals("a")){
+					textA.setText(var.contents);
+				}
+				else if(var.name.equals("t")){
+					textT.setText(var.contents);
+				}
 
 			}
 		}
@@ -127,12 +151,16 @@ public class CircDialog extends JDialog{
 	 * Clears each field.
 	 */
 	public void Open(){
+
+		/*Dialog panel is used to store variables, should not be cleared.
+		 * 
 		for (Component c : this.getContentPane().getComponents()) {
 			if (c instanceof JTextField) {
 				((JTextField)c).setText("");
 
 			}
 		}
+		 */
 		setVisible(true);
 	}
 	/**
@@ -153,31 +181,35 @@ public class CircDialog extends JDialog{
 		c.gridy++;
 		this.add(new JLabel("Start Angle"),c);
 		c.gridy++;
-		this.add(textStart,c);
+		this.add(textU,c);
 		c.gridy++;
 		this.add(new JLabel("Time"),c);
 		c.gridy++;
-		this.add(textTime,c);
+		this.add(textT,c);
 		c.gridy++;
 		this.add(new JLabel("End Angle"),c);
 		c.gridy++;
-		this.add(textEnd,c);
+		this.add(textX,c);
 		c.gridy++;
 		this.add(new JLabel("Angular Velocity"),c);
 		c.gridy++;
-		this.add(textAngularV,c);
+		this.add(textW,c);
+		c.gridy++;
+		this.add(new JLabel("Tangential Velocity"),c);
+		c.gridy++;
+		this.add(textV,c);
 		c.gridy++;
 		this.add(new JLabel("Mass"),c);
 		c.gridy++;
-		this.add(textMass,c);
+		this.add(textM,c);
 		c.gridy++;
 		this.add(new JLabel("Radius"),c);
 		c.gridy++;
-		this.add(textRadius,c);
+		this.add(textR,c);
 		c.gridy++;
 		this.add(new JLabel("Centripetal Acceleration"),c);
 		c.gridy++;
-		this.add(textAccCent,c);
+		this.add(textA,c);
 		c.gridy++;
 		c.anchor = c.EAST;
 		Done.setAlignmentX(RIGHT_ALIGNMENT);
