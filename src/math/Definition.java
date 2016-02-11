@@ -58,7 +58,7 @@ public class Definition {
 		counter = 0;
 		for(int i = 0;i < terms.length;i++){
 			if(!MathUtil.isNumeric(terms[i])){
-				vars[counter] = new Var(terms[i],"Unknown");
+				vars[counter] = new Var(new String(terms[i]),"Unknown","");
 				counter++;
 			}
 		}
@@ -69,7 +69,7 @@ public class Definition {
 		int counter = 0;
 		for(int i = 0;i < terms.length;i++){
 			if(!MathUtil.isNumeric(terms[i])){
-				vars[counter] = new Var(terms[i],"Unknown");
+				vars[counter] = new Var(new String(terms[i]),"Unknown","");
 				counter++;
 			}
 		}

@@ -36,10 +36,9 @@ public class CircDialog extends JDialog{
 	JTextField textA = new JTextField(n);
 	JTextField textT = new JTextField(n);
 
-	Double mass,v,angularv,theta,startTheta,r;
 
-	Definition[] defs;
-
+	public Definition[] defs;
+	public Var[] vars = new Var[8];
 
 	public CircDialog(){
 		Open();
@@ -72,6 +71,9 @@ public class CircDialog extends JDialog{
 					}
 				}
 				);
+		for(Var var : vars){
+			var = new Var("","","");
+		}
 	}
 	/**
 	 * Initialise definitions.
@@ -93,15 +95,14 @@ public class CircDialog extends JDialog{
 	 * Find Unknowns.
 	 */
 	public void Solve(){
-		Var[] vars = new Var[8];
-		vars[0] = new Var("w",textW.getText());
-		vars[1] = new Var("m",textM.getText());
-		vars[2] = new Var("u",textU.getText());
-		vars[3] = new Var("x",textX.getText());
-		vars[4] = new Var("v",textV.getText());
-		vars[5] = new Var("r",textR.getText());
-		vars[6] = new Var("a",textA.getText());
-		vars[7] = new Var("t",textT.getText());
+		vars[0] = new Var("w",textW.getText(),"w");
+		vars[1] = new Var("m",textM.getText(),"m");
+		vars[2] = new Var("u",textU.getText(),"u");
+		vars[3] = new Var("x",textX.getText(),"x");
+		vars[4] = new Var("v",textV.getText(),"v");
+		vars[5] = new Var("r",textR.getText(),"r");
+		vars[6] = new Var("a",textA.getText(),"α");
+		vars[7] = new Var("t",textT.getText(),"t");
 
 		for(Var var : vars){
 			if(var.contents.isEmpty()){

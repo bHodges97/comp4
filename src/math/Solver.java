@@ -34,7 +34,7 @@ public class Solver {
 		 */
 		for(Definition c : defs){
 			for(Var var : c.vars){
-				var = new Var(var.name,"Unknown");
+				var = new Var(var.name,"Unknown","");
 			}
 		}
 
