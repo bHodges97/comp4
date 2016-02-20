@@ -7,25 +7,29 @@ public class MathUtil {
 	/**
 	 * Checks if a string is numeric. Blank strings are not numeric.
 	 * 
-	 * @param str The string to be tested.
+	 * @param str
+	 *            The string to be tested.
 	 * @return boolean true for numerical strings false if otherwire.
 	 */
-	public static boolean isNumeric(String str){
-		if(str.isEmpty())return false;
+	public static boolean isNumeric(String str) {
+		if (str.isEmpty()) {
+			return false;
+		}
+		if (str.equals("-")) {
+			return false;
+		}
 		DecimalFormatSymbols currentLocaleSymbols = DecimalFormatSymbols.getInstance();
 		char localeMinusSign = currentLocaleSymbols.getMinusSign();
 
-		if ( !Character.isDigit( str.charAt( 0 ) ) && str.charAt( 0 ) != localeMinusSign ) return false;
+		if (!Character.isDigit(str.charAt(0)) && str.charAt(0) != localeMinusSign)
+			return false;
 
 		boolean isDecimalSeparatorFound = false;
 		char localeDecimalSeparator = currentLocaleSymbols.getDecimalSeparator();
 
-		for ( char c : str.substring( 1 ).toCharArray() )
-		{
-			if ( !Character.isDigit( c ) )
-			{
-				if ( c == localeDecimalSeparator && !isDecimalSeparatorFound )
-				{
+		for (char c : str.substring(1).toCharArray()) {
+			if (!Character.isDigit(c)) {
+				if (c == localeDecimalSeparator && !isDecimalSeparatorFound) {
 					isDecimalSeparatorFound = true;
 					continue;
 				}
@@ -34,119 +38,141 @@ public class MathUtil {
 		}
 		return true;
 	}
+
 	/**
-	 * @param theta Sector size in radians, theta > 6.28(2 pi) for full circle ,theta < 0 returns null.
-	 * @param r Radius
-	 * @param polygon true if polygon,false if polyline
+	 * @param theta
+	 *            Sector size in radians, theta > 6.28(2 pi) for full circle
+	 *            ,theta < 0 returns null.
+	 * @param r
+	 *            Radius
+	 * @param polygon
+	 *            true if polygon,false if polyline
 	 * @return <b>Shape</b> Polygonal representation of a circle sector.
 	 */
 
-	public  static Shape genCirc(double theta,double r,boolean polygon){
+	public static Shape genCirc(double theta, double r, boolean polygon) {
 		ArrayList<MyPoint> list = new ArrayList<>();
-		if(theta < 0) return null;
-		double limit = 2*Math.PI;
+		if (theta < 0)
+			return null;
+		double limit = 2 * Math.PI;
 
-		list.add(new MyPoint(r,0d));
-		for(float i = 0 ;i < theta;i+=0.05){
-			if(i > limit)break;
-			list.add(new MyPoint(r*Math.cos(i),r*Math.sin(i)));
+		list.add(new MyPoint(r, 0d));
+		for (float i = 0; i < theta; i += 0.05) {
+			if (i > limit)
+				break;
+			list.add(new MyPoint(r * Math.cos(i), r * Math.sin(i)));
 		}
-		list.add(new MyPoint(r*Math.cos(theta),r*Math.sin(theta)));
+		list.add(new MyPoint(r * Math.cos(theta), r * Math.sin(theta)));
 
-		if(theta < limit && polygon)list.add(new MyPoint(0,0));
+		if (theta < limit && polygon)
+			list.add(new MyPoint(0, 0));
 		System.out.println(list.size());
 		return new Shape(list);
 	}
+
 	/**
-	 * Test if point is on line segement within a certain degree of tolerance;
-	 * .=
-	 * @param p Point to test.
-	 * @param p1 Start of line segment.
-	 * @param p2 End of line segement.
-	 * @param tolerance The amount of tolerance.
+	 * Test if point is on line segment within a certain degree of tolerance; .=
+	 * 
+	 * @param p
+	 *            Point to test.
+	 * @param p1
+	 *            Start of line segment.
+	 * @param p2
+	 *            End of line segment.
+	 * @param tolerance
+	 *            The amount of tolerance.
 	 * 
 	 * @return Boolean true for point is on line, false if is not.
 	 * 
-	 * @see <a href="https://en.wikipedia.org/wiki/Distance_from_a_point_to_a_line">https://en.wikipedia.org/wiki/Distance_from_a_point_to_a_line</a>
+	 * @see <a href=
+	 *      "https://en.wikipedia.org/wiki/Distance_from_a_point_to_a_line">
+	 *      https://en.wikipedia.org/wiki/Distance_from_a_point_to_a_line</a>
 	 */
-	public static boolean PointInLineSegment(MyPoint p,MyPoint p1,MyPoint p2,float tolerance){
-		if(tolerance == 0)tolerance = 0.01f;
-		double a = Math.abs((p2.x-p1.x)*(p1.y-p.y)-(p1.x-p.x)*(p2.y-p1.y));
-		double b = Math.sqrt(Math.pow(p2.x-p1.x,2)+Math.pow(p2.y-p1.y,2));
-		if(a/b<tolerance)return true;
+	public static boolean PointInLineSegment(MyPoint p, MyPoint p1, MyPoint p2, float tolerance) {
+		if (tolerance == 0)
+			tolerance = 0.01f;
+		double a = Math.abs((p2.x - p1.x) * (p1.y - p.y) - (p1.x - p.x) * (p2.y - p1.y));
+		double b = Math.sqrt(Math.pow(p2.x - p1.x, 2) + Math.pow(p2.y - p1.y, 2));
+		if (a / b < tolerance)
+			return true;
 
 		return false;
 	}
-	/**
-	 * Evaluates an expression.
-	 * Valid operators or +,-*,/,^.
-	 * Functions as operands will be evaluated.
-	 * Eg. 5 + 10 -> evaluate("5","+","10");
-	 * 
-	 * @param operandA First operand
-	 * @param operator + - * / ^
-	 * @param operandB Second operand
-	 * @return String representation of answer.
-	 * @throws ArithmeticException Dividing by zero
-	 * @throws IllegalArgumentException When missing operator
-	 */
-	public static String evaluate(String operandA, String operator, String operandB) throws ArithmeticException,IllegalArgumentException{
 
+	/**
+	 * Evaluates an expression. Valid operators or +,-*,/,^. Functions as
+	 * operands will be evaluated. Eg. 5 + 10 -> evaluate("5","+","10");
+	 * 
+	 * @param operandA
+	 *            First operand
+	 * @param operator
+	 *            + - * / ^
+	 * @param operandB
+	 *            Second operand
+	 * @return String representation of answer.
+	 * @throws ArithmeticException
+	 *             Dividing by zero
+	 * @throws IllegalArgumentException
+	 *             When missing operator
+	 */
+	public static String evaluate(String operandA, String operator, String operandB)
+			throws ArithmeticException, IllegalArgumentException {
 
 		/*
-		 * Resolves functions first.
-		 * Functions should have numeric parameters.
+		 * Resolves functions first. Functions should have numeric parameters.
 		 */
-		if(!isNumeric(operandA)){
+		if (!isNumeric(operandA)) {
 			String a = operandA.split("(")[0];
-			String b = operandA.split("(")[1].substring(0,operandA.split("(")[1].length());
-			operandA = solveFunc(a,b);
+			String b = operandA.split("(")[1].substring(0, operandA.split("(")[1].length());
+			operandA = solveFunc(a, b);
 		}
-		if(!isNumeric(operandB)){
+		if (!isNumeric(operandB)) {
 			String a = operandB.split("(")[0];
-			String b = operandB.split("(")[1].substring(0,operandB.split("(")[1].length());
-			operandB = solveFunc(a,b);
+			String b = operandB.split("(")[1].substring(0, operandB.split("(")[1].length());
+			operandB = solveFunc(a, b);
 		}
 
-
-		if(operator.equals("+")){
-			return ""+(Double.parseDouble(operandA)+Double.parseDouble(operandB));
+		if (operator.equals("+")) {
+			return "" + (Double.parseDouble(operandA) + Double.parseDouble(operandB));
 		}
-		if(operator.equals("*")){
-			return ""+(Double.parseDouble(operandA)*Double.parseDouble(operandB));
+		if (operator.equals("*")) {
+			return "" + (Double.parseDouble(operandA) * Double.parseDouble(operandB));
 		}
-		if(operator.equals("-")){
-			return ""+(Double.parseDouble(operandA)-Double.parseDouble(operandB));
+		if (operator.equals("-")) {
+			return "" + (Double.parseDouble(operandA) - Double.parseDouble(operandB));
 		}
-		if(operator.equals("/")){
-			return ""+(Double.parseDouble(operandA)/Double.parseDouble(operandB));
+		if (operator.equals("/")) {
+			return "" + (Double.parseDouble(operandA) / Double.parseDouble(operandB));
 		}
-		if(operator.equals("^")){
-			return ""+(Math.pow(Double.parseDouble(operandA),Double.parseDouble(operandB)));
+		if (operator.equals("^")) {
+			return "" + (Math.pow(Double.parseDouble(operandA), Double.parseDouble(operandB)));
 		}
 
 		throw new IllegalArgumentException("Missing operator");
 	}
+
 	/**
 	 * Solves a function.
 	 * 
-	 * @param func The function name. Avaliable names: sin,cos,tan,abs
-	 * @param x The function's parameter.
+	 * @param func
+	 *            The function name. Available names: sin,cos,tan,abs
+	 * @param x
+	 *            The function's parameter.
 	 * @return String representation of answer.
 	 * @throws IllegalArgumentException
 	 */
-	private static String solveFunc (String func,String x) throws IllegalArgumentException	{
-		if(func.equals("sin")){
-			return ""+Math.sin(Double.parseDouble(x));
+	private static String solveFunc(String func, String x) throws IllegalArgumentException {
+		if (func.equals("sin")) {
+			return "" + Math.sin(Double.parseDouble(x));
 		}
-		if(func.equals("cos")){
-			return ""+Math.cos(Double.parseDouble(x));
+		if (func.equals("cos")) {
+			return "" + Math.cos(Double.parseDouble(x));
 		}
-		if(func.equals("tan")){
-			return ""+Math.tan(Double.parseDouble(x));
+		if (func.equals("tan")) {
+			return "" + Math.tan(Double.parseDouble(x));
 		}
-		if(func.equals("abs")){
-			return ""+Math.abs(Double.parseDouble(x));
+		if (func.equals("abs")) {
+			return "" + Math.abs(Double.parseDouble(x));
 		}
 		throw new IllegalArgumentException("Argument is not a valid function");
 	}

@@ -116,17 +116,17 @@ public class CircDialog extends JDialog {
 
 		for (Var var : vars) {
 			if (var.contents.isEmpty()) {
-				var.contents = "Unknown";
+				var.contents = "?";
 			}
 		}
 		Solver s = new Solver(defs, vars);
 		for (Var var : vars) {
-			if (var.contents.equals("Unkown")) {
+			if (var.contents.equals("?")) {
 				s.solve(var, 0);
 			}
 		}
 		for (Var var : vars) {
-			if (!var.contents.equals("Unkown")) {
+			if (!var.contents.equals("?")) {
 				if (var.name.equals("v")) {
 					textW.setText(var.contents);
 				} else if (var.name.equals("m")) {
