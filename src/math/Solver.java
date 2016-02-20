@@ -34,7 +34,7 @@ public class Solver {
 		 */
 		for (Definition c : defs) {
 			for (Var var : c.vars) {
-				var = new Var(var.name, "/", "");
+				var = new Var(var.name, "?", "", false);
 			}
 		}
 
@@ -89,8 +89,7 @@ public class Solver {
 		long t = System.currentTimeMillis();
 		while (!var.contents.equals("Unknown")) {
 			/*
-			 * limit time spent on operation as the problem could be
-			 * unsolveable.
+			 * limit time spent on operation as the problem could be Unsolvable.
 			 */
 			if (t - System.currentTimeMillis() > 500) {
 				System.out.println("Maximum time reached");

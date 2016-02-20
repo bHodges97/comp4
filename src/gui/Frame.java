@@ -9,6 +9,8 @@ import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
@@ -19,10 +21,8 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 import circularMotion.CircDialog;
-import circularMotion.CircFields;
 import circularMotion.CircTopDown;
 import circularMotion.CircVertical;
-import collision.ColDiagram;
 import math.MathUtil;
 import math.Var;
 
@@ -45,13 +45,14 @@ public class Frame extends JFrame {
 	boolean colA;
 	Var[] a;
 	Var[] b;
+	Var e;
 	ColDiagram diagram;
 
 	// CircularMotion
 	CircTopDown circTopDown;
 	CircVertical circVertical;
 	JPanel panelDiagram;
-	CircFields panelFields;
+	JPanel panelFields;
 
 	// CenterOfMass
 	Panel canvas = new Panel("Default");
@@ -86,22 +87,22 @@ public class Frame extends JFrame {
 	}
 
 	private void initCollisions() {
-		colA = true;
 		a = new Var[5];
 		b = new Var[5];
-		a[0] = new Var("A", "?", "1", false);
+		e = new Var("e", "?", "e", false);
+		a[0] = new Var("a", "A", "1", false);
 		a[1] = new Var("m1", "?", "M1", false);
 		a[2] = new Var("v1", "?", "V1", false);
 		a[3] = new Var("u1", "?", "U1", false);
 		a[4] = new Var("i1", "?", "i1", false);
-		b[0] = new Var("B", "?", "2", false);
+		b[0] = new Var("b", "B", "2", false);
 		b[1] = new Var("m2", "?", "M2", false);
 		b[2] = new Var("v2", "?", "V2", false);
 		b[3] = new Var("u2", "?", "U2", false);
 		b[4] = new Var("i2", "?", "i2", false);
 
 		// layout
-		diagram = new ColDiagram(a, b);
+		diagram = new ColDiagram(a, b, e);
 		JPanel westPanel = new JPanel();
 		this.add(westPanel, BorderLayout.WEST);
 		this.add(diagram, BorderLayout.CENTER);
@@ -129,7 +130,7 @@ public class Frame extends JFrame {
 		text.add(topicDesc, BorderLayout.CENTER);
 
 		// fields
-		JLabel textCurrent = new JLabel("Point mass variables.");
+		final JLabel textCurrent = new JLabel("Currently selected object: A.");
 		JLabel textDesc = new JLabel(
 				"<html>Click on diagram to select point mass. <br>Use \"?\" for unknown variables. Units used are<br> kg, m/s, Ns");
 		JLabel textE = new JLabel("Coefficient of restitution");
@@ -144,6 +145,12 @@ public class Frame extends JFrame {
 		final JTextField fieldU = new JTextField(10);
 		final JTextField fieldV = new JTextField(10);
 		final JTextField fieldImpulse = new JTextField(10);
+		fieldE.setText("?");
+		fieldLabel.setText("A");
+		fieldMass.setText("?");
+		fieldU.setText("?");
+		fieldV.setText("?");
+		fieldImpulse.setText("?");
 
 		fields.setLayout(new GridBagLayout());
 		GridBagConstraints gbc = new GridBagConstraints();
@@ -187,6 +194,67 @@ public class Frame extends JFrame {
 		gbc.gridy = 7;
 		fields.add(textImpulse, gbc);
 
+		diagram.addMouseListener(new MouseListener() {
+
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				// Do nothing
+
+			}
+
+			@Override
+			public void mousePressed(MouseEvent e) {
+				// Do nothing
+
+			}
+
+			@Override
+			public void mouseExited(MouseEvent e) {
+				// Do nothing
+
+			}
+
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				// Do nothing
+
+			}
+
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				// Select object based on mouse click.
+				if (Math.abs(e.getY() - diagram.getHeight() / 2) < diagram.getHeight() * 0.1
+						&& (e.getX() < diagram.getWidth() / 4
+								|| (e.getX() > diagram.getWidth() / 2 && e.getX() < diagram.getWidth() * 0.75))) {
+					set(true);
+				} else if (Math.abs(e.getY() - diagram.getHeight() / 2) < diagram.getHeight() * 0.1
+						&& (e.getX() > diagram.getWidth() / 4
+								|| (e.getX() < diagram.getWidth() / 2 && e.getX() > diagram.getWidth() * 0.25))) {
+					set(false);
+
+				}
+
+			}
+
+			private void set(boolean A) {
+				if (A) {
+					fieldLabel.setText(a[0].contents);
+					fieldMass.setText(a[1].contents);
+					fieldU.setText(a[2].contents);
+					fieldV.setText(a[3].contents);
+					fieldImpulse.setText(a[4].contents);
+					textCurrent.setText("Currently selected object: " + fieldLabel.getText());
+				} else {
+					fieldLabel.setText(b[0].contents);
+					fieldMass.setText(b[1].contents);
+					fieldU.setText(b[2].contents);
+					fieldV.setText(b[3].contents);
+					fieldImpulse.setText(b[4].contents);
+					textCurrent.setText("Currently selected object: " + fieldLabel.getText());
+				}
+			}
+		});
+
 		fieldE.addFocusListener(new FocusListener() {
 
 			@Override
@@ -195,7 +263,7 @@ public class Frame extends JFrame {
 			}
 
 			@Override
-			public void focusLost(FocusEvent e) {
+			public void focusLost(FocusEvent event) {
 				if (!MathUtil.isNumeric(fieldE.getText())) {
 					JOptionPane.showMessageDialog(Frame.this, "Not a number.");
 					return;
@@ -204,7 +272,8 @@ public class Frame extends JFrame {
 					JOptionPane.showMessageDialog(Frame.this, "Must follow: 0 <= e <= 1");
 					return;
 				}
-				// TODO: set e!!!
+				e.setContents(fieldE.getText(), true);
+				colUpdate();
 			}
 
 		});
@@ -252,6 +321,7 @@ public class Frame extends JFrame {
 				} else {
 					b[1].setContents(fieldMass.getText(), true);
 				}
+				colUpdate();
 			}
 		});
 
@@ -259,7 +329,7 @@ public class Frame extends JFrame {
 
 			@Override
 			public void focusGained(FocusEvent e) {
-				// TODO Auto-generated method stub
+				// Do nothing.
 
 			}
 
@@ -274,6 +344,7 @@ public class Frame extends JFrame {
 				} else {
 					b[2].setContents(fieldU.getText(), true);
 				}
+				colUpdate();
 			}
 
 		});
@@ -281,7 +352,7 @@ public class Frame extends JFrame {
 
 			@Override
 			public void focusGained(FocusEvent e) {
-				// TODO Auto-generated method stub
+				// Do nothing.
 
 			}
 
@@ -296,6 +367,7 @@ public class Frame extends JFrame {
 				} else {
 					b[3].setContents(fieldV.getText(), true);
 				}
+				colUpdate();
 			}
 
 		});
@@ -303,7 +375,7 @@ public class Frame extends JFrame {
 
 			@Override
 			public void focusGained(FocusEvent e) {
-				// TODO Auto-generated method stub
+				// Do nothing.
 
 			}
 
@@ -318,6 +390,7 @@ public class Frame extends JFrame {
 				} else {
 					b[0].setContents(fieldImpulse.getText(), true);
 				}
+				colUpdate();
 			}
 
 		});
@@ -347,7 +420,7 @@ public class Frame extends JFrame {
 
 	private void initCircularMotion() {
 		panelDiagram = new JPanel();
-		panelFields = new CircFields();
+		panelFields = new JPanel();
 		panelDiagram.setLayout(new GridLayout());
 		panelDiagram.setBorder(BorderFactory.createLineBorder(Color.black));
 		this.add(panelFields, BorderLayout.WEST);
@@ -417,6 +490,10 @@ public class Frame extends JFrame {
 			}
 		};
 		update.start();
+	}
+
+	private void colUpdate() {
+		// TODO: MATH LOGIC STUFF
 	}
 
 	/**
