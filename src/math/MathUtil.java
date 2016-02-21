@@ -1,5 +1,6 @@
 package math;
 
+import java.awt.Graphics2D;
 import java.text.DecimalFormatSymbols;
 import java.util.ArrayList;
 
@@ -175,5 +176,55 @@ public class MathUtil {
 			return "" + Math.abs(Double.parseDouble(x));
 		}
 		throw new IllegalArgumentException("Argument is not a valid function");
+	}
+
+	/**
+	 * Draws an arrow.
+	 * 
+	 * @param g2d
+	 * @param x1
+	 * @param y1
+	 * @param x2
+	 * @param y2
+	 * @param size
+	 */
+	public static void drawArrow(Graphics2D g2d, int x1, int y1, int x2, int y2, int size) {
+		size = size / 2;
+		g2d.drawLine(x1, y1, x2, y2);
+		double theta = 0;
+		if (x2 == x1 && y2 == y1) {
+			return;
+		}
+		if (x2 == x1) {
+			if (y2 > y1) {
+				theta = Math.PI * 1.5;
+			} else if (y2 < y1) {
+				theta = Math.PI * 0.5;
+			}
+		} else {
+			if (y1 == y2) {
+				if (x2 > x1) {
+					theta = 0;
+				} else if (x2 < x1) {
+					theta = Math.PI;
+				}
+			} else {
+				theta = Math.atan((double) (y1 - y2) / (double) (x2 - x1));
+
+				if (y2 - y1 < 0 && x2 - x1 < 0) {
+					System.out.println("s1s");
+					theta = Math.PI + theta;
+				} else if (x2 - x1 < 0) {
+					System.out.println("test");
+					theta = theta + Math.PI;
+				}
+			}
+		}
+
+		g2d.drawLine(x2, y2, (int) (x2 - size * Math.cos(Math.PI / 6 - theta)),
+				(int) (y2 - size * Math.sin(Math.PI / 6 - theta)));
+		g2d.drawLine(x2, y2, (int) (x2 - size * Math.cos(-Math.PI / 6 - theta)),
+				(int) (y2 - size * Math.sin(-Math.PI / 6 - theta)));
+
 	}
 }

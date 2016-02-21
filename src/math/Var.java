@@ -24,7 +24,7 @@ public class Var {
 	}
 
 	public double getVal() {
-		if (contents.equals("Unknown")) {
+		if (contents.equals("?")) {
 			return Double.MAX_VALUE;
 		}
 		return Double.parseDouble(contents);
