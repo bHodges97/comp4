@@ -26,6 +26,7 @@ do logic
 :projectiles
 draw
 logic
+add "?" var
 
 
 EVERYTHING ELSE FINISH FASTTTTTT

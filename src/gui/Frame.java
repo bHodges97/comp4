@@ -187,6 +187,7 @@ public class Frame extends JFrame {
 			@Override
 			public void focusLost(FocusEvent arg0) {
 				if (projTheta.getText().equals("?")) {
+					projVars[0].setContents(projTheta.getText(), false);
 					return;
 				}
 				if (!MathUtil.isNumeric(projTheta.getText())) {
@@ -212,6 +213,7 @@ public class Frame extends JFrame {
 			@Override
 			public void focusLost(FocusEvent arg0) {
 				if (projV.getText().equals("?")) {
+					projVars[1].setContents(projV.getText(), false);
 					return;
 				}
 				if (!MathUtil.isNumeric(projV.getText())) {
@@ -233,6 +235,7 @@ public class Frame extends JFrame {
 			@Override
 			public void focusLost(FocusEvent arg0) {
 				if (projVx.getText().equals("?")) {
+					projVars[2].setContents(projVx.getText(), false);
 					return;
 				}
 				if (!MathUtil.isNumeric(projVx.getText())) {
@@ -253,6 +256,7 @@ public class Frame extends JFrame {
 			@Override
 			public void focusLost(FocusEvent arg0) {
 				if (projVy.getText().equals("?")) {
+					projVars[3].setContents(projVy.getText(), false);
 					return;
 				}
 				if (!MathUtil.isNumeric(projVy.getText())) {
@@ -274,6 +278,7 @@ public class Frame extends JFrame {
 			@Override
 			public void focusLost(FocusEvent arg0) {
 				if (projY.getText().equals("?")) {
+					projVars[4].setContents(projY.getText(), false);
 					return;
 				}
 				if (!MathUtil.isNumeric(projY.getText())) {
@@ -281,7 +286,7 @@ public class Frame extends JFrame {
 					return;
 				}
 				if (Double.parseDouble(projY.getText()) < 0) {
-					JOptionPane.showMessageDialog(Frame.this, "Must be greater than 0!", "Error",
+					JOptionPane.showMessageDialog(Frame.this, "Must be less than 0!", "Error",
 							JOptionPane.ERROR_MESSAGE);
 					return;
 				}
@@ -299,6 +304,8 @@ public class Frame extends JFrame {
 			@Override
 			public void focusLost(FocusEvent arg0) {
 				if (projX.getText().equals("?")) {
+
+					projVars[5].setContents(projX.getText(), false);
 					return;
 				}
 				if (!MathUtil.isNumeric(projX.getText())) {
@@ -324,6 +331,7 @@ public class Frame extends JFrame {
 			@Override
 			public void focusLost(FocusEvent arg0) {
 				if (projT.getText().equals("?")) {
+					projVars[6].setContents(projT.getText(), false);
 					return;
 				}
 				if (!MathUtil.isNumeric(projT.getText())) {
@@ -348,6 +356,7 @@ public class Frame extends JFrame {
 			@Override
 			public void focusLost(FocusEvent arg0) {
 				if (projU.getText().equals("?")) {
+					projVars[7].setContents(projU.getText(), false);
 					return;
 				}
 				if (!MathUtil.isNumeric(projU.getText())) {
@@ -367,13 +376,14 @@ public class Frame extends JFrame {
 			@Override
 			public void focusLost(FocusEvent arg0) {
 				if (projUx.getText().equals("?")) {
+					projVars[8].setContents(projUx.getText(), false);
 					return;
 				}
 				if (!MathUtil.isNumeric(projUx.getText())) {
 					JOptionPane.showMessageDialog(Frame.this, "Not a number!", "Error", JOptionPane.ERROR_MESSAGE);
 					return;
 				}
-				if (Double.parseDouble(projUx.getText()) > 0) {
+				if (Double.parseDouble(projUx.getText()) < 0) {
 					JOptionPane.showMessageDialog(Frame.this, "Value is negative.");
 					return;
 				}
@@ -390,6 +400,7 @@ public class Frame extends JFrame {
 			@Override
 			public void focusLost(FocusEvent arg0) {
 				if (projUy.getText().equals("?")) {
+					projVars[9].setContents(projUy.getText(), false);
 					return;
 				}
 				if (!MathUtil.isNumeric(projUy.getText())) {
@@ -409,13 +420,14 @@ public class Frame extends JFrame {
 			@Override
 			public void focusLost(FocusEvent arg0) {
 				if (projS.getText().equals("?")) {
+					projVars[10].setContents(projS.getText(), false);
 					return;
 				}
 				if (!MathUtil.isNumeric(projS.getText())) {
 					JOptionPane.showMessageDialog(Frame.this, "Not a number!", "Error", JOptionPane.ERROR_MESSAGE);
 					return;
 				}
-				if (Double.parseDouble(projS.getText()) > 0) {
+				if (Double.parseDouble(projS.getText()) < 0) {
 					JOptionPane.showMessageDialog(Frame.this, "Value is negative.");
 					return;
 				}
@@ -432,17 +444,18 @@ public class Frame extends JFrame {
 			@Override
 			public void focusLost(FocusEvent arg0) {
 				if (projSy.getText().equals("?")) {
+					projVars[12].setContents(projSy.getText(), false);
 					return;
 				}
 				if (!MathUtil.isNumeric(projSy.getText())) {
 					JOptionPane.showMessageDialog(Frame.this, "Not a number!", "Error", JOptionPane.ERROR_MESSAGE);
 					return;
 				}
-				if (Double.parseDouble(projSy.getText()) > 0) {
+				if (Double.parseDouble(projSy.getText()) < 0) {
 					JOptionPane.showMessageDialog(Frame.this, "Value is negative.");
 					return;
 				}
-				projVars[10].setContents(new String(projSy.getText()), true);
+				projVars[12].setContents(new String(projSy.getText()), true);
 			}
 		});
 		projLabel.addFocusListener(new FocusListener() {
@@ -486,7 +499,7 @@ public class Frame extends JFrame {
 		c.gridy++;
 		before.add(new JLabel("Velocity(x component):"), c);
 		c.gridy++;
-		before.add(new JLabel("Velocity(y component:"), c);
+		before.add(new JLabel("Velocity(y component):"), c);
 
 		c.gridx = 1;
 		c.gridy = 0;
@@ -508,7 +521,7 @@ public class Frame extends JFrame {
 		c.gridy++;
 		after.add(new JLabel("Velocity(x component):"), c);
 		c.gridy++;
-		after.add(new JLabel("Velocity(y component:"), c);
+		after.add(new JLabel("Velocity(y component):"), c);
 		c.gridy++;
 		after.add(new JLabel("X position:"), c);
 		c.gridy++;

@@ -16,11 +16,13 @@ public class Var {
 	 *            content is not yet known.
 	 * @param label
 	 *            Displayed name of variable;
+	 * @param given Is  this variable given.
 	 */
 	public Var(String n, String c, String label, boolean given) {
 		contents = c;
 		name = n;
 		this.label = label;
+		this.given = given;
 	}
 
 	public double getVal() {
