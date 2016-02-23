@@ -1,8 +1,10 @@
 package gui;
 
+import java.awt.BasicStroke;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Stroke;
 import java.awt.geom.QuadCurve2D;
 
 import javax.swing.JPanel;
@@ -119,9 +121,13 @@ public class ProjDiagram extends JPanel {
 			g2d.drawString(label + " m/s", (int) (d.getWidth() / 10 + 2 * r), (int) (y + r));
 		}
 		if (!v[10].contents.equals("0")) {
+			Stroke norm = g2d.getStroke();
+			Stroke dashed = new BasicStroke(1, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[] { 8 }, 0);
+			g2d.setStroke(dashed);
 			QuadCurve2D.Double curve = new QuadCurve2D.Double((int) (d.getWidth() / 10) + r / 2, y + r / 2, ctrlX,
 					ctrlY, rx + r / 2, ry + r / 2);
 			g2d.draw(curve);
+			g2d.setStroke(norm);
 		}
 
 		// Draw second;

@@ -15,23 +15,28 @@ public class Definition {
 		in = in.toLowerCase();
 		in = in.replace(" ", "");
 		if (!in.contains("=")) {
-			throw new IllegalArgumentException("Illegal Argument: Missing \"=\"");
+			throw new IllegalArgumentException(
+					"Illegal Argument: Missing \"=\"");
 		}
 		/*
 		 * Removed to support mathematic functions.
-		 *
+		 * 
 		 * if(in.contains("(") || in.contains(")")) throw new
 		 * IllegalArgumentException("Illegal Argument: Contains brackets");
 		 */
 
-		if (in.contains("%") || in.contains("|") || in.contains("⋅") || in.contains("×") || in.contains("±")
-				|| in.contains("∓") || in.contains("÷") || in.contains("√")) {
-			throw new IllegalArgumentException("Illegal Argument: Illegal operators");
+		if (in.contains("%") || in.contains("|") || in.contains("⋅")
+				|| in.contains("×") || in.contains("±") || in.contains("∓")
+				|| in.contains("÷") || in.contains("√")) {
+			throw new IllegalArgumentException(
+					"Illegal Argument: Illegal operators");
 		}
 		String[] parts = in.split("=", 2);
 		name = parts[0];
-		if (name.contains("*") || name.contains("/") || name.contains("+") || name.contains("-")) {
-			throw new IllegalArgumentException("Illegal Argument: Variable contains operators");
+		if (name.contains("*") || name.contains("/") || name.contains("+")
+				|| name.contains("-")) {
+			throw new IllegalArgumentException(
+					"Illegal Argument: Variable contains operators");
 		}
 
 		/*
@@ -39,7 +44,8 @@ public class Definition {
 		 */
 		method = parts[1];
 		if (method.contains("=")) {
-			throw new IllegalArgumentException("Illegal Argument: Definition contains too many \"=\"");
+			throw new IllegalArgumentException(
+					"Illegal Argument: Definition contains too many \"=\"");
 		}
 		terms = method.split("((?<=[+-/*^])|(?=[+-/*^]))");
 
@@ -56,7 +62,7 @@ public class Definition {
 		counter = 0;
 		for (int i = 0; i < terms.length; i++) {
 			if (!MathUtil.isNumeric(terms[i])) {
-				vars[counter] = new Var(new String(terms[i]), "Unknown", "", false);
+				vars[counter] = new Var(new String(terms[i]), "?", "", false);
 				counter++;
 			}
 		}
@@ -67,7 +73,7 @@ public class Definition {
 		int counter = 0;
 		for (int i = 0; i < terms.length; i++) {
 			if (!MathUtil.isNumeric(terms[i])) {
-				vars[counter] = new Var(new String(terms[i]), "Unknown", "", false);
+				vars[counter] = new Var(new String(terms[i]), "?", "", false);
 				counter++;
 			}
 		}

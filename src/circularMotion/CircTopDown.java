@@ -11,16 +11,19 @@ import java.awt.Stroke;
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 
+import math.MathUtil;
+import math.Var;
+
 public class CircTopDown extends JPanel {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -6017603251833338146L;
-	public CircDialog c;
 	private Font font;
 	private Font largeFont;
 	private Stroke norm;
+	public Var[] vars;
 
 	public CircTopDown() {
 		setBorder(BorderFactory.createLineBorder(Color.black));
@@ -42,6 +45,7 @@ public class CircTopDown extends JPanel {
 			largeFont = font.deriveFont((float) (font.getSize() * 1.5));
 		}
 		g2d.setFont(largeFont);
+		String label;
 
 		/*
 		 * Strokes
@@ -49,7 +53,8 @@ public class CircTopDown extends JPanel {
 		if (norm == null) {
 			norm = g2d.getStroke();
 		}
-		Stroke dashed = new BasicStroke(1, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[] { 2 }, 0);
+		Stroke dashed = new BasicStroke(1, BasicStroke.CAP_BUTT,
+				BasicStroke.JOIN_BEVEL, 0, new float[] { 2 }, 0);
 
 		/*
 		 * Draw title
@@ -59,7 +64,7 @@ public class CircTopDown extends JPanel {
 		/*
 		 * Don't draw if not initialised.
 		 */
-		if (c == null) {
+		if (vars == null) {
 			return;
 		}
 
@@ -80,34 +85,38 @@ public class CircTopDown extends JPanel {
 		int smallR = (int) (r * 0.04);
 
 		// Draw init pos?
-		if (c.vars[2] != null && !c.vars[2].contents.equals("Unkown")) {
-			g2d.drawOval((int) (ox + r * Math.sin(c.vars[2].getVal())) - smallR,
-					(int) (oy + r * Math.cos(c.vars[2].getVal())) - smallR, smallR * 2, smallR * 2);
-			g2d.drawLine(ox, oy, (int) (ox + r * Math.sin(c.vars[2].getVal())),
-					(int) (oy + r * Math.cos(c.vars[2].getVal())));
-		} else {
-			// Should never occur.
-			g2d.drawOval((int) (ox + r) - smallR, (int) (oy + r) - smallR, smallR * 2, smallR * 2);
-			g2d.drawLine(ox, oy, ox, oy + r);
-		}
+		double theta = vars[2].contents.equals("?") ? 0 : vars[2].getVal();
+		g2d.drawOval((int) (ox + r * Math.sin(theta)) - smallR, (int) (oy + r
+				* Math.cos(theta))
+				- smallR, smallR * 2, smallR * 2);
+		g2d.drawLine(ox, oy, (int) (ox + r * Math.sin(theta)), (int) (oy + r
+				* Math.cos(theta)));
 
 		// draw final pos?
 		g2d.setStroke(norm);
 		int objX;
 		int objY;
-		double theta;
-		if (c.vars[3] != null && !c.vars[3].contents.equals("Unkown")) {
-			theta = c.vars[3].getVal();
-			g2d.drawString(c.vars[3].contents + " rad", ox + smallR, oy - smallR);
+
+		if (vars[3] != null && !vars[3].contents.equals("?")) {
+			theta = vars[3].getVal();
+			g2d.drawString(vars[3].contents + " rad", ox + smallR, oy - smallR);
 		} else {
 			theta = Math.PI / 4;
 			g2d.drawString("ϴ" + " rad", ox + smallR, oy - smallR);
 		}
 		objX = (int) (ox + r * Math.sin(theta));
 		objY = (int) (oy + r * Math.cos(theta));
-		g2d.drawOval(objX - smallR, objY - smallR, smallR * 2, smallR * 2);
-		g2d.drawArc(ox - smallR, oy - smallR, smallR * 2, smallR * 2, 270, (int) (Math.toDegrees(theta)));
-		g2d.drawLine(ox, oy, (int) (ox + r * Math.sin(theta)), (int) (oy + r * Math.cos(theta)));
+		// TODO: tuesday circ problems
+		g2d.drawOval((int) (objX - smallR * 2 * Math.sin(theta)),
+				(int) (objY - smallR * 2 * Math.cos(theta)), smallR * 2,
+				smallR * 2);
+
+		int temp = (int) (Math
+				.toDegrees(!vars[2].contents.equals("?") ? vars[2].getVal() : 0));
+		g2d.drawArc(ox - smallR, oy - smallR, smallR * 2, smallR * 2,
+				temp + 270, (int) (Math.toDegrees(theta) - temp));
+		g2d.drawLine(ox, oy, (int) (ox + r * Math.sin(theta) - smallR * 0.9),
+				(int) (oy + r * Math.cos(theta) - smallR * 0.9));
 
 		/*
 		 * draw tangents, swap cos and sin for normal
@@ -117,16 +126,23 @@ public class CircTopDown extends JPanel {
 		int ga = (int) (smallR * 2.5 * Math.cos(theta));
 		int gb = (int) (smallR * 2.5 * Math.sin(theta));
 		g2d.drawLine(gx - ga, gy + gb, gx + ga, gy - gb);
-		g2d.drawLine(gx + ga, gy - gb, gx + ga - (int) (15 * Math.cos(Math.PI / 6 - theta)),
-				(int) (gy - gb - 15 * Math.sin(Math.PI / 6 - theta)));
-		g2d.drawLine(gx + ga, gy - gb, gx + ga - (int) (15 * Math.cos(-Math.PI / 6 - theta)),
+		g2d.drawLine(gx + ga, gy - gb,
+				gx + ga - (int) (15 * Math.cos(Math.PI / 6 - theta)), (int) (gy
+						- gb - 15 * Math.sin(Math.PI / 6 - theta)));
+		g2d.drawLine(gx + ga, gy - gb,
+				gx + ga - (int) (15 * Math.cos(-Math.PI / 6 - theta)),
 				(int) (gy - gb - 15 * Math.sin(-Math.PI / 6 - theta)));
 
-		// draw labels?
-
-		g2d.fillOval(ox - 1, oy - 1, 3, 3);
-		g2d.drawString("O", ox, oy);
-		g2d.drawString("Test", objX + smallR, objY - smallR);
+		MathUtil.drawArrow(g2d, gx - (smallR * 4), gy - (smallR * 4),
+				(int) (gx - r * 0.5 * Math.cos(theta)),
+				(int) (gy - Math.sin(theta) * r * 0.5), smallR * 2);
+		label = vars[6].contents.equals("?") ? vars[6].label : vars[6].contents;
+		g2d.drawString(" " + label + " m/s²",
+				(int) (ox + r * 0.5 * Math.sin(theta)), (int) (oy + r * 0.5
+						* Math.cos(theta)));
+		label = vars[4].contents.equals("?") ? vars[4].label : vars[4].contents;
+		g2d.drawString(label, (int) (ox + (r + smallR * 3) * Math.sin(theta)),
+				(int) (oy + (r + smallR * 3) * Math.sin(theta)));
 
 	}
 }

@@ -53,7 +53,7 @@ public class Solver {
 						 * Link the vars;
 						 */
 						if (defs[u].vars[w].name.equals(defs[u].vars[x].name)) {
-							if (!defs[u].vars[w].name.equals("Unknown")) {
+							if (!defs[u].vars[w].name.equals("?")) {
 								defs[u].vars[x] = defs[u].vars[w];
 							} else {
 								defs[u].vars[w] = defs[u].vars[x];
@@ -64,7 +64,7 @@ public class Solver {
 						 * Link to variable to be solved.
 						 */
 						if (defs[u].vars[w].name.equals(var.name)) {
-							if (!defs[u].vars[w].name.equals("Unknown")) {
+							if (!defs[u].vars[w].name.equals("?")) {
 								var = defs[u].vars[w];
 							} else {
 								defs[u].vars[w] = var;
@@ -75,7 +75,7 @@ public class Solver {
 					 * Link to variable to be solved.
 					 */
 					if (defs[i].vars[w].name.equals(var.name)) {
-						if (!defs[i].vars[w].name.equals("Unknown")) {
+						if (!defs[i].vars[w].name.equals("?")) {
 							var = defs[i].vars[w];
 						} else {
 							defs[i].vars[w] = var;
@@ -87,7 +87,7 @@ public class Solver {
 		}
 
 		long t = System.currentTimeMillis();
-		while (!var.contents.equals("Unknown")) {
+		while (!var.contents.equals("?")) {
 			/*
 			 * limit time spent on operation as the problem could be Unsolvable.
 			 */

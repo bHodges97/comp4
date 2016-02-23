@@ -15,6 +15,9 @@ Consider using themes to make it look nice
 
 :CofM
 -Work on gui
+-Add topic desc
+-Draw axis
+0-Add special shapes(cones etc
 
 :Circ Mom
 -Draw diagram
@@ -22,11 +25,10 @@ Consider using themes to make it look nice
 
 :collsions
 do logic
+organsise fields
 
 :projectiles
-draw
 logic
-add "?" var
 
 
 EVERYTHING ELSE FINISH FASTTTTTT
