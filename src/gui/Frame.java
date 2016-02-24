@@ -41,6 +41,7 @@ public class Frame extends JFrame {
 	static Frame window;
 	Dialog popup = new Dialog();
 	String topic = "Default";
+	Border border = BorderFactory.createLineBorder(Color.BLACK);
 
 	// collision
 	boolean colA;
@@ -61,6 +62,10 @@ public class Frame extends JFrame {
 	JTextField textR;
 	JTextField textA;
 	JTextField textT;
+	JTextField circX;
+	JTextField circY;
+	JTextField[] circF;
+	JTextField[] circFT;
 
 	// CenterOfMass
 	Panel canvas = new Panel("Default");
@@ -110,19 +115,25 @@ public class Frame extends JFrame {
 	}
 
 	private void initCircularMotion() {
-		JPanel panelDiagram = new JPanel();
+
+		// Initialised panels;
+		JPanel panelDiagram = new JPanel(new GridLayout());
 		JPanel panelFields = new JPanel();
-		panelDiagram.setLayout(new GridLayout());
 		JPanel panelWest = new JPanel(new GridLayout(0, 1));
 		JPanel panelNorth = new JPanel(new BorderLayout());
-
-		panelFields.setBorder(BorderFactory.createLineBorder(Color.black));
-		panelDiagram.setBorder(BorderFactory.createLineBorder(Color.black));
+		JPanel panelForces = new JPanel();
+		// Set borders
+		panelForces.setBorder(border);
+		panelFields.setBorder(border);
+		panelDiagram.setBorder(border);
+		// Add to it.
+		panelWest.add(panelNorth);
+		panelWest.add(panelFields);
+		panelWest.add(panelForces);
 		this.add(panelWest, BorderLayout.WEST);
-		panelWest.add(panelNorth, BorderLayout.NORTH);
-		panelWest.add(panelFields, BorderLayout.CENTER);
 		this.add(panelDiagram, BorderLayout.CENTER);
 
+		// Add diagram panels.
 		GridBagConstraints c = new GridBagConstraints();
 		c.gridx = 0;
 		circTopDown = new CircTopDown();
@@ -131,6 +142,8 @@ public class Frame extends JFrame {
 		circVertical = new CircVertical();
 		panelDiagram.add(circVertical);
 
+		// Initialise topic title and desc.
+		// TODO: fill out description for circularMotion.
 		JTextField topicTitle = new JTextField("Circular motion notes");
 		topicTitle.setEditable(false);
 		topicTitle.setFont(topicTitle.getFont().deriveFont(
@@ -139,12 +152,10 @@ public class Frame extends JFrame {
 		topicDesc.setColumns(26);
 		topicDesc.setLineWrap(true);
 		topicDesc.setText("TO DO ADD SOME TEXT");
-		// TODO: fill out description for circularMotion.
 		panelNorth.add(topicTitle, BorderLayout.NORTH);
 		panelNorth.add(topicDesc, BorderLayout.CENTER);
 
-		JLabel Explanation = new JLabel(
-				"<html>Fill in all known fields as numbers.<br>Leave unknowns as \"?\".");
+		JLabel Explanation = new JLabel("Leave unknowns as \"?\".");
 		int n = 18;
 		textW = new JTextField("?", n);
 		textM = new JTextField("?", n);
@@ -164,6 +175,7 @@ public class Frame extends JFrame {
 		circVars[5] = new Var("r", new String(textR.getText()), "r", false);
 		circVars[6] = new Var("a", new String(textA.getText()), "a", false);
 		circVars[7] = new Var("t", new String(textT.getText()), "t", false);
+
 		textM.addFocusListener(new FocusListener() {
 
 			@Override
@@ -393,47 +405,55 @@ public class Frame extends JFrame {
 		c.gridy = 0;
 		c.insets = new Insets(2, 2, 2, 2);
 		c.weightx = 1;
-		c.weighty = 1;
+		c.weighty = 0;
 		panelFields.add(Explanation, c);
 
 		c.gridy++;
+		c.gridx = 0;
 		panelFields.add(new JLabel("Start Angle"), c);
-		c.gridy++;
+		c.gridx = 1;
 		panelFields.add(textU, c);
 
 		c.gridy++;
+		c.gridx = 0;
 		panelFields.add(new JLabel("End Angle"), c);
-		c.gridy++;
+		c.gridx = 1;
 		panelFields.add(textX, c);
 
 		c.gridy++;
+		c.gridx = 0;
 		panelFields.add(new JLabel("Angular Velocity"), c);
-		c.gridy++;
+		c.gridx = 1;
 		panelFields.add(textW, c);
 
 		c.gridy++;
+		c.gridx = 0;
 		panelFields.add(new JLabel("Tangential Velocity"), c);
-		c.gridy++;
+		c.gridx = 1;
 		panelFields.add(textV, c);
 
 		c.gridy++;
+		c.gridx = 0;
 		panelFields.add(new JLabel("Mass"), c);
-		c.gridy++;
+		c.gridx = 1;
 		panelFields.add(textM, c);
 
 		c.gridy++;
+		c.gridx = 0;
 		panelFields.add(new JLabel("Radius"), c);
-		c.gridy++;
+		c.gridx = 1;
 		panelFields.add(textR, c);
 
 		c.gridy++;
+		c.gridx = 0;
 		panelFields.add(new JLabel("Centripetal Acceleration"), c);
-		c.gridy++;
+		c.gridx = 1;
 		panelFields.add(textA, c);
 
 		c.gridy++;
+		c.gridx = 0;
 		panelFields.add(new JLabel("Time"), c);
-		c.gridy++;
+		c.gridx = 1;
 		panelFields.add(textT, c);
 		Thread update = new Thread() {
 			public void run() {
@@ -471,7 +491,6 @@ public class Frame extends JFrame {
 		sidePanel.add(northPanel);
 		sidePanel.add(southPanel);
 
-		Border border = BorderFactory.createLineBorder(Color.BLACK);
 		northPanel.setBorder(border);
 		southPanel.setBorder(border);
 		projDiagram.setBorder(border);
@@ -980,9 +999,9 @@ public class Frame extends JFrame {
 		this.add(colDiagram, BorderLayout.CENTER);
 		JPanel fields = new JPanel();
 		JPanel text = new JPanel();
-		colDiagram.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-		fields.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-		text.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+		colDiagram.setBorder(border);
+		fields.setBorder(border);
+		text.setBorder(border);
 		westPanel.setLayout(new GridLayout(0, 1));
 		westPanel.add(text);
 		westPanel.add(fields);
@@ -1350,7 +1369,7 @@ public class Frame extends JFrame {
 		sideNorth = new sidepanelNorth(canvas.plane);
 		sideSouth = new sidepanelSouth(0, canvas.plane);
 		sidepanel.setPreferredSize(new Dimension(300, this.getHeight()));
-		sidepanel.setBorder(BorderFactory.createLineBorder(Color.black));
+		sidepanel.setBorder(border);
 		sidepanel.setLayout(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
 		c.weighty = 1;
