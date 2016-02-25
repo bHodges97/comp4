@@ -7,16 +7,22 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.BorderFactory;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.border.Border;
@@ -41,7 +47,8 @@ public class Frame extends JFrame {
 	static Frame window;
 	Dialog popup = new Dialog();
 	String topic = "Default";
-	Border border = BorderFactory.createLineBorder(Color.BLACK);
+	// Border border = BorderFactory.createLineBorder(Color.BLACK, 0);
+	Border border = BorderFactory.createEtchedBorder(1);
 
 	// collision
 	boolean colA;
@@ -64,8 +71,12 @@ public class Frame extends JFrame {
 	JTextField textT;
 	JTextField circX;
 	JTextField circY;
-	JTextField[] circF;
-	JTextField[] circFT;
+	List<JTextField> circF = new ArrayList<JTextField>();
+	List<JTextField> circT = new ArrayList<JTextField>();
+	List<String> circTextA = new ArrayList<String>();
+	List<String> circTextB = new ArrayList<String>();
+	JButton circB;
+	JPanel panelSouthS;
 
 	// CenterOfMass
 	Panel canvas = new Panel("Default");
@@ -115,21 +126,33 @@ public class Frame extends JFrame {
 	}
 
 	private void initCircularMotion() {
-
+		setLayout(new BorderLayout(5, 5));
 		// Initialised panels;
 		JPanel panelDiagram = new JPanel(new GridLayout());
 		JPanel panelFields = new JPanel();
-		JPanel panelWest = new JPanel(new GridLayout(0, 1));
-		JPanel panelNorth = new JPanel(new BorderLayout());
-		JPanel panelForces = new JPanel();
+		JPanel panelWest = new JPanel(new GridLayout(0, 1, 5, 5));
+		JPanel panelNorth = new JPanel(new BorderLayout(5, 5));
+		panelSouthS = new JPanel(new GridBagLayout());
+		JPanel panelSouth = new JPanel(new GridLayout(0, 1));
+		JPanel panelSouthN = new JPanel(new GridBagLayout());
+		JScrollPane scrollSouthS = new JScrollPane(panelSouthS);
 		// Set borders
-		panelForces.setBorder(border);
+		scrollSouthS.setBorder(BorderFactory.createEmptyBorder());
+		panelSouthS.setBorder(BorderFactory.createTitledBorder(
+				BorderFactory.createEtchedBorder(), "Forces"));
+		panelSouthN.setBorder(BorderFactory.createTitledBorder(
+				BorderFactory.createEtchedBorder(),
+				"Position from 0,0(not center of rotation)"));
 		panelFields.setBorder(border);
-		panelDiagram.setBorder(border);
+		// panelWest.setBorder(border);
+		panelSouth.setBorder(border);
+		panelNorth.setBorder(border);
 		// Add to it.
 		panelWest.add(panelNorth);
 		panelWest.add(panelFields);
-		panelWest.add(panelForces);
+		panelWest.add(panelSouth);
+		panelSouth.add(panelSouthN);
+		panelSouth.add(scrollSouthS);
 		this.add(panelWest, BorderLayout.WEST);
 		this.add(panelDiagram, BorderLayout.CENTER);
 
@@ -138,9 +161,11 @@ public class Frame extends JFrame {
 		c.gridx = 0;
 		circTopDown = new CircTopDown();
 		panelDiagram.add(circTopDown);
+		circTopDown.setBorder(border);
 		c.gridx++;
 		circVertical = new CircVertical();
 		panelDiagram.add(circVertical);
+		circVertical.setBorder(border);
 
 		// Initialise topic title and desc.
 		// TODO: fill out description for circularMotion.
@@ -156,7 +181,7 @@ public class Frame extends JFrame {
 		panelNorth.add(topicDesc, BorderLayout.CENTER);
 
 		JLabel Explanation = new JLabel("Leave unknowns as \"?\".");
-		int n = 18;
+		int n = 9;
 		textW = new JTextField("?", n);
 		textM = new JTextField("?", n);
 		textU = new JTextField("?", n);
@@ -165,6 +190,9 @@ public class Frame extends JFrame {
 		textR = new JTextField("?", n);
 		textA = new JTextField("?", n);
 		textT = new JTextField("?", n);
+		circX = new JTextField("?", n);
+		circY = new JTextField("?", n);
+		circB = new JButton("Add Force");
 
 		circVars = new Var[8];
 		circVars[0] = new Var("w", new String(textW.getText()), "w", false);
@@ -401,13 +429,12 @@ public class Frame extends JFrame {
 		panelFields.setLayout(new GridBagLayout());
 		c = new GridBagConstraints();
 		c.gridx = 0;
-		c.anchor = c.WEST;
+		c.weighty = 0;
+		c.anchor = c.FIRST_LINE_START;
 		c.gridy = 0;
 		c.insets = new Insets(2, 2, 2, 2);
 		c.weightx = 1;
-		c.weighty = 0;
 		panelFields.add(Explanation, c);
-
 		c.gridy++;
 		c.gridx = 0;
 		panelFields.add(new JLabel("Start Angle"), c);
@@ -455,6 +482,114 @@ public class Frame extends JFrame {
 		panelFields.add(new JLabel("Time"), c);
 		c.gridx = 1;
 		panelFields.add(textT, c);
+
+		// Layout panelSouthN;
+		c.gridx = 0;
+		c.gridy = 0;
+		panelSouthN.add(new JLabel("X:"), c);
+		c.gridy++;
+		panelSouthN.add(new JLabel("Y:"), c);
+		c.gridy++;
+		c.gridx = 1;
+		panelSouthN.add(circB, c);
+		c.gridy = 0;
+		panelSouthN.add(circX, c);
+		c.gridy++;
+		panelSouthN.add(circY, c);
+
+		circX.addFocusListener(new FocusListener() {
+
+			@Override
+			public void focusLost(FocusEvent arg0) {
+				// TODO: circX
+			}
+
+			@Override
+			public void focusGained(FocusEvent arg0) {
+				// Do nothing.
+			}
+		});
+		circY.addFocusListener(new FocusListener() {
+
+			@Override
+			public void focusLost(FocusEvent arg0) {
+				// TODO: circX
+			}
+
+			@Override
+			public void focusGained(FocusEvent arg0) {
+				// Do nothing.
+			}
+		});
+
+		c.weighty = 1;
+		c.gridy = 0;
+		c.gridx = 0;
+		panelSouthS.add(new JLabel("Magnitude"), c);
+		c.gridx = 1;
+		JLabel lbl = new JLabel("Direction.");
+		lbl.setToolTipText("radians anticlock wise from 3 o'clock position");
+
+		panelSouthS.add(lbl, c);
+		circB.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				GridBagConstraints c = new GridBagConstraints();
+				circF.add(new JTextField("0", 9));
+				circT.add(new JTextField("0", 9));
+				circTextA.add("0");
+				circTextB.add("0");
+				final JTextField a = circF.get(circF.size() - 1);
+				final JTextField b = circT.get(circT.size() - 1);
+				c.gridy = circF.size();
+				c.gridx = 0;
+				c.weightx = 1;
+				c.anchor = c.FIRST_LINE_START;
+				panelSouthS.add(a, c);
+				c.gridx = 1;
+				panelSouthS.add(b, c);
+
+				a.addFocusListener(new FocusListener() {
+
+					@Override
+					public void focusLost(FocusEvent e) {
+						if (!MathUtil.isNumeric(a.getText())) {
+							JOptionPane.showMessageDialog(Frame.this,
+									"Must be numeric.");
+							return;
+						}
+						circTextA.set(circF.indexOf(a), a.getText());
+
+					}
+
+					@Override
+					public void focusGained(FocusEvent e) {
+						// Do nothing
+					}
+				});
+
+				b.addFocusListener(new FocusListener() {
+
+					@Override
+					public void focusLost(FocusEvent e) {
+						if (!MathUtil.isNumeric(b.getText())) {
+							JOptionPane.showMessageDialog(Frame.this,
+									"Must be numeric.");
+							return;
+						}
+						circTextB.set(circT.indexOf(b), a.getText());
+
+					}
+
+					@Override
+					public void focusGained(FocusEvent e) {
+						// Do nothing
+					}
+				});
+			}
+		});
+
 		Thread update = new Thread() {
 			public void run() {
 				// TODO: remove dialog box.
