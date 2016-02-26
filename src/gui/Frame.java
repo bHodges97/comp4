@@ -75,6 +75,7 @@ public class Frame extends JFrame {
 	List<JTextField> circT = new ArrayList<JTextField>();
 	List<String> circTextA = new ArrayList<String>();
 	List<String> circTextB = new ArrayList<String>();
+	Var[] circVarB;
 	JButton circB;
 	JPanel panelSouthS;
 
@@ -195,6 +196,7 @@ public class Frame extends JFrame {
 		circB = new JButton("Add Force");
 
 		circVars = new Var[8];
+		circVarB = new Var[2];
 		circVars[0] = new Var("w", new String(textW.getText()), "w", false);
 		circVars[1] = new Var("m", new String(textM.getText()), "m", false);
 		circVars[2] = new Var("u", new String(textU.getText()), "u", false);
@@ -203,6 +205,8 @@ public class Frame extends JFrame {
 		circVars[5] = new Var("r", new String(textR.getText()), "r", false);
 		circVars[6] = new Var("a", new String(textA.getText()), "a", false);
 		circVars[7] = new Var("t", new String(textT.getText()), "t", false);
+		circVarB[0] = new Var("x", "?", "x", false);
+		circVarB[1] = new Var("y", "?", "y", false);
 
 		textM.addFocusListener(new FocusListener() {
 
@@ -501,12 +505,32 @@ public class Frame extends JFrame {
 
 			@Override
 			public void focusLost(FocusEvent arg0) {
-				// TODO: circX
+				if (circX.getText().equals("?")) {
+					circVarB[0].setContents("?", false);
+					return;
+				}
+				if (!MathUtil.isNumeric(circX.getText())) {
+					JOptionPane.showMessageDialog(Frame.this,
+							"Must enter a number!", "Error",
+							JOptionPane.ERROR_MESSAGE);
+					return;
+				}
+				circVarB[0].setContents(circX.getText(), true);
 			}
 
 			@Override
 			public void focusGained(FocusEvent arg0) {
-				// Do nothing.
+				if (circY.getText().equals("?")) {
+					circVarB[1].setContents("?", false);
+					return;
+				}
+				if (!MathUtil.isNumeric(circY.getText())) {
+					JOptionPane.showMessageDialog(Frame.this,
+							"Must enter a number!", "Error",
+							JOptionPane.ERROR_MESSAGE);
+					return;
+				}
+				circVarB[1].setContents(circY.getText(), true);
 			}
 		});
 		circY.addFocusListener(new FocusListener() {
@@ -578,7 +602,7 @@ public class Frame extends JFrame {
 									"Must be numeric.");
 							return;
 						}
-						circTextB.set(circT.indexOf(b), a.getText());
+						circTextB.set(circT.indexOf(b), b.getText());
 
 					}
 
@@ -594,7 +618,9 @@ public class Frame extends JFrame {
 			public void run() {
 				// TODO: remove dialog box.
 				CircDialog form = new CircDialog(Frame.this);
-				circVertical.c = form;
+				circVertical.text = circVarB;
+				circVertical.force = circTextA;
+				circVertical.angle = circTextB;
 				circTopDown.vars = circVars;
 
 				while (true) {
