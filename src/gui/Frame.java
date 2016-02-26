@@ -2,6 +2,7 @@ package gui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -1556,11 +1557,43 @@ public class Frame extends JFrame {
 				}
 			}
 		};
-		update.start();
 	}
 
 	private void colUpdate() {
 		// TODO: MATH LOGIC STUFF
+	}
+
+	private void addListener(final JTextField t, final Var v, final int c) {
+		t.addFocusListener(new FocusListener() {
+
+			@Override
+			public void focusGained(FocusEvent arg0) {
+				// DO NOTHING
+			}
+
+			@Override
+			public void focusLost(FocusEvent arg0) {
+				if (t.getText().equals("?")) {
+					v.setContents(t.getText(), false);
+					return;
+				}
+
+				if (!MathUtil.isNumeric(t.getText())) {
+					JOptionPane.showMessageDialog(Frame.this, "Not a number!",
+							"Error", JOptionPane.ERROR_MESSAGE);
+					return;
+				}
+				if (c == 0) {
+					if (Double.parseDouble(t.getText()) < 0) {
+						JOptionPane.showMessageDialog(Frame.this,
+								"Value is negative.");
+						return;
+					}
+				}
+
+				v.setContents(new String(t.getText()), true);
+			}
+		});
 	}
 
 	/**
