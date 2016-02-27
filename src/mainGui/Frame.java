@@ -1,4 +1,4 @@
-package gui;
+package mainGui;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -10,6 +10,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
@@ -19,16 +20,25 @@ import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
 import javax.swing.border.Border;
 
-import circularMotion.CircDialog;
-import circularMotion.CircTopDown;
-import circularMotion.CircVertical;
+import mainGui.centerOfMass.Panel;
+import mainGui.centerOfMass.sidepanelNorth;
+import mainGui.centerOfMass.sidepanelSouth;
+import mainGui.circularMotion.CircDialog;
+import mainGui.circularMotion.CircTopDown;
+import mainGui.circularMotion.CircVertical;
+import mainGui.collision.ColDiagram;
+import mainGui.projectileMotion.ProjDiagram;
 import math.MathUtil;
 import math.Var;
 
@@ -102,26 +112,50 @@ public class Frame extends JFrame {
 	Var[] projVars;
 
 	public Frame() {
-		// this.setLayout();
-		setExtendedState(MAXIMIZED_BOTH);
-		setTopic(popup.topic);
+		// TODO:this.setLayout();
+		SwingUtilities.invokeLater(new Runnable() {
+			public void run() {
+				setExtendedState(MAXIMIZED_BOTH);
+				setTopic(popup.topic);
 
-		if (popup.topic.equals("Circles")) {
-			initCircularMotion();
-		}
-		if (popup.topic.equals("Center")) {
-			initCenterOfMass();
-		}
-		if (popup.topic.equals("Collisions")) {
-			initCollisions();
-		}
-		if (popup.topic.equals("Projectiles")) {
-			initProjectiles();
-		}
+				JMenuBar menu = new JMenuBar();
+				JMenu menuFile = new JMenu("File");
+				JMenu menuTools = new JMenu("Tool");
+				menuFile.setMnemonic(KeyEvent.VK_F);
+				menuTools.setMnemonic(KeyEvent.VK_T);
+				menu.add(menuFile);
+				menu.add(menuTools);
+				JMenuItem mConveter = new JMenuItem("Degrees & radians converter", KeyEvent.VK_D);
+				JMenuItem mTrig = new JMenuItem("Trig calculator", KeyEvent.VK_T);
+				menuTools.add(mConveter);
+				menuTools.add(mTrig);
+				final AngleConverter dialogConverter = new AngleConverter(Frame.this);
+				mConveter.addActionListener(new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						dialogConverter.Open();
+					}
+				});
+				setJMenuBar(menu);
 
-		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-		this.pack();
-		this.setVisible(true);
+				if (popup.topic.equals("Circles")) {
+					initCircularMotion();
+				}
+				if (popup.topic.equals("Center")) {
+					initCenterOfMass();
+				}
+				if (popup.topic.equals("Collisions")) {
+					initCollisions();
+				}
+				if (popup.topic.equals("Projectiles")) {
+					initProjectiles();
+				}
+
+				setDefaultCloseOperation(EXIT_ON_CLOSE);
+				pack();
+				setVisible(true);
+			}
+		});
 
 	}
 
@@ -961,14 +995,31 @@ public class Frame extends JFrame {
 		sidepanel.setPreferredSize(new Dimension(300, this.getHeight()));
 		sidepanel.setBorder(border);
 		sidepanel.setLayout(new GridBagLayout());
+
+		JPanel panelNorth = new JPanel(new BorderLayout());
+		// Initialise topic title and desc.
+		// TODO: fill out description.
+		JTextField topicTitle = new JTextField("Center of mass notes");
+		topicTitle.setEditable(false);
+		topicTitle.setFont(topicTitle.getFont().deriveFont(1.2f * topicTitle.getFont().getSize()));
+		JTextArea topicDesc = new JTextArea();
+		topicDesc.setColumns(26);
+		topicDesc.setLineWrap(true);
+		topicDesc.setText("TO DO ADD SOME TEXT");
+		panelNorth.add(topicTitle, BorderLayout.NORTH);
+		panelNorth.add(topicDesc, BorderLayout.CENTER);
+
 		GridBagConstraints c = new GridBagConstraints();
 		c.weighty = 1;
 		c.weightx = 1;
 		c.fill = c.BOTH;
 		c.gridy = 0;
+		sidepanel.add(panelNorth, c);
+		c.gridy++;
 		sidepanel.add(sideNorth.p, c);
 		c.gridy++;
 		sidepanel.add(sideSouth, c);
+
 		Thread update = new Thread() {
 			public void run() {
 				while (true) {

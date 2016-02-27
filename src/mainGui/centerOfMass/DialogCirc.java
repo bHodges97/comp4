@@ -1,4 +1,4 @@
-package gui;
+package mainGui.centerOfMass;
 
 import java.awt.GraphicsEnvironment;
 import java.awt.GridBagLayout;

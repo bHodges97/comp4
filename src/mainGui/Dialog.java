@@ -1,4 +1,4 @@
-package gui;
+package mainGui;
 
 import java.awt.Container;
 import java.awt.Dimension;

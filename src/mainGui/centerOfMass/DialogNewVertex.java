@@ -1,4 +1,4 @@
-package gui;
+package mainGui.centerOfMass;
 
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;

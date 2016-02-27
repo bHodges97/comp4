@@ -1,6 +1,5 @@
-package gui;
+package mainGui.centerOfMass;
 
-import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
@@ -19,10 +18,10 @@ import math.Obj;
 import math.Plane;
 
 public class sidepanelSouth extends JPanel {
-	
+
 	JLabel planeCom = new JLabel("Plane Center of mass");
 	JLabel planeComVal = new JLabel("");
-	
+
 	JLabel objName = new JLabel("Current Object");
 	JLabel objMass = new JLabel("Mass");
 	JLabel objCofm = new JLabel("Center of mass");
@@ -33,7 +32,7 @@ public class sidepanelSouth extends JPanel {
 	JLabel objAcce = new JLabel("Acceleration");
 	JLabel objAccX = new JLabel("Acceleration(x component)");
 	JLabel objAccY = new JLabel("Acceleration(y component)");
-	
+
 	JTextField varName = new JTextField("NULL");
 	JTextField varMass = new JTextField("NULL");
 	JTextField varCofm = new JTextField("NULL");
@@ -44,116 +43,123 @@ public class sidepanelSouth extends JPanel {
 	JTextField varAcce = new JTextField("NULL");
 	JTextField varAccX = new JTextField("NULL");
 	JTextField varAccY = new JTextField("NULL");
-	
+
 	JButton rotate = new JButton("Rotate");
 	public Obj current;
-	
-	public sidepanelSouth(int t,Plane plane){		
-		
+
+	public sidepanelSouth(int t, Plane plane) {
+
 		setLayout();
-		addActionListeners();		
+		addActionListeners();
 	}
-	public void setObj(Obj o){
+
+	public void setObj(Obj o) {
 		current = o;
 		updateFields();
 	}
-		
-	private void updateFields(){
-		if(current==null)return;
+
+	private void updateFields() {
+		if (current == null)
+			return;
 		varName.setText(current.getName());
-		varMass.setText(current.getMass()+"");
-		//truncated 
-		varCofm.setText(Math.floor(current.getCOM().x * 100) / 100+","+Math.floor(current.getCOM().y * 100) / 100);
-		varRest.setText(current.getRest()+"");
+		varMass.setText(current.getMass() + "");
+		// truncated
+		varCofm.setText(Math.floor(current.getCOM().x * 100) / 100 + "," + Math.floor(current.getCOM().y * 100) / 100);
+		varRest.setText(current.getRest() + "");
 	}
+
 	/**
 	 * Adds the actionlisteners;
 	 */
-	private void addActionListeners(){
-		rotate.addActionListener(new ActionListener(){
+	private void addActionListeners() {
+		rotate.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				if(current != null){
-					String responce = JOptionPane.showInputDialog(null, "Enter angle with suffix 'r' for radians or 'd' for degrees. \n Default is radians if nothing is suffixed. Do not use character π!", "Rotate",JOptionPane.QUESTION_MESSAGE);
-					if(responce == null) return;
-					char c = responce.charAt(responce.length()-1);
-					if(!Character.isDigit(c)){
-						responce = responce.substring(0,responce.length()-1);
+				if (current != null) {
+					String responce = JOptionPane.showInputDialog(null,
+							"Enter angle with suffix 'r' for radians or 'd' for degrees. \n Default is radians if nothing is suffixed. Do not use character π!",
+							"Rotate", JOptionPane.QUESTION_MESSAGE);
+					if (responce == null)
+						return;
+					char c = responce.charAt(responce.length() - 1);
+					if (!Character.isDigit(c)) {
+						responce = responce.substring(0, responce.length() - 1);
 					}
-					if(MathUtil.isNumeric(responce)){
+					if (MathUtil.isNumeric(responce)) {
 						double x = Double.valueOf(responce);
 						boolean radians = true;
-						if(c == 'D'|| c == 'd')radians = false;
-						current.rotate(x,radians,new MyPoint(0,0));
-					}
-					else{
-						JOptionPane.showMessageDialog(null,"Not a valid input!");
+						if (c == 'D' || c == 'd')
+							radians = false;
+						current.rotate(x, radians, new MyPoint(0, 0));
+					} else {
+						JOptionPane.showMessageDialog(null, "Not a valid input!");
 						System.out.println(responce);
 					}
 				}
-			}			
+			}
 		});
 	}
+
 	/**
 	 * Place components in the correct position.
 	 */
-	private void setLayout(){
+	private void setLayout() {
 		this.setLayout(new GridBagLayout());
-		setBorder(BorderFactory.createLineBorder(Color.BLACK));
-		
+		setBorder(BorderFactory.createEtchedBorder(1));
+
 		GridBagConstraints c = new GridBagConstraints();
 		c.anchor = c.NORTHWEST;
 		c.fill = c.HORIZONTAL;
 		c.weightx = 1.0;
 		c.weighty = 0;
-		
-		c.gridx=0;
+
+		c.gridx = 0;
 		c.gridy = 0;
-		add(objName,c);
+		add(objName, c);
 		c.gridy++;
-		add(objMass,c);
+		add(objMass, c);
 		c.gridy++;
-		add(objCofm,c);
+		add(objCofm, c);
 		c.gridy++;
-		add(objRest,c);
+		add(objRest, c);
 		c.gridy++;
-		add(objVelo,c);
+		add(objVelo, c);
 		c.gridy++;
-		add(objVelX,c);
+		add(objVelX, c);
 		c.gridy++;
-		add(objVelY,c);
+		add(objVelY, c);
 		c.gridy++;
-		add(objAcce,c);
+		add(objAcce, c);
 		c.gridy++;
-		add(objAccX,c);
+		add(objAccX, c);
 		c.gridy++;
-		add(objAccY,c);
+		add(objAccY, c);
 		c.gridx++;
-		c.gridy=0;
-		add(varName,c);
+		c.gridy = 0;
+		add(varName, c);
 		c.gridy++;
-		add(varMass,c);
+		add(varMass, c);
 		c.gridy++;
-		add(varCofm,c);
+		add(varCofm, c);
 		c.gridy++;
-		add(varRest,c);
+		add(varRest, c);
 		c.gridy++;
-		add(varVelo,c);
+		add(varVelo, c);
 		c.gridy++;
-		add(varVelX,c);
+		add(varVelX, c);
 		c.gridy++;
-		add(varVelY,c);
+		add(varVelY, c);
 		c.gridy++;
-		add(varAcce,c);
+		add(varAcce, c);
 		c.gridy++;
-		add(varAccX,c);
+		add(varAccX, c);
 		c.gridy++;
-		add(varAccY,c);
+		add(varAccY, c);
 		c.gridy++;
-		add(rotate,c);
+		add(rotate, c);
 		/*
 		 * Fixed Size so changing text doesn't change layout.
-		 */		
+		 */
 		varName.setColumns(9);
 		varMass.setColumns(9);
 		varCofm.setColumns(9);

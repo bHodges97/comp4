@@ -1,4 +1,4 @@
-package gui;
+package mainGui.centerOfMass;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -19,11 +19,11 @@ import math.Plane;
 @SuppressWarnings("serial")
 public class Panel extends JPanel {
 	String topic;
-	Plane plane;
+	public Plane plane;
 	float scale = 0.05f;
 	int ox = 0;
 	int oy = 0;
-	Obj currentObj;
+	public Obj currentObj;
 
 	public Panel(String t) {
 		setBorder(BorderFactory.createLineBorder(Color.black));

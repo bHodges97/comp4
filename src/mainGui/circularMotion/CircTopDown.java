@@ -1,4 +1,4 @@
-package circularMotion;
+package mainGui.circularMotion;
 
 import java.awt.BasicStroke;
 import java.awt.Color;

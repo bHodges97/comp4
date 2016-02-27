@@ -1,4 +1,4 @@
-package gui;
+package mainGui.projectileMotion;
 
 import java.awt.BasicStroke;
 import java.awt.Dimension;
