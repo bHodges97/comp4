@@ -34,7 +34,6 @@ import javax.swing.border.Border;
 import mainGui.centerOfMass.Panel;
 import mainGui.centerOfMass.sidepanelNorth;
 import mainGui.centerOfMass.sidepanelSouth;
-import mainGui.circularMotion.CircDialog;
 import mainGui.circularMotion.CircTopDown;
 import mainGui.circularMotion.CircVertical;
 import mainGui.collision.ColDiagram;
@@ -67,6 +66,17 @@ public class Frame extends JFrame {
 	ColDiagram colDiagram;
 
 	// CircularMotion
+	/**
+	 * Variables used in circular motion.<br>
+	 * 0 = w<br>
+	 * 1 = m<br>
+	 * 2 = u<br>
+	 * 3 = x<br>
+	 * 4 = v<br>
+	 * 5 = r<br>
+	 * 6 = a<br>
+	 * 7 = t<br>
+	 */
 	Var[] circVars;
 	CircTopDown circTopDown;
 	CircVertical circVertical;
@@ -82,11 +92,19 @@ public class Frame extends JFrame {
 	JTextField circY;
 	List<JTextField> circF = new ArrayList<JTextField>();
 	List<JTextField> circT = new ArrayList<JTextField>();
+	/**
+	 * Magnitude list.
+	 */
 	List<String> circTextA = new ArrayList<String>();
+	/**
+	 * Direction list. Angle begins at 3 o'clock in radians.
+	 */
 	List<String> circTextB = new ArrayList<String>();
 	Var[] circVarB;
 	JButton circB;
 	JPanel panelSouthS;
+	JTextField circLblX;
+	JTextField circLblY;
 
 	// CenterOfMass
 	Panel canvas = new Panel("Default");
@@ -305,19 +323,30 @@ public class Frame extends JFrame {
 		panelFields.add(textT, c);
 
 		// Layout panelSouthN;
+		circLblX = new JTextField("Sum of horizontal forces: 0");
+		circLblY = new JTextField("Sum of vertical forces  : 0");
+		circLblX.setEditable(false);
+		circLblY.setEditable(false);
 		c.gridx = 0;
 		c.gridy = 0;
 		panelSouthN.add(new JLabel("X:"), c);
 		c.gridy++;
 		panelSouthN.add(new JLabel("Y:"), c);
+		c.gridwidth = 2;
 		c.gridy++;
+		panelSouthN.add(circLblX, c);
+		c.gridy++;
+		panelSouthN.add(circLblY, c);
+		c.anchor = c.EAST;
+		c.gridwidth = 1;
+		c.gridy = 4;
 		c.gridx = 1;
 		panelSouthN.add(circB, c);
 		c.gridy = 0;
 		panelSouthN.add(circX, c);
 		c.gridy++;
 		panelSouthN.add(circY, c);
-
+		c.anchor = c.FIRST_LINE_START;
 		addListener(circX, circVarB[0], -1);
 		addListener(circY, circVarB[1], -1);
 
@@ -352,7 +381,12 @@ public class Frame extends JFrame {
 				a.addFocusListener(new FocusListener() {
 					@Override
 					public void focusLost(FocusEvent e) {
-
+						if (!MathUtil.isNumeric(a.getText())) {
+							JOptionPane.showMessageDialog(Frame.this, "Must be numeric.");
+							return;
+						}
+						circTextA.set(circF.indexOf(a), a.getText());
+						circUpdate();
 					}
 
 					@Override
@@ -368,6 +402,7 @@ public class Frame extends JFrame {
 							return;
 						}
 						circTextA.set(circF.indexOf(a), a.getText());
+						circUpdate();
 					}
 				});
 				b.addFocusListener(new FocusListener() {
@@ -378,6 +413,7 @@ public class Frame extends JFrame {
 							return;
 						}
 						circTextB.set(circT.indexOf(b), b.getText());
+						circUpdate();
 					}
 
 					@Override
@@ -393,6 +429,7 @@ public class Frame extends JFrame {
 							return;
 						}
 						circTextB.set(circT.indexOf(b), b.getText());
+						circUpdate();
 					}
 				});
 			}
@@ -400,8 +437,6 @@ public class Frame extends JFrame {
 
 		Thread update = new Thread() {
 			public void run() {
-				// TODO: remove dialog box.
-				CircDialog form = new CircDialog(Frame.this);
 				circVertical.text = circVarB;
 				circVertical.force = circTextA;
 				circVertical.angle = circTextB;
@@ -1140,6 +1175,20 @@ public class Frame extends JFrame {
 		}
 
 		v.setContents(new String(t.getText()), true);
+	}
+
+	/**
+	 * Sums up x and y components.
+	 */
+	public void circUpdate() {
+		double x = 0;
+		double y = 0;
+		for (int i = 0; i < circTextA.size(); i++) {
+			x += Double.parseDouble(circTextA.get(i)) * Math.cos(Double.parseDouble(circTextB.get(i)));
+			y += Double.parseDouble(circTextA.get(i)) * Math.sin(Double.parseDouble(circTextB.get(i)));
+		}
+		circLblX.setText("Sum of horizontal forces: " + x);
+		circLblY.setText("Sum of vertical forces  : " + y);
 	}
 
 	/**
