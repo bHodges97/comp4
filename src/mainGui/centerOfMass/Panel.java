@@ -1,6 +1,5 @@
 package mainGui.centerOfMass;
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -25,11 +24,10 @@ public class Panel extends JPanel {
 	int oy = 0;
 	public Obj currentObj;
 
-	public Panel(String t) {
-		setBorder(BorderFactory.createLineBorder(Color.black));
+	public Panel() {
+		setBorder(BorderFactory.createEtchedBorder(1));
 		setPreferredSize(new Dimension(800, 500));
 		this.setFocusable(true);
-		setTopic(t);
 
 		addMouseMotionListener(new MouseMotionListener() {
 
@@ -98,14 +96,7 @@ public class Panel extends JPanel {
 	private void update() {
 		if (plane.objects.isEmpty())
 			return;
-		if (topic.equals("Default")) {
-		} else if (topic.equals("Center")) {
-			// plane.findCofM();
-		}
+		// plane.findCofM();
 	}
 
-	public void setTopic(String t) {
-		this.topic = t;
-		plane = new Plane(t);
-	}
 }

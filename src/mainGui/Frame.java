@@ -107,7 +107,7 @@ public class Frame extends JFrame {
 	JTextField circLblY;
 
 	// CenterOfMass
-	Panel canvas = new Panel("Default");
+	Panel canvas = new Panel();
 	JPanel sidepanel = new JPanel();
 	sidepanelNorth sideNorth;
 	sidepanelSouth sideSouth;
@@ -649,7 +649,6 @@ public class Frame extends JFrame {
 
 	private void setTopic(String t) {
 		setTitle(t);
-		canvas.setTopic(t);
 	}
 
 	private void initCollisions() {

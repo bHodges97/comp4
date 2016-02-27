@@ -1,5 +1,6 @@
 package mainGui.collision;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -141,7 +142,10 @@ public class ColDiagram extends JPanel {
 		 * Same as previous code except translated by c;
 		 * 
 		 */
+		g2d.setColor(Color.LIGHT_GRAY);
 		g2d.drawLine((int) (d.getWidth() / 2), 0, (int) (d.getWidth() / 2), (int) d.getHeight());
+		g2d.setColor(Color.black);
+
 		lx = (int) (d.getWidth() / 4);
 		ly = (int) (d.getHeight() / 2);
 		int c = 2 * lx;
