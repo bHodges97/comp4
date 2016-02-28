@@ -16,7 +16,8 @@ public class Var {
 	 *            content is not yet known.
 	 * @param label
 	 *            Displayed name of variable;
-	 * @param given Is  this variable given.
+	 * @param given
+	 *            Is this variable given.
 	 */
 	public Var(String n, String c, String label, boolean given) {
 		contents = c;
@@ -35,5 +36,9 @@ public class Var {
 	public void setContents(String in, boolean given) {
 		contents = new String(in);
 		given = true;
+	}
+
+	public Var copy() {
+		return new Var(new String(name), new String(contents), new String(label), given);
 	}
 }

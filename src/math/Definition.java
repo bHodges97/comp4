@@ -1,5 +1,8 @@
 package math;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * 
  */
@@ -10,33 +13,30 @@ public class Definition {
 	String method;
 	String[] terms;
 	Var[] vars;
+	String def;
 
 	public Definition(String in) throws IllegalArgumentException {
+		def = in;
 		in = in.toLowerCase();
 		in = in.replace(" ", "");
 		if (!in.contains("=")) {
-			throw new IllegalArgumentException(
-					"Illegal Argument: Missing \"=\"");
+			throw new IllegalArgumentException("Illegal Argument: Missing \"=\"");
 		}
 		/*
-		 * Removed to support mathematic functions.
+		 * Removed to support math functions.
 		 * 
 		 * if(in.contains("(") || in.contains(")")) throw new
 		 * IllegalArgumentException("Illegal Argument: Contains brackets");
 		 */
 
-		if (in.contains("%") || in.contains("|") || in.contains("⋅")
-				|| in.contains("×") || in.contains("±") || in.contains("∓")
-				|| in.contains("÷") || in.contains("√")) {
-			throw new IllegalArgumentException(
-					"Illegal Argument: Illegal operators");
+		if (in.contains("%") || in.contains("|") || in.contains("⋅") || in.contains("×") || in.contains("±")
+				|| in.contains("∓") || in.contains("÷") || in.contains("√")) {
+			throw new IllegalArgumentException("Illegal Argument: Illegal operators");
 		}
 		String[] parts = in.split("=", 2);
 		name = parts[0];
-		if (name.contains("*") || name.contains("/") || name.contains("+")
-				|| name.contains("-")) {
-			throw new IllegalArgumentException(
-					"Illegal Argument: Variable contains operators");
+		if (name.contains("*") || name.contains("/") || name.contains("+") || name.contains("-")) {
+			throw new IllegalArgumentException("Illegal Argument: Variable contains operators");
 		}
 
 		/*
@@ -44,8 +44,7 @@ public class Definition {
 		 */
 		method = parts[1];
 		if (method.contains("=")) {
-			throw new IllegalArgumentException(
-					"Illegal Argument: Definition contains too many \"=\"");
+			throw new IllegalArgumentException("Illegal Argument: Definition contains too many \"=\"");
 		}
 		terms = method.split("((?<=[+-/*^])|(?=[+-/*^]))");
 
@@ -58,20 +57,21 @@ public class Definition {
 				counter++;
 			}
 		}
-		vars = new Var[counter];
-		counter = 0;
-		for (int i = 0; i < terms.length; i++) {
+		List<Var> tempList = new ArrayList<Var>();
+		for (int i = 0; i < terms.length; i += 2) {
 			if (!MathUtil.isNumeric(terms[i])) {
-				vars[counter] = new Var(new String(terms[i]), "?", "", false);
-				counter++;
+				tempList.add(new Var(new String(terms[i]), "?", "", false));
 			}
 		}
-
+		vars = new Var[tempList.size()];
+		for (int i = 0; i < tempList.size(); i++) {
+			vars[i] = tempList.get(i);
+		}
 	}
 
 	public void clearRef() {
 		int counter = 0;
-		for (int i = 0; i < terms.length; i++) {
+		for (int i = 0; i < terms.length; i += 2) {
 			if (!MathUtil.isNumeric(terms[i])) {
 				vars[counter] = new Var(new String(terms[i]), "?", "", false);
 				counter++;
@@ -84,20 +84,28 @@ public class Definition {
 	 */
 	public void resolve() {
 
-		String[] temp = new String[terms.length];
-		System.arraycopy(terms, 0, temp, 0, terms.length);
+		String holder = "0";
 
-		for (String s : temp) {
+		for (String s : terms) {
 			for (Var v : vars) {
+
 				if (v.name.equals(s)) {
+					if (v.contents.equals("?")) {
+						return;
+					}
 					s = new String(v.contents);
 				}
+				if (!MathUtil.isNumeric(s) && !s.matches("[+-/*^]")) {
+					return;
+				}
 			}
-		}
 
-		for (int i = 2; i < temp.length; i += 2) {
-			temp[i] = MathUtil.evaluate(temp[i - 2], temp[i - 1], temp[i]);
 		}
-		vars[0].contents = new String(temp[temp.length]);
+		holder = MathUtil.evaluate(terms[0], terms[1], terms[2]);
+		for (int i = 3; i < terms.length; i += 2) {
+			holder = MathUtil.evaluate(holder, terms[i], terms[i + 1]);
+			System.out.println(holder);
+		}
+		vars[0].contents = new String(holder);
 	}
 }

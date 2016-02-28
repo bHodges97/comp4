@@ -123,7 +123,7 @@ public class CircDialog extends JDialog {
 		Solver s = new Solver(defs, vars);
 		for (Var var : vars) {
 			if (var.contents.equals("?")) {
-				s.solve(var, 0);
+				// s.solve(var, 0);
 			}
 		}
 		for (Var var : vars) {

@@ -10,7 +10,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
-import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
@@ -20,9 +19,6 @@ import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -38,7 +34,9 @@ import mainGui.circularMotion.CircTopDown;
 import mainGui.circularMotion.CircVertical;
 import mainGui.collision.ColDiagram;
 import mainGui.projectileMotion.ProjDiagram;
+import math.Definition;
 import math.MathUtil;
+import math.Solver;
 import math.Var;
 
 /**
@@ -136,24 +134,7 @@ public class Frame extends JFrame {
 				setExtendedState(MAXIMIZED_BOTH);
 				setTopic(popup.topic);
 
-				JMenuBar menu = new JMenuBar();
-				JMenu menuFile = new JMenu("File");
-				JMenu menuTools = new JMenu("Tool");
-				menuFile.setMnemonic(KeyEvent.VK_F);
-				menuTools.setMnemonic(KeyEvent.VK_T);
-				menu.add(menuFile);
-				menu.add(menuTools);
-				JMenuItem mConveter = new JMenuItem("Degrees & radians converter", KeyEvent.VK_D);
-				JMenuItem mTrig = new JMenuItem("Trig calculator", KeyEvent.VK_T);
-				menuTools.add(mConveter);
-				menuTools.add(mTrig);
-				final AngleConverter dialogConverter = new AngleConverter(Frame.this);
-				mConveter.addActionListener(new ActionListener() {
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						dialogConverter.Open();
-					}
-				});
+				myMenuBar menu = new myMenuBar(Frame.this);
 				setJMenuBar(menu);
 
 				if (popup.topic.equals("Circles")) {
@@ -323,8 +304,8 @@ public class Frame extends JFrame {
 		panelFields.add(textT, c);
 
 		// Layout panelSouthN;
-		circLblX = new JTextField("Sum of horizontal forces: 0");
-		circLblY = new JTextField("Sum of vertical forces  : 0");
+		circLblX = new JTextField("Sum of horizontal forces: ?");
+		circLblY = new JTextField("Sum of vertical forces  : ?");
 		circLblX.setEditable(false);
 		circLblY.setEditable(false);
 		c.gridx = 0;
@@ -649,6 +630,7 @@ public class Frame extends JFrame {
 
 	private void setTopic(String t) {
 		setTitle(t);
+		topic = t;
 	}
 
 	private void initCollisions() {
@@ -1189,6 +1171,48 @@ public class Frame extends JFrame {
 		}
 		circLblX.setText("Sum of horizontal forces: " + x);
 		circLblY.setText("Sum of vertical forces  : " + y);
+	}
+
+	/**
+	 * 
+	 */
+	public void solve() {
+		int confirm = JOptionPane.showConfirmDialog(Frame.this, "Attempts to find unkown variables if possible.",
+				"Solver", JOptionPane.OK_CANCEL_OPTION);
+		if (confirm == JOptionPane.CANCEL_OPTION || confirm == JOptionPane.CLOSED_OPTION) {
+			return;
+		}
+		long startTime = System.currentTimeMillis();
+		if (topic.equals("Circles")) {
+			if (!circVarB[0].equals("?") && circVars[5].equals("?")) {
+				circVars[5].setContents(circVarB[0].contents, false);
+			}
+			System.out.println("Started");
+			Definition[] defs = new Definition[10];
+			defs[0] = new Definition("v=r*w");
+			defs[1] = new Definition("w=v/r");
+			defs[2] = new Definition("f=m*a");
+			defs[3] = new Definition("a=v^2/r");
+			defs[4] = new Definition("a=w^2*r");
+			defs[5] = new Definition("x=t*w+o");
+			defs[6] = new Definition("t=x-0/t");
+			defs[7] = new Definition("r=v/w");
+			defs[8] = new Definition("r=v^2/a");
+			defs[9] = new Definition("w=2*3.13/t");
+			Solver s = new Solver(defs, circVars);
+
+			// Update text fields.
+			textW.setText(circVars[0].contents);
+			textM.setText(circVars[1].contents);
+			textU.setText(circVars[2].contents);
+			textX.setText(circVars[3].contents);
+			textV.setText(circVars[4].contents);
+			textR.setText(circVars[5].contents);
+			textA.setText(circVars[6].contents);
+			textT.setText(circVars[7].contents);
+			circB = new JButton("Add Force");
+		}
+		System.out.println("Solver completed in " + (System.currentTimeMillis() - startTime) + " ms");
 	}
 
 	/**

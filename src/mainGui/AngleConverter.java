@@ -30,13 +30,13 @@ public class AngleConverter extends JDialog {
 	DocumentListener docB;
 	DocumentListener docA;
 
-	public AngleConverter(Frame frame) {
+	public AngleConverter() {
 		placeField();
 		setTitle("Degrees & radians converter");
 		setResizable(false);
 		setDefaultCloseOperation(JDialog.HIDE_ON_CLOSE);
 		GraphicsEnvironment g = GraphicsEnvironment.getLocalGraphicsEnvironment();
-		setLocation(g.getCenterPoint().x - 500 / 2, g.getCenterPoint().y - 500 / 2);
+		setLocation(g.getCenterPoint().x / 2, g.getCenterPoint().y / 2);
 		pack();
 		done.addActionListener(new ActionListener() {
 			@Override
@@ -51,7 +51,6 @@ public class AngleConverter extends JDialog {
 					@Override
 					public void run() {
 						b.getDocument().removeDocumentListener(docB);
-						// TODO Auto-generated method stub
 						if (MathUtil.isNumeric(a.getText())) {
 							String t = ("" + Math.toRadians(Double.parseDouble(a.getText())));
 							if (t.length() - t.indexOf(".") > 4) {

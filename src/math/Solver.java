@@ -5,9 +5,8 @@ package math;
  */
 public class Solver {
 
-	Var var;
 	Definition[] defs;
-	Var[] knowns;
+	Var[] vars;
 
 	/*
 	 * 
@@ -15,6 +14,10 @@ public class Solver {
 	 */
 	public Solver(Definition[] d, Var[] n) {
 		defs = d;
+		vars = n;
+		long t = System.currentTimeMillis();
+		solve();
+
 	}
 
 	/**
@@ -26,72 +29,45 @@ public class Solver {
 	 *            Not implemented to avoid stack overflow.
 	 * @return Solved variable.
 	 */
-	public Var solve(Var v, int recursiveDepth) {
-		// TODO: Remove recursion?
+	public void solve() {
 
 		/*
-		 * Resets the references.
+		 * Sets the references.
 		 */
 		for (Definition c : defs) {
 			for (Var var : c.vars) {
-				var = new Var(var.name, "?", "", false);
+				for (Var v : vars) {
+					var = v;
+				}
 			}
 		}
 
 		/*
 		 * Links the variables Iterates through each def
 		 */
+		// Iterates through defs.
 		for (int i = 0; i < defs.length; i++) {
-			for (int u = i; u < defs.length; u++) {
-				/*
-				 * iterate through each var
-				 */
-				for (int w = 0; w < defs[i].vars.length; w++) {
-					for (int x = 0; x < defs[u].vars.length; x++) {
-
-						/*
-						 * Link the vars;
-						 */
-						if (defs[u].vars[w].name.equals(defs[u].vars[x].name)) {
-							if (!defs[u].vars[w].name.equals("?")) {
-								defs[u].vars[x] = defs[u].vars[w];
-							} else {
-								defs[u].vars[w] = defs[u].vars[x];
-							}
-						}
-
-						/*
-						 * Link to variable to be solved.
-						 */
-						if (defs[u].vars[w].name.equals(var.name)) {
-							if (!defs[u].vars[w].name.equals("?")) {
-								var = defs[u].vars[w];
-							} else {
-								defs[u].vars[w] = var;
-							}
-						}
+			/*
+			 * iterate through each var
+			 */
+			for (int w = 0; w < defs[i].vars.length; w++) {
+				for (int x = 0; x < vars.length; x++) {
+					if (defs[i].vars[w].name.equals(vars[x].name)) {
+						defs[i].vars[w] = vars[x];
 					}
-					/*
-					 * Link to variable to be solved.
-					 */
-					if (defs[i].vars[w].name.equals(var.name)) {
-						if (!defs[i].vars[w].name.equals("?")) {
-							var = defs[i].vars[w];
-						} else {
-							defs[i].vars[w] = var;
-						}
-					}
-
 				}
 			}
 		}
 
 		long t = System.currentTimeMillis();
-		while (!var.contents.equals("?")) {
+		while (true)
+
+		{
 			/*
-			 * limit time spent on operation as the problem could be Unsolvable.
+			 * limit time spent on operation as the problem could be unsolvable.
+			 * 
 			 */
-			if (t - System.currentTimeMillis() > 500) {
+			if (System.currentTimeMillis() - t < -200) {// TODO: remove minus
 				System.out.println("Maximum time reached");
 				break;
 			}
@@ -99,25 +75,17 @@ public class Solver {
 			/*
 			 * Fills in ? variables
 			 */
-			outer: for (Definition c : defs) {
-
-				/*
-				 * Checks for unknowns in the variable.
-				 */
-				for (Var var : c.vars) {
-					if (var.contents.equals("?")) {
-						break outer;
-					}
-				}
-
+			for (Definition c : defs) {
 				c.resolve();
 			}
 
 		}
-		for (Definition c : defs) {
+		for (
+
+		Definition c : defs)
+
+		{
 			c.clearRef();
 		}
-
-		return var;
 	}
 }
