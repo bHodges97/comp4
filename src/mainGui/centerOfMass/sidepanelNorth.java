@@ -29,7 +29,7 @@ public class sidepanelNorth extends JScrollPane {
 
 	DialogNewObj popupCofM = new DialogNewObj();
 
-	public sidepanelNorth(Plane planeParam) {
+	public sidepanelNorth(final Plane plane) {
 		JScrollPane scrollFrame = new JScrollPane(p);
 		p.setAutoscrolls(true);
 		p.setPreferredSize(new Dimension(300, 300));
@@ -52,8 +52,6 @@ public class sidepanelNorth extends JScrollPane {
 		p.add(b6, gbc);
 		gbc.gridy++;
 		gbc.gridx = 0;
-
-		final Plane plane = planeParam;
 
 		b1.addActionListener(new ActionListener() {
 			@Override

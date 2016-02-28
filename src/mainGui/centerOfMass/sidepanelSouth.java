@@ -25,24 +25,10 @@ public class sidepanelSouth extends JPanel {
 	JLabel objName = new JLabel("Current Object");
 	JLabel objMass = new JLabel("Mass");
 	JLabel objCofm = new JLabel("Center of mass");
-	JLabel objRest = new JLabel("Coefficient of resitution");
-	JLabel objVelo = new JLabel("Velocity");
-	JLabel objVelX = new JLabel("Velocity(x component)");
-	JLabel objVelY = new JLabel("Velocity(y component)");
-	JLabel objAcce = new JLabel("Acceleration");
-	JLabel objAccX = new JLabel("Acceleration(x component)");
-	JLabel objAccY = new JLabel("Acceleration(y component)");
 
 	JTextField varName = new JTextField("NULL");
 	JTextField varMass = new JTextField("NULL");
 	JTextField varCofm = new JTextField("NULL");
-	JTextField varRest = new JTextField("NULL");
-	JTextField varVelo = new JTextField("NULL");
-	JTextField varVelX = new JTextField("NULL");
-	JTextField varVelY = new JTextField("NULL");
-	JTextField varAcce = new JTextField("NULL");
-	JTextField varAccX = new JTextField("NULL");
-	JTextField varAccY = new JTextField("NULL");
 
 	JButton rotate = new JButton("Rotate");
 	public Obj current;
@@ -65,7 +51,6 @@ public class sidepanelSouth extends JPanel {
 		varMass.setText(current.getMass() + "");
 		// truncated
 		varCofm.setText(Math.floor(current.getCOM().x * 100) / 100 + "," + Math.floor(current.getCOM().y * 100) / 100);
-		varRest.setText(current.getRest() + "");
 	}
 
 	/**
@@ -120,20 +105,6 @@ public class sidepanelSouth extends JPanel {
 		add(objMass, c);
 		c.gridy++;
 		add(objCofm, c);
-		c.gridy++;
-		add(objRest, c);
-		c.gridy++;
-		add(objVelo, c);
-		c.gridy++;
-		add(objVelX, c);
-		c.gridy++;
-		add(objVelY, c);
-		c.gridy++;
-		add(objAcce, c);
-		c.gridy++;
-		add(objAccX, c);
-		c.gridy++;
-		add(objAccY, c);
 		c.gridx++;
 		c.gridy = 0;
 		add(varName, c);
@@ -142,20 +113,6 @@ public class sidepanelSouth extends JPanel {
 		c.gridy++;
 		add(varCofm, c);
 		c.gridy++;
-		add(varRest, c);
-		c.gridy++;
-		add(varVelo, c);
-		c.gridy++;
-		add(varVelX, c);
-		c.gridy++;
-		add(varVelY, c);
-		c.gridy++;
-		add(varAcce, c);
-		c.gridy++;
-		add(varAccX, c);
-		c.gridy++;
-		add(varAccY, c);
-		c.gridy++;
 		add(rotate, c);
 		/*
 		 * Fixed Size so changing text doesn't change layout.
@@ -163,12 +120,5 @@ public class sidepanelSouth extends JPanel {
 		varName.setColumns(9);
 		varMass.setColumns(9);
 		varCofm.setColumns(9);
-		varRest.setColumns(9);
-		varVelo.setColumns(9);
-		varVelX.setColumns(9);
-		varVelY.setColumns(9);
-		varAcce.setColumns(9);
-		varAccX.setColumns(9);
-		varAccY.setColumns(9);
 	}
 }

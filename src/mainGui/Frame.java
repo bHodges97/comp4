@@ -1070,6 +1070,7 @@ public class Frame extends JFrame {
 				}
 			}
 		};
+		update.start();
 	}
 
 	private void colUpdate() {

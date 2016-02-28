@@ -28,6 +28,7 @@ public class Panel extends JPanel {
 		setBorder(BorderFactory.createEtchedBorder(1));
 		setPreferredSize(new Dimension(800, 500));
 		this.setFocusable(true);
+		plane = new Plane();
 
 		addMouseMotionListener(new MouseMotionListener() {
 
@@ -75,6 +76,9 @@ public class Panel extends JPanel {
 
 		Graphics2D g2d = (Graphics2D) g;
 		g2d.drawOval(ox - 2, oy + 2, 4, 4);
+		if (plane == null) {
+			return;
+		}
 		int s = (int) (1 / scale) / 4;
 		for (Obj obj : plane.objects) {
 			obj.prepareForPaint(ox, oy, scale);

@@ -51,7 +51,6 @@ public class DialogNewObj extends JDialog {
 		setTitle("AddShape");
 		add(p, BorderLayout.NORTH);
 		add(bot, BorderLayout.SOUTH);
-
 		container.add(new JLabel("X"));
 		container.add(txtPosX);
 		container.add(new JLabel("Y"));
@@ -133,30 +132,25 @@ public class DialogNewObj extends JDialog {
 				String PosY = txtPosY.getText();
 
 				if (!MathUtil.isNumeric(mass)) {
-					JOptionPane.showMessageDialog(getParent(),
-							"Please enter a valid number(mass)!", "Oops",
+					JOptionPane.showMessageDialog(getParent(), "Please enter a valid number(mass)!", "Oops",
 							JOptionPane.ERROR_MESSAGE);
 					return;
 				}
 				if (!MathUtil.isNumeric(comX) || !MathUtil.isNumeric(comY)) {
-					JOptionPane.showMessageDialog(getParent(),
-							"Please enter a valid number(fenter of mass)!",
-							"Oops", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(getParent(), "Please enter a valid number(fenter of mass)!", "Oops",
+							JOptionPane.ERROR_MESSAGE);
 					return;
 				}
 				if (!MathUtil.isNumeric(PosX) || !MathUtil.isNumeric(PosY)) {
-					JOptionPane.showMessageDialog(getParent(),
-							"Please enter a valid number(position)!", "Oops",
+					JOptionPane.showMessageDialog(getParent(), "Please enter a valid number(position)!", "Oops",
 							JOptionPane.ERROR_MESSAGE);
 					return;
 				}
 				MyPoint[] points = new MyPoint[vertices.size()];
 				for (int i = 0; i < vertices.size(); i++) {
-					points[i] = new MyPoint(vertices.get(i).x - com.x, vertices
-							.get(i).y - com.y);
+					points[i] = new MyPoint(vertices.get(i).x - com.x, vertices.get(i).y - com.y);
 				}
-				object = new Obj(Float.valueOf(mass), new MyPoint(Double
-						.valueOf(PosX), Double.valueOf(PosY)), points);
+				object = new Obj(Float.valueOf(mass), new MyPoint(Double.valueOf(PosX), Double.valueOf(PosY)), points);
 				setVisible(false);
 			}
 		});
@@ -194,10 +188,8 @@ public class DialogNewObj extends JDialog {
 	}
 
 	private void center() {
-		GraphicsEnvironment g = GraphicsEnvironment
-				.getLocalGraphicsEnvironment();
+		GraphicsEnvironment g = GraphicsEnvironment.getLocalGraphicsEnvironment();
 		Point center = g.getCenterPoint();
-		setLocation(center.x - prefSize.width / 2, center.y - prefSize.height
-				/ 2);
+		setLocation(center.x - prefSize.width / 2, center.y - prefSize.height / 2);
 	}
 }
