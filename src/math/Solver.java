@@ -61,7 +61,7 @@ public class Solver {
 			/*
 			 * limit time spent on operation as the problem could be unsolvable.
 			 */
-			if (System.currentTimeMillis() - t > 200) {// TODO: remove minus
+			if (System.currentTimeMillis() - t > 200) {
 				System.out.println("Maximum time reached");
 				break;
 			}

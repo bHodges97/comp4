@@ -10,8 +10,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
@@ -136,9 +134,8 @@ public class Frame extends JFrame {
 				setExtendedState(MAXIMIZED_BOTH);
 				setTopic(popup.topic);
 
-				// TODO: Replace
-				// myMenuBar menu = new myMenuBar(Frame.this);
-				// setJMenuBar(menu);
+				myMenuBar menu = new myMenuBar(Frame.this);
+				setJMenuBar(menu);
 
 				if (popup.topic.equals("Circles")) {
 					initCircularMotion();
@@ -174,10 +171,8 @@ public class Frame extends JFrame {
 		JScrollPane scrollSouthS = new JScrollPane(panelSouthS);
 		// Set borders
 		scrollSouthS.setBorder(BorderFactory.createEmptyBorder());
-		panelSouthS.setBorder(BorderFactory.createTitledBorder(
-				BorderFactory.createEtchedBorder(), "Forces"));
-		panelSouthN.setBorder(BorderFactory.createTitledBorder(
-				BorderFactory.createEtchedBorder(),
+		panelSouthS.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), "Forces"));
+		panelSouthN.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(),
 				"Position from 0,0(not center of rotation)"));
 		panelFields.setBorder(border);
 		// panelWest.setBorder(border);
@@ -207,8 +202,7 @@ public class Frame extends JFrame {
 		// TODO: fill out description for circularMotion.
 		JTextField topicTitle = new JTextField("Circular motion notes");
 		topicTitle.setEditable(false);
-		topicTitle.setFont(topicTitle.getFont().deriveFont(
-				1.2f * topicTitle.getFont().getSize()));
+		topicTitle.setFont(topicTitle.getFont().deriveFont(1.2f * topicTitle.getFont().getSize()));
 		JTextArea topicDesc = new JTextArea();
 		topicDesc.setColumns(26);
 		topicDesc.setLineWrap(true);
@@ -350,9 +344,6 @@ public class Frame extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				// TODO: remove solve and print;
-				solve();
-				circTopDown.print();
 				GridBagConstraints c = new GridBagConstraints();
 				circF.add(new JTextField("0", 9));
 				circT.add(new JTextField("0", 9));
@@ -372,8 +363,7 @@ public class Frame extends JFrame {
 					@Override
 					public void focusLost(FocusEvent e) {
 						if (!MathUtil.isNumeric(a.getText())) {
-							JOptionPane.showMessageDialog(Frame.this,
-									"Must be numeric.");
+							JOptionPane.showMessageDialog(Frame.this, "Must be numeric.");
 							return;
 						}
 						circTextA.set(circF.indexOf(a), a.getText());
@@ -389,8 +379,7 @@ public class Frame extends JFrame {
 					@Override
 					public void actionPerformed(ActionEvent e) {
 						if (!MathUtil.isNumeric(a.getText())) {
-							JOptionPane.showMessageDialog(Frame.this,
-									"Must be numeric.");
+							JOptionPane.showMessageDialog(Frame.this, "Must be numeric.");
 							return;
 						}
 						circTextA.set(circF.indexOf(a), a.getText());
@@ -401,8 +390,7 @@ public class Frame extends JFrame {
 					@Override
 					public void focusLost(FocusEvent e) {
 						if (!MathUtil.isNumeric(b.getText())) {
-							JOptionPane.showMessageDialog(Frame.this,
-									"Must be numeric.");
+							JOptionPane.showMessageDialog(Frame.this, "Must be numeric.");
 							return;
 						}
 						circTextB.set(circT.indexOf(b), b.getText());
@@ -418,8 +406,7 @@ public class Frame extends JFrame {
 					@Override
 					public void actionPerformed(ActionEvent e) {
 						if (!MathUtil.isNumeric(b.getText())) {
-							JOptionPane.showMessageDialog(Frame.this,
-									"Must be numeric.");
+							JOptionPane.showMessageDialog(Frame.this, "Must be numeric.");
 							return;
 						}
 						circTextB.set(circT.indexOf(b), b.getText());
@@ -471,17 +458,15 @@ public class Frame extends JFrame {
 
 		JTextField topicTitle = new JTextField("Projectile motion notes");
 		topicTitle.setEditable(false);
-		topicTitle.setFont(topicTitle.getFont().deriveFont(
-				1.2f * topicTitle.getFont().getSize()));
+		topicTitle.setFont(topicTitle.getFont().deriveFont(1.2f * topicTitle.getFont().getSize()));
 		JTextArea topicDesc = new JTextArea();
 		topicDesc.setColumns(26);
 		topicDesc.setLineWrap(true);
-		topicDesc
-				.setText("\nEquation of trajectory:\n   •y = x*tan(θ)-g*x^2/(2*v^2*cos^2(θ))\n");
-		topicDesc
-				.append("Acceleration:\n   •Constant acceleration of 9.8 ms^-2 downwards.\n   •No horizontal acceleration, horizontal velocity is constant.\n");
-		topicDesc
-				.append("Velocity\n   •Velocity in x direction is V*cos(θ) \n   •Velocity in y direction is V*sin(θ).\n");
+		topicDesc.setText("\nEquation of trajectory:\n   •y = x*tan(θ)-g*x^2/(2*v^2*cos^2(θ))\n");
+		topicDesc.append(
+				"Acceleration:\n   •Constant acceleration of 9.8 ms^-2 downwards.\n   •No horizontal acceleration, horizontal velocity is constant.\n");
+		topicDesc.append(
+				"Velocity\n   •Velocity in x direction is V*cos(θ) \n   •Velocity in y direction is V*sin(θ).\n");
 		northPanel.add(topicTitle, BorderLayout.NORTH);
 		northPanel.add(topicDesc, BorderLayout.CENTER);
 
@@ -519,8 +504,7 @@ public class Frame extends JFrame {
 		projVars[2] = new Var("b", new String(projVx.getText()), "Vx", false);
 		projVars[3] = new Var("c", new String(projVy.getText()), "Vy", false);
 		projVars[4] = new Var("h", new String(projY.getText()), "Height", false);
-		projVars[5] = new Var("z", new String(projX.getText()), "NOT USED",
-				false);
+		projVars[5] = new Var("z", new String(projX.getText()), "NOT USED", false);
 		projVars[6] = new Var("t", new String(projT.getText()), "t", false);
 		projVars[7] = new Var("u", new String(projUx.getText()), "U", false);
 		projVars[8] = new Var("d", new String(projUx.getText()), "Ux", false);
@@ -544,11 +528,10 @@ public class Frame extends JFrame {
 		addListener(projLabel, projVars[11], -2);
 		JPanel others = new JPanel(new GridBagLayout());
 		JPanel before = new JPanel(new GridBagLayout());
-		before.setBorder(BorderFactory.createTitledBorder(
-				BorderFactory.createEtchedBorder(), "Initial conditions"));
+		before.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), "Initial conditions"));
 		JPanel after = new JPanel(new GridBagLayout());
-		after.setBorder(BorderFactory.createTitledBorder(
-				BorderFactory.createEtchedBorder(), "When object hits someting"));
+		after.setBorder(
+				BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), "When object hits someting"));
 
 		southPanel.add(before);
 		southPanel.add(after);
@@ -681,16 +664,14 @@ public class Frame extends JFrame {
 
 		// text;
 		text.setLayout(new BorderLayout(0, 0));
-		JTextField topicTitle = new JTextField(
-				"Coefficient of restitution and impulse notes");
+		JTextField topicTitle = new JTextField("Coefficient of restitution and impulse notes");
 		topicTitle.setEditable(false);
-		topicTitle.setFont(topicTitle.getFont().deriveFont(
-				1.2f * topicTitle.getFont().getSize()));
+		topicTitle.setFont(topicTitle.getFont().deriveFont(1.2f * topicTitle.getFont().getSize()));
 		JTextArea topicDesc = new JTextArea();
-		topicDesc
-				.setText("\nNewton's experimental law:\n   •Seperation speed = e * approach speed. \n   • 0 ≤ e ≤ 1 \n   •Perfectly elastic : e = 1	Inelastic e = 0 \n");
-		topicDesc
-				.append("Momentum:\n   •impluse = change in momentum \n   •In a closed system, the total momentum is constant.\n   •m1 * v1 + m2 * v2 = m1 * u1 + m2 * u2");
+		topicDesc.setText(
+				"\nNewton's experimental law:\n   •Seperation speed = e * approach speed. \n   • 0 ≤ e ≤ 1 \n   •Perfectly elastic : e = 1	Inelastic e = 0 \n");
+		topicDesc.append(
+				"Momentum:\n   •impluse = change in momentum \n   •In a closed system, the total momentum is constant.\n   •m1 * v1 + m2 * v2 = m1 * u1 + m2 * u2");
 
 		topicDesc.setColumns(26);
 		topicDesc.setLineWrap(true);
@@ -792,17 +773,13 @@ public class Frame extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				// Select object based on mouse click.
-				if (Math.abs(e.getY() - colDiagram.getHeight() / 2) < colDiagram
-						.getHeight() * 0.1
-						&& (e.getX() < colDiagram.getWidth() / 4 || (e.getX() > colDiagram
-								.getWidth() / 2 && e.getX() < colDiagram
-								.getWidth() * 0.75))) {
+				if (Math.abs(e.getY() - colDiagram.getHeight() / 2) < colDiagram.getHeight() * 0.1
+						&& (e.getX() < colDiagram.getWidth() / 4
+								|| (e.getX() > colDiagram.getWidth() / 2 && e.getX() < colDiagram.getWidth() * 0.75))) {
 					set(true);
-				} else if (Math.abs(e.getY() - colDiagram.getHeight() / 2) < colDiagram
-						.getHeight() * 0.1
-						&& (e.getX() > colDiagram.getWidth() / 4 || (e.getX() < colDiagram
-								.getWidth() / 2 && e.getX() > colDiagram
-								.getWidth() * 0.25))) {
+				} else if (Math.abs(e.getY() - colDiagram.getHeight() / 2) < colDiagram.getHeight() * 0.1
+						&& (e.getX() > colDiagram.getWidth() / 4
+								|| (e.getX() < colDiagram.getWidth() / 2 && e.getX() > colDiagram.getWidth() * 0.25))) {
 					set(false);
 
 				}
@@ -816,16 +793,14 @@ public class Frame extends JFrame {
 					fieldU.setText(a[2].contents);
 					fieldV.setText(a[3].contents);
 					fieldImpulse.setText(a[4].contents);
-					textCurrent.setText("Currently selected object: "
-							+ fieldLabel.getText());
+					textCurrent.setText("Currently selected object: " + fieldLabel.getText());
 				} else {
 					fieldLabel.setText(b[0].contents);
 					fieldMass.setText(b[1].contents);
 					fieldU.setText(b[2].contents);
 					fieldV.setText(b[3].contents);
 					fieldImpulse.setText(b[4].contents);
-					textCurrent.setText("Currently selected object: "
-							+ fieldLabel.getText());
+					textCurrent.setText("Currently selected object: " + fieldLabel.getText());
 				}
 			}
 		});
@@ -844,14 +819,11 @@ public class Frame extends JFrame {
 					return;
 				}
 				if (!MathUtil.isNumeric(fieldE.getText())) {
-					JOptionPane.showMessageDialog(Frame.this, "Not a number.",
-							"Error", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(Frame.this, "Not a number.", "Error", JOptionPane.ERROR_MESSAGE);
 					return;
 				}
-				if (Double.parseDouble(fieldE.getText()) > 1
-						|| Double.parseDouble(fieldE.getText()) < 0) {
-					JOptionPane.showMessageDialog(Frame.this,
-							"Must follow: 0 <= e <= 1", "Error",
+				if (Double.parseDouble(fieldE.getText()) > 1 || Double.parseDouble(fieldE.getText()) < 0) {
+					JOptionPane.showMessageDialog(Frame.this, "Must follow: 0 <= e <= 1", "Error",
 							JOptionPane.ERROR_MESSAGE);
 					return;
 				}
@@ -894,14 +866,12 @@ public class Frame extends JFrame {
 					return;
 				}
 				if (!MathUtil.isNumeric(fieldMass.getText())) {
-					JOptionPane.showMessageDialog(Frame.this, "Not a number.",
-							"Error", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(Frame.this, "Not a number.", "Error", JOptionPane.ERROR_MESSAGE);
 					return;
 				}
 				double x = Double.parseDouble(fieldMass.getText());
 				if (x < 0) {
-					JOptionPane.showMessageDialog(Frame.this,
-							"Mass should not be negative.", "Error",
+					JOptionPane.showMessageDialog(Frame.this, "Mass should not be negative.", "Error",
 							JOptionPane.ERROR_MESSAGE);
 					return;
 				}
@@ -933,8 +903,7 @@ public class Frame extends JFrame {
 					return;
 				}
 				if (!MathUtil.isNumeric(fieldU.getText())) {
-					JOptionPane.showMessageDialog(Frame.this, "Not a number.",
-							"Error", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(Frame.this, "Not a number.", "Error", JOptionPane.ERROR_MESSAGE);
 					return;
 				}
 				if (colA) {
@@ -964,8 +933,7 @@ public class Frame extends JFrame {
 					return;
 				}
 				if (!MathUtil.isNumeric(fieldV.getText())) {
-					JOptionPane.showMessageDialog(Frame.this, "Not a number.",
-							"Error", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(Frame.this, "Not a number.", "Error", JOptionPane.ERROR_MESSAGE);
 					return;
 				}
 				if (colA) {
@@ -995,8 +963,7 @@ public class Frame extends JFrame {
 					return;
 				}
 				if (!MathUtil.isNumeric(fieldImpulse.getText())) {
-					JOptionPane.showMessageDialog(Frame.this, "Not a number.",
-							"Error", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(Frame.this, "Not a number.", "Error", JOptionPane.ERROR_MESSAGE);
 					return;
 				}
 				if (colA) {
@@ -1045,8 +1012,7 @@ public class Frame extends JFrame {
 		// TODO: fill out description.
 		JTextField topicTitle = new JTextField("Center of mass notes");
 		topicTitle.setEditable(false);
-		topicTitle.setFont(topicTitle.getFont().deriveFont(
-				1.2f * topicTitle.getFont().getSize()));
+		topicTitle.setFont(topicTitle.getFont().deriveFont(1.2f * topicTitle.getFont().getSize()));
 		JTextArea topicDesc = new JTextArea();
 		topicDesc.setColumns(26);
 		topicDesc.setLineWrap(true);
@@ -1147,15 +1113,13 @@ public class Frame extends JFrame {
 
 		if (c > -2) {
 			if (!MathUtil.isNumeric(t.getText())) {
-				JOptionPane.showMessageDialog(Frame.this, "Not a number!",
-						"Error", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(Frame.this, "Not a number!", "Error", JOptionPane.ERROR_MESSAGE);
 				return;
 			}
 		}
 		if (c == 0) {
 			if (Double.parseDouble(t.getText()) < 0) {
-				JOptionPane.showMessageDialog(Frame.this,
-						"Must be greater than or equal to 0.");
+				JOptionPane.showMessageDialog(Frame.this, "Must be greater than or equal to 0.");
 				return;
 			}
 		}
@@ -1167,22 +1131,19 @@ public class Frame extends JFrame {
 		}
 		if (c == 1) {
 			if (Double.parseDouble(t.getText()) <= 0) {
-				JOptionPane.showMessageDialog(Frame.this,
-						"Must be greater than 0.");
+				JOptionPane.showMessageDialog(Frame.this, "Must be greater than 0.");
 				return;
 			}
 		}
 		if (c == 3) {
 			if (Double.parseDouble(t.getText()) > 0) {
-				JOptionPane.showMessageDialog(Frame.this,
-						"Must be less than 0.");
+				JOptionPane.showMessageDialog(Frame.this, "Must be less than 0.");
 				return;
 			}
 		}
 		if (c == 4) {
 			if (Math.abs(Double.parseDouble(t.getText())) > 6.28) {
-				JOptionPane.showMessageDialog(Frame.this,
-						"Careful this value is greater than 2 PI");
+				JOptionPane.showMessageDialog(Frame.this, "Careful this value is greater than 2 PI");
 			}
 		}
 
@@ -1196,10 +1157,8 @@ public class Frame extends JFrame {
 		double x = 0;
 		double y = 0;
 		for (int i = 0; i < circTextA.size(); i++) {
-			x += Double.parseDouble(circTextA.get(i))
-					* Math.cos(Double.parseDouble(circTextB.get(i)));
-			y += Double.parseDouble(circTextA.get(i))
-					* Math.sin(Double.parseDouble(circTextB.get(i)));
+			x += Double.parseDouble(circTextA.get(i)) * Math.cos(Double.parseDouble(circTextB.get(i)));
+			y += Double.parseDouble(circTextA.get(i)) * Math.sin(Double.parseDouble(circTextB.get(i)));
 		}
 		circLblX.setText("Sum of horizontal forces: " + x);
 		circLblY.setText("Sum of vertical forces  : " + y);
@@ -1209,11 +1168,9 @@ public class Frame extends JFrame {
 	 * 
 	 */
 	public void solve() {
-		int confirm = JOptionPane.showConfirmDialog(Frame.this,
-				"Attempts to find unkown variables if possible.", "Solver",
-				JOptionPane.OK_CANCEL_OPTION);
-		if (confirm == JOptionPane.CANCEL_OPTION
-				|| confirm == JOptionPane.CLOSED_OPTION) {
+		int confirm = JOptionPane.showConfirmDialog(Frame.this, "Attempts to find unkown variables if possible.",
+				"Solver", JOptionPane.OK_CANCEL_OPTION);
+		if (confirm == JOptionPane.CANCEL_OPTION || confirm == JOptionPane.CLOSED_OPTION) {
 			return;
 		}
 		long startTime = System.currentTimeMillis();
@@ -1245,8 +1202,7 @@ public class Frame extends JFrame {
 			textT.setText(MathUtil.round(circVars[7].contents));
 			circB = new JButton("Add Force");
 		}
-		System.out.println("Solver completed in "
-				+ (System.currentTimeMillis() - startTime) + " ms");
+		System.out.println("Solver completed in " + (System.currentTimeMillis() - startTime) + " ms");
 	}
 
 	/**
