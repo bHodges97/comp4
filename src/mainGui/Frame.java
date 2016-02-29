@@ -1153,7 +1153,7 @@ public class Frame extends JFrame {
 	/**
 	 * Sums up x and y components.
 	 */
-	public void circUpdate() {
+	private void circUpdate() {
 		double x = 0;
 		double y = 0;
 		for (int i = 0; i < circTextA.size(); i++) {
@@ -1168,13 +1168,15 @@ public class Frame extends JFrame {
 	 * 
 	 */
 	public void solve() {
-		int confirm = JOptionPane.showConfirmDialog(Frame.this, "Attempts to find unkown variables if possible.",
-				"Solver", JOptionPane.OK_CANCEL_OPTION);
-		if (confirm == JOptionPane.CANCEL_OPTION || confirm == JOptionPane.CLOSED_OPTION) {
-			return;
-		}
+
 		long startTime = System.currentTimeMillis();
 		if (topic.equals("Circles")) {
+			int confirm = JOptionPane.showConfirmDialog(Frame.this, "Attempts to find unkown variables if possible.",
+					"Solver", JOptionPane.OK_CANCEL_OPTION);
+			if (confirm == JOptionPane.CANCEL_OPTION || confirm == JOptionPane.CLOSED_OPTION) {
+				return;
+			}
+
 			if (!circVarB[0].equals("?") && circVars[5].equals("?")) {
 				circVars[5].setContents(circVarB[0].contents, false);
 			}
@@ -1201,6 +1203,47 @@ public class Frame extends JFrame {
 			textA.setText(MathUtil.round(circVars[6].contents));
 			textT.setText(MathUtil.round(circVars[7].contents));
 			circB = new JButton("Add Force");
+		} else if (topic.equals("Projectiles")) {
+			int confirm = JOptionPane.showConfirmDialog(Frame.this, "Attempts to find unkown variables if possible.",
+					"Solver", JOptionPane.OK_CANCEL_OPTION);
+			if (confirm == JOptionPane.CANCEL_OPTION || confirm == JOptionPane.CLOSED_OPTION) {
+				return;
+			}
+
+			if (!projVars[2].contents.equals("?") && !projVars[3].contents.equals("?")) {
+				projVars[1].contents = "" + (Math.pow(Double.parseDouble(projVars[2].contents), 2)
+						+ Math.pow(Double.parseDouble(projVars[3].contents), 2));
+			}
+			if (!projVars[8].contents.equals("?") && !projVars[9].contents.equals("?")) {
+				projVars[7].contents = "" + (Math.pow(Double.parseDouble(projVars[8].contents), 2)
+						+ Math.pow(Double.parseDouble(projVars[9].contents), 2));
+			}
+
+			Definition[] defs = new Definition[7];
+			defs[0] = new Definition("b=v*cos(a)");
+			defs[1] = new Definition("c=v*sin(a)");
+			defs[2] = new Definition("d=b");
+			defs[3] = new Definition("b=d");
+			defs[4] = new Definition("x=b*t");
+			defs[5] = new Definition("e=9.8*t+c");
+			defs[6] = new Definition("y=c+e/2*t+h");
+			Solver s = new Solver(defs, projVars);
+
+			projTheta.setText(MathUtil.round(projVars[0].contents));
+			projV.setText(MathUtil.round(projVars[1].contents));
+			projVx.setText(MathUtil.round(projVars[2].contents));
+			projVy.setText(MathUtil.round(projVars[3].contents));
+			projY.setText(MathUtil.round(projVars[4].contents));
+			projX.setText(MathUtil.round(projVars[5].contents));
+			projT.setText(MathUtil.round(projVars[6].contents));
+			projU.setText(MathUtil.round(projVars[7].contents));
+			projUx.setText(MathUtil.round(projVars[8].contents));
+			projUy.setText(MathUtil.round(projVars[9].contents));
+			projS.setText(MathUtil.round(projVars[10].contents));
+			projSy.setText(MathUtil.round(projVars[12].contents));
+
+		} else {
+
 		}
 		System.out.println("Solver completed in " + (System.currentTimeMillis() - startTime) + " ms");
 	}
