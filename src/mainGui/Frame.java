@@ -350,8 +350,9 @@ public class Frame extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				// TODO: remove solve;
+				// TODO: remove solve and print;
 				solve();
+				circTopDown.print();
 				GridBagConstraints c = new GridBagConstraints();
 				circF.add(new JTextField("0", 9));
 				circT.add(new JTextField("0", 9));
@@ -855,7 +856,6 @@ public class Frame extends JFrame {
 					return;
 				}
 				e.setContents(fieldE.getText(), true);
-				colUpdate();
 			}
 
 		});
@@ -911,7 +911,6 @@ public class Frame extends JFrame {
 				} else {
 					b[1].setContents(fieldMass.getText(), true);
 				}
-				colUpdate();
 			}
 		});
 
@@ -943,7 +942,6 @@ public class Frame extends JFrame {
 				} else {
 					b[2].setContents(fieldU.getText(), true);
 				}
-				colUpdate();
 			}
 
 		});
@@ -975,7 +973,6 @@ public class Frame extends JFrame {
 				} else {
 					b[3].setContents(fieldV.getText(), true);
 				}
-				colUpdate();
 			}
 
 		});
@@ -1007,7 +1004,6 @@ public class Frame extends JFrame {
 				} else {
 					b[4].setContents(fieldImpulse.getText(), true);
 				}
-				colUpdate();
 			}
 
 		});
@@ -1086,10 +1082,6 @@ public class Frame extends JFrame {
 			}
 		};
 		update.start();
-	}
-
-	private void colUpdate() {
-		// TODO: MATH LOGIC STUFF
 	}
 
 	/**

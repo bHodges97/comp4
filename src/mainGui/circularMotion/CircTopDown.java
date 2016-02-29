@@ -7,7 +7,11 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Stroke;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 
@@ -24,10 +28,24 @@ public class CircTopDown extends JPanel {
 	private Font largeFont;
 	private Stroke norm;
 	public Var[] vars;
+	public float thickness = 2f;
 
 	public CircTopDown() {
 		this.setVisible(true);
 		this.setFocusable(true);
+	}
+
+	public void print() {
+		BufferedImage img = new BufferedImage(this.getWidth(),
+				this.getHeight(), BufferedImage.TYPE_INT_RGB);
+		Graphics print = img.getGraphics();
+		printAll(print);
+		try {
+			ImageIO.write(img, "JPEG", new File("foo.jpg"));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	@Override
@@ -35,6 +53,7 @@ public class CircTopDown extends JPanel {
 		super.paintComponent(g);
 		Graphics2D g2d = (Graphics2D) g;
 		g2d.setColor(Color.black);
+		g2d.setStroke(new BasicStroke(thickness));
 
 		/*
 		 * Sets up fonts; Might not be used
@@ -52,7 +71,7 @@ public class CircTopDown extends JPanel {
 		if (norm == null) {
 			norm = g2d.getStroke();
 		}
-		Stroke dashed = new BasicStroke(1, BasicStroke.CAP_BUTT,
+		Stroke dashed = new BasicStroke(thickness, BasicStroke.CAP_BUTT,
 				BasicStroke.JOIN_BEVEL, 0, new float[] { 2 }, 0);
 
 		/*
@@ -66,7 +85,6 @@ public class CircTopDown extends JPanel {
 		if (vars == null) {
 			return;
 		}
-
 		/*
 		 * Dimension
 		 */
