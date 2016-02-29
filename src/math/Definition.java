@@ -20,7 +20,8 @@ public class Definition {
 		in = in.toLowerCase();
 		in = in.replace(" ", "");
 		if (!in.contains("=")) {
-			throw new IllegalArgumentException("Illegal Argument: Missing \"=\"");
+			throw new IllegalArgumentException(
+					"Illegal Argument: Missing \"=\"");
 		}
 		/*
 		 * Removed to support math functions.
@@ -29,14 +30,18 @@ public class Definition {
 		 * IllegalArgumentException("Illegal Argument: Contains brackets");
 		 */
 
-		if (in.contains("%") || in.contains("|") || in.contains("⋅") || in.contains("×") || in.contains("±")
-				|| in.contains("∓") || in.contains("÷") || in.contains("√")) {
-			throw new IllegalArgumentException("Illegal Argument: Illegal operators");
+		if (in.contains("%") || in.contains("|") || in.contains("⋅")
+				|| in.contains("×") || in.contains("±") || in.contains("∓")
+				|| in.contains("÷") || in.contains("√")) {
+			throw new IllegalArgumentException(
+					"Illegal Argument: Illegal operators");
 		}
 		String[] parts = in.split("=", 2);
 		name = parts[0];
-		if (name.contains("*") || name.contains("/") || name.contains("+") || name.contains("-")) {
-			throw new IllegalArgumentException("Illegal Argument: Variable contains operators");
+		if (name.contains("*") || name.contains("/") || name.contains("+")
+				|| name.contains("-")) {
+			throw new IllegalArgumentException(
+					"Illegal Argument: Variable contains operators");
 		}
 
 		/*
@@ -44,9 +49,10 @@ public class Definition {
 		 */
 		method = parts[1];
 		if (method.contains("=")) {
-			throw new IllegalArgumentException("Illegal Argument: Definition contains too many \"=\"");
+			throw new IllegalArgumentException(
+					"Illegal Argument: Definition contains too many \"=\"");
 		}
-		terms = method.split("((?<=[+-/*^])|(?=[+-/*^]))");
+		terms = method.split("((?<=[+*^/-])|(?=[+*^/-]))");
 
 		/*
 		 * Creates list of variables used in definition.
@@ -58,6 +64,7 @@ public class Definition {
 			}
 		}
 		List<Var> tempList = new ArrayList<Var>();
+		tempList.add(new Var(name, "?", "", false));
 		for (int i = 0; i < terms.length; i += 2) {
 			if (!MathUtil.isNumeric(terms[i])) {
 				tempList.add(new Var(new String(terms[i]), "?", "", false));
@@ -85,18 +92,20 @@ public class Definition {
 	public void resolve() {
 
 		String holder = "0";
-
-		for (String s : terms) {
+		if (!vars[0].contents.equals("?")) {
+			return;
+		}
+		for (int i = 0; i < terms.length; i++) {
 			for (Var v : vars) {
 
-				if (v.name.equals(s)) {
+				if (v.name.equals(terms[i])) {
 					if (v.contents.equals("?")) {
 						return;
 					}
-					s = new String(v.contents);
+					terms[i] = new String(v.contents);
 				}
-				if (!MathUtil.isNumeric(s) && !s.matches("[+-/*^]")) {
-					return;
+				if (terms[i].matches("[+-/*^]")) {
+					continue;
 				}
 			}
 

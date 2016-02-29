@@ -23,11 +23,6 @@ public class Solver {
 	/**
 	 * Attempts to solve a variable based on known.
 	 * 
-	 * @param v
-	 *            variable to be solved.
-	 * @param recursiveDepth
-	 *            Not implemented to avoid stack overflow.
-	 * @return Solved variable.
 	 */
 	public void solve() {
 
@@ -65,9 +60,8 @@ public class Solver {
 		{
 			/*
 			 * limit time spent on operation as the problem could be unsolvable.
-			 * 
 			 */
-			if (System.currentTimeMillis() - t < -200) {// TODO: remove minus
+			if (System.currentTimeMillis() - t > 200) {// TODO: remove minus
 				System.out.println("Maximum time reached");
 				break;
 			}
