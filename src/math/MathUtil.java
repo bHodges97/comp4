@@ -19,14 +19,17 @@ public class MathUtil {
 		if (str.equals("-")) {
 			return false;
 		}
-		DecimalFormatSymbols currentLocaleSymbols = DecimalFormatSymbols.getInstance();
+		DecimalFormatSymbols currentLocaleSymbols = DecimalFormatSymbols
+				.getInstance();
 		char localeMinusSign = currentLocaleSymbols.getMinusSign();
 
-		if (!Character.isDigit(str.charAt(0)) && str.charAt(0) != localeMinusSign)
+		if (!Character.isDigit(str.charAt(0))
+				&& str.charAt(0) != localeMinusSign)
 			return false;
 
 		boolean isDecimalSeparatorFound = false;
-		char localeDecimalSeparator = currentLocaleSymbols.getDecimalSeparator();
+		char localeDecimalSeparator = currentLocaleSymbols
+				.getDecimalSeparator();
 
 		for (char c : str.substring(1).toCharArray()) {
 			if (!Character.isDigit(c)) {
@@ -89,11 +92,14 @@ public class MathUtil {
 	 *      "https://en.wikipedia.org/wiki/Distance_from_a_point_to_a_line">
 	 *      https://en.wikipedia.org/wiki/Distance_from_a_point_to_a_line</a>
 	 */
-	public static boolean PointInLineSegment(MyPoint p, MyPoint p1, MyPoint p2, float tolerance) {
+	public static boolean PointInLineSegment(MyPoint p, MyPoint p1, MyPoint p2,
+			float tolerance) {
 		if (tolerance == 0)
 			tolerance = 0.01f;
-		double a = Math.abs((p2.x - p1.x) * (p1.y - p.y) - (p1.x - p.x) * (p2.y - p1.y));
-		double b = Math.sqrt(Math.pow(p2.x - p1.x, 2) + Math.pow(p2.y - p1.y, 2));
+		double a = Math.abs((p2.x - p1.x) * (p1.y - p.y) - (p1.x - p.x)
+				* (p2.y - p1.y));
+		double b = Math.sqrt(Math.pow(p2.x - p1.x, 2)
+				+ Math.pow(p2.y - p1.y, 2));
 		if (a / b < tolerance)
 			return true;
 
@@ -116,35 +122,53 @@ public class MathUtil {
 	 * @throws IllegalArgumentException
 	 *             When missing operator
 	 */
-	public static String evaluate(String operandA, String operator, String operandB)
-			throws ArithmeticException, IllegalArgumentException {
+	public static String evaluate(String operandA, String operator,
+			String operandB) throws ArithmeticException,
+			IllegalArgumentException {
 
 		/*
 		 * Resolves functions first. Functions should have numeric parameters.
 		 */
-		/*
-		 * Code does not work.(array out of bounds) at string b + if
-		 * (!isNumeric(operandA)) { String a = operandA.split("\\(")[0]; String
-		 * b = operandA.split("\\(")[1].substring(0,
-		 * operandA.split("\\(")[1].length()); operandA = solveFunc(a, b); } if
-		 * (!isNumeric(operandB)) { String a = operandB.split("\\(")[0]; String
-		 * b = operandB.split("\\(")[1].substring(0,
-		 * operandB.split("\\(")[1].length()); operandB = solveFunc(a, b); }
-		 */
+
+		// TODO: Code does not work.(array out of bounds) at string b +
+		if (!isNumeric(operandA)) {
+			String a = operandA.substring(0, operandA.indexOf("|"));
+			System.out.println(operandA);
+			String b = operandA.substring(operandA.indexOf("|") + 1,
+					operandA.length() - 1);
+			operandA = solveFunc(a, b);
+		}
+		if (!isNumeric(operandB)) {
+			String a = operandB.substring(0, operandB.indexOf("|"));
+			String b = operandB.substring(operandB.indexOf("|") + 1,
+					operandB.length() - 1);
+			operandB = solveFunc(a, b);
+		}
+
 		if (operator.equals("+")) {
-			return "" + (Double.parseDouble(operandA) + Double.parseDouble(operandB));
+			return ""
+					+ (Double.parseDouble(operandA) + Double
+							.parseDouble(operandB));
 		}
 		if (operator.equals("*")) {
-			return "" + (Double.parseDouble(operandA) * Double.parseDouble(operandB));
+			return ""
+					+ (Double.parseDouble(operandA) * Double
+							.parseDouble(operandB));
 		}
 		if (operator.equals("-")) {
-			return "" + (Double.parseDouble(operandA) - Double.parseDouble(operandB));
+			return ""
+					+ (Double.parseDouble(operandA) - Double
+							.parseDouble(operandB));
 		}
 		if (operator.equals("/")) {
-			return "" + (Double.parseDouble(operandA) / Double.parseDouble(operandB));
+			return ""
+					+ (Double.parseDouble(operandA) / Double
+							.parseDouble(operandB));
 		}
 		if (operator.equals("^")) {
-			return "" + (Math.pow(Double.parseDouble(operandA), Double.parseDouble(operandB)));
+			return ""
+					+ (Math.pow(Double.parseDouble(operandA),
+							Double.parseDouble(operandB)));
 		}
 		System.out.println(operator);
 		throw new IllegalArgumentException("Missing operator");
@@ -160,7 +184,8 @@ public class MathUtil {
 	 * @return String representation of answer.
 	 * @throws IllegalArgumentException
 	 */
-	private static String solveFunc(String func, String x) throws IllegalArgumentException {
+	private static String solveFunc(String func, String x)
+			throws IllegalArgumentException {
 		if (func.equals("sin")) {
 			return "" + Math.sin(Double.parseDouble(x));
 		}
@@ -186,7 +211,8 @@ public class MathUtil {
 	 * @param y2
 	 * @param size
 	 */
-	public static void drawArrow(Graphics2D g2d, int x1, int y1, int x2, int y2, int size) {
+	public static void drawArrow(Graphics2D g2d, int x1, int y1, int x2,
+			int y2, int size) {
 		size = size / 2;
 		g2d.drawLine(x1, y1, x2, y2);
 		double theta = 0;
@@ -219,7 +245,8 @@ public class MathUtil {
 
 		g2d.drawLine(x2, y2, (int) (x2 - size * Math.cos(Math.PI / 6 - theta)),
 				(int) (y2 - size * Math.sin(Math.PI / 6 - theta)));
-		g2d.drawLine(x2, y2, (int) (x2 - size * Math.cos(-Math.PI / 6 - theta)),
+		g2d.drawLine(x2, y2,
+				(int) (x2 - size * Math.cos(-Math.PI / 6 - theta)),
 				(int) (y2 - size * Math.sin(-Math.PI / 6 - theta)));
 
 	}

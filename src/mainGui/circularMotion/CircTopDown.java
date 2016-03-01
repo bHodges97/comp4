@@ -41,9 +41,8 @@ public class CircTopDown extends JPanel {
 		Graphics print = img.getGraphics();
 		printAll(print);
 		try {
-			ImageIO.write(img, "JPEG", new File("foo.jpg"));
+			ImageIO.write(img, "JPEG", new File("DiagramCircularMotion.jpg"));
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

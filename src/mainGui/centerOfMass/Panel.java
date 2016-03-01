@@ -7,7 +7,11 @@ import java.awt.Polygon;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 
@@ -24,6 +28,18 @@ public class Panel extends JPanel {
 	int oy = 0;
 	public Obj currentObj;
 
+	public void print() {
+		BufferedImage img = new BufferedImage(this.getWidth(),
+				this.getHeight(), BufferedImage.TYPE_INT_RGB);
+		Graphics print = img.getGraphics();
+		printAll(print);
+		try {
+			ImageIO.write(img, "JPEG", new File("CenterOfMass.jpg"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
 	public Panel() {
 		setBorder(BorderFactory.createEtchedBorder(1));
 		setPreferredSize(new Dimension(800, 500));
@@ -35,7 +51,8 @@ public class Panel extends JPanel {
 			@Override
 			public void mouseDragged(MouseEvent e) {
 				if (currentObj != null)
-					currentObj.moveto(new MyPoint(e.getX(), e.getY()), scale, ox, oy);
+					currentObj.moveto(new MyPoint(e.getX(), e.getY()), scale,
+							ox, oy);
 			}
 
 			@Override
@@ -89,9 +106,11 @@ public class Panel extends JPanel {
 			if (obj.getType() == obj.Polygon) {
 				g2d.drawPolygon(renderPoly);
 			} else if (obj.getType() == obj.Polyline) {
-				g2d.drawPolyline(renderPoly.xpoints, renderPoly.ypoints, renderPoly.npoints);
+				g2d.drawPolyline(renderPoly.xpoints, renderPoly.ypoints,
+						renderPoly.npoints);
 			}
-			g2d.fillOval(obj.getWorldX(scale, ox) - s / 2, obj.getWorldY(scale, oy) - s / 2, s, s);
+			g2d.fillOval(obj.getWorldX(scale, ox) - s / 2,
+					obj.getWorldY(scale, oy) - s / 2, s, s);
 		}
 
 		update();

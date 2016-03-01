@@ -20,7 +20,8 @@ public class Definition {
 		in = in.toLowerCase();
 		in = in.replace(" ", "");
 		if (!in.contains("=")) {
-			throw new IllegalArgumentException("Illegal Argument: Missing \"=\"");
+			throw new IllegalArgumentException(
+					"Illegal Argument: Missing \"=\"");
 		}
 		/*
 		 * Removed to support math functions.
@@ -29,14 +30,18 @@ public class Definition {
 		 * IllegalArgumentException("Illegal Argument: Contains brackets");
 		 */
 
-		if (in.contains("%") || in.contains("|") || in.contains("⋅") || in.contains("×") || in.contains("±")
-				|| in.contains("∓") || in.contains("÷") || in.contains("√")) {
-			throw new IllegalArgumentException("Illegal Argument: Illegal operators");
+		if (in.contains("%") || in.contains("|") || in.contains("⋅")
+				|| in.contains("×") || in.contains("±") || in.contains("∓")
+				|| in.contains("÷") || in.contains("√")) {
+			throw new IllegalArgumentException(
+					"Illegal Argument: Illegal operators");
 		}
 		String[] parts = in.split("=", 2);
 		name = parts[0];
-		if (name.contains("*") || name.contains("/") || name.contains("+") || name.contains("-")) {
-			throw new IllegalArgumentException("Illegal Argument: Variable contains operators");
+		if (name.contains("*") || name.contains("/") || name.contains("+")
+				|| name.contains("-")) {
+			throw new IllegalArgumentException(
+					"Illegal Argument: Variable contains operators");
 		}
 
 		/*
@@ -44,8 +49,33 @@ public class Definition {
 		 */
 		method = parts[1];
 		if (method.contains("=")) {
-			throw new IllegalArgumentException("Illegal Argument: Definition contains too many \"=\"");
+			throw new IllegalArgumentException(
+					"Illegal Argument: Definition contains too many \"=\"");
 		}
+		while (true) {
+			if (method.contains("(")) {
+
+				if (Character.isLetter(method.charAt(method.indexOf("(") - 1))) {
+					char[] temp = method.toCharArray();
+					temp[method.indexOf("(")] = '<';
+					temp[method.indexOf("(")] = '>';
+					method = temp.toString();
+				}
+				if (method.contains("(")) {
+					String temp = method.substring(method.indexOf("("),
+							method.indexOf(""));
+					String[] tempTerms = temp
+							.split("((?<=[+*^/-])|(?=[+*^/-]))");
+					String tempSolved = MathUtil.evaluate(tempTerms[0],
+							tempTerms[1], tempTerms[2]);
+					method.replace(temp, tempSolved);
+				}
+
+			} else {
+				break;
+			}
+		}
+
 		terms = method.split("((?<=[+*^/-])|(?=[+*^/-]))");
 
 		/*
@@ -104,10 +134,14 @@ public class Definition {
 			}
 
 		}
-		holder = MathUtil.evaluate(terms[0], terms[1], terms[2]);
-		for (int i = 3; i < terms.length; i += 2) {
-			holder = MathUtil.evaluate(holder, terms[i], terms[i + 1]);
-			System.out.println(holder);
+		if (terms.length > 1) {
+			holder = MathUtil.evaluate(terms[0], terms[1], terms[2]);
+			for (int i = 3; i < terms.length; i += 2) {
+				holder = MathUtil.evaluate(holder, terms[i], terms[i + 1]);
+				System.out.println(holder);
+			}
+		} else {
+			holder = terms[0];
 		}
 		vars[0].contents = new String(holder);
 	}
