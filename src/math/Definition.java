@@ -52,6 +52,8 @@ public class Definition {
 			throw new IllegalArgumentException(
 					"Illegal Argument: Definition contains too many \"=\"");
 		}
+		
+		/*// Remove
 		while (true) {
 			if (method.contains("(")) {
 
@@ -63,9 +65,12 @@ public class Definition {
 				}
 				if (method.contains("(")) {
 					String temp = method.substring(method.indexOf("("),
-							method.indexOf(""));
+							method.indexOf(")"));
 					String[] tempTerms = temp
 							.split("((?<=[+*^/-])|(?=[+*^/-]))");
+					if (!MathUtil.isNumeric(tempTerms[0])) {
+						tempList.add(new Var(new String(terms[0]), "?", "", false));
+					} 
 					String tempSolved = MathUtil.evaluate(tempTerms[0],
 							tempTerms[1], tempTerms[2]);
 					method.replace(temp, tempSolved);
@@ -75,7 +80,8 @@ public class Definition {
 				break;
 			}
 		}
-
+		*/
+		
 		terms = method.split("((?<=[+*^/-])|(?=[+*^/-]))");
 
 		/*
