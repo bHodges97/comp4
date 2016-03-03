@@ -94,7 +94,7 @@ public class Panel extends JPanel {
 
 		Graphics2D g2d = (Graphics2D) g;
 		g2d.setColor(Color.white);
-		g2d.fillRect(0, 0, getHeight(), getWidth());
+		g2d.fillRect(0, 0, getWidth(), getHeight());
 		g2d.setColor(Color.black);
 		g2d.drawOval(ox - 2, oy + 2, 4, 4);
 		if (plane == null) {

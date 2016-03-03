@@ -44,7 +44,7 @@ public class ProjDiagram extends JPanel {
 		Dimension d = getSize();
 		String label = "TEST";
 		g2d.setColor(Color.white);
-		g2d.fillRect(0, 0, getHeight(), getWidth());
+		g2d.fillRect(0, 0, getWidth(), getHeight());
 		g2d.setColor(Color.black);
 		if (v == null || v[0] == null) {
 			// Stop painting.
