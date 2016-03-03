@@ -12,7 +12,6 @@ import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
-import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 
 import math.MathUtil;
@@ -51,6 +50,8 @@ public class CircTopDown extends JPanel {
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		Graphics2D g2d = (Graphics2D) g;
+		g2d.setColor(Color.white);
+		g2d.fillRect(0, 0, getHeight(), getWidth());
 		g2d.setColor(Color.black);
 		g2d.setStroke(new BasicStroke(thickness));
 

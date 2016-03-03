@@ -132,15 +132,15 @@ public class MathUtil {
 
 		// TODO: Code does not work.(array out of bounds) at string b +
 		if (!isNumeric(operandA)) {
-			String a = operandA.substring(0, operandA.indexOf("|"));
+			String a = operandA.substring(0, operandA.indexOf("("));
 			System.out.println(operandA);
-			String b = operandA.substring(operandA.indexOf("|") + 1,
+			String b = operandA.substring(operandA.indexOf("(") + 1,
 					operandA.length() - 1);
 			operandA = solveFunc(a, b);
 		}
 		if (!isNumeric(operandB)) {
-			String a = operandB.substring(0, operandB.indexOf("|"));
-			String b = operandB.substring(operandB.indexOf("|") + 1,
+			String a = operandB.substring(0, operandB.indexOf("("));
+			String b = operandB.substring(operandB.indexOf("(") + 1,
 					operandB.length() - 1);
 			operandB = solveFunc(a, b);
 		}

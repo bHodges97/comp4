@@ -52,36 +52,24 @@ public class Definition {
 			throw new IllegalArgumentException(
 					"Illegal Argument: Definition contains too many \"=\"");
 		}
-		
-		/*// Remove
-		while (true) {
-			if (method.contains("(")) {
 
-				if (Character.isLetter(method.charAt(method.indexOf("(") - 1))) {
-					char[] temp = method.toCharArray();
-					temp[method.indexOf("(")] = '<';
-					temp[method.indexOf("(")] = '>';
-					method = temp.toString();
-				}
-				if (method.contains("(")) {
-					String temp = method.substring(method.indexOf("("),
-							method.indexOf(")"));
-					String[] tempTerms = temp
-							.split("((?<=[+*^/-])|(?=[+*^/-]))");
-					if (!MathUtil.isNumeric(tempTerms[0])) {
-						tempList.add(new Var(new String(terms[0]), "?", "", false));
-					} 
-					String tempSolved = MathUtil.evaluate(tempTerms[0],
-							tempTerms[1], tempTerms[2]);
-					method.replace(temp, tempSolved);
-				}
+		/*
+		 * // Remove while (true) { if (method.contains("(")) {
+		 * 
+		 * if (Character.isLetter(method.charAt(method.indexOf("(") - 1))) {
+		 * char[] temp = method.toCharArray(); temp[method.indexOf("(")] = '<';
+		 * temp[method.indexOf("(")] = '>'; method = temp.toString(); } if
+		 * (method.contains("(")) { String temp =
+		 * method.substring(method.indexOf("("), method.indexOf(")")); String[]
+		 * tempTerms = temp .split("((?<=[+*^/-])|(?=[+*^/-]))"); if
+		 * (!MathUtil.isNumeric(tempTerms[0])) { tempList.add(new Var(new
+		 * String(terms[0]), "?", "", false)); } String tempSolved =
+		 * MathUtil.evaluate(tempTerms[0], tempTerms[1], tempTerms[2]);
+		 * method.replace(temp, tempSolved); }
+		 * 
+		 * } else { break; } }
+		 */
 
-			} else {
-				break;
-			}
-		}
-		*/
-		
 		terms = method.split("((?<=[+*^/-])|(?=[+*^/-]))");
 
 		/*
@@ -126,19 +114,20 @@ public class Definition {
 			return;
 		}
 		for (int i = 0; i < terms.length; i++) {
-			for (Var v : vars) {
+			if (!terms[i].contains("(")) {
+				for (Var v : vars) {
 
-				if (v.name.equals(terms[i])) {
-					if (v.contents.equals("?")) {
-						return;
+					if (v.name.equals(terms[i])) {
+						if (v.contents.equals("?")) {
+							return;
+						}
+						terms[i] = new String(v.contents);
 					}
-					terms[i] = new String(v.contents);
-				}
-				if (terms[i].matches("[+-/*^]")) {
-					continue;
+					if (terms[i].matches("[+-/*^]")) {
+						continue;
+					}
 				}
 			}
-
 		}
 		if (terms.length > 1) {
 			holder = MathUtil.evaluate(terms[0], terms[1], terms[2]);

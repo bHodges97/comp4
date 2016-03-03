@@ -1,6 +1,7 @@
 package mainGui.projectileMotion;
 
 import java.awt.BasicStroke;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -42,6 +43,9 @@ public class ProjDiagram extends JPanel {
 		Graphics2D g2d = (Graphics2D) g;
 		Dimension d = getSize();
 		String label = "TEST";
+		g2d.setColor(Color.white);
+		g2d.fillRect(0, 0, getHeight(), getWidth());
+		g2d.setColor(Color.black);
 		if (v == null || v[0] == null) {
 			// Stop painting.
 			return;
