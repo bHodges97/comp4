@@ -1230,7 +1230,7 @@ public class Frame extends JFrame {
 				return;
 			}
 
-			if (!circVarB[0].equals("?") && circVars[5].equals("?")) {
+			if (!circVarB[0].isKnown() && circVars[5].isKnown()) {
 				circVars[5].setContents(circVarB[0].contents, false);
 			}
 			System.out.println("Started");
@@ -1264,10 +1264,15 @@ public class Frame extends JFrame {
 					|| confirm == JOptionPane.CLOSED_OPTION) {
 				return;
 			}
-
+			if (!projVars[9].isKnown() && !projVars[8].isKnown()) {
+				projVars[0].setContents(
+						""
+								+ Math.atan(projVars[9].getVal()
+										/ projVars[8].getVal()), false);
+			}
 			Definition[] defs = new Definition[11];
-			defs[0] = new Definition("b=v*cos(a)");
-			defs[1] = new Definition("c=v*sin(a)");
+			defs[0] = new Definition("d=u*cos(a)");
+			defs[1] = new Definition("e=u*sin(a)");
 			defs[2] = new Definition("d=b");
 			defs[3] = new Definition("b=d");
 			defs[4] = new Definition("x=b*t");
@@ -1277,6 +1282,7 @@ public class Frame extends JFrame {
 			defs[8] = new Definition("v=(b^2)+(c^2)^1/2");
 			defs[9] = new Definition("u=(d^2)+(e^2)^1/2");
 			defs[10] = new Definition("v=(u^2)+0.5*a*(y-h)^1/2");
+			defs[11] = new Definition("a=atan(e/d)");
 			Solver s = new Solver(defs, projVars);
 
 			projTheta.setText(MathUtil.round(projVars[0].contents));

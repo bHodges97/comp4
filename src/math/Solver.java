@@ -63,7 +63,7 @@ public class Solver {
 			/*
 			 * limit time spent on operation as the problem could be unsolvable.
 			 */
-			if (System.currentTimeMillis() - t > 200) {
+			if (System.currentTimeMillis() - t > 500) {
 				System.out.println("Maximum time reached");
 				break;
 			}

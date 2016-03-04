@@ -133,12 +133,12 @@ public class MathUtil {
 		// TODO: Code does not work.(array out of bounds) at string b +
 		if (!isNumeric(operandA)) {
 			String a = operandA.substring(0, operandA.indexOf("("));
-			System.out.println(operandA);
+			System.out.println(operandA + "line 136");
 			String b = operandA.substring(operandA.indexOf("(") + 1,
 					operandA.length() - 1);
 			operandA = solveFunc(a, b);
 		}
-		if (!isNumeric(operandB)) {
+		if (operandB.contains("(")) {
 			String a = operandB.substring(0, operandB.indexOf("("));
 			String b = operandB.substring(operandB.indexOf("(") + 1,
 					operandB.length() - 1);
@@ -198,7 +198,8 @@ public class MathUtil {
 		if (func.equals("abs")) {
 			return "" + Math.abs(Double.parseDouble(x));
 		}
-		throw new IllegalArgumentException("Argument is not a valid function");
+		throw new IllegalArgumentException("\"" + func
+				+ " \" is not a valid function.");
 	}
 
 	/**

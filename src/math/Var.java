@@ -38,7 +38,24 @@ public class Var {
 		given = true;
 	}
 
+	public boolean isKnown() {
+		return contents.equals("?");
+	}
+
+	public boolean isZero() {
+		if (contents.equals("0")) {
+			return true;
+		}
+		if (MathUtil.isNumeric(contents)) {
+			if (Math.abs(Double.parseDouble(contents)) < 0.0001f) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 	public Var copy() {
-		return new Var(new String(name), new String(contents), new String(label), given);
+		return new Var(new String(name), new String(contents),
+				new String(label), given);
 	}
 }

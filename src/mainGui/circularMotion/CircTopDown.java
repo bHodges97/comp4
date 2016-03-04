@@ -102,7 +102,7 @@ public class CircTopDown extends JPanel {
 		int smallR = (int) (r * 0.04);
 
 		// Draw init pos?
-		double theta = vars[2].contents.equals("?") ? 0 : vars[2].getVal();
+		double theta = vars[2].isKnown() ? 0 : vars[2].getVal();
 		g2d.drawOval((int) (ox + r * Math.sin(theta)) - smallR, (int) (oy + r
 				* Math.cos(theta))
 				- smallR, smallR * 2, smallR * 2);
@@ -114,7 +114,7 @@ public class CircTopDown extends JPanel {
 		int objX;
 		int objY;
 
-		if (vars[3] != null && !vars[3].contents.equals("?")) {
+		if (vars[3] != null && !vars[3].isKnown()) {
 			theta = vars[3].getVal();
 			g2d.drawString(vars[3].contents + " rad", ox + smallR, oy - smallR);
 		} else {
@@ -126,8 +126,8 @@ public class CircTopDown extends JPanel {
 		objY = (int) (oy + (r) * Math.cos(theta) - smallR);
 		g2d.drawOval((int) (objX), (int) (objY), smallR * 2, smallR * 2);
 
-		int temp = (int) (Math
-				.toDegrees(!vars[2].contents.equals("?") ? vars[2].getVal() : 0));
+		int temp = (int) (Math.toDegrees(!vars[2].isKnown() ? vars[2].getVal()
+				: 0));
 		g2d.drawArc(ox - smallR, oy - smallR, smallR * 2, smallR * 2,
 				temp + 270, (int) (Math.toDegrees(theta) - temp));
 		g2d.drawLine(ox, oy,
@@ -148,11 +148,11 @@ public class CircTopDown extends JPanel {
 		MathUtil.drawArrow(g2d, gx, gy, (gx - ox) / 2 + ox, (gy - oy) / 2 + oy,
 				smallR * 2);
 
-		label = vars[6].contents.equals("?") ? vars[6].label : vars[6].contents;
+		label = vars[6].isKnown() ? vars[6].label : vars[6].contents;
 		g2d.drawString(" " + label + " m/s²",
 				(int) (ox + r * 0.5 * Math.sin(theta)), (int) (oy + r * 0.5
 						* Math.cos(theta)));
-		label = vars[4].contents.equals("?") ? vars[4].label : vars[4].contents;
+		label = vars[4].isKnown() ? vars[4].label : vars[4].contents;
 		g2d.drawString(label, (int) (ox + (r + smallR * 3) * Math.sin(theta)),
 				(int) (oy + (r + smallR * 3) * Math.sin(theta)));
 

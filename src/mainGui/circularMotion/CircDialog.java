@@ -27,7 +27,8 @@ public class CircDialog extends JDialog {
 	 */
 	private static final long serialVersionUID = 6055392994194343968L;
 	JButton Done = new JButton("Done");
-	JLabel Explanation = new JLabel("<html>Fill in all known fields as numbers.<br>Leave unknowns blank.");
+	JLabel Explanation = new JLabel(
+			"<html>Fill in all known fields as numbers.<br>Leave unknowns blank.");
 	int n = 18;
 	JTextField textW = new JTextField("0", n);
 	JTextField textM = new JTextField("0", n);
@@ -51,7 +52,8 @@ public class CircDialog extends JDialog {
 		setModal(true);
 
 		setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
-		GraphicsEnvironment g = GraphicsEnvironment.getLocalGraphicsEnvironment();
+		GraphicsEnvironment g = GraphicsEnvironment
+				.getLocalGraphicsEnvironment();
 		Point center = g.getCenterPoint();
 		setLocation(center.x - 500 / 2, center.y - 500 / 2);
 		pack();
@@ -64,9 +66,11 @@ public class CircDialog extends JDialog {
 				for (Component c : getContentPane().getComponents()) {
 					if (c instanceof JTextField) {
 						// Tests if each field is valid(blank or numeric)
-						if (!MathUtil.isNumeric(((JTextField) c).getText()) && !((JTextField) c).getText().isEmpty()) {
+						if (!MathUtil.isNumeric(((JTextField) c).getText())
+								&& !((JTextField) c).getText().isEmpty()) {
 							JOptionPane.showMessageDialog(getThis(),
-									"One of the variables wasn't numeric or blank (" + ((JTextField) c).getText() + ")",
+									"One of the variables wasn't numeric or blank ("
+											+ ((JTextField) c).getText() + ")",
 									"Warning", JOptionPane.ERROR_MESSAGE);
 							return;
 						}
@@ -122,12 +126,12 @@ public class CircDialog extends JDialog {
 		}
 		Solver s = new Solver(defs, vars);
 		for (Var var : vars) {
-			if (var.contents.equals("?")) {
+			if (var.isKnown()) {
 				// s.solve(var, 0);
 			}
 		}
 		for (Var var : vars) {
-			if (!var.contents.equals("?")) {
+			if (!var.isKnown()) {
 				if (var.name.equals("v")) {
 					textW.setText(var.contents);
 				} else if (var.name.equals("m")) {
