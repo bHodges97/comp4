@@ -1,6 +1,7 @@
 package mainGui;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -57,7 +58,7 @@ public class Frame extends JFrame {
 	Border border = BorderFactory.createEtchedBorder(1);
 
 	// collision
-	boolean colA;
+	boolean colA = true;
 	Var[] a;
 	Var[] b;
 	Var e;
@@ -169,6 +170,37 @@ public class Frame extends JFrame {
 				setDefaultCloseOperation(EXIT_ON_CLOSE);
 				pack();
 				setVisible(true);
+
+				/*
+				 * Repaint every panel used!!!
+				 */
+				Thread update = new Thread() {
+					public void run() {
+						if (popup.topic.equals("Circles")) {
+							circVertical.text = circVarB;
+							circVertical.force = circTextA;
+							circVertical.angle = circTextB;
+							circTopDown.vars = circVars;
+						}
+
+						while (true) {
+							repaint();
+							revalidate();
+							for (Component c : Frame.this.getComponents()) {
+								if (c instanceof JPanel) {
+									c.repaint();
+								}
+							}
+							try {
+								Thread.sleep((long) 100);
+							} catch (InterruptedException e) {
+								e.printStackTrace();
+							}
+						}
+					}
+
+				};
+				update.start();
 			}
 		});
 
@@ -256,14 +288,14 @@ public class Frame extends JFrame {
 		circVarB[0] = new Var("x", "?", "x", false);
 		circVarB[1] = new Var("y", "?", "y", false);
 
-		addListener(textW, circVars[0], 2);
-		addListener(textM, circVars[1], 1);
-		addListener(textU, circVars[2], 4);
-		addListener(textX, circVars[3], 4);
-		addListener(textV, circVars[4], -1);
-		addListener(textR, circVars[5], 1);
-		addListener(textA, circVars[6], 1);
-		addListener(textT, circVars[7], 1);
+		addListener(textW, circVars[0], 2, null);
+		addListener(textM, circVars[1], 1, null);
+		addListener(textU, circVars[2], 4, null);
+		addListener(textX, circVars[3], 4, null);
+		addListener(textV, circVars[4], -1, null);
+		addListener(textR, circVars[5], 1, null);
+		addListener(textA, circVars[6], 1, null);
+		addListener(textT, circVars[7], 1, null);
 
 		panelFields.setLayout(new GridBagLayout());
 		c = new GridBagConstraints();
@@ -347,8 +379,8 @@ public class Frame extends JFrame {
 		c.gridy++;
 		panelSouthN.add(circY, c);
 		c.anchor = c.FIRST_LINE_START;
-		addListener(circX, circVarB[0], -1);
-		addListener(circY, circVarB[1], -1);
+		addListener(circX, circVarB[0], -1, null);
+		addListener(circY, circVarB[1], -1, null);
 
 		c.weighty = 1;
 		c.gridy = 0;
@@ -439,28 +471,6 @@ public class Frame extends JFrame {
 			}
 		});
 
-		Thread update = new Thread() {
-			public void run() {
-				circVertical.text = circVarB;
-				circVertical.force = circTextA;
-				circVertical.angle = circTextB;
-				circTopDown.vars = circVars;
-
-				while (true) {
-					repaint();
-					revalidate();
-					circTopDown.repaint();
-					circVertical.repaint();
-					try {
-						Thread.sleep((long) 100);
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
-				}
-			}
-		};
-		update.start();
-
 	}
 
 	private void initProjectiles() {
@@ -539,19 +549,19 @@ public class Frame extends JFrame {
 		projVars[11] = new Var("", new String(projLabel.getText()), "A", false);
 		projVars[12] = new Var("y", new String(projSy.getText()), "y", false);
 
-		addListener(projTheta, projVars[0], 4);
-		addListener(projV, projVars[1], -1);
-		addListener(projVx, projVars[2], -1);
-		addListener(projVy, projVars[3], -1);
-		addListener(projY, projVars[4], 0);
-		addListener(projX, projVars[5], 0);
-		addListener(projT, projVars[6], 0);
-		addListener(projU, projVars[7], -1);
-		addListener(projUx, projVars[8], 0);
-		addListener(projUy, projVars[9], -1);
-		addListener(projS, projVars[10], 0);
-		addListener(projSy, projVars[12], 0);
-		addListener(projLabel, projVars[11], -2);
+		addListener(projTheta, projVars[0], 4, null);
+		addListener(projV, projVars[1], -1, null);
+		addListener(projVx, projVars[2], -1, null);
+		addListener(projVy, projVars[3], -1, null);
+		addListener(projY, projVars[4], 0, null);
+		addListener(projX, projVars[5], 0, null);
+		addListener(projT, projVars[6], 0, null);
+		addListener(projU, projVars[7], -1, null);
+		addListener(projUx, projVars[8], 0, null);
+		addListener(projUy, projVars[9], -1, null);
+		addListener(projS, projVars[10], 0, null);
+		addListener(projSy, projVars[12], 0, null);
+		addListener(projLabel, projVars[11], -2, null);
 		JPanel others = new JPanel(new GridBagLayout());
 		JPanel before = new JPanel(new GridBagLayout());
 		before.setBorder(BorderFactory.createTitledBorder(
@@ -776,12 +786,6 @@ public class Frame extends JFrame {
 		colDiagram.addMouseListener(new MouseListener() {
 
 			@Override
-			public void mouseReleased(MouseEvent e) {
-				// Do nothing
-
-			}
-
-			@Override
 			public void mousePressed(MouseEvent e) {
 				// Do nothing
 
@@ -821,6 +825,7 @@ public class Frame extends JFrame {
 
 			private void set(boolean A) {
 				if (A) {
+					colA = true;
 					fieldLabel.setText(a[0].contents);
 					fieldMass.setText(a[1].contents);
 					fieldU.setText(a[2].contents);
@@ -829,6 +834,7 @@ public class Frame extends JFrame {
 					textCurrent.setText("Currently selected object: "
 							+ fieldLabel.getText());
 				} else {
+					colA = false;
 					fieldLabel.setText(b[0].contents);
 					fieldMass.setText(b[1].contents);
 					fieldU.setText(b[2].contents);
@@ -838,207 +844,19 @@ public class Frame extends JFrame {
 							+ fieldLabel.getText());
 				}
 			}
-		});
-
-		fieldE.addFocusListener(new FocusListener() {
 
 			@Override
-			public void focusGained(FocusEvent e) {
+			public void mouseReleased(MouseEvent arg0) {
+				// TODO Auto-generated method stub
 
-			}
-
-			@Override
-			public void focusLost(FocusEvent event) {
-				if (fieldE.getText().equals("?")) {
-					e.setContents(fieldE.getText(), false);
-					return;
-				}
-				if (!MathUtil.isNumeric(fieldE.getText())) {
-					JOptionPane.showMessageDialog(Frame.this, "Not a number.",
-							"Error", JOptionPane.ERROR_MESSAGE);
-					return;
-				}
-				if (Double.parseDouble(fieldE.getText()) > 1
-						|| Double.parseDouble(fieldE.getText()) < 0) {
-					JOptionPane.showMessageDialog(Frame.this,
-							"Must follow: 0 <= e <= 1", "Error",
-							JOptionPane.ERROR_MESSAGE);
-					return;
-				}
-				e.setContents(fieldE.getText(), true);
-			}
-
-		});
-		fieldLabel.addFocusListener(new FocusListener() {
-
-			@Override
-			public void focusGained(FocusEvent e) {
-
-			}
-
-			@Override
-			public void focusLost(FocusEvent e) {
-				if (colA) {
-					a[0].setContents(fieldLabel.getText(), false);
-				} else {
-					b[0].setContents(fieldLabel.getText(), false);
-				}
-			}
-
-		});
-		fieldMass.addFocusListener(new FocusListener() {
-
-			@Override
-			public void focusGained(FocusEvent arg0) {
-
-			}
-
-			@Override
-			public void focusLost(FocusEvent arg0) {
-				if (fieldMass.getText().equals("?")) {
-					if (colA) {
-						a[1].setContents(fieldMass.getText(), false);
-					} else {
-						b[1].setContents(fieldMass.getText(), false);
-					}
-					return;
-				}
-				if (!MathUtil.isNumeric(fieldMass.getText())) {
-					JOptionPane.showMessageDialog(Frame.this, "Not a number.",
-							"Error", JOptionPane.ERROR_MESSAGE);
-					return;
-				}
-				double x = Double.parseDouble(fieldMass.getText());
-				if (x < 0) {
-					JOptionPane.showMessageDialog(Frame.this,
-							"Mass should not be negative.", "Error",
-							JOptionPane.ERROR_MESSAGE);
-					return;
-				}
-
-				if (colA) {
-					a[1].setContents(fieldMass.getText(), true);
-				} else {
-					b[1].setContents(fieldMass.getText(), true);
-				}
 			}
 		});
-
-		fieldU.addFocusListener(new FocusListener() {
-
-			@Override
-			public void focusGained(FocusEvent e) {
-				// Do nothing.
-
-			}
-
-			@Override
-			public void focusLost(FocusEvent e) {
-				if (fieldU.getText().equals("?")) {
-					if (colA) {
-						a[2].setContents(fieldU.getText(), false);
-					} else {
-						b[2].setContents(fieldU.getText(), false);
-					}
-					return;
-				}
-				if (!MathUtil.isNumeric(fieldU.getText())) {
-					JOptionPane.showMessageDialog(Frame.this, "Not a number.",
-							"Error", JOptionPane.ERROR_MESSAGE);
-					return;
-				}
-				if (colA) {
-					a[2].setContents(fieldU.getText(), true);
-				} else {
-					b[2].setContents(fieldU.getText(), true);
-				}
-			}
-
-		});
-		fieldV.addFocusListener(new FocusListener() {
-
-			@Override
-			public void focusGained(FocusEvent e) {
-				// Do nothing.
-
-			}
-
-			@Override
-			public void focusLost(FocusEvent e) {
-				if (fieldV.getText().equals("?")) {
-					if (colA) {
-						a[3].setContents(fieldV.getText(), false);
-					} else {
-						b[3].setContents(fieldV.getText(), false);
-					}
-					return;
-				}
-				if (!MathUtil.isNumeric(fieldV.getText())) {
-					JOptionPane.showMessageDialog(Frame.this, "Not a number.",
-							"Error", JOptionPane.ERROR_MESSAGE);
-					return;
-				}
-				if (colA) {
-					a[3].setContents(fieldV.getText(), true);
-				} else {
-					b[3].setContents(fieldV.getText(), true);
-				}
-			}
-
-		});
-		fieldImpulse.addFocusListener(new FocusListener() {
-
-			@Override
-			public void focusGained(FocusEvent e) {
-				// Do nothing.
-
-			}
-
-			@Override
-			public void focusLost(FocusEvent e) {
-				if (fieldImpulse.getText().equals("?")) {
-					if (colA) {
-						a[4].setContents(fieldImpulse.getText(), false);
-					} else {
-						b[4].setContents(fieldImpulse.getText(), false);
-					}
-					return;
-				}
-				if (!MathUtil.isNumeric(fieldImpulse.getText())) {
-					JOptionPane.showMessageDialog(Frame.this, "Not a number.",
-							"Error", JOptionPane.ERROR_MESSAGE);
-					return;
-				}
-				if (colA) {
-					a[4].setContents(fieldImpulse.getText(), true);
-				} else {
-					b[4].setContents(fieldImpulse.getText(), true);
-				}
-			}
-
-		});
-
-		/*
-		 * Repaint every panel used!!!
-		 */
-		Thread update = new Thread() {
-			public void run() {
-
-				while (true) {
-					repaint();
-					revalidate();
-					colDiagram.repaint();
-
-					try {
-						Thread.sleep((long) 100);
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
-				}
-			}
-		};
-		update.start();
-
+		addListener(fieldE, e, 5, e);
+		addListener(fieldLabel, a[0], -2, b[0]);
+		addListener(fieldMass, a[1], 0, b[1]);
+		addListener(fieldU, a[2], -1, b[2]);
+		addListener(fieldV, a[3], -1, b[3]);
+		addListener(fieldImpulse, a[4], -1, b[4]);
 	}
 
 	private void initCenterOfMass() {
@@ -1075,23 +893,6 @@ public class Frame extends JFrame {
 		c.gridy++;
 		sidepanel.add(sideSouth, c);
 
-		Thread update = new Thread() {
-			public void run() {
-				while (true) {
-					repaint();
-					revalidate();
-					sideSouth.setObj(canvas.currentObj);
-					canvas.repaint();
-
-					try {
-						Thread.sleep((long) 50);
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
-				}
-			}
-		};
-		update.start();
 	}
 
 	/**
@@ -1111,7 +912,8 @@ public class Frame extends JFrame {
 	 *            4: Warning if greater than 2 pi *
 	 * 
 	 */
-	private void addListener(final JTextField t, final Var v, final int c) {
+	private void addListener(final JTextField t, final Var var1, final int c,
+			final Var var2) {
 		t.addFocusListener(new FocusListener() {
 			@Override
 			public void focusGained(FocusEvent arg0) {
@@ -1120,14 +922,14 @@ public class Frame extends JFrame {
 
 			@Override
 			public void focusLost(FocusEvent arg0) {
-				addVerification(t, v, c);
+				addVerification(t, var1, c, var2);
 			}
 		});
 
 		t.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				addVerification(t, v, c);
+				addVerification(t, var1, c, var2);
 			}
 		});
 	}
@@ -1146,10 +948,19 @@ public class Frame extends JFrame {
 	 *            1: Error if less than zero <br>
 	 *            2: Error if equal to zero <br>
 	 *            3: Error if greater than 0 <br>
-	 *            4: Warning if greater than 2 pi *
+	 *            4: Warning if greater than 2 pi<br>
+	 *            5: Special case for e
 	 * 
 	 */
-	private void addVerification(JTextField t, Var v, int c) {
+	private void addVerification(JTextField t, Var var1, int c, Var var2) {
+
+		Var v;
+		if (var2 != null && !colA) {
+			v = var2;
+		} else {
+			v = var1;
+		}
+
 		if (t.getText().equals("?")) {
 			v.setContents(t.getText(), false);
 			return;
@@ -1193,6 +1004,15 @@ public class Frame extends JFrame {
 			if (Math.abs(Double.parseDouble(t.getText())) > 6.28) {
 				JOptionPane.showMessageDialog(Frame.this,
 						"Careful this value is greater than 2 PI");
+			}
+		}
+		if (c == 5) {
+			if (Double.parseDouble(t.getText()) > 1
+					|| Double.parseDouble(t.getText()) < 0) {
+				JOptionPane.showMessageDialog(Frame.this,
+						"Must follow: 0 <= e <= 1", "Error",
+						JOptionPane.ERROR_MESSAGE);
+				return;
 			}
 		}
 
@@ -1282,7 +1102,6 @@ public class Frame extends JFrame {
 			defs[8] = new Definition("v=(b^2)+(c^2)^1/2");
 			defs[9] = new Definition("u=(d^2)+(e^2)^1/2");
 			defs[10] = new Definition("v=(u^2)+0.5*a*(y-h)^1/2");
-			defs[11] = new Definition("a=atan(e/d)");
 			Solver s = new Solver(defs, projVars);
 
 			projTheta.setText(MathUtil.round(projVars[0].contents));
@@ -1298,7 +1117,7 @@ public class Frame extends JFrame {
 			projS.setText(MathUtil.round(projVars[10].contents));
 			projSy.setText(MathUtil.round(projVars[12].contents));
 
-		} else {
+		} else if (topic.equals("Collisions")) {
 
 		}
 		System.out.println("Solver completed in "
