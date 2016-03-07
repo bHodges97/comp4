@@ -8,10 +8,6 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Stroke;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-
-import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
 import math.MathUtil;
@@ -34,16 +30,12 @@ public class CircTopDown extends JPanel {
 		this.setFocusable(true);
 	}
 
-	public void print() {
+	public BufferedImage getImg() {
 		BufferedImage img = new BufferedImage(this.getWidth(),
 				this.getHeight(), BufferedImage.TYPE_INT_RGB);
 		Graphics print = img.getGraphics();
 		printAll(print);
-		try {
-			ImageIO.write(img, "JPEG", new File("DiagramCircularMotion.jpg"));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		return img;
 	}
 
 	@Override

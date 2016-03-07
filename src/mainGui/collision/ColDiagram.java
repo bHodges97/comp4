@@ -31,13 +31,13 @@ public class ColDiagram extends JPanel {
 		this.e = e;
 	}
 
-	public void print() {
+	public void print(String path) {
 		BufferedImage img = new BufferedImage(this.getWidth(),
 				this.getHeight(), BufferedImage.TYPE_INT_RGB);
 		Graphics print = img.getGraphics();
 		printAll(print);
 		try {
-			ImageIO.write(img, "JPEG", new File("DiagramCollsion.jpg"));
+			ImageIO.write(img, "PNG", new File(path + ".png"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

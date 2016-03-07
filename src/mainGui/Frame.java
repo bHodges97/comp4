@@ -1,8 +1,10 @@
 package mainGui;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.Graphics2D;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
@@ -13,9 +15,13 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -59,6 +65,13 @@ public class Frame extends JFrame {
 
 	// collision
 	boolean colA = true;
+	/**
+	 * 0 a <br>
+	 * 1 m1 <br>
+	 * 2 v1 <br>
+	 * 3 u1 <br>
+	 * 4 i1
+	 */
 	Var[] a;
 	Var[] b;
 	Var e;
@@ -107,7 +120,7 @@ public class Frame extends JFrame {
 
 	// CenterOfMass
 	Panel canvas = new Panel();
-	JPanel sidepanel = new JPanel();
+	JPanel sidepanel = new JPanel(new GridBagLayout());
 	sidepanelNorth sideNorth;
 	sidepanelSouth sideSouth;
 
@@ -210,7 +223,7 @@ public class Frame extends JFrame {
 		setLayout(new BorderLayout(5, 5));
 		// Initialised panels;
 		JPanel panelDiagram = new JPanel(new GridLayout());
-		JPanel panelFields = new JPanel();
+		JPanel panelFields = new JPanel(new GridBagLayout());
 		JPanel panelWest = new JPanel(new GridLayout(0, 1, 5, 5));
 		JPanel panelNorth = new JPanel(new BorderLayout(5, 5));
 		panelSouthS = new JPanel(new GridBagLayout());
@@ -297,7 +310,6 @@ public class Frame extends JFrame {
 		addListener(textA, circVars[6], 1, null);
 		addListener(textT, circVars[7], 1, null);
 
-		panelFields.setLayout(new GridBagLayout());
 		c = new GridBagConstraints();
 		c.gridx = 0;
 		c.weighty = 0;
@@ -505,34 +517,20 @@ public class Frame extends JFrame {
 		northPanel.add(topicTitle, BorderLayout.NORTH);
 		northPanel.add(topicDesc, BorderLayout.CENTER);
 
-		projTheta = new JTextField(9);
-		projV = new JTextField(9);
-		projVx = new JTextField(9);
-		projVy = new JTextField(9);
-		projY = new JTextField(9);
-		projX = new JTextField(9);
-		projT = new JTextField(9);
-		projU = new JTextField(9);
-		projUx = new JTextField(9);
-		projUy = new JTextField(9);
-		projS = new JTextField(9);
-		projLabel = new JTextField(9);
-		projUy = new JTextField(9);
-		projSy = new JTextField(9);
-
-		projTheta.setText("?");
-		projV.setText("?");
-		projVx.setText("?");
-		projVy.setText("?");
-		projY.setText("?");
-		projX.setText("?");
-		projT.setText("?");
-		projU.setText("?");
-		projUx.setText("?");
-		projUy.setText("?");
-		projS.setText("?");
-		projLabel.setText("A");
-		projSy.setText("?");
+		projTheta = new JTextField("?", 9);
+		projV = new JTextField("?", 9);
+		projVx = new JTextField("?", 9);
+		projVy = new JTextField("?", 9);
+		projY = new JTextField("?", 9);
+		projX = new JTextField("?", 9);
+		projT = new JTextField("?", 9);
+		projU = new JTextField("?", 9);
+		projUx = new JTextField("?", 9);
+		projUy = new JTextField("?", 9);
+		projS = new JTextField("?", 9);
+		projLabel = new JTextField("A", 9);
+		projUy = new JTextField("?", 9);
+		projSy = new JTextField("?", 9);
 
 		projVars[0] = new Var("a", new String(projTheta.getText()), "θ", false);
 		projVars[1] = new Var("v", new String(projV.getText()), "V", false);
@@ -562,6 +560,7 @@ public class Frame extends JFrame {
 		addListener(projS, projVars[10], 0, null);
 		addListener(projSy, projVars[12], 0, null);
 		addListener(projLabel, projVars[11], -2, null);
+
 		JPanel others = new JPanel(new GridBagLayout());
 		JPanel before = new JPanel(new GridBagLayout());
 		before.setBorder(BorderFactory.createTitledBorder(
@@ -633,7 +632,6 @@ public class Frame extends JFrame {
 		c.gridy++;
 		after.add(projSy, c);
 
-		others.setLayout(new GridBagLayout());
 		c.gridx = 0;
 		c.gridy = 0;
 		others.add(new JLabel("Name:          "), c);
@@ -687,20 +685,18 @@ public class Frame extends JFrame {
 
 		// layout
 		colDiagram = new ColDiagram(a, b, e);
-		JPanel westPanel = new JPanel();
+		JPanel westPanel = new JPanel(new GridLayout(0, 1));
 		this.add(westPanel, BorderLayout.WEST);
 		this.add(colDiagram, BorderLayout.CENTER);
-		JPanel fields = new JPanel();
-		JPanel text = new JPanel();
+		JPanel fields = new JPanel(new GridBagLayout());
+		JPanel text = new JPanel(new BorderLayout(0, 0));
 		colDiagram.setBorder(border);
 		fields.setBorder(border);
 		text.setBorder(border);
-		westPanel.setLayout(new GridLayout(0, 1));
 		westPanel.add(text);
 		westPanel.add(fields);
 
 		// text;
-		text.setLayout(new BorderLayout(0, 0));
 		JTextField topicTitle = new JTextField(
 				"Coefficient of restitution and impulse notes");
 		topicTitle.setEditable(false);
@@ -727,20 +723,13 @@ public class Frame extends JFrame {
 		JLabel textU = new JLabel("Initial velocity");
 		JLabel textV = new JLabel("Final velocity");
 		JLabel textImpulse = new JLabel("Impulse");
-		final JTextField fieldE = new JTextField(10);
-		final JTextField fieldLabel = new JTextField(10);
-		final JTextField fieldMass = new JTextField(10);
-		final JTextField fieldU = new JTextField(10);
-		final JTextField fieldV = new JTextField(10);
-		final JTextField fieldImpulse = new JTextField(10);
-		fieldE.setText("?");
-		fieldLabel.setText("A");
-		fieldMass.setText("?");
-		fieldU.setText("?");
-		fieldV.setText("?");
-		fieldImpulse.setText("?");
+		final JTextField fieldE = new JTextField("?", 10);
+		final JTextField fieldLabel = new JTextField("A", 10);
+		final JTextField fieldMass = new JTextField("?", 10);
+		final JTextField fieldU = new JTextField("?", 10);
+		final JTextField fieldV = new JTextField("?", 10);
+		final JTextField fieldImpulse = new JTextField("?", 10);
 
-		fields.setLayout(new GridBagLayout());
 		GridBagConstraints gbc = new GridBagConstraints();
 		gbc.insets = new Insets(2, 2, 2, 2);
 		gbc.weightx = 1;
@@ -785,22 +774,17 @@ public class Frame extends JFrame {
 
 		colDiagram.addMouseListener(new MouseListener() {
 
+			// Do nothing
 			@Override
 			public void mousePressed(MouseEvent e) {
-				// Do nothing
-
 			}
 
 			@Override
 			public void mouseExited(MouseEvent e) {
-				// Do nothing
-
 			}
 
 			@Override
 			public void mouseEntered(MouseEvent e) {
-				// Do nothing
-
 			}
 
 			@Override
@@ -818,9 +802,7 @@ public class Frame extends JFrame {
 								.getWidth() / 2 && e.getX() > colDiagram
 								.getWidth() * 0.25))) {
 					set(false);
-
 				}
-
 			}
 
 			private void set(boolean A) {
@@ -866,7 +848,6 @@ public class Frame extends JFrame {
 		sideSouth = new sidepanelSouth(0, canvas.plane);
 		sidepanel.setPreferredSize(new Dimension(300, this.getHeight()));
 		sidepanel.setBorder(border);
-		sidepanel.setLayout(new GridBagLayout());
 
 		JPanel panelNorth = new JPanel(new BorderLayout());
 		// Initialise topic title and desc.
@@ -892,7 +873,6 @@ public class Frame extends JFrame {
 		sidepanel.add(sideNorth.p, c);
 		c.gridy++;
 		sidepanel.add(sideSouth, c);
-
 	}
 
 	/**
@@ -909,7 +889,8 @@ public class Frame extends JFrame {
 	 *            1: Error if less than zero <br>
 	 *            2: Error if equal to zero <br>
 	 *            3: Error if greater than 0 <br>
-	 *            4: Warning if greater than 2 pi *
+	 *            4: Warning if greater than 2 pi<br>
+	 *            5: Special case for e
 	 * 
 	 */
 	private void addListener(final JTextField t, final Var var1, final int c,
@@ -1119,9 +1100,78 @@ public class Frame extends JFrame {
 
 		} else if (topic.equals("Collisions")) {
 
+			//mass 1
+			if (!a[1].isKnown()
+					&& (b[1].isKnown() && b[2].isKnown() && b[3].isKnown()
+							&& a[3].isKnown() && a[2].isKnown())) {
+				a[1].setContents(
+						"" + b[1].getVal() * (b[2].getVal() - b[3].getVal())
+								/ (a[3].getVal() - a[2].getVal()), false);
+			}
+			//mass 2
+			if (!b[1].isKnown()
+					&& (a[1].isKnown() && a[2].isKnown() && a[3].isKnown()
+							&& b[3].isKnown() && b[2].isKnown())) {
+				b[1].setContents(
+						"" + a[1].getVal() * (a[3].getVal() - a[2].getVal())
+								/ (b[2].getVal() - b[3].getVal()), false);
+			}
+			//e
+			if (!e.isKnown()
+					&& (a[2].isKnown() && a[3].isKnown() && b[2].isKnown() && b[3]
+							.isKnown())) {
+				e.setContents(
+						"" + (b[2].getVal() - a[2].getVal())
+								/ (a[3].getVal() - b[3].getVal()), false);
+			}
+
 		}
 		System.out.println("Solver completed in "
 				+ (System.currentTimeMillis() - startTime) + " ms");
+	}
+
+	public void save(String pathName) {
+		if (pathName.endsWith(".png")) {
+			pathName.replace(".png", "");
+		}
+		if (popup.topic.equals("Circles")) {
+			try {
+				ImageIO.write(
+						joinBufferedImage(circTopDown.getImg(),
+								circVertical.getImg()), "PNG", new File(
+								pathName + ".png"));
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		if (popup.topic.equals("Center")) {
+			initCenterOfMass();//TODO: FIIXIXIX
+		}
+		if (popup.topic.equals("Collisions")) {
+			colDiagram.print(pathName);
+		}
+		if (popup.topic.equals("Projectiles")) {
+			projDiagram.print(pathName);
+		}
+
+	}
+
+	public static BufferedImage joinBufferedImage(BufferedImage imgA,
+			BufferedImage imgB) {
+
+		int width = imgA.getWidth() + imgB.getWidth();
+		int height = imgA.getHeight();
+		BufferedImage combinedImage = new BufferedImage(width, height,
+				BufferedImage.TYPE_INT_ARGB);
+		Graphics2D g2d = combinedImage.createGraphics();
+		Color oldColor = g2d.getColor();
+		g2d.setPaint(Color.WHITE);
+		g2d.fillRect(0, 0, width, height);
+		g2d.drawImage(imgA, null, 0, 0);
+		g2d.drawImage(imgB, null, imgA.getWidth() + 1, 0);
+		g2d.dispose();
+		return combinedImage;
+
 	}
 
 	/**

@@ -25,13 +25,13 @@ public class ProjDiagram extends JPanel {
 		v = projVars;
 	}
 
-	public void print() {
+	public void print(String pathName) {
 		BufferedImage img = new BufferedImage(this.getWidth(),
 				this.getHeight(), BufferedImage.TYPE_INT_RGB);
 		Graphics print = img.getGraphics();
 		printAll(print);
 		try {
-			ImageIO.write(img, "JPEG", new File("DiagramProjectileMotion.jpg"));
+			ImageIO.write(img, "PNG", new File(pathName + ".png"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
