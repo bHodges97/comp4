@@ -10,15 +10,15 @@ TODO LIST
 
 ;;MAIN APP
 Complete each module
-Consider using themes to make it look nice
-Sort out action listeners 
+Consider using themes to make it look nice --> also save window.
+Sort out topic desc.
 
 
 :CofM
 -Work on gui
 -Add topic desc
 -Draw axis
-0-Add special shapes(cones etc
+-Add special shapes(cones etc
 
 :Circ Mom
 -Draw diagram

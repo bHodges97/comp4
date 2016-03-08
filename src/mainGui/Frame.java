@@ -68,7 +68,8 @@ public class Frame extends JFrame {
 	Var[] b;
 	Var e;
 	ColDiagram colDiagram;
-
+	JTextField[] colField = new JTextField[5];
+	JLabel textCurrent;
 	// CircularMotion
 	/**
 	 * Variables used in circular motion.<br>
@@ -93,15 +94,11 @@ public class Frame extends JFrame {
 
 	CircTopDown circTopDown;
 	CircVertical circVertical;
-	JTextField[] circText = new JTextField[10];
-	JTextField textW;
-	JTextField textM;
-	JTextField textU;
-	JTextField textX;
-	JTextField textV;
-	JTextField textR;
-	JTextField textA;
-	JTextField textT;
+
+	/**
+	 * wmuxvrat
+	 */
+	JTextField[] circText = new JTextField[8];
 	JTextField circX;
 	JTextField circY;
 	List<JTextField> circF = new ArrayList<JTextField>();
@@ -120,19 +117,22 @@ public class Frame extends JFrame {
 
 	// projectile
 	ProjDiagram projDiagram;
-	JTextField projTheta;
-	JTextField projV;
-	JTextField projVx;
-	JTextField projVy;
-	JTextField projY;
-	JTextField projX;
-	JTextField projT;
-	JTextField projU;
-	JTextField projUx;
-	JTextField projUy;
-	JTextField projS;
-	JTextField projLabel;
-	JTextField projSy;
+	/**
+	 * projTheta- 0. <br>
+	 * projV- 1. <br>
+	 * projVx- 2. <br>
+	 * projVy- 3. <br>
+	 * projY- 4. <br>
+	 * projX- 5. <br>
+	 * projT- 6. <br>
+	 * projU- 7. <br>
+	 * projUx- 8. <br>
+	 * projUy- 9. <br>
+	 * projS- 10. <br>
+	 * projLabel- 11. <br>
+	 * projSy- 12
+	 */
+	JTextField[] projText = new JTextField[13];
 
 	/**
 	 * 0 a theta<br>
@@ -270,39 +270,42 @@ public class Frame extends JFrame {
 
 		JLabel Explanation = new JLabel("Leave unknowns as \"?\".");
 		int n = 9;
-		textW = new JTextField("?", n);
-		textM = new JTextField("?", n);
-		textU = new JTextField("?", n);
-		textX = new JTextField("?", n);
-		textV = new JTextField("?", n);
-		textR = new JTextField("?", n);
-		textA = new JTextField("?", n);
-		textT = new JTextField("?", n);
+		for (int i = 0; i < circText.length; i++) {
+			circText[i] = new JTextField("?", n);
+		}
 		circX = new JTextField("?", n);
 		circY = new JTextField("?", n);
 		circB = new JButton("Add Force");
 
 		circVars = new Var[8];
 		circVarB = new Var[2];
-		circVars[0] = new Var("w", new String(textW.getText()), "w", false);
-		circVars[1] = new Var("m", new String(textM.getText()), "m", false);
-		circVars[2] = new Var("u", new String(textU.getText()), "u", false);
-		circVars[3] = new Var("x", new String(textX.getText()), "x", false);
-		circVars[4] = new Var("v", new String(textV.getText()), "v", false);
-		circVars[5] = new Var("r", new String(textR.getText()), "r", false);
-		circVars[6] = new Var("a", new String(textA.getText()), "a", false);
-		circVars[7] = new Var("t", new String(textT.getText()), "t", false);
+		circVars[0] = new Var("w", new String(circText[0].getText()), "w",
+				false);
+		circVars[1] = new Var("m", new String(circText[1].getText()), "m",
+				false);
+		circVars[2] = new Var("u", new String(circText[2].getText()), "u",
+				false);
+		circVars[3] = new Var("x", new String(circText[3].getText()), "x",
+				false);
+		circVars[4] = new Var("v", new String(circText[4].getText()), "v",
+				false);
+		circVars[5] = new Var("r", new String(circText[5].getText()), "r",
+				false);
+		circVars[6] = new Var("a", new String(circText[6].getText()), "a",
+				false);
+		circVars[7] = new Var("t", new String(circText[7].getText()), "t",
+				false);
 		circVarB[0] = new Var("x", "?", "x", false);
 		circVarB[1] = new Var("y", "?", "y", false);
 
-		addListener(textW, circVars[0], 2, null);
-		addListener(textM, circVars[1], 1, null);
-		addListener(textU, circVars[2], 4, null);
-		addListener(textX, circVars[3], 4, null);
-		addListener(textV, circVars[4], -1, null);
-		addListener(textR, circVars[5], 1, null);
-		addListener(textA, circVars[6], 1, null);
-		addListener(textT, circVars[7], 1, null);
+		addListener(circText[0], circVars[0], 2, null);
+		addListener(circText[1], circVars[1], 1, null);
+		addListener(circText[2], circVars[2], 4, null);
+		addListener(circText[3], circVars[3], 4, null);
+		addListener(circText[4], circVars[4], -1, null);
+		addListener(circText[5], circVars[5], 1, null);
+		addListener(circText[6], circVars[6], 1, null);
+		addListener(circText[7], circVars[7], 1, null);
 
 		c = new GridBagConstraints();
 		c.gridx = 0;
@@ -316,49 +319,49 @@ public class Frame extends JFrame {
 		c.gridx = 0;
 		panelFields.add(new JLabel("Start Angle"), c);
 		c.gridx = 1;
-		panelFields.add(textU, c);
+		panelFields.add(circText[2], c);
 
 		c.gridy++;
 		c.gridx = 0;
 		panelFields.add(new JLabel("End Angle"), c);
 		c.gridx = 1;
-		panelFields.add(textX, c);
+		panelFields.add(circText[3], c);
 
 		c.gridy++;
 		c.gridx = 0;
 		panelFields.add(new JLabel("Angular Velocity"), c);
 		c.gridx = 1;
-		panelFields.add(textW, c);
+		panelFields.add(circText[0], c);
 
 		c.gridy++;
 		c.gridx = 0;
 		panelFields.add(new JLabel("Tangential Velocity"), c);
 		c.gridx = 1;
-		panelFields.add(textV, c);
+		panelFields.add(circText[4], c);
 
 		c.gridy++;
 		c.gridx = 0;
 		panelFields.add(new JLabel("Mass"), c);
 		c.gridx = 1;
-		panelFields.add(textM, c);
+		panelFields.add(circText[1], c);
 
 		c.gridy++;
 		c.gridx = 0;
 		panelFields.add(new JLabel("Radius"), c);
 		c.gridx = 1;
-		panelFields.add(textR, c);
+		panelFields.add(circText[5], c);
 
 		c.gridy++;
 		c.gridx = 0;
 		panelFields.add(new JLabel("Centripetal Acceleration"), c);
 		c.gridx = 1;
-		panelFields.add(textA, c);
+		panelFields.add(circText[6], c);
 
 		c.gridy++;
 		c.gridx = 0;
 		panelFields.add(new JLabel("Time"), c);
 		c.gridx = 1;
-		panelFields.add(textT, c);
+		panelFields.add(circText[7], c);
 
 		// Layout panelSouthN;
 		circLblX = new JTextField("Sum of horizontal forces: ?");
@@ -511,49 +514,50 @@ public class Frame extends JFrame {
 		northPanel.add(topicTitle, BorderLayout.NORTH);
 		northPanel.add(topicDesc, BorderLayout.CENTER);
 
-		projTheta = new JTextField("?", 9);
-		projV = new JTextField("?", 9);
-		projVx = new JTextField("?", 9);
-		projVy = new JTextField("?", 9);
-		projY = new JTextField("?", 9);
-		projX = new JTextField("?", 9);
-		projT = new JTextField("?", 9);
-		projU = new JTextField("?", 9);
-		projUx = new JTextField("?", 9);
-		projUy = new JTextField("?", 9);
-		projS = new JTextField("?", 9);
-		projLabel = new JTextField("A", 9);
-		projUy = new JTextField("?", 9);
-		projSy = new JTextField("?", 9);
-
-		projVars[0] = new Var("a", new String(projTheta.getText()), "θ", false);
-		projVars[1] = new Var("v", new String(projV.getText()), "V", false);
-		projVars[2] = new Var("b", new String(projVx.getText()), "Vx", false);
-		projVars[3] = new Var("c", new String(projVy.getText()), "Vy", false);
-		projVars[4] = new Var("h", new String(projY.getText()), "Height", false);
-		projVars[5] = new Var("z", new String(projX.getText()), "NOT USED",
+		for (int i = 0; i < projText.length; i++) {
+			projText[i] = new JTextField("?", 9);
+		}
+		projText[11].setText("A");
+		projVars[0] = new Var("a", new String(projText[0].getText()), "θ",
 				false);
-		projVars[6] = new Var("t", new String(projT.getText()), "t", false);
-		projVars[7] = new Var("u", new String(projUx.getText()), "U", false);
-		projVars[8] = new Var("d", new String(projUx.getText()), "Ux", false);
-		projVars[9] = new Var("e", new String(projUy.getText()), "Uy", false);
-		projVars[10] = new Var("x", new String(projS.getText()), "x", false);
-		projVars[11] = new Var("", new String(projLabel.getText()), "A", false);
-		projVars[12] = new Var("y", new String(projSy.getText()), "y", false);
+		projVars[1] = new Var("v", new String(projText[1].getText()), "V",
+				false);
+		projVars[2] = new Var("b", new String(projText[2].getText()), "Vx",
+				false);
+		projVars[3] = new Var("c", new String(projText[3].getText()), "Vy",
+				false);
+		projVars[4] = new Var("h", new String(projText[4].getText()), "Height",
+				false);
+		projVars[5] = new Var("z", new String(projText[5].getText()), "UNUSED",
+				false);
+		projVars[6] = new Var("t", new String(projText[6].getText()), "t",
+				false);
+		projVars[7] = new Var("u", new String(projText[7].getText()), "U",
+				false);
+		projVars[8] = new Var("d", new String(projText[8].getText()), "Ux",
+				false);
+		projVars[9] = new Var("e", new String(projText[9].getText()), "Uy",
+				false);
+		projVars[10] = new Var("x", new String(projText[10].getText()), "x",
+				false);
+		projVars[11] = new Var("", new String(projText[11].getText()), "A",
+				false);
+		projVars[12] = new Var("y", new String(projText[12].getText()), "y",
+				false);
 
-		addListener(projTheta, projVars[0], 4, null);
-		addListener(projV, projVars[1], -1, null);
-		addListener(projVx, projVars[2], -1, null);
-		addListener(projVy, projVars[3], -1, null);
-		addListener(projY, projVars[4], 0, null);
-		addListener(projX, projVars[5], 0, null);
-		addListener(projT, projVars[6], 0, null);
-		addListener(projU, projVars[7], -1, null);
-		addListener(projUx, projVars[8], 0, null);
-		addListener(projUy, projVars[9], -1, null);
-		addListener(projS, projVars[10], 0, null);
-		addListener(projSy, projVars[12], 0, null);
-		addListener(projLabel, projVars[11], -2, null);
+		addListener(projText[0], projVars[0], 4, null);
+		addListener(projText[1], projVars[1], -1, null);
+		addListener(projText[2], projVars[2], -1, null);
+		addListener(projText[3], projVars[3], -1, null);
+		addListener(projText[4], projVars[4], 0, null);
+		addListener(projText[5], projVars[5], 0, null);
+		addListener(projText[6], projVars[6], 0, null);
+		addListener(projText[7], projVars[7], -1, null);
+		addListener(projText[8], projVars[8], 0, null);
+		addListener(projText[9], projVars[9], -1, null);
+		addListener(projText[10], projVars[10], 0, null);
+		addListener(projText[12], projVars[12], 0, null);
+		addListener(projText[11], projVars[11], -2, null);
 
 		JPanel others = new JPanel(new GridBagLayout());
 		JPanel before = new JPanel(new GridBagLayout());
@@ -588,15 +592,15 @@ public class Frame extends JFrame {
 
 		c.gridx = 1;
 		c.gridy = 0;
-		before.add(projY, c);
+		before.add(projText[4], c);
 		c.gridy++;
-		before.add(projTheta, c);
+		before.add(projText[0], c);
 		c.gridy++;
-		before.add(projU, c);
+		before.add(projText[7], c);
 		c.gridy++;
-		before.add(projUx, c);
+		before.add(projText[8], c);
 		c.gridy++;
-		before.add(projUy, c);
+		before.add(projText[9], c);
 
 		c.gridx = 0;
 		c.gridy = 0;
@@ -614,28 +618,28 @@ public class Frame extends JFrame {
 
 		c.gridx = 1;
 		c.gridy = 0;
-		after.add(projT, c);
+		after.add(projText[6], c);
 		c.gridy++;
-		after.add(projV, c);
+		after.add(projText[1], c);
 		c.gridy++;
-		after.add(projVx, c);
+		after.add(projText[2], c);
 		c.gridy++;
-		after.add(projVy, c);
+		after.add(projText[3], c);
 		c.gridy++;
-		after.add(projS, c);
+		after.add(projText[10], c);
 		c.gridy++;
-		after.add(projSy, c);
+		after.add(projText[12], c);
 
 		c.gridx = 0;
 		c.gridy = 0;
 		others.add(new JLabel("Name:          "), c);
 		c.gridx = 1;
-		others.add(projLabel, c);
+		others.add(projText[11], c);
 		c.gridx = 0;
 		c.gridy = 1;
 		others.add(new JLabel("Max distance:                "), c);
 		c.gridx = 1;
-		others.add(projX, c);
+		others.add(projText[6], c);
 
 		Thread update = new Thread() {
 			public void run() {
@@ -707,22 +711,14 @@ public class Frame extends JFrame {
 		text.add(topicTitle, BorderLayout.NORTH);
 		text.add(topicDesc, BorderLayout.CENTER);
 
-		// fields
-		final JLabel textCurrent = new JLabel("Currently selected object: A.");
+		textCurrent = new JLabel("Currently selected object: A.");
 		JLabel textDesc = new JLabel(
 				"<html>Click on diagram to select point mass. <br>Use \"?\" for unknown variables. Units used are<br> kg, m/s, Ns");
-		JLabel textE = new JLabel("Coefficient of restitution");
-		JLabel textLabel = new JLabel("Label");
-		JLabel textMass = new JLabel("Mass");
-		JLabel textU = new JLabel("Initial velocity");
-		JLabel textV = new JLabel("Final velocity");
-		JLabel textImpulse = new JLabel("Impulse");
-		final JTextField fieldE = new JTextField("?", 10);
-		final JTextField fieldLabel = new JTextField("A", 10);
-		final JTextField fieldMass = new JTextField("?", 10);
-		final JTextField fieldU = new JTextField("?", 10);
-		final JTextField fieldV = new JTextField("?", 10);
-		final JTextField fieldImpulse = new JTextField("?", 10);
+
+		for (int i = 0; i < colField.length; i++) {
+			colField[i] = new JTextField("?", 10);
+		}
+		colField[1] = new JTextField("A", 10);
 
 		GridBagConstraints gbc = new GridBagConstraints();
 		gbc.insets = new Insets(2, 2, 2, 2);
@@ -737,30 +733,23 @@ public class Frame extends JFrame {
 		gbc.gridwidth = 1;
 		gbc.gridx = 1;
 		gbc.gridy = 2;
-		fields.add(fieldE, gbc);
-		gbc.gridy = 3;
-		fields.add(fieldLabel, gbc);
-		gbc.gridy = 4;
-		fields.add(fieldMass, gbc);
-		gbc.gridy = 5;
-		fields.add(fieldU, gbc);
-		gbc.gridy = 6;
-		fields.add(fieldV, gbc);
-		gbc.gridy = 7;
-		fields.add(fieldImpulse, gbc);
+		for (int i = 0; i < colField.length; i++) {
+			fields.add(colField[i], gbc);
+			gbc.gridy++;
+		}
 		gbc.gridx = 0;
 		gbc.gridy = 2;
-		fields.add(textE, gbc);
+		fields.add(new JLabel("Coefficient of restitution"), gbc);
 		gbc.gridy = 3;
-		fields.add(textLabel, gbc);
+		fields.add(new JLabel("Label"), gbc);
 		gbc.gridy = 4;
-		fields.add(textMass, gbc);
+		fields.add(new JLabel("Mass"), gbc);
 		gbc.gridy = 5;
-		fields.add(textU, gbc);
+		fields.add(new JLabel("Initial velocity"), gbc);
 		gbc.gridy = 6;
-		fields.add(textV, gbc);
+		fields.add(new JLabel("Final velocity"), gbc);
 		gbc.gridy = 7;
-		fields.add(textImpulse, gbc);
+		fields.add(new JLabel("Impulse"), gbc);
 
 		colDiagram.addMouseListener(new MouseListener() {
 
@@ -785,36 +774,15 @@ public class Frame extends JFrame {
 						&& (e.getX() < colDiagram.getWidth() / 4 || (e.getX() > colDiagram
 								.getWidth() / 2 && e.getX() < colDiagram
 								.getWidth() * 0.75))) {
-					set(true);
+					colA = true;
 				} else if (Math.abs(e.getY() - colDiagram.getHeight() / 2) < colDiagram
 						.getHeight() * 0.1
 						&& (e.getX() > colDiagram.getWidth() / 4 || (e.getX() < colDiagram
 								.getWidth() / 2 && e.getX() > colDiagram
 								.getWidth() * 0.25))) {
-					set(false);
-				}
-			}
-
-			private void set(boolean A) {
-				if (A) {
-					colA = true;
-					fieldLabel.setText(a[0].contents);
-					fieldMass.setText(a[1].contents);
-					fieldU.setText(a[2].contents);
-					fieldV.setText(a[3].contents);
-					fieldImpulse.setText(a[4].contents);
-					textCurrent.setText("Currently selected object: "
-							+ fieldLabel.getText());
-				} else {
 					colA = false;
-					fieldLabel.setText(b[0].contents);
-					fieldMass.setText(b[1].contents);
-					fieldU.setText(b[2].contents);
-					fieldV.setText(b[3].contents);
-					fieldImpulse.setText(b[4].contents);
-					textCurrent.setText("Currently selected object: "
-							+ fieldLabel.getText());
 				}
+				updateFields();
 			}
 
 			@Override
@@ -823,12 +791,12 @@ public class Frame extends JFrame {
 
 			}
 		});
-		addListener(fieldE, e, 5, e);
-		addListener(fieldLabel, a[0], -2, b[0]);
-		addListener(fieldMass, a[1], 0, b[1]);
-		addListener(fieldU, a[2], -1, b[2]);
-		addListener(fieldV, a[3], -1, b[3]);
-		addListener(fieldImpulse, a[4], -1, b[4]);
+		addListener(colField[0], e, 5, e);
+		addListener(colField[1], a[0], -2, b[0]);
+		addListener(colField[2], a[1], 0, b[1]);
+		addListener(colField[3], a[2], -1, b[2]);
+		addListener(colField[4], a[3], -1, b[3]);
+		addListener(colField[5], a[4], -1, b[4]);
 	}
 
 	private void initCenterOfMass() {
@@ -924,7 +892,6 @@ public class Frame extends JFrame {
 	 * 
 	 */
 	private void addVerification(JTextField t, Var var1, int c, Var var2) {
-
 		Var v;
 		if (var2 != null && !colA) {
 			v = var2;
@@ -986,7 +953,6 @@ public class Frame extends JFrame {
 				return;
 			}
 		}
-
 		v.setContents(new String(t.getText()), true);
 	}
 
@@ -1011,28 +977,29 @@ public class Frame extends JFrame {
 	 */
 	public void updateFields() {
 		if (topic.equals("Projectiles")) {
-			projTheta.setText(MathUtil.round(projVars[0].contents));
-			projV.setText(MathUtil.round(projVars[1].contents));
-			projVx.setText(MathUtil.round(projVars[2].contents));
-			projVy.setText(MathUtil.round(projVars[3].contents));
-			projY.setText(MathUtil.round(projVars[4].contents));
-			projX.setText(MathUtil.round(projVars[5].contents));
-			projT.setText(MathUtil.round(projVars[6].contents));
-			projU.setText(MathUtil.round(projVars[7].contents));
-			projUx.setText(MathUtil.round(projVars[8].contents));
-			projUy.setText(MathUtil.round(projVars[9].contents));
-			projS.setText(MathUtil.round(projVars[10].contents));
-			projSy.setText(MathUtil.round(projVars[12].contents));
+			for (int i = 0; i < projText.length; i++) {
+				projText[i].setText(MathUtil.round(projVars[i].contents));
+			}
 		}
 		if (topic.equals("Circles")) {
-			textW.setText(MathUtil.round(circVars[0].contents));
-			textM.setText(MathUtil.round(circVars[1].contents));
-			textU.setText(MathUtil.round(circVars[2].contents));
-			textX.setText(MathUtil.round(circVars[3].contents));
-			textV.setText(MathUtil.round(circVars[4].contents));
-			textR.setText(MathUtil.round(circVars[5].contents));
-			textA.setText(MathUtil.round(circVars[6].contents));
-			textT.setText(MathUtil.round(circVars[7].contents));
+			for (int i = 0; i < circText.length; i++) {
+				circText[i].setText(MathUtil.round(circVars[i].contents));
+			}
+		}
+		if (topic.equals("Collisions")) {
+			if (colA) {
+				for (int i = 0; i < colField.length; i++) {
+					colField[i].setText(MathUtil.round(a[i].contents));
+				}
+				textCurrent.setText("Currently selected object: "
+						+ colField[0].getText());
+			} else {
+				for (int i = 0; i < colField.length; i++) {
+					colField[i].setText(MathUtil.round(a[i].contents));
+				}
+				textCurrent.setText("Currently selected object: "
+						+ colField[0].getText());
+			}
 		}
 	}
 
