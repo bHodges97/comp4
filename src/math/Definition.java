@@ -82,19 +82,18 @@ public class Definition {
 			}
 		}
 		List<Var> tempList = new ArrayList<Var>();
-		tempList.add(new Var(name, "?", "", false));
+		tempList.add(new Var(name, "?", ""));
 		for (int i = 0; i < terms.length; i += 2) {
 			if (!MathUtil.isNumeric(terms[i])) {
 				if (terms[i].contains("(")) {
 					String contents = terms[i].substring(
 							terms[i].indexOf("(") + 1, terms[i].length() - 1);
 					if (!MathUtil.isNumeric(contents)) {
-						tempList.add(new Var(new String(contents), "?", "",
-								false));
+						tempList.add(new Var(new String(contents), "?", ""));
 					}
 
 				} else {
-					tempList.add(new Var(new String(terms[i]), "?", "", false));
+					tempList.add(new Var(new String(terms[i]), "?", ""));
 				}
 			}
 		}
@@ -108,7 +107,7 @@ public class Definition {
 		int counter = 0;
 		for (int i = 0; i < terms.length; i += 2) {
 			if (!MathUtil.isNumeric(terms[i])) {
-				vars[counter] = new Var(new String(terms[i]), "?", "", false);
+				vars[counter] = new Var(new String(terms[i]), "?", "");
 				counter++;
 			}
 		}

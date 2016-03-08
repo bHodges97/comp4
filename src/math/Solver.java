@@ -33,8 +33,6 @@ public class Solver {
 			for (Var var : c.vars) {
 				for (Var v : vars) {
 					var = v;
-					String delete = var.contents;
-					// TODO: delete this
 				}
 			}
 		}

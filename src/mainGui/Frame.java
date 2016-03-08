@@ -49,7 +49,7 @@ public class Frame extends JFrame {
 	 * Don't plan on serialising but conform anyway.
 	 */
 	private static final long serialVersionUID = 1L;
-	static Frame window;
+
 	Dialog popup = new Dialog();
 	String topic = "Default";
 	// Border border = BorderFactory.createLineBorder(Color.BLACK, 0);
@@ -91,7 +91,6 @@ public class Frame extends JFrame {
 	 * Direction list. Angle begins at 3 o'clock in radians.
 	 */
 	List<String> circTextB = new ArrayList<String>();
-
 	CircTopDown circTopDown;
 	CircVertical circVertical;
 
@@ -104,8 +103,6 @@ public class Frame extends JFrame {
 	List<JTextField> circF = new ArrayList<JTextField>();
 	List<JTextField> circT = new ArrayList<JTextField>();
 	Var[] circVarB;
-	JButton circB;
-	JPanel panelSouthS;
 	JTextField circLblX;
 	JTextField circLblY;
 
@@ -133,7 +130,6 @@ public class Frame extends JFrame {
 	 * projSy- 12
 	 */
 	JTextField[] projText = new JTextField[13];
-
 	/**
 	 * 0 a theta<br>
 	 * 1 v v<br>
@@ -152,7 +148,7 @@ public class Frame extends JFrame {
 	Var[] projVars;
 
 	public Frame() {
-		// TODO:this.setLayout();
+		// TODO:this.setlookandfeel();
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
 				setExtendedState(MAXIMIZED_BOTH);
@@ -220,7 +216,7 @@ public class Frame extends JFrame {
 		JPanel panelFields = new JPanel(new GridBagLayout());
 		JPanel panelWest = new JPanel(new GridLayout(0, 1, 5, 5));
 		JPanel panelNorth = new JPanel(new BorderLayout(5, 5));
-		panelSouthS = new JPanel(new GridBagLayout());
+		final JPanel panelSouthS = new JPanel(new GridBagLayout());
 		JPanel panelSouth = new JPanel(new GridLayout(0, 1));
 		JPanel panelSouthN = new JPanel(new GridBagLayout());
 		JScrollPane scrollSouthS = new JScrollPane(panelSouthS);
@@ -275,28 +271,20 @@ public class Frame extends JFrame {
 		}
 		circX = new JTextField("?", n);
 		circY = new JTextField("?", n);
-		circB = new JButton("Add Force");
+		JButton circB = new JButton("Add Force");
 
 		circVars = new Var[8];
 		circVarB = new Var[2];
-		circVars[0] = new Var("w", new String(circText[0].getText()), "w",
-				false);
-		circVars[1] = new Var("m", new String(circText[1].getText()), "m",
-				false);
-		circVars[2] = new Var("u", new String(circText[2].getText()), "u",
-				false);
-		circVars[3] = new Var("x", new String(circText[3].getText()), "x",
-				false);
-		circVars[4] = new Var("v", new String(circText[4].getText()), "v",
-				false);
-		circVars[5] = new Var("r", new String(circText[5].getText()), "r",
-				false);
-		circVars[6] = new Var("a", new String(circText[6].getText()), "a",
-				false);
-		circVars[7] = new Var("t", new String(circText[7].getText()), "t",
-				false);
-		circVarB[0] = new Var("x", "?", "x", false);
-		circVarB[1] = new Var("y", "?", "y", false);
+		circVars[0] = new Var("w", new String(circText[0].getText()), "w");
+		circVars[1] = new Var("m", new String(circText[1].getText()), "m");
+		circVars[2] = new Var("u", new String(circText[2].getText()), "u");
+		circVars[3] = new Var("x", new String(circText[3].getText()), "x");
+		circVars[4] = new Var("v", new String(circText[4].getText()), "v");
+		circVars[5] = new Var("r", new String(circText[5].getText()), "r");
+		circVars[6] = new Var("a", new String(circText[6].getText()), "a");
+		circVars[7] = new Var("t", new String(circText[7].getText()), "t");
+		circVarB[0] = new Var("x", "?", "x");
+		circVarB[1] = new Var("y", "?", "y");
 
 		addListener(circText[0], circVars[0], 2, null);
 		addListener(circText[1], circVars[1], 1, null);
@@ -518,32 +506,19 @@ public class Frame extends JFrame {
 			projText[i] = new JTextField("?", 9);
 		}
 		projText[11].setText("A");
-		projVars[0] = new Var("a", new String(projText[0].getText()), "θ",
-				false);
-		projVars[1] = new Var("v", new String(projText[1].getText()), "V",
-				false);
-		projVars[2] = new Var("b", new String(projText[2].getText()), "Vx",
-				false);
-		projVars[3] = new Var("c", new String(projText[3].getText()), "Vy",
-				false);
-		projVars[4] = new Var("h", new String(projText[4].getText()), "Height",
-				false);
-		projVars[5] = new Var("z", new String(projText[5].getText()), "UNUSED",
-				false);
-		projVars[6] = new Var("t", new String(projText[6].getText()), "t",
-				false);
-		projVars[7] = new Var("u", new String(projText[7].getText()), "U",
-				false);
-		projVars[8] = new Var("d", new String(projText[8].getText()), "Ux",
-				false);
-		projVars[9] = new Var("e", new String(projText[9].getText()), "Uy",
-				false);
-		projVars[10] = new Var("x", new String(projText[10].getText()), "x",
-				false);
-		projVars[11] = new Var("", new String(projText[11].getText()), "A",
-				false);
-		projVars[12] = new Var("y", new String(projText[12].getText()), "y",
-				false);
+		projVars[0] = new Var("a", new String(projText[0].getText()), "θ");
+		projVars[1] = new Var("v", new String(projText[1].getText()), "V");
+		projVars[2] = new Var("b", new String(projText[2].getText()), "Vx");
+		projVars[3] = new Var("c", new String(projText[3].getText()), "Vy");
+		projVars[4] = new Var("h", new String(projText[4].getText()), "Height");
+		projVars[5] = new Var("z", new String(projText[5].getText()), "UNUSED");
+		projVars[6] = new Var("t", new String(projText[6].getText()), "t");
+		projVars[7] = new Var("u", new String(projText[7].getText()), "U");
+		projVars[8] = new Var("d", new String(projText[8].getText()), "Ux");
+		projVars[9] = new Var("e", new String(projText[9].getText()), "Uy");
+		projVars[10] = new Var("x", new String(projText[10].getText()), "x");
+		projVars[11] = new Var("", new String(projText[11].getText()), "A");
+		projVars[12] = new Var("y", new String(projText[12].getText()), "y");
 
 		addListener(projText[0], projVars[0], 4, null);
 		addListener(projText[1], projVars[1], -1, null);
@@ -669,17 +644,17 @@ public class Frame extends JFrame {
 	private void initCollisions() {
 		a = new Var[5];
 		b = new Var[5];
-		e = new Var("e", "?", "e", false);
-		a[0] = new Var("a", "A", "1", false);
-		a[1] = new Var("m1", "?", "M1", false);
-		a[2] = new Var("v1", "?", "V1", false);
-		a[3] = new Var("u1", "?", "U1", false);
-		a[4] = new Var("i1", "?", "i1", false);
-		b[0] = new Var("b", "B", "2", false);
-		b[1] = new Var("m2", "?", "M2", false);
-		b[2] = new Var("v2", "?", "V2", false);
-		b[3] = new Var("u2", "?", "U2", false);
-		b[4] = new Var("i2", "?", "i2", false);
+		e = new Var("e", "?", "e");
+		a[0] = new Var("a", "A", "1");
+		a[1] = new Var("m1", "?", "M1");
+		a[2] = new Var("v1", "?", "V1");
+		a[3] = new Var("u1", "?", "U1");
+		a[4] = new Var("i1", "?", "i1");
+		b[0] = new Var("b", "B", "2");
+		b[1] = new Var("m2", "?", "M2");
+		b[2] = new Var("v2", "?", "V2");
+		b[3] = new Var("u2", "?", "U2");
+		b[4] = new Var("i2", "?", "i2");
 
 		// layout
 		colDiagram = new ColDiagram(a, b, e);
@@ -767,6 +742,11 @@ public class Frame extends JFrame {
 			}
 
 			@Override
+			public void mouseReleased(MouseEvent arg0) {
+
+			}
+
+			@Override
 			public void mouseClicked(MouseEvent e) {
 				// Select object based on mouse click.
 				if (Math.abs(e.getY() - colDiagram.getHeight() / 2) < colDiagram
@@ -785,11 +765,6 @@ public class Frame extends JFrame {
 				updateFields();
 			}
 
-			@Override
-			public void mouseReleased(MouseEvent arg0) {
-				// TODO Auto-generated method stub
-
-			}
 		});
 		addListener(colField[0], e, 5, e);
 		addListener(colField[1], a[0], -2, b[0]);
@@ -1009,6 +984,6 @@ public class Frame extends JFrame {
 	 * @param Args
 	 */
 	public static void main(String[] Args) {
-		window = new Frame();
+		Frame window = new Frame();
 	}
 }

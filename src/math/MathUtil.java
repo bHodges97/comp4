@@ -129,8 +129,6 @@ public class MathUtil {
 		/*
 		 * Resolves functions first. Functions should have numeric parameters.
 		 */
-
-		// TODO: Code does not work.(array out of bounds) at string b +
 		if (!isNumeric(operandA)) {
 			String a = operandA.substring(0, operandA.indexOf("("));
 			System.out.println(operandA + "line 136");

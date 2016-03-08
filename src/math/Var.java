@@ -16,14 +16,12 @@ public class Var {
 	 *            content is not yet known.
 	 * @param label
 	 *            Displayed name of variable;
-	 * @param given
-	 *            Is this variable given.
 	 */
-	public Var(String n, String c, String label, boolean given) {
+	public Var(String n, String c, String label) {
 		contents = c;
 		name = n;
 		this.label = label;
-		this.given = given;
+		given = false;
 	}
 
 	public double getVal() {
@@ -55,7 +53,9 @@ public class Var {
 	}
 
 	public Var copy() {
-		return new Var(new String(name), new String(contents),
-				new String(label), given);
+		Var out = new Var(new String(name), new String(contents), new String(
+				label));
+		out.given = given;
+		return out;
 	}
 }

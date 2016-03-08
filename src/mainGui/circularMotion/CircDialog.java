@@ -82,7 +82,7 @@ public class CircDialog extends JDialog {
 		});
 		// Initialise variables;
 		for (Var var : vars) {
-			var = new Var("", "", "", false);
+			var = new Var("", "", "");
 		}
 
 		// needs to be last for components to show properly!(setVisible(true))
@@ -110,14 +110,14 @@ public class CircDialog extends JDialog {
 	 * Find Unknowns.
 	 */
 	public void Solve() {
-		vars[0] = new Var("w", textW.getText(), "w", false);
-		vars[1] = new Var("m", textM.getText(), "m", false);
-		vars[2] = new Var("u", textU.getText(), "u", false);
-		vars[3] = new Var("x", textX.getText(), "x", false);
-		vars[4] = new Var("v", textV.getText(), "v", false);
-		vars[5] = new Var("r", textR.getText(), "r", false);
-		vars[6] = new Var("a", textA.getText(), "a", false);
-		vars[7] = new Var("t", textT.getText(), "t", false);
+		vars[0] = new Var("w", textW.getText(), "w");
+		vars[1] = new Var("m", textM.getText(), "m");
+		vars[2] = new Var("u", textU.getText(), "u");
+		vars[3] = new Var("x", textX.getText(), "x");
+		vars[4] = new Var("v", textV.getText(), "v");
+		vars[5] = new Var("r", textR.getText(), "r");
+		vars[6] = new Var("a", textA.getText(), "a");
+		vars[7] = new Var("t", textT.getText(), "t");
 
 		for (Var var : vars) {
 			if (var.contents.isEmpty()) {
