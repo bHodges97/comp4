@@ -12,7 +12,6 @@ public class Obj {
 	boolean enabled = true;
 	String Name;
 	float density;
-	float e;
 	float mu = 0;
 	float mass;
 	float invMass;
@@ -48,7 +47,6 @@ public class Obj {
 	private double[] xpoints;
 
 	public Obj() {
-		this.e = 1;
 		this.mass = 1;
 		this.shape = new Shape();
 		this.cOfM = shape.findCenter();
@@ -57,7 +55,6 @@ public class Obj {
 	}
 
 	public Obj(Float mass, MyPoint myPoint, MyPoint[] points) {
-		this.e = 1;
 		this.mass = mass;
 		this.shape = new Shape(points);
 		this.cOfM = myPoint;
@@ -65,8 +62,7 @@ public class Obj {
 		updateWorldSpace();
 	}
 
-	public Obj(int type, MyPoint centerOfMass, Shape PLACEHOLDER, double mass, float e) {
-		this.e = e;
+	public Obj(int type, MyPoint centerOfMass, Shape PLACEHOLDER, double mass) {
 		this.mass = (float) mass;
 		this.type = type;
 		this.shape = PLACEHOLDER;
@@ -132,10 +128,12 @@ public class Obj {
 	 * Tolerance is 1/4 of the inverse of the display scale.
 	 * 
 	 * @see <a href="https://en.wikipedia.org/wiki/Ray_casting">https://en.
+
 	 *      wikipedia.org/wiki/Ray_casting</a>
 	 * @see <a href=
 	 *      "http://mathworld.wolfram.com/Point-LineDistance2-Dimensional.html">
 	 *      http://mathworld.wolfram.com/Point-LineDistance2-Dimensional.html
+
 	 *      </a>
 	 * @param point
 	 *            The point to test
@@ -156,7 +154,8 @@ public class Obj {
 			for (i = 0, j = nvert - 1; i < nvert; j = i++) {
 				if (((renderPoly.ypoints[i] >= point.y) != (renderPoly.ypoints[j] >= point.y))
 						&& (point.x <= (renderPoly.xpoints[j] - renderPoly.xpoints[i])
-								* (point.y - renderPoly.ypoints[i]) / (renderPoly.ypoints[j] - renderPoly.ypoints[i])
+								* (point.y - renderPoly.ypoints[i])
+								/ (renderPoly.ypoints[j] - renderPoly.ypoints[i])
 								+ renderPoly.xpoints[i]))
 					c = !c;
 			}
@@ -174,8 +173,10 @@ public class Obj {
 		else if (type == 2) {
 			for (int i = 0; i < renderPoly.npoints - 1; i++) {
 				if (MathUtil.PointInLineSegment(new MyPoint(point.x, point.y),
-						new MyPoint(renderPoly.xpoints[i], renderPoly.ypoints[i]),
-						new MyPoint(renderPoly.xpoints[i + 1], renderPoly.ypoints[i + 1]), tolerance)) {
+						new MyPoint(renderPoly.xpoints[i],
+								renderPoly.ypoints[i]), new MyPoint(
+								renderPoly.xpoints[i + 1],
+								renderPoly.ypoints[i + 1]), tolerance)) {
 					return false;
 				}
 			}
@@ -254,10 +255,6 @@ public class Obj {
 
 	public MyPoint getCOM() {
 		return new MyPoint(cOfM.x, cOfM.y);
-	}
-
-	public float getRest() {
-		return e;
 	}
 
 	public void disable() {

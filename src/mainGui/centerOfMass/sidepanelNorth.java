@@ -8,6 +8,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
@@ -74,8 +75,23 @@ public class sidepanelNorth extends JScrollPane {
 			// circsector
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				plane.add(new Obj(2, new MyPoint(0, 0), MathUtil.genCirc(Math.PI, 5d, false), 0d, 0f));
-
+				String reply = JOptionPane.showInputDialog(null,
+						"Enter angle of the circle sector in radians.",
+						"Circle Sector", JOptionPane.QUESTION_MESSAGE);
+				if (!MathUtil.isNumeric(reply)) {
+					JOptionPane.showMessageDialog(null, "Must be numeric.",
+							"Error", JOptionPane.ERROR_MESSAGE);
+					return;
+				}
+				double angle = Double.parseDouble(reply);
+				if (angle > 2 * Math.PI || angle <= 0) {
+					JOptionPane.showMessageDialog(null,
+							"Must be with the range 0 < a <= 2 pi", "Error",
+							JOptionPane.ERROR_MESSAGE);
+					return;
+				}
+				plane.add(new Obj(0, new MyPoint(0, 0), MathUtil.genCirc(
+						Math.PI, 5d, true), 0d));
 			}
 		});
 		b4.addActionListener(new ActionListener() {
@@ -86,10 +102,26 @@ public class sidepanelNorth extends JScrollPane {
 			}
 		});
 		b5.addActionListener(new ActionListener() {
-			// arc
+			//arc
 			@Override
 			public void actionPerformed(ActionEvent e) {
-
+				String reply = JOptionPane.showInputDialog(null,
+						"Enter angle of the circle sector in radians.",
+						"Circle Sector", JOptionPane.QUESTION_MESSAGE);
+				if (!MathUtil.isNumeric(reply)) {
+					JOptionPane.showMessageDialog(null, "Must be numeric.",
+							"Error", JOptionPane.ERROR_MESSAGE);
+					return;
+				}
+				double angle = Double.parseDouble(reply);
+				if (angle > 2 * Math.PI || angle <= 0) {
+					JOptionPane.showMessageDialog(null,
+							"Must be with the range 0 < a <= 2 pi", "Error",
+							JOptionPane.ERROR_MESSAGE);
+					return;
+				}
+				plane.add(new Obj(2, new MyPoint(0, 0), MathUtil.genCirc(
+						Math.PI, 5d, false), 0d));
 			}
 		});
 		b6.addActionListener(new ActionListener() {

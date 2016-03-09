@@ -68,8 +68,7 @@ public class DialogPointMass extends JDialog {
 							if (massval >= 0) {
 								//TODO: mass < 0?
 								returnObj = new Obj(returnObj.PointMass,
-										new MyPoint(xval, yval), null, massval,
-										1f);
+										new MyPoint(xval, yval), null, massval);
 								filled = true;
 								close();
 								return;
