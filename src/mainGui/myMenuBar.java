@@ -45,8 +45,7 @@ public class myMenuBar extends JMenuBar {
 		menuFile.add(saveFile);
 
 		//Tools
-		JMenuItem mConveter = new JMenuItem("Degrees & radians converter",
-				KeyEvent.VK_D);
+		JMenuItem mConveter = new JMenuItem("Degrees & radians converter", KeyEvent.VK_D);
 		JMenuItem mTrig = new JMenuItem("Trig calculator", KeyEvent.VK_T);
 		menuTools.add(mConveter);
 		menuTools.add(mTrig);
@@ -128,8 +127,7 @@ public class myMenuBar extends JMenuBar {
 			int confirm = JOptionPane.showConfirmDialog(frame,
 					"Attempts to find unkown variables if possible.", "Solver",
 					JOptionPane.OK_CANCEL_OPTION);
-			if (confirm == JOptionPane.CANCEL_OPTION
-					|| confirm == JOptionPane.CLOSED_OPTION) {
+			if (confirm == JOptionPane.CANCEL_OPTION || confirm == JOptionPane.CLOSED_OPTION) {
 				return;
 			}
 
@@ -153,15 +151,12 @@ public class myMenuBar extends JMenuBar {
 			int confirm = JOptionPane.showConfirmDialog(frame,
 					"Attempts to find unkown variables if possible.", "Solver",
 					JOptionPane.OK_CANCEL_OPTION);
-			if (confirm == JOptionPane.CANCEL_OPTION
-					|| confirm == JOptionPane.CLOSED_OPTION) {
+			if (confirm == JOptionPane.CANCEL_OPTION || confirm == JOptionPane.CLOSED_OPTION) {
 				return;
 			}
 			if (!projVars[9].isKnown() && !projVars[8].isKnown()) {
 				projVars[0].setContents(
-						""
-								+ Math.atan(projVars[9].getVal()
-										/ projVars[8].getVal()), false);
+						"" + Math.atan(projVars[9].getVal() / projVars[8].getVal()), false);
 			}
 			Definition[] defs = new Definition[11];
 			defs[0] = new Definition("d=u*cos(a)");
@@ -178,50 +173,78 @@ public class myMenuBar extends JMenuBar {
 			Solver s = new Solver(defs, projVars);
 
 		} else if (topic.equals("Collisions")) {
+			//Not using solver as simultaneous equations are too complex to be represented.
+			while (true) {
+				double m1 = a[1].getVal();
+				double m2 = b[1].getVal();
+				double v1 = a[2].getVal();
+				double v2 = b[2].getVal();
+				double u1 = a[3].getVal();
+				double u2 = b[3].getVal();
+				double c = e.getVal();//c since e is used.
 
-			// mass 1
-			if (!a[1].isKnown()
-					&& (b[1].isKnown() && b[2].isKnown() && b[3].isKnown()
-							&& a[3].isKnown() && a[2].isKnown())) {
-				a[1].setContents(
-						"" + b[1].getVal() * (b[2].getVal() - b[3].getVal())
-								/ (a[3].getVal() - a[2].getVal()), false);
-			}
-			// mass 2
-			if (!b[1].isKnown()
-					&& (a[1].isKnown() && a[2].isKnown() && a[3].isKnown()
-							&& b[3].isKnown() && b[2].isKnown())) {
-				b[1].setContents(
-						"" + a[1].getVal() * (a[3].getVal() - a[2].getVal())
-								/ (b[2].getVal() - b[3].getVal()), false);
-			}
-			// e
-			if (!e.isKnown()
-					&& (a[2].isKnown() && a[3].isKnown() && b[2].isKnown() && b[3]
-							.isKnown())) {
-				e.setContents(
-						"" + (b[2].getVal() - a[2].getVal())
-								/ (a[3].getVal() - b[3].getVal()), false);
-			}
-			int known = 0;
-			if (a[2].isKnown()) {
-				known++;
-			}
-			if (a[3].isKnown()) {
-				known++;
-			}
-			if (b[2].isKnown()) {
-				known++;
-			}
-			if (b[3].isKnown()) {
-				known++;
+				// mass 1
+				if (!a[1].isKnown()
+						&& (b[1].isKnown() && b[2].isKnown() && b[3].isKnown() && a[3].isKnown() && a[2]
+								.isKnown())) {
+					a[1].setContents("" + (m2 * (v2 - u2) / (u1 - v1)), false);
+				}
+				// mass 2
+				if (!b[1].isKnown()
+						&& (a[1].isKnown() && a[2].isKnown() && a[3].isKnown() && b[3].isKnown() && b[2]
+								.isKnown())) {
+					b[1].setContents("" + (m1 * (u1 - v1) / (v2 - u2)), false);
+				}
+				// e
+				if (!e.isKnown()
+						&& (a[2].isKnown() && a[3].isKnown() && b[2].isKnown() && b[3].isKnown())) {
+					e.setContents("" + ((v2 - v1) / (u1 - u2)), false);
+					break;//Exit loop as all var must be known by now.
+				}
+				// v1 
+				if (!a[2].isKnown() && a[2].isKnown() && b[3].isKnown() && b[3].isKnown()) {
+					a[2].setContents("" + (u1 + (m2 * u2 - m2 * v2) / m1), false);//TODO: 
+				}
+				// v2
+				if (!b[2].isKnown() && a[2].isKnown() && b[3].isKnown() && a[3].isKnown()) {
+					b[2].setContents("" + (u2 - (m1 * u1 - m1 * v1) / m2), false);
+				}
+				// u1
+				if (!a[3].isKnown() && a[2].isKnown() && b[2].isKnown() && b[3].isKnown()) {
+					a[3].setContents("" + (v1 + (m2 * v2 - m2 * u2) / m1), false);
+				}
+				// u2
+				if (!b[3].isKnown() && a[2].isKnown() && b[2].isKnown() && a[3].isKnown()) {
+					b[3].setContents("" + v2 + (m1 * v1 - m1 * u1) / m2, false);
+				}
+				//v1 && v2
+				if (!b[2].isKnown() && !a[2].isKnown() && b[3].isKnown() && a[3].isKnown()) {
+					a[2].setContents("" + (u1 + (m2 * u2 - m2 * (c * (u1 - u2) + v1)) / m1), false);
+					b[2].setContents("" + (u2 - (m1 * u1 - m1 * v1) / m2), false);
+				}
+				//u1 && u2 
+				if (!b[3].isKnown() && !a[3].isKnown() && b[2].isKnown() && a[2].isKnown()) {
+					b[3].setContents(
+							""
+									+ ((m1 * v1 / m2 - m1 / m2 * ((v2 - v1) / c) + u2 / m2 + v2) / (1 - 1 / m2)),
+							false);
+					a[3].setContents("" + (v1 + (m2 * v2 - m2 * u2) / m1), false);
+				}
+
+				//Escape if calc take too long
+				if (System.currentTimeMillis() - startTime > 500) {
+					System.out.println("Maximum time reached");
+					break;
+				}
 			}
 
 		} else if (topic.equals("Center")) {
 			JOptionPane.showMessageDialog(frame, "Not avaliable.");
+		} else if (topic.equals("Work")) {
+			//TODO:Work energy power
 		}
-		System.out.println("Solver completed in "
-				+ (System.currentTimeMillis() - startTime) + " ms");
+		System.out.println("Solver completed in " + (System.currentTimeMillis() - startTime)
+				+ " ms");
 		frame.updateFields();
 	}
 }

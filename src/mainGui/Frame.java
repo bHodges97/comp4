@@ -68,7 +68,7 @@ public class Frame extends JFrame {
 	Var[] b;
 	Var e;
 	ColDiagram colDiagram;
-	JTextField[] colField = new JTextField[5];
+	JTextField[] colField = new JTextField[6];
 	JLabel textCurrent;
 	// CircularMotion
 	/**
@@ -222,10 +222,9 @@ public class Frame extends JFrame {
 		JScrollPane scrollSouthS = new JScrollPane(panelSouthS);
 		// Set borders
 		scrollSouthS.setBorder(BorderFactory.createEmptyBorder());
-		panelSouthS.setBorder(BorderFactory.createTitledBorder(
-				BorderFactory.createEtchedBorder(), "Forces"));
-		panelSouthN.setBorder(BorderFactory.createTitledBorder(
-				BorderFactory.createEtchedBorder(),
+		panelSouthS.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(),
+				"Forces"));
+		panelSouthN.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(),
 				"Position from 0,0(not center of rotation)"));
 		panelFields.setBorder(border);
 		// panelWest.setBorder(border);
@@ -255,8 +254,7 @@ public class Frame extends JFrame {
 		// TODO: fill out description for circularMotion.
 		JTextField topicTitle = new JTextField("Circular motion notes");
 		topicTitle.setEditable(false);
-		topicTitle.setFont(topicTitle.getFont().deriveFont(
-				1.2f * topicTitle.getFont().getSize()));
+		topicTitle.setFont(topicTitle.getFont().deriveFont(1.2f * topicTitle.getFont().getSize()));
 		JTextArea topicDesc = new JTextArea();
 		topicDesc.setColumns(26);
 		topicDesc.setLineWrap(true);
@@ -411,8 +409,7 @@ public class Frame extends JFrame {
 					@Override
 					public void focusLost(FocusEvent e) {
 						if (!MathUtil.isNumeric(a.getText())) {
-							JOptionPane.showMessageDialog(Frame.this,
-									"Must be numeric.");
+							JOptionPane.showMessageDialog(Frame.this, "Must be numeric.");
 							return;
 						}
 						circTextA.set(circF.indexOf(a), a.getText());
@@ -428,8 +425,7 @@ public class Frame extends JFrame {
 					@Override
 					public void actionPerformed(ActionEvent e) {
 						if (!MathUtil.isNumeric(a.getText())) {
-							JOptionPane.showMessageDialog(Frame.this,
-									"Must be numeric.");
+							JOptionPane.showMessageDialog(Frame.this, "Must be numeric.");
 							return;
 						}
 						circTextA.set(circF.indexOf(a), a.getText());
@@ -440,8 +436,7 @@ public class Frame extends JFrame {
 					@Override
 					public void focusLost(FocusEvent e) {
 						if (!MathUtil.isNumeric(b.getText())) {
-							JOptionPane.showMessageDialog(Frame.this,
-									"Must be numeric.");
+							JOptionPane.showMessageDialog(Frame.this, "Must be numeric.");
 							return;
 						}
 						circTextB.set(circT.indexOf(b), b.getText());
@@ -457,8 +452,7 @@ public class Frame extends JFrame {
 					@Override
 					public void actionPerformed(ActionEvent e) {
 						if (!MathUtil.isNumeric(b.getText())) {
-							JOptionPane.showMessageDialog(Frame.this,
-									"Must be numeric.");
+							JOptionPane.showMessageDialog(Frame.this, "Must be numeric.");
 							return;
 						}
 						circTextB.set(circT.indexOf(b), b.getText());
@@ -488,13 +482,11 @@ public class Frame extends JFrame {
 
 		JTextField topicTitle = new JTextField("Projectile motion notes");
 		topicTitle.setEditable(false);
-		topicTitle.setFont(topicTitle.getFont().deriveFont(
-				1.2f * topicTitle.getFont().getSize()));
+		topicTitle.setFont(topicTitle.getFont().deriveFont(1.2f * topicTitle.getFont().getSize()));
 		JTextArea topicDesc = new JTextArea();
 		topicDesc.setColumns(26);
 		topicDesc.setLineWrap(true);
-		topicDesc
-				.setText("\nEquation of trajectory:\n   •y = x*tan(θ)-g*x^2/(2*v^2*cos^2(θ))\n");
+		topicDesc.setText("\nEquation of trajectory:\n   •y = x*tan(θ)-g*x^2/(2*v^2*cos^2(θ))\n");
 		topicDesc
 				.append("Acceleration:\n   •Constant acceleration of 9.8 ms^-2 downwards.\n   •No horizontal acceleration, horizontal velocity is constant.\n");
 		topicDesc
@@ -536,11 +528,11 @@ public class Frame extends JFrame {
 
 		JPanel others = new JPanel(new GridBagLayout());
 		JPanel before = new JPanel(new GridBagLayout());
-		before.setBorder(BorderFactory.createTitledBorder(
-				BorderFactory.createEtchedBorder(), "Initial conditions"));
+		before.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(),
+				"Initial conditions"));
 		JPanel after = new JPanel(new GridBagLayout());
-		after.setBorder(BorderFactory.createTitledBorder(
-				BorderFactory.createEtchedBorder(), "When object hits someting"));
+		after.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(),
+				"When object hits someting"));
 
 		southPanel.add(before);
 		southPanel.add(after);
@@ -670,11 +662,9 @@ public class Frame extends JFrame {
 		westPanel.add(fields);
 
 		// text;
-		JTextField topicTitle = new JTextField(
-				"Coefficient of restitution and impulse notes");
+		JTextField topicTitle = new JTextField("Coefficient of restitution and impulse notes");
 		topicTitle.setEditable(false);
-		topicTitle.setFont(topicTitle.getFont().deriveFont(
-				1.2f * topicTitle.getFont().getSize()));
+		topicTitle.setFont(topicTitle.getFont().deriveFont(1.2f * topicTitle.getFont().getSize()));
 		JTextArea topicDesc = new JTextArea();
 		topicDesc
 				.setText("\nNewton's experimental law:\n   •Seperation speed = e * approach speed. \n   • 0 ≤ e ≤ 1 \n   •Perfectly elastic : e = 1	Inelastic e = 0 \n");
@@ -749,17 +739,13 @@ public class Frame extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				// Select object based on mouse click.
-				if (Math.abs(e.getY() - colDiagram.getHeight() / 2) < colDiagram
-						.getHeight() * 0.1
+				if (Math.abs(e.getY() - colDiagram.getHeight() / 2) < colDiagram.getHeight() * 0.1
 						&& (e.getX() < colDiagram.getWidth() / 4 || (e.getX() > colDiagram
-								.getWidth() / 2 && e.getX() < colDiagram
-								.getWidth() * 0.75))) {
+								.getWidth() / 2 && e.getX() < colDiagram.getWidth() * 0.75))) {
 					colA = true;
-				} else if (Math.abs(e.getY() - colDiagram.getHeight() / 2) < colDiagram
-						.getHeight() * 0.1
+				} else if (Math.abs(e.getY() - colDiagram.getHeight() / 2) < colDiagram.getHeight() * 0.1
 						&& (e.getX() > colDiagram.getWidth() / 4 || (e.getX() < colDiagram
-								.getWidth() / 2 && e.getX() > colDiagram
-								.getWidth() * 0.25))) {
+								.getWidth() / 2 && e.getX() > colDiagram.getWidth() * 0.25))) {
 					colA = false;
 				}
 				updateFields();
@@ -787,8 +773,7 @@ public class Frame extends JFrame {
 		// TODO: fill out description.
 		JTextField topicTitle = new JTextField("Center of mass notes");
 		topicTitle.setEditable(false);
-		topicTitle.setFont(topicTitle.getFont().deriveFont(
-				1.2f * topicTitle.getFont().getSize()));
+		topicTitle.setFont(topicTitle.getFont().deriveFont(1.2f * topicTitle.getFont().getSize()));
 		JTextArea topicDesc = new JTextArea();
 		topicDesc.setColumns(26);
 		topicDesc.setLineWrap(true);
@@ -826,8 +811,7 @@ public class Frame extends JFrame {
 	 *            5: Special case for e
 	 * 
 	 */
-	private void addListener(final JTextField t, final Var var1, final int c,
-			final Var var2) {
+	private void addListener(final JTextField t, final Var var1, final int c, final Var var2) {
 		t.addFocusListener(new FocusListener() {
 			@Override
 			public void focusGained(FocusEvent arg0) {
@@ -881,15 +865,14 @@ public class Frame extends JFrame {
 
 		if (c > -2) {
 			if (!MathUtil.isNumeric(t.getText())) {
-				JOptionPane.showMessageDialog(Frame.this, "Not a number!",
-						"Error", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(Frame.this, "Not a number!", "Error",
+						JOptionPane.ERROR_MESSAGE);
 				return;
 			}
 		}
 		if (c == 0) {
 			if (Double.parseDouble(t.getText()) < 0) {
-				JOptionPane.showMessageDialog(Frame.this,
-						"Must be greater than or equal to 0.");
+				JOptionPane.showMessageDialog(Frame.this, "Must be greater than or equal to 0.");
 				return;
 			}
 		}
@@ -901,29 +884,25 @@ public class Frame extends JFrame {
 		}
 		if (c == 1) {
 			if (Double.parseDouble(t.getText()) <= 0) {
-				JOptionPane.showMessageDialog(Frame.this,
-						"Must be greater than 0.");
+				JOptionPane.showMessageDialog(Frame.this, "Must be greater than 0.");
 				return;
 			}
 		}
 		if (c == 3) {
 			if (Double.parseDouble(t.getText()) > 0) {
-				JOptionPane.showMessageDialog(Frame.this,
-						"Must be less than 0.");
+				JOptionPane.showMessageDialog(Frame.this, "Must be less than 0.");
 				return;
 			}
 		}
 		if (c == 4) {
 			if (Math.abs(Double.parseDouble(t.getText())) > 6.28) {
-				JOptionPane.showMessageDialog(Frame.this,
-						"Careful this value is greater than 2 PI");
+				JOptionPane
+						.showMessageDialog(Frame.this, "Careful this value is greater than 2 PI");
 			}
 		}
 		if (c == 5) {
-			if (Double.parseDouble(t.getText()) > 1
-					|| Double.parseDouble(t.getText()) < 0) {
-				JOptionPane.showMessageDialog(Frame.this,
-						"Must follow: 0 <= e <= 1", "Error",
+			if (Double.parseDouble(t.getText()) > 1 || Double.parseDouble(t.getText()) < 0) {
+				JOptionPane.showMessageDialog(Frame.this, "Must follow: 0 <= e <= 1", "Error",
 						JOptionPane.ERROR_MESSAGE);
 				return;
 			}
@@ -966,14 +945,12 @@ public class Frame extends JFrame {
 				for (int i = 0; i < colField.length; i++) {
 					colField[i].setText(MathUtil.round(a[i].contents));
 				}
-				textCurrent.setText("Currently selected object: "
-						+ colField[0].getText());
+				textCurrent.setText("Currently selected object: " + colField[0].getText());
 			} else {
 				for (int i = 0; i < colField.length; i++) {
 					colField[i].setText(MathUtil.round(a[i].contents));
 				}
-				textCurrent.setText("Currently selected object: "
-						+ colField[0].getText());
+				textCurrent.setText("Currently selected object: " + colField[0].getText());
 			}
 		}
 	}

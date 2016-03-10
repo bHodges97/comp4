@@ -66,11 +66,11 @@ public class Plane {
 				double[][] APoints = A.getWorldPoints();
 				double[][] BPoints = B.getWorldPoints();
 				for (int o = 0; o < APoints[0].length; o++) {
-					float tolerance = 0.1f;
+					float tolerance = 1f;
 					for (int x = 0; x < BPoints[0].length - 1; x++) {
 						MathUtil.PointInLineSegment(new MyPoint(APoints[0][o], APoints[1][o]),
-								new MyPoint(BPoints[0][i], APoints[1][i]),
-								new MyPoint(BPoints[0][i + 1], APoints[1][i + 1]), 1f);
+								new MyPoint(BPoints[0][i], APoints[1][i]), new MyPoint(
+										BPoints[0][i + 1], APoints[1][i + 1]), tolerance);
 					}
 				}
 			}

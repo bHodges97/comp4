@@ -1,7 +1,6 @@
 
 Notes
 Don't make dialog automatic.
-Real time validation?
 Form design go vertical,, textfield followed by description,
 FINISH BEFORE DEADLINE
 
@@ -18,20 +17,19 @@ Sort out topic desc.
 -Work on gui
 -Add topic desc
 -Draw axis
--Add special shapes(cones etc
+-Add special shapes(cones etc) and group based on 3d/laminar
 
 :Circ Mom
 -Draw diagram
 -Make gui functional
 
 :collsions
-do logic
-organsise fields
+Consider impulse
 
 :projectiles
 logic
 fix gui
-conside ux = 0;
+consider ux = 0;
 
 
 
