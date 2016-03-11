@@ -30,8 +30,8 @@ public class Panel extends JPanel {
 	public Obj currentObj;
 
 	public void print(String path) {
-		BufferedImage img = new BufferedImage(this.getWidth(),
-				this.getHeight(), BufferedImage.TYPE_INT_RGB);
+		BufferedImage img = new BufferedImage(this.getWidth(), this.getHeight(),
+				BufferedImage.TYPE_INT_RGB);
 		Graphics print = img.getGraphics();
 		printAll(print);
 		try {
@@ -52,8 +52,7 @@ public class Panel extends JPanel {
 			@Override
 			public void mouseDragged(MouseEvent e) {
 				if (currentObj != null)
-					currentObj.moveto(new MyPoint(e.getX(), e.getY()), scale,
-							ox, oy);
+					currentObj.moveto(new MyPoint(e.getX(), e.getY()), scale, ox, oy);
 			}
 
 			@Override
@@ -96,7 +95,28 @@ public class Panel extends JPanel {
 		g2d.setColor(Color.white);
 		g2d.fillRect(0, 0, getWidth(), getHeight());
 		g2d.setColor(Color.black);
-		g2d.drawOval(ox - 2, oy + 2, 4, 4);
+
+		//Draw Axis
+		g2d.setColor(Color.LIGHT_GRAY);
+		for (int i = oy; i < getHeight(); i += 1d / scale) {
+			g2d.drawLine(0, i, getWidth(), i);
+		}
+		for (int u = ox; u < getWidth(); u += 1d / scale) {
+			g2d.drawLine(u, 0, u, getHeight());
+		}
+
+		for (int i = oy; i > 0; i -= 1d / scale) {
+			g2d.drawLine(0, i, getWidth(), i);
+		}
+		for (int u = ox; u > 0; u -= 1d / scale) {
+			g2d.drawLine(u, 0, u, getHeight());
+		}
+		g2d.drawLine(ox, oy, ox + 2000, oy + 2000);
+		g2d.setColor(Color.black);
+		g2d.drawLine(ox, getHeight(), ox, 0);
+		g2d.drawLine(0, oy, getWidth(), oy);
+		g2d.drawString("0", ox - 10, oy + 15);
+
 		if (plane == null) {
 			return;
 		}
@@ -110,11 +130,9 @@ public class Panel extends JPanel {
 			if (obj.getType() == obj.Polygon) {
 				g2d.drawPolygon(renderPoly);
 			} else if (obj.getType() == obj.Polyline) {
-				g2d.drawPolyline(renderPoly.xpoints, renderPoly.ypoints,
-						renderPoly.npoints);
+				g2d.drawPolyline(renderPoly.xpoints, renderPoly.ypoints, renderPoly.npoints);
 			}
-			g2d.fillOval(obj.getWorldX(scale, ox) - s / 2,
-					obj.getWorldY(scale, oy) - s / 2, s, s);
+			g2d.fillOval(obj.getWorldX(scale, ox) - s / 2, obj.getWorldY(scale, oy) - s / 2, s, s);
 		}
 
 		update();

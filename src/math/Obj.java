@@ -103,11 +103,12 @@ public class Obj {
 		if (type == PointMass)
 			return;
 
-		double[] nypoints = new double[shape.getNPoints()];
 		double[] nxpoints = new double[shape.getNPoints()];
+		double[] nypoints = new double[shape.getNPoints()];
+
 		for (int i = 0; i < shape.getNPoints(); i++) {
-			nypoints[i] = shape.points[i].y + cOfM.y;
 			nxpoints[i] = shape.points[i].x + cOfM.x;
+			nypoints[i] = shape.points[i].y + cOfM.y;
 		}
 		this.ypoints = nypoints;
 		this.xpoints = nxpoints;
@@ -146,7 +147,7 @@ public class Obj {
 	 * @return True if point is in polygon
 	 */
 	public boolean PointInPolygon(Point point, int ox, int oy, float scale) {
-		float tolerance = 1 / scale / 4;
+		float tolerance = 0.25f / scale;
 		// Polygon
 		if (type == 0) {
 			int i, j, nvert = xpoints.length;
@@ -172,11 +173,9 @@ public class Obj {
 		// PolyLine
 		else if (type == 2) {
 			for (int i = 0; i < renderPoly.npoints - 1; i++) {
-				if (MathUtil.PointInLineSegment(new MyPoint(point.x, point.y),
-						new MyPoint(renderPoly.xpoints[i],
-								renderPoly.ypoints[i]), new MyPoint(
-								renderPoly.xpoints[i + 1],
-								renderPoly.ypoints[i + 1]), tolerance)) {
+				if (MathUtil.PointInLineSegment(new MyPoint(point.x, point.y), new MyPoint(
+						renderPoly.xpoints[i], renderPoly.ypoints[i]), new MyPoint(
+						renderPoly.xpoints[i + 1], renderPoly.ypoints[i + 1]), tolerance)) {
 					return false;
 				}
 			}

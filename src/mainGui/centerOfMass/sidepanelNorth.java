@@ -3,16 +3,19 @@ package mainGui.centerOfMass;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.border.Border;
+
 import math.MathUtil;
 import math.MyPoint;
 import math.Obj;
 import math.Plane;
 
 public class sidepanelNorth extends JPanel {
-	public final JButton b1 = new JButton("test");
+	public final JButton b1 = new JButton("Custom");
 	public final JButton b2 = new JButton("Rectangle");
 	public final JButton b3 = new JButton("Circle Sector");
 	public final JButton b4 = new JButton("Rod");
@@ -20,12 +23,30 @@ public class sidepanelNorth extends JPanel {
 	public final JButton b6 = new JButton("PointMass");
 	public final DialogPointMass Dialogb6 = new DialogPointMass();
 	public final DialogRect Dialogb2 = new DialogRect();
+	Border border = BorderFactory.createEtchedBorder(1);
+	Plane plane;
 
 	DialogNewObj popupCofM = new DialogNewObj();
 
 	public sidepanelNorth(final Plane plane) {
 		JPanel laminars = new JPanel();
 		JPanel solids = new JPanel();
+		laminars.setBorder(border);
+		solids.setBorder(border);
+		add(laminars);
+
+		laminars.add(b1);
+		laminars.add(b2);
+		laminars.add(b3);
+		laminars.add(b4);
+		laminars.add(b5);
+		laminars.add(b6);
+
+		this.plane = plane;
+		addListeners();
+	}
+
+	public void addListeners() {
 
 		b1.addActionListener(new ActionListener() {
 			@Override
@@ -100,6 +121,5 @@ public class sidepanelNorth extends JPanel {
 				plane.add(Dialogb6.returnObj);
 			}
 		});
-
 	}
 }
