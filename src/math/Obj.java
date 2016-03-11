@@ -37,7 +37,7 @@ public class Obj {
 	 * For display
 	 */
 	private Polygon renderPoly;
-	private float scale;
+	private double scale;
 	private int offx, offy;
 
 	/**
@@ -89,7 +89,7 @@ public class Obj {
 	 * @param scale
 	 *            scale of the canvas
 	 */
-	public void prepareForPaint(int ox, int oy, float scale) {
+	public void prepareForPaint(int ox, int oy, double scale) {
 		offx = ox;
 		offy = oy;
 		this.scale = scale;
@@ -117,6 +117,8 @@ public class Obj {
 		int[] wxpoints = new int[shape.getNPoints()];
 
 		for (int i = 0; i < shape.getNPoints(); i++) {
+			System.out.println(xpoints[i] + " " + xpoints[i] / scale + " " + xpoints[i] + " "
+					+ xpoints[i] / scale);
 			wxpoints[i] = (int) (xpoints[i] / scale + offx);
 			wypoints[i] = (int) (offy - ypoints[i] / scale);
 		}
@@ -146,8 +148,8 @@ public class Obj {
 	 *            Scale of canvas
 	 * @return True if point is in polygon
 	 */
-	public boolean PointInPolygon(Point point, int ox, int oy, float scale) {
-		float tolerance = 0.25f / scale;
+	public boolean PointInPolygon(Point point, int ox, int oy, double scale) {
+		double tolerance = 0.25d / scale;
 		// Polygon
 		if (type == 0) {
 			int i, j, nvert = xpoints.length;
@@ -166,7 +168,6 @@ public class Obj {
 		else if (type == 1) {
 			if (Math.abs(point.x - (cOfM.x / scale + ox)) < tolerance
 					&& Math.abs(point.y - (oy - cOfM.y / scale)) < tolerance) {
-				System.out.println("Tested");
 				return true;
 			}
 		}
@@ -197,7 +198,7 @@ public class Obj {
 	 * @param scale
 	 *            Scale of canvas
 	 */
-	public void moveto(MyPoint myPoint, float scale, int offx, int offy) {
+	public void moveto(MyPoint myPoint, double scale, int offx, int offy) {
 
 		this.cOfM.x = (myPoint.x - offx) * scale;
 		this.cOfM.y = (offy - myPoint.y) * scale;
@@ -217,7 +218,6 @@ public class Obj {
 	public void rotate(Double theta, boolean radians, MyPoint origin) {
 		if (!radians)
 			theta = Math.toRadians(theta);
-		System.out.println("Attempted to rotate by " + theta + " radians");
 		if (origin != null) {
 			cOfM = new MyPoint(cOfM.x - origin.x, cOfM.y - origin.y);
 
@@ -234,12 +234,12 @@ public class Obj {
 		updateWorldSpace();
 	}
 
-	public int getWorldX(float scale, int offx) {
+	public int getWorldX(double scale, int offx) {
 		return (int) (cOfM.x / scale + offx);
 
 	}
 
-	public int getWorldY(float scale, int offy) {
+	public int getWorldY(double scale, int offy) {
 		return (int) (offy - cOfM.y / scale);
 
 	}

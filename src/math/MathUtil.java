@@ -71,7 +71,6 @@ public class MathUtil {
 
 		if (theta < limit && polygon)
 			list.add(new MyPoint(0, 0));
-		System.out.println(list.size());
 		return new Shape(list);
 	}
 
@@ -93,7 +92,7 @@ public class MathUtil {
 	 *      "https://en.wikipedia.org/wiki/Distance_from_a_point_to_a_line">
 	 *      https://en.wikipedia.org/wiki/Distance_from_a_point_to_a_line</a>
 	 */
-	public static boolean PointInLineSegment(MyPoint p, MyPoint p1, MyPoint p2, float tolerance) {
+	public static boolean PointInLineSegment(MyPoint p, MyPoint p1, MyPoint p2, double tolerance) {
 		if (tolerance == 0)
 			tolerance = 0.01f;
 		double a = Math.abs((p2.x - p1.x) * (p1.y - p.y) - (p1.x - p.x) * (p2.y - p1.y));
@@ -128,7 +127,6 @@ public class MathUtil {
 		 */
 		if (!isNumeric(operandA)) {
 			String a = operandA.substring(0, operandA.indexOf("("));
-			System.out.println(operandA + "line 136");
 			String b = operandA.substring(operandA.indexOf("(") + 1, operandA.length() - 1);
 			operandA = solveFunc(a, b);
 		}
@@ -153,7 +151,6 @@ public class MathUtil {
 		if (operator.equals("^")) {
 			return "" + (Math.pow(Double.parseDouble(operandA), Double.parseDouble(operandB)));
 		}
-		System.out.println(operator);
 		throw new IllegalArgumentException("Missing operator");
 	}
 

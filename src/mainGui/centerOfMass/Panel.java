@@ -24,7 +24,7 @@ import math.Plane;
 public class Panel extends JPanel {
 	String topic;
 	public Plane plane;
-	float scale = 0.05f;
+	double scale = 0.05d;
 	int ox = 0;
 	int oy = 0;
 	public Obj currentObj;

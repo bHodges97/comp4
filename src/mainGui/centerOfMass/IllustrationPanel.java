@@ -14,7 +14,7 @@ import math.Shape;
 
 public class IllustrationPanel extends JPanel {
 	Shape s;
-	float scale;
+	double scale;
 	int[] xpoints;
 	int[] ypoints;
 	int x = -1;
