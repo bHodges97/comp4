@@ -1,24 +1,17 @@
 package mainGui.centerOfMass;
 
-import java.awt.Dimension;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-
 import math.MathUtil;
 import math.MyPoint;
 import math.Obj;
 import math.Plane;
 
-public class sidepanelNorth extends JScrollPane {
-	public JPanel p = new JPanel();
+public class sidepanelNorth extends JPanel {
 	public final JButton b1 = new JButton("test");
 	public final JButton b2 = new JButton("Rectangle");
 	public final JButton b3 = new JButton("Circle Sector");
@@ -31,28 +24,8 @@ public class sidepanelNorth extends JScrollPane {
 	DialogNewObj popupCofM = new DialogNewObj();
 
 	public sidepanelNorth(final Plane plane) {
-		JScrollPane scrollFrame = new JScrollPane(p);
-		p.setAutoscrolls(true);
-		p.setPreferredSize(new Dimension(300, 300));
-		p.setBorder(BorderFactory.createEtchedBorder(1));
-		p.setLayout(new GridBagLayout());
-		GridBagConstraints gbc = new GridBagConstraints();
-		gbc.gridy = 0;
-		gbc.gridx = 0;
-		p.add(b1, gbc);
-		gbc.gridx++;
-		p.add(b2, gbc);
-		gbc.gridx++;
-		p.add(b3, gbc);
-		gbc.gridy++;
-		gbc.gridx = 0;
-		p.add(b4, gbc);
-		gbc.gridx++;
-		p.add(b5, gbc);
-		gbc.gridx++;
-		p.add(b6, gbc);
-		gbc.gridy++;
-		gbc.gridx = 0;
+		JPanel laminars = new JPanel();
+		JPanel solids = new JPanel();
 
 		b1.addActionListener(new ActionListener() {
 			@Override
@@ -76,22 +49,20 @@ public class sidepanelNorth extends JScrollPane {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				String reply = JOptionPane.showInputDialog(null,
-						"Enter angle of the circle sector in radians.",
-						"Circle Sector", JOptionPane.QUESTION_MESSAGE);
+						"Enter angle of the circle sector in radians.", "Circle Sector",
+						JOptionPane.QUESTION_MESSAGE);
 				if (!MathUtil.isNumeric(reply)) {
-					JOptionPane.showMessageDialog(null, "Must be numeric.",
-							"Error", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, "Must be numeric.", "Error",
+							JOptionPane.ERROR_MESSAGE);
 					return;
 				}
 				double angle = Double.parseDouble(reply);
 				if (angle > 2 * Math.PI || angle <= 0) {
-					JOptionPane.showMessageDialog(null,
-							"Must be with the range 0 < a <= 2 pi", "Error",
-							JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, "Must be with the range 0 < a <= 2 pi",
+							"Error", JOptionPane.ERROR_MESSAGE);
 					return;
 				}
-				plane.add(new Obj(0, new MyPoint(0, 0), MathUtil.genCirc(
-						Math.PI, 5d, true), 0d));
+				plane.add(new Obj(0, new MyPoint(0, 0), MathUtil.genCirc(Math.PI, 5d, true), 0d));
 			}
 		});
 		b4.addActionListener(new ActionListener() {
@@ -106,22 +77,20 @@ public class sidepanelNorth extends JScrollPane {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				String reply = JOptionPane.showInputDialog(null,
-						"Enter angle of the circle sector in radians.",
-						"Circle Sector", JOptionPane.QUESTION_MESSAGE);
+						"Enter angle of the circle sector in radians.", "Circle Sector",
+						JOptionPane.QUESTION_MESSAGE);
 				if (!MathUtil.isNumeric(reply)) {
-					JOptionPane.showMessageDialog(null, "Must be numeric.",
-							"Error", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, "Must be numeric.", "Error",
+							JOptionPane.ERROR_MESSAGE);
 					return;
 				}
 				double angle = Double.parseDouble(reply);
 				if (angle > 2 * Math.PI || angle <= 0) {
-					JOptionPane.showMessageDialog(null,
-							"Must be with the range 0 < a <= 2 pi", "Error",
-							JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, "Must be with the range 0 < a <= 2 pi",
+							"Error", JOptionPane.ERROR_MESSAGE);
 					return;
 				}
-				plane.add(new Obj(2, new MyPoint(0, 0), MathUtil.genCirc(
-						Math.PI, 5d, false), 0d));
+				plane.add(new Obj(2, new MyPoint(0, 0), MathUtil.genCirc(Math.PI, 5d, false), 0d));
 			}
 		});
 		b6.addActionListener(new ActionListener() {
@@ -131,8 +100,6 @@ public class sidepanelNorth extends JScrollPane {
 				plane.add(Dialogb6.returnObj);
 			}
 		});
-
-		p.setVisible(true);
 
 	}
 }

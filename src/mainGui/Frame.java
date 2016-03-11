@@ -788,7 +788,7 @@ public class Frame extends JFrame {
 		c.gridy = 0;
 		sidepanel.add(panelNorth, c);
 		c.gridy++;
-		sidepanel.add(sideNorth.p, c);
+		sidepanel.add(sideNorth, c);
 		c.gridy++;
 		sidepanel.add(sideSouth, c);
 	}
