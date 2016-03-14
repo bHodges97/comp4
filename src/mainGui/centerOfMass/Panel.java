@@ -96,7 +96,6 @@ public class Panel extends JPanel {
 		g2d.setColor(Color.white);
 		g2d.fillRect(0, 0, getWidth(), getHeight());
 		g2d.setColor(Color.black);
-		System.out.println(scale);
 
 		//Draw Axis
 		int counter = 0;

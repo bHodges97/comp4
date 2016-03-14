@@ -9,6 +9,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.Border;
 
+import mainGui.WrapLayout;
 import math.MathUtil;
 import math.MyPoint;
 import math.Obj;
@@ -29,7 +30,7 @@ public class sidepanelNorth extends JPanel {
 	DialogNewObj popupCofM = new DialogNewObj();
 
 	public sidepanelNorth(final Plane plane) {
-		JPanel laminars = new JPanel();
+		JPanel laminars = new JPanel(new WrapLayout());
 		JPanel solids = new JPanel();
 		laminars.setBorder(border);
 		solids.setBorder(border);

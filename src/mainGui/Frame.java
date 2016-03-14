@@ -171,7 +171,7 @@ public class Frame extends JFrame {
 					initProjectiles();
 				}
 
-				setMinimumSize(new Dimension(100, 100));
+				setMinimumSize(new Dimension(640, 480));
 				setDefaultCloseOperation(EXIT_ON_CLOSE);
 				pack();
 				setVisible(true);
@@ -300,7 +300,7 @@ public class Frame extends JFrame {
 		c = new GridBagConstraints();
 		c.gridx = 0;
 		c.weighty = 0;
-		c.anchor = c.FIRST_LINE_START;
+		c.anchor = GridBagConstraints.FIRST_LINE_START;
 		c.gridy = 0;
 		c.insets = new Insets(2, 2, 2, 2);
 		c.weightx = 1;
@@ -368,7 +368,7 @@ public class Frame extends JFrame {
 		panelSouthN.add(circLblX, c);
 		c.gridy++;
 		panelSouthN.add(circLblY, c);
-		c.anchor = c.EAST;
+		c.anchor = GridBagConstraints.EAST;
 		c.gridwidth = 1;
 		c.gridy = 4;
 		c.gridx = 1;
@@ -377,7 +377,7 @@ public class Frame extends JFrame {
 		panelSouthN.add(circX, c);
 		c.gridy++;
 		panelSouthN.add(circY, c);
-		c.anchor = c.FIRST_LINE_START;
+		c.anchor = GridBagConstraints.FIRST_LINE_START;
 		addListener(circX, circVarB[0], -1, null);
 		addListener(circY, circVarB[1], -1, null);
 
@@ -404,7 +404,7 @@ public class Frame extends JFrame {
 				c.gridy = circF.size();
 				c.gridx = 0;
 				c.weightx = 1;
-				c.anchor = c.FIRST_LINE_START;
+				c.anchor = GridBagConstraints.FIRST_LINE_START;
 				panelSouthS.add(a, c);
 				c.gridx = 1;
 				panelSouthS.add(b, c);
@@ -783,7 +783,7 @@ public class Frame extends JFrame {
 		GridBagConstraints c = new GridBagConstraints();
 		c.weighty = 1;
 		c.weightx = 1;
-		c.fill = c.BOTH;
+		c.fill = GridBagConstraints.BOTH;
 		c.gridy = 0;
 		sidepanel.add(panelNorth, c);
 		c.gridy++;
