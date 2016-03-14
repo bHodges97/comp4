@@ -34,8 +34,8 @@ public class DialogPointMass extends JDialog {
 		gbc.gridx = 0;
 		gbc.gridy = 0;
 		gbc.insets = new Insets(5, 5, 0, 5);
-		gbc.fill = gbc.BOTH;
-		gbc.anchor = gbc.WEST;
+		gbc.fill = GridBagConstraints.BOTH;
+		gbc.anchor = GridBagConstraints.WEST;
 
 		setFocusable(true);
 		setTitle("AddPointMass");
@@ -67,8 +67,8 @@ public class DialogPointMass extends JDialog {
 							double massval = Double.valueOf(mass.getText());
 							if (massval >= 0) {
 								//TODO: mass < 0?
-								returnObj = new Obj(returnObj.PointMass,
-										new MyPoint(xval, yval), null, massval);
+								returnObj = new Obj(returnObj.PointMass, new MyPoint(xval, yval),
+										null, massval);
 								filled = true;
 								close();
 								return;
@@ -83,11 +83,9 @@ public class DialogPointMass extends JDialog {
 
 		setResizable(false);
 		setModal(true);
-		GraphicsEnvironment g = GraphicsEnvironment
-				.getLocalGraphicsEnvironment();
+		GraphicsEnvironment g = GraphicsEnvironment.getLocalGraphicsEnvironment();
 		Point center = g.getCenterPoint();
-		setLocation(center.x - prefSize.width / 2, center.y - prefSize.height
-				/ 2);
+		setLocation(center.x - prefSize.width / 2, center.y - prefSize.height / 2);
 		pack();
 
 	}

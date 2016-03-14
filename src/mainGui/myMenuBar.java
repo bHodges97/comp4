@@ -42,7 +42,7 @@ public class myMenuBar extends JMenuBar {
 		saveImage.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				if (fileChooser.showSaveDialog(main) == fileChooser.APPROVE_OPTION) {
+				if (fileChooser.showSaveDialog(main) == JFileChooser.APPROVE_OPTION) {
 					save(fileChooser.getSelectedFile().getPath());
 				}
 			}

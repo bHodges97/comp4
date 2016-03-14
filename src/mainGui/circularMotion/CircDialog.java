@@ -52,8 +52,7 @@ public class CircDialog extends JDialog {
 		setModal(true);
 
 		setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
-		GraphicsEnvironment g = GraphicsEnvironment
-				.getLocalGraphicsEnvironment();
+		GraphicsEnvironment g = GraphicsEnvironment.getLocalGraphicsEnvironment();
 		Point center = g.getCenterPoint();
 		setLocation(center.x - 500 / 2, center.y - 500 / 2);
 		pack();
@@ -70,8 +69,8 @@ public class CircDialog extends JDialog {
 								&& !((JTextField) c).getText().isEmpty()) {
 							JOptionPane.showMessageDialog(getThis(),
 									"One of the variables wasn't numeric or blank ("
-											+ ((JTextField) c).getText() + ")",
-									"Warning", JOptionPane.ERROR_MESSAGE);
+											+ ((JTextField) c).getText() + ")", "Warning",
+									JOptionPane.ERROR_MESSAGE);
 							return;
 						}
 					}
@@ -184,7 +183,7 @@ public class CircDialog extends JDialog {
 		setLayout(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
 		c.gridx = 0;
-		c.anchor = c.WEST;
+		c.anchor = GridBagConstraints.WEST;
 		c.gridy = 0;
 		this.add(Explanation, c);
 
@@ -229,7 +228,7 @@ public class CircDialog extends JDialog {
 		this.add(textA, c);
 
 		c.gridy++;
-		c.anchor = c.EAST;
+		c.anchor = GridBagConstraints.EAST;
 		Done.setAlignmentX(RIGHT_ALIGNMENT);
 		this.add(Done, c);
 	}

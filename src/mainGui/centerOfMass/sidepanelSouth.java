@@ -50,7 +50,8 @@ public class sidepanelSouth extends JPanel {
 		varName.setText(current.getName());
 		varMass.setText(current.getMass() + "");
 		// truncated
-		varCofm.setText(Math.floor(current.getCOM().x * 100) / 100 + "," + Math.floor(current.getCOM().y * 100) / 100);
+		varCofm.setText(Math.floor(current.getCOM().x * 100) / 100 + ","
+				+ Math.floor(current.getCOM().y * 100) / 100);
 	}
 
 	/**
@@ -61,9 +62,11 @@ public class sidepanelSouth extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				if (current != null) {
-					String responce = JOptionPane.showInputDialog(null,
-							"Enter angle with suffix 'r' for radians or 'd' for degrees. \n Default is radians if nothing is suffixed. Do not use character π!",
-							"Rotate", JOptionPane.QUESTION_MESSAGE);
+					String responce = JOptionPane
+							.showInputDialog(
+									null,
+									"Enter angle with suffix 'r' for radians or 'd' for degrees. \n Default is radians if nothing is suffixed. Do not use character π!",
+									"Rotate", JOptionPane.QUESTION_MESSAGE);
 					if (responce == null)
 						return;
 					char c = responce.charAt(responce.length() - 1);
@@ -93,8 +96,8 @@ public class sidepanelSouth extends JPanel {
 		setBorder(BorderFactory.createEtchedBorder(1));
 
 		GridBagConstraints c = new GridBagConstraints();
-		c.anchor = c.NORTHWEST;
-		c.fill = c.HORIZONTAL;
+		c.anchor = GridBagConstraints.NORTHWEST;
+		c.fill = GridBagConstraints.HORIZONTAL;
 		c.weightx = 1.0;
 		c.weighty = 0;
 

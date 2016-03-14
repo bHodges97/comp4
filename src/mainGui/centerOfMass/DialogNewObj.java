@@ -64,7 +64,7 @@ public class DialogNewObj extends JDialog {
 		bot.setLayout(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
 		c.ipadx = 1;
-		c.anchor = c.LINE_START;
+		c.anchor = GridBagConstraints.LINE_START;
 		c.gridx = 0;
 		c.gridy = 0;
 		bot.add(buAdd, c);
@@ -79,11 +79,11 @@ public class DialogNewObj extends JDialog {
 		c.gridy++;
 		bot.add(new JLabel(" "), c);
 
-		c.anchor = c.CENTER;
+		c.anchor = GridBagConstraints.CENTER;
 		c.gridx = 1;
 		c.gridy = 0;
 		bot.add(buRem, c);
-		c.anchor = c.LINE_END;
+		c.anchor = GridBagConstraints.LINE_END;
 		c.gridy = 1;
 		bot.add(txtPoints, c);
 		c.gridy++;
@@ -132,17 +132,20 @@ public class DialogNewObj extends JDialog {
 				String PosY = txtPosY.getText();
 
 				if (!MathUtil.isNumeric(mass)) {
-					JOptionPane.showMessageDialog(getParent(), "Please enter a valid number(mass)!", "Oops",
-							JOptionPane.ERROR_MESSAGE);
+					JOptionPane
+							.showMessageDialog(getParent(), "Please enter a valid number(mass)!",
+									"Oops", JOptionPane.ERROR_MESSAGE);
 					return;
 				}
 				if (!MathUtil.isNumeric(comX) || !MathUtil.isNumeric(comY)) {
-					JOptionPane.showMessageDialog(getParent(), "Please enter a valid number(fenter of mass)!", "Oops",
+					JOptionPane.showMessageDialog(getParent(),
+							"Please enter a valid number(fenter of mass)!", "Oops",
 							JOptionPane.ERROR_MESSAGE);
 					return;
 				}
 				if (!MathUtil.isNumeric(PosX) || !MathUtil.isNumeric(PosY)) {
-					JOptionPane.showMessageDialog(getParent(), "Please enter a valid number(position)!", "Oops",
+					JOptionPane.showMessageDialog(getParent(),
+							"Please enter a valid number(position)!", "Oops",
 							JOptionPane.ERROR_MESSAGE);
 					return;
 				}
@@ -150,7 +153,8 @@ public class DialogNewObj extends JDialog {
 				for (int i = 0; i < vertices.size(); i++) {
 					points[i] = new MyPoint(vertices.get(i).x - com.x, vertices.get(i).y - com.y);
 				}
-				object = new Obj(Float.valueOf(mass), new MyPoint(Double.valueOf(PosX), Double.valueOf(PosY)), points);
+				object = new Obj(Float.valueOf(mass), new MyPoint(Double.valueOf(PosX), Double
+						.valueOf(PosY)), points);
 				setVisible(false);
 			}
 		});

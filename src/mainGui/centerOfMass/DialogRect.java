@@ -117,8 +117,8 @@ public class DialogRect extends JDialog {
 		gbc.gridx = 0;
 		gbc.gridy = 0;
 		gbc.insets = new Insets(5, 5, 0, 5);
-		gbc.fill = gbc.BOTH;
-		gbc.anchor = gbc.WEST;
+		gbc.fill = GridBagConstraints.BOTH;
+		gbc.anchor = GridBagConstraints.WEST;
 
 		setFocusable(true);
 		setTitle("AddPointMass");

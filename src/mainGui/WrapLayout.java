@@ -73,8 +73,9 @@ public class WrapLayout extends FlowLayout {
 
 			targetWidth = container.getSize().width;
 
-			if (targetWidth == 0)
+			if (targetWidth == 0) {
 				targetWidth = Integer.MAX_VALUE;
+			}
 
 			int hgap = getHgap();
 			int vgap = getVgap();
@@ -97,7 +98,6 @@ public class WrapLayout extends FlowLayout {
 					Dimension d = preferred ? m.getPreferredSize() : m.getMinimumSize();
 
 					//  Can't add the component to current row. Start a new row.
-
 					if (rowWidth + d.width > maxWidth) {
 						addRow(dim, rowWidth, rowHeight);
 						rowWidth = 0;
@@ -105,7 +105,6 @@ public class WrapLayout extends FlowLayout {
 					}
 
 					//  Add a horizontal gap for all components after the first
-
 					if (rowWidth != 0) {
 						rowWidth += hgap;
 					}
