@@ -151,9 +151,10 @@ public class Frame extends JFrame {
 		// TODO:this.setlookandfeel();
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
+				long t = System.currentTimeMillis();
 				setExtendedState(MAXIMIZED_BOTH);
-				setTopic(popup.topic);
-
+				setTitle(popup.topic);
+				topic = popup.topic;
 				myMenuBar menu = new myMenuBar(Frame.this);
 				setJMenuBar(menu);
 
@@ -170,6 +171,7 @@ public class Frame extends JFrame {
 					initProjectiles();
 				}
 
+				setMinimumSize(new Dimension(100, 100));
 				setDefaultCloseOperation(EXIT_ON_CLOSE);
 				pack();
 				setVisible(true);
@@ -204,6 +206,8 @@ public class Frame extends JFrame {
 
 				};
 				update.start();
+				System.out.println("GUI initialised in " + (System.currentTimeMillis() - t)
+						+ " milliseconds");
 			}
 		});
 
@@ -628,11 +632,6 @@ public class Frame extends JFrame {
 
 	}
 
-	private void setTopic(String t) {
-		setTitle(t);
-		topic = t;
-	}
-
 	private void initCollisions() {
 		a = new Var[5];
 		b = new Var[5];
@@ -953,6 +952,33 @@ public class Frame extends JFrame {
 				textCurrent.setText("Currently selected object: " + colField[0].getText());
 			}
 		}
+	}
+
+	/**
+	 * Zooms for topic center of mass.
+	 * 
+	 * @param option
+	 *            0 : zoom in<br>
+	 *            1 : zoom out<br>
+	 *            2 : reset
+	 */
+	public void zoom(int option) {
+		if (option == 0) {
+			if (canvas.scale - 0.01d <= 0) {
+				if (canvas.scale - 0.002d <= 0) {
+					JOptionPane.showMessageDialog(Frame.this, "Max zoom reached");
+					return;//No zoom;
+				}
+				canvas.scale -= 0.002d;//Smaller zoom;
+			} else {
+				canvas.scale -= 0.01d;//Standard zoom;
+			}
+		} else if (option == 1) {
+			canvas.scale += 0.01d;
+		} else {
+			canvas.scale = 0.05d;
+		}
+		canvas.repaint();
 	}
 
 	/**

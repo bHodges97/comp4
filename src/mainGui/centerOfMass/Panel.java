@@ -2,6 +2,7 @@ package mainGui.centerOfMass;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Polygon;
@@ -24,7 +25,7 @@ import math.Plane;
 public class Panel extends JPanel {
 	String topic;
 	public Plane plane;
-	double scale = 0.05d;
+	public double scale = 0.05d;
 	int ox = 0;
 	int oy = 0;
 	public Obj currentObj;
@@ -95,27 +96,69 @@ public class Panel extends JPanel {
 		g2d.setColor(Color.white);
 		g2d.fillRect(0, 0, getWidth(), getHeight());
 		g2d.setColor(Color.black);
+		System.out.println(scale);
 
 		//Draw Axis
-		g2d.setColor(Color.LIGHT_GRAY);
+		int counter = 0;
 		for (int i = oy; i < getHeight(); i += 1d / scale) {
+			g2d.setColor(Color.LIGHT_GRAY);
 			g2d.drawLine(0, i, getWidth(), i);
+			g2d.setColor(Color.GRAY);
+			if (counter != 0) {
+				if (counter % Math.ceil(40 * scale) == 0) {
+					FontMetrics fontMetrics = g2d.getFontMetrics();//Used to make text right aligned
+					g2d.drawString("-" + counter, ox - fontMetrics.stringWidth("-" + counter) - 2,
+							i + 5);
+				}
+			}
+			counter++;
 		}
+		counter = 0;
 		for (int u = ox; u < getWidth(); u += 1d / scale) {
+			g2d.setColor(Color.LIGHT_GRAY);
 			g2d.drawLine(u, 0, u, getHeight());
+			g2d.setColor(Color.GRAY);
+			if (counter != 0) {
+				if (counter % Math.ceil(40 * scale) == 0) {
+					FontMetrics fontMetrics = g2d.getFontMetrics();
+					g2d.drawString("" + counter, u - fontMetrics.stringWidth("" + counter) / 2,
+							oy + 12);
+				}
+			}
+			counter++;
 		}
-
+		counter = 0;
 		for (int i = oy; i > 0; i -= 1d / scale) {
+			g2d.setColor(Color.LIGHT_GRAY);
 			g2d.drawLine(0, i, getWidth(), i);
+			g2d.setColor(Color.GRAY);
+			if (counter != 0) {
+				if (counter % Math.ceil(40 * scale) == 0) {
+					FontMetrics fontMetrics = g2d.getFontMetrics();
+					g2d.drawString("" + counter, ox - fontMetrics.stringWidth("" + counter) - 2,
+							i + 5);
+				}
+			}
+			counter++;
 		}
+		counter = 0;
 		for (int u = ox; u > 0; u -= 1d / scale) {
+			g2d.setColor(Color.LIGHT_GRAY);
 			g2d.drawLine(u, 0, u, getHeight());
+			g2d.setColor(Color.GRAY);
+			if (counter != 0) {
+				if (counter % Math.ceil(40 * scale) == 0) {
+					FontMetrics fontMetrics = g2d.getFontMetrics();
+					g2d.drawString("-" + counter, u - fontMetrics.stringWidth("-" + counter) / 2,
+							oy + 12);
+				}
+			}
+			counter++;
 		}
-		g2d.drawLine(ox, oy, ox + 2000, oy + 2000);
 		g2d.setColor(Color.black);
 		g2d.drawLine(ox, getHeight(), ox, 0);
 		g2d.drawLine(0, oy, getWidth(), oy);
-		g2d.drawString("0", ox - 10, oy + 15);
+		g2d.drawString("0", ox - 10, oy + 15);// Skip this as it's been done in axis already.
 
 		if (plane == null) {
 			return;

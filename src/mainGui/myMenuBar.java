@@ -29,26 +29,14 @@ public class myMenuBar extends JMenuBar {
 
 	public myMenuBar(final Frame main) {
 		frame = main;
-		JMenu menuFile = new JMenu("File");
-		JMenu menuTools = new JMenu("Tool");
-		JMenuItem menuSolve = new JMenuItem("Solve");
-		menuFile.setMnemonic(KeyEvent.VK_F);
-		menuTools.setMnemonic(KeyEvent.VK_T);
-		add(menuFile);
-		add(menuTools);
-		add(menuSolve);
 
 		//File
+		JMenu menuFile = new JMenu("File");
+		menuFile.setMnemonic(KeyEvent.VK_F);
 		JMenuItem saveImage = new JMenuItem("Save image", KeyEvent.VK_I);
 		JMenuItem saveFile = new JMenuItem("Save file", KeyEvent.VK_F);
 		menuFile.add(saveImage);
 		menuFile.add(saveFile);
-
-		//Tools
-		JMenuItem mConveter = new JMenuItem("Degrees & radians converter", KeyEvent.VK_D);
-		JMenuItem mTrig = new JMenuItem("Trig calculator", KeyEvent.VK_T);
-		menuTools.add(mConveter);
-		menuTools.add(mTrig);
 
 		final JFileChooser fileChooser = new JFileChooser();
 		saveImage.addActionListener(new ActionListener() {
@@ -59,21 +47,63 @@ public class myMenuBar extends JMenuBar {
 				}
 			}
 		});
+
+		//Tools			
+		JMenu menuTools = new JMenu("Tool");
+		menuTools.setMnemonic(KeyEvent.VK_T);
+		final JMenuItem mConverter = new JMenuItem("Degrees & radians converter", KeyEvent.VK_D);
+		final JMenuItem mTrig = new JMenuItem("Trig calculator", KeyEvent.VK_T);
+		menuTools.add(mConverter);
+		menuTools.add(mTrig);
 		final AngleConverter dialogConverter = new AngleConverter();
-		mConveter.addActionListener(new ActionListener() {
+
+		//Solve
+		final JMenuItem menuSolve = new JMenuItem("Solve");
+
+		//Zoom
+		JMenu menuZoom = new JMenu("Zoom");
+		menuTools.setMnemonic(KeyEvent.VK_Z);
+		final JMenuItem zoomIn = new JMenuItem("Zoom in");
+		final JMenuItem zoomOut = new JMenuItem("Zoom out");
+		final JMenuItem zoomReset = new JMenuItem("Rest zoom");
+		menuZoom.add(zoomIn);
+		menuZoom.add(zoomOut);
+		menuZoom.add(zoomReset);
+
+		ActionListener listener = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				dialogConverter.Open();
+				if (e.getSource() == menuSolve) {
+					solve();
+				}
+				if (e.getSource() == mConverter) {
+					dialogConverter.Open();
+				}
+				if (e.getSource() == zoomIn) {
+					frame.zoom(0);
+				}
+				if (e.getSource() == zoomOut) {
+					frame.zoom(1);
+				}
+				if (e.getSource() == zoomReset) {
+					frame.zoom(2);
+				}
 			}
-		});
-		menuSolve.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				solve();
+		};
 
-			}
-		});
+		//AddListeners;
+		menuSolve.addActionListener(listener);
+		mConverter.addActionListener(listener);
+		zoomIn.addActionListener(listener);
+		zoomOut.addActionListener(listener);
 
+		//Add all menu items;
+		add(menuFile);
+		add(menuTools);
+		add(menuSolve);
+		if (frame.topic.equals("Center")) {
+			add(menuZoom);
+		}
 	}
 
 	private void save(String pathName) {

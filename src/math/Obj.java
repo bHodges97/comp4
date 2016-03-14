@@ -117,8 +117,6 @@ public class Obj {
 		int[] wxpoints = new int[shape.getNPoints()];
 
 		for (int i = 0; i < shape.getNPoints(); i++) {
-			System.out.println(xpoints[i] + " " + xpoints[i] / scale + " " + xpoints[i] + " "
-					+ xpoints[i] / scale);
 			wxpoints[i] = (int) (xpoints[i] / scale + offx);
 			wypoints[i] = (int) (offy - ypoints[i] / scale);
 		}
