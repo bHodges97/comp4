@@ -4,7 +4,6 @@ import java.awt.Dimension;
 import java.awt.GraphicsEnvironment;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.Insets;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -22,13 +21,13 @@ import math.Shape;
 
 public class DialogRect extends JDialog {
 	Dimension prefSize = new Dimension(200, 200);
-	JTextField comx = new JTextField("0");
-	JTextField comy = new JTextField("0");
-	JTextField x = new JTextField(7);
-	JTextField y = new JTextField(7);
-	JTextField width = new JTextField(7);
-	JTextField height = new JTextField(7);
-	JTextField mass = new JTextField(7);
+	JTextField comx = new JTextField(9);
+	JTextField comy = new JTextField(9);
+	JTextField x = new JTextField(9);
+	JTextField y = new JTextField(9);
+	JTextField width = new JTextField(9);
+	JTextField height = new JTextField(9);
+	JTextField mass = new JTextField(9);
 	JButton butDone = new JButton("Done");
 	boolean filled = false;
 	Obj returnObj = new Obj();
@@ -114,51 +113,55 @@ public class DialogRect extends JDialog {
 	private void placeFields() {
 		setLayout(new GridBagLayout());
 		GridBagConstraints gbc = new GridBagConstraints();
-		gbc.gridx = 0;
-		gbc.gridy = 0;
-		gbc.insets = new Insets(5, 5, 0, 5);
-		gbc.fill = GridBagConstraints.BOTH;
+		//TODO: fix this
+		//gbc.insets = new Insets(10, 10, 10, 10);
+		//gbc.fill = GridBagConstraints.BOTH;
 		gbc.anchor = GridBagConstraints.WEST;
 
 		setFocusable(true);
 		setTitle("AddPointMass");
 
+		gbc.gridx = 0;
+		gbc.gridy = 0;
+		add(new JLabel("Mass:"), gbc);
+		gbc.gridy = 1;
+		add(new JLabel("Dimensions"), gbc);
+		gbc.gridy = 2;
 		add(new JLabel("Width:"), gbc);
-		gbc.gridy++;
-		add(new JLabel("x:"), gbc);
-		gbc.gridy++;
-		add(new JLabel("Center of mass(if not at center)"), gbc);
-		gbc.gridy++;
-		add(new JLabel("x:"), gbc);
-		gbc.gridy++;
-		add(new JLabel("mass:"), gbc);
-
-		gbc.gridx++;
-		gbc.gridy = 0;
-		add(width, gbc);
-		gbc.gridy++;
-		add(x, gbc);
-		gbc.gridy += 2;
-		add(comx, gbc);
-		gbc.gridy++;
-		add(mass, gbc);
-
-		gbc.gridx++;
-		gbc.gridy = 0;
+		gbc.gridy = 3;
 		add(new JLabel("Height:"), gbc);
-		gbc.gridy++;
-		add(new JLabel("y:"), gbc);
-		gbc.gridy += 2;
-		add(new JLabel("y:"), gbc);
+		gbc.gridy = 4;
+		add(new JLabel("Position:"), gbc);
+		gbc.gridy = 5;
+		add(new JLabel("X:"), gbc);
+		gbc.gridy = 6;
+		add(new JLabel("Y:"), gbc);
+		gbc.gridy = 7;
+		gbc.gridwidth = 2;
+		add(new JLabel("Center of mass relative to bottom left corner"), gbc);
+		gbc.gridwidth = 1;
+		gbc.gridy = 8;
+		add(new JLabel("X:"), gbc);
+		gbc.gridy = 9;
+		add(new JLabel("Y:"), gbc);
 
-		gbc.gridx++;
+		gbc.gridx = 1;
 		gbc.gridy = 0;
+		add(mass, gbc);
+		gbc.gridy = 2;
+		add(width, gbc);
+		gbc.gridy = 3;
 		add(height, gbc);
-		gbc.gridy++;
+		gbc.gridy = 5;
+		add(x, gbc);
+		gbc.gridy = 6;
 		add(y, gbc);
-		gbc.gridy += 2;
+		gbc.gridy = 8;
+		add(comx, gbc);
+		gbc.gridy = 9;
 		add(comy, gbc);
-		gbc.gridy += 2;
+
+		gbc.gridy = 10;
 		add(butDone, gbc);
 	}
 
