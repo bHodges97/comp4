@@ -110,7 +110,7 @@ public class Frame extends JFrame {
 	Panel canvas = new Panel();
 	JPanel sidepanel = new JPanel(new GridBagLayout());
 	sidepanelNorth sideNorth;
-	sidepanelSouth sideSouth;
+	public static sidepanelSouth sideSouth;
 
 	// projectile
 	ProjDiagram projDiagram;
@@ -974,8 +974,12 @@ public class Frame extends JFrame {
 				canvas.scale -= 0.01d;//Standard zoom;
 			}
 		} else if (option == 1) {
-			canvas.scale += 0.01d;
-		} else {
+			if (canvas.scale + 0.002d >= 0.5d) {
+				JOptionPane.showMessageDialog(Frame.this, "Max zoom reached");
+				return;//No zoom;
+			}
+			canvas.scale += 0.02d;
+		} else if (option == 2) {
 			canvas.scale = 0.05d;
 		}
 		canvas.repaint();

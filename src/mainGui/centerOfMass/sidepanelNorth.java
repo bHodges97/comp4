@@ -5,8 +5,10 @@ import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 import javax.swing.border.Border;
 
 import mainGui.WrapLayout;
@@ -16,14 +18,19 @@ import math.Obj;
 import math.Plane;
 
 public class sidepanelNorth extends JPanel {
-	public final JButton b1 = new JButton("Custom");
-	public final JButton b2 = new JButton("Rectangle");
-	public final JButton b3 = new JButton("Circle Sector");
-	public final JButton b4 = new JButton("Rod");
-	public final JButton b5 = new JButton("arc");
-	public final JButton b6 = new JButton("PointMass");
-	public final DialogPointMass Dialogb6 = new DialogPointMass();
-	public final DialogRect Dialogb2 = new DialogRect();
+	final JButton b1 = new JButton("Custom");
+	final JButton b2 = new JButton("Rectangle");
+	final JButton b3 = new JButton("Circle Sector");
+	final JButton b4 = new JButton("Rod");
+	final JButton b5 = new JButton("arc");
+	final JButton b6 = new JButton("PointMass");
+	final DialogPointMass Dialogb6 = new DialogPointMass();
+	final DialogRect Dialogb2 = new DialogRect();
+	final JPanel body = new JPanel();
+	final JLabel lbl1 = new JLabel("");
+	final JLabel lbl2 = new JLabel("");
+	final JTextField txt1 = new JTextField(9);
+	final JTextField txt2 = new JTextField(9);
 	Border border = BorderFactory.createEtchedBorder(1);
 	Plane plane;
 
@@ -35,6 +42,12 @@ public class sidepanelNorth extends JPanel {
 		laminars.setBorder(border);
 		solids.setBorder(border);
 		add(laminars);
+
+		//For JOptionPane		
+		body.add(lbl1);
+		body.add(txt1);
+		body.add(lbl2);
+		body.add(txt2);
 
 		laminars.add(b1);
 		laminars.add(b2);
@@ -70,21 +83,25 @@ public class sidepanelNorth extends JPanel {
 			// circsector
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				String reply = JOptionPane.showInputDialog(null,
-						"Enter angle of the circle sector in radians.", "Circle Sector",
+				//Set up text for body;
+				lbl1.setText("Angle");
+				lbl2.setText("Mass");
+				JOptionPane.showMessageDialog(null, body, "Circle Sector",
 						JOptionPane.QUESTION_MESSAGE);
-				if (!MathUtil.isNumeric(reply)) {
+
+				if (!MathUtil.isNumeric(txt1.getText()) || !MathUtil.isNumeric(txt2.getText())) {
 					JOptionPane.showMessageDialog(null, "Must be numeric.", "Error",
 							JOptionPane.ERROR_MESSAGE);
 					return;
 				}
-				double angle = Double.parseDouble(reply);
+				double angle = Double.parseDouble(txt1.getText());
+				double mass = Double.parseDouble(txt2.getText());
 				if (angle > 2 * Math.PI || angle <= 0) {
 					JOptionPane.showMessageDialog(null, "Must be with the range 0 < a <= 2 pi",
 							"Error", JOptionPane.ERROR_MESSAGE);
 					return;
 				}
-				plane.add(new Obj(0, new MyPoint(0, 0), MathUtil.genCirc(Math.PI, 5d, true), 0d));
+				plane.add(new Obj(0, new MyPoint(0, 0), MathUtil.genCirc(angle, 5d, true), mass));
 			}
 		});
 		b4.addActionListener(new ActionListener() {

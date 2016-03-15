@@ -63,14 +63,22 @@ public class MathUtil {
 
 		list.add(new MyPoint(r, 0d));
 		for (float i = 0; i < theta; i += 0.05) {
-			if (i > limit)
+			if (i > limit) {
 				break;
+			}
 			list.add(new MyPoint(r * Math.cos(i), r * Math.sin(i)));
 		}
 		list.add(new MyPoint(r * Math.cos(theta), r * Math.sin(theta)));
 
 		if (theta < limit && polygon)
 			list.add(new MyPoint(0, 0));
+
+		if (polygon) {
+			//TODO: offset by c of m
+		} else {
+
+		}
+
 		return new Shape(list);
 	}
 

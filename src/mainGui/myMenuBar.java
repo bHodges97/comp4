@@ -65,7 +65,7 @@ public class myMenuBar extends JMenuBar {
 		menuTools.setMnemonic(KeyEvent.VK_Z);
 		final JMenuItem zoomIn = new JMenuItem("Zoom in");
 		final JMenuItem zoomOut = new JMenuItem("Zoom out");
-		final JMenuItem zoomReset = new JMenuItem("Rest zoom");
+		final JMenuItem zoomReset = new JMenuItem("Reset zoom");
 		menuZoom.add(zoomIn);
 		menuZoom.add(zoomOut);
 		menuZoom.add(zoomReset);
@@ -87,6 +87,7 @@ public class myMenuBar extends JMenuBar {
 				}
 				if (e.getSource() == zoomReset) {
 					frame.zoom(2);
+
 				}
 			}
 		};
@@ -96,6 +97,7 @@ public class myMenuBar extends JMenuBar {
 		mConverter.addActionListener(listener);
 		zoomIn.addActionListener(listener);
 		zoomOut.addActionListener(listener);
+		zoomReset.addActionListener(listener);
 
 		//Add all menu items;
 		add(menuFile);

@@ -45,8 +45,9 @@ public class sidepanelSouth extends JPanel {
 	}
 
 	private void updateFields() {
-		if (current == null)
+		if (current == null) {
 			return;
+		}
 		varName.setText(current.getName());
 		varMass.setText(current.getMass() + "");
 		// truncated
