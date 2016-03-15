@@ -235,7 +235,7 @@ public class myMenuBar extends JMenuBar {
 				}
 				// v1 
 				if (!a[2].isKnown() && a[2].isKnown() && b[3].isKnown() && b[3].isKnown()) {
-					a[2].setContents("" + (u1 + (m2 * u2 - m2 * v2) / m1), false);//TODO: 
+					a[2].setContents("" + (u1 + (m2 * u2 - m2 * v2) / m1), false);
 				}
 				// v2
 				if (!b[2].isKnown() && a[2].isKnown() && b[3].isKnown() && a[3].isKnown()) {

@@ -612,24 +612,6 @@ public class Frame extends JFrame {
 		c.gridx = 1;
 		others.add(projText[6], c);
 
-		Thread update = new Thread() {
-			public void run() {
-
-				while (true) {
-					repaint();
-					revalidate();
-					projDiagram.repaint();
-
-					try {
-						Thread.sleep((long) 100);
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
-				}
-			}
-		};
-		update.start();
-
 	}
 
 	private void initCollisions() {

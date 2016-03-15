@@ -1,5 +1,8 @@
 package mainGui.centerOfMass;
 
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -29,8 +32,10 @@ public class sidepanelNorth extends JPanel {
 	final JPanel body = new JPanel();
 	final JLabel lbl1 = new JLabel("");
 	final JLabel lbl2 = new JLabel("");
+	final JLabel lbl3 = new JLabel("");
 	final JTextField txt1 = new JTextField(9);
 	final JTextField txt2 = new JTextField(9);
+	final JTextField txt3 = new JTextField(9);
 	Border border = BorderFactory.createEtchedBorder(1);
 	Plane plane;
 
@@ -43,11 +48,24 @@ public class sidepanelNorth extends JPanel {
 		solids.setBorder(border);
 		add(laminars);
 
-		//For JOptionPane		
-		body.add(lbl1);
-		body.add(txt1);
-		body.add(lbl2);
-		body.add(txt2);
+		//For JOptionPane
+		body.setLayout(new GridBagLayout());
+		GridBagConstraints gbc = new GridBagConstraints();
+		gbc.gridx = 0;
+		gbc.gridy = 0;
+		gbc.insets = new Insets(2, 2, 2, 2);
+		body.add(lbl1, gbc);
+		gbc.gridy++;
+		body.add(lbl2, gbc);
+		gbc.gridy++;
+		body.add(lbl3, gbc);
+		gbc.gridx++;
+		gbc.gridy = 0;
+		body.add(txt1, gbc);
+		gbc.gridy++;
+		body.add(txt2, gbc);
+		gbc.gridy++;
+		body.add(txt3, gbc);
 
 		laminars.add(b1);
 		laminars.add(b2);
@@ -86,22 +104,25 @@ public class sidepanelNorth extends JPanel {
 				//Set up text for body;
 				lbl1.setText("Angle");
 				lbl2.setText("Mass");
+				lbl3.setText("Radius");
 				JOptionPane.showMessageDialog(null, body, "Circle Sector",
 						JOptionPane.QUESTION_MESSAGE);
 
-				if (!MathUtil.isNumeric(txt1.getText()) || !MathUtil.isNumeric(txt2.getText())) {
+				if (!MathUtil.isNumeric(txt1.getText()) || !MathUtil.isNumeric(txt2.getText())
+						|| !MathUtil.isNumeric(txt3.getText())) {
 					JOptionPane.showMessageDialog(null, "Must be numeric.", "Error",
 							JOptionPane.ERROR_MESSAGE);
 					return;
 				}
 				double angle = Double.parseDouble(txt1.getText());
 				double mass = Double.parseDouble(txt2.getText());
+				double radius = Double.parseDouble(txt3.getText());
 				if (angle > 2 * Math.PI || angle <= 0) {
 					JOptionPane.showMessageDialog(null, "Must be with the range 0 < a <= 2 pi",
 							"Error", JOptionPane.ERROR_MESSAGE);
 					return;
 				}
-				plane.add(new Obj(0, new MyPoint(0, 0), MathUtil.genCirc(angle, 5d, true), mass));
+				plane.add(new Obj(0, new MyPoint(0, 0), MathUtil.genCirc(angle, radius, true), mass));
 			}
 		});
 		b4.addActionListener(new ActionListener() {
@@ -115,21 +136,29 @@ public class sidepanelNorth extends JPanel {
 			//arc
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				String reply = JOptionPane.showInputDialog(null,
-						"Enter angle of the circle sector in radians.", "Circle Sector",
+				//Set up text for body;
+				lbl1.setText("Angle");
+				lbl2.setText("Mass");
+				lbl3.setText("Radius");
+				JOptionPane.showMessageDialog(null, body, "Circle Sector",
 						JOptionPane.QUESTION_MESSAGE);
-				if (!MathUtil.isNumeric(reply)) {
+
+				if (!MathUtil.isNumeric(txt1.getText()) || !MathUtil.isNumeric(txt2.getText())
+						|| !MathUtil.isNumeric(txt3.getText())) {
 					JOptionPane.showMessageDialog(null, "Must be numeric.", "Error",
 							JOptionPane.ERROR_MESSAGE);
 					return;
 				}
-				double angle = Double.parseDouble(reply);
+				double angle = Double.parseDouble(txt1.getText());
+				double mass = Double.parseDouble(txt2.getText());
+				double radius = Double.parseDouble(txt3.getText());
 				if (angle > 2 * Math.PI || angle <= 0) {
 					JOptionPane.showMessageDialog(null, "Must be with the range 0 < a <= 2 pi",
 							"Error", JOptionPane.ERROR_MESSAGE);
 					return;
 				}
-				plane.add(new Obj(2, new MyPoint(0, 0), MathUtil.genCirc(Math.PI, 5d, false), 0d));
+				plane.add(new Obj(2, new MyPoint(0, 0), MathUtil.genCirc(angle, radius, false),
+						mass));
 			}
 		});
 		b6.addActionListener(new ActionListener() {

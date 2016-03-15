@@ -3,6 +3,7 @@ package math;
 import java.awt.Graphics2D;
 import java.text.DecimalFormatSymbols;
 import java.util.ArrayList;
+import static java.lang.Math.*;
 
 public class MathUtil {
 	/**
@@ -59,24 +60,34 @@ public class MathUtil {
 		ArrayList<MyPoint> list = new ArrayList<>();
 		if (theta < 0)
 			return null;
-		double limit = 2 * Math.PI;
+		double limit = 2 * PI;
 
 		list.add(new MyPoint(r, 0d));
 		for (float i = 0; i < theta; i += 0.05) {
 			if (i > limit) {
 				break;
 			}
-			list.add(new MyPoint(r * Math.cos(i), r * Math.sin(i)));
+			list.add(new MyPoint(r * cos(i), r * sin(i)));
 		}
-		list.add(new MyPoint(r * Math.cos(theta), r * Math.sin(theta)));
+		list.add(new MyPoint(r * cos(theta), r * sin(theta)));
 
 		if (theta < limit && polygon)
 			list.add(new MyPoint(0, 0));
 
 		if (polygon) {
-			//TODO: offset by c of m
+			double y = (2 * r * sin(theta / 2) / (3 * theta / 2)) * sin(theta / 2);
+			double x = (2 * r * sin(theta / 2) / (3 * theta / 2)) * cos(theta / 2);
+			for (MyPoint p : list) {
+				p.x = p.x - x;
+				p.y = p.y - y;
+			}
 		} else {
-
+			double y = (r * sin(theta / 2) / (theta / 2)) * sin(theta / 2);
+			double x = (r * sin(theta / 2) / (theta / 2)) * cos(theta / 2);
+			for (MyPoint p : list) {
+				p.x = p.x - x;
+				p.y = p.y - y;
+			}
 		}
 
 		return new Shape(list);
@@ -103,8 +114,8 @@ public class MathUtil {
 	public static boolean PointInLineSegment(MyPoint p, MyPoint p1, MyPoint p2, double tolerance) {
 		if (tolerance == 0)
 			tolerance = 0.01f;
-		double a = Math.abs((p2.x - p1.x) * (p1.y - p.y) - (p1.x - p.x) * (p2.y - p1.y));
-		double b = Math.sqrt(Math.pow(p2.x - p1.x, 2) + Math.pow(p2.y - p1.y, 2));
+		double a = abs((p2.x - p1.x) * (p1.y - p.y) - (p1.x - p.x) * (p2.y - p1.y));
+		double b = sqrt(pow(p2.x - p1.x, 2) + pow(p2.y - p1.y, 2));
 		if (a / b < tolerance)
 			return true;
 
@@ -157,7 +168,7 @@ public class MathUtil {
 			return "" + (Double.parseDouble(operandA) / Double.parseDouble(operandB));
 		}
 		if (operator.equals("^")) {
-			return "" + (Math.pow(Double.parseDouble(operandA), Double.parseDouble(operandB)));
+			return "" + (pow(Double.parseDouble(operandA), Double.parseDouble(operandB)));
 		}
 		throw new IllegalArgumentException("Missing operator");
 	}
@@ -174,16 +185,16 @@ public class MathUtil {
 	 */
 	private static String solveFunc(String func, String x) throws IllegalArgumentException {
 		if (func.equals("sin")) {
-			return "" + Math.sin(Double.parseDouble(x));
+			return "" + sin(Double.parseDouble(x));
 		}
 		if (func.equals("cos")) {
-			return "" + Math.cos(Double.parseDouble(x));
+			return "" + cos(Double.parseDouble(x));
 		}
 		if (func.equals("tan")) {
-			return "" + Math.tan(Double.parseDouble(x));
+			return "" + tan(Double.parseDouble(x));
 		}
 		if (func.equals("abs")) {
-			return "" + Math.abs(Double.parseDouble(x));
+			return "" + abs(Double.parseDouble(x));
 		}
 		throw new IllegalArgumentException("\"" + func + " \" is not a valid function.");
 	}
@@ -207,32 +218,32 @@ public class MathUtil {
 		}
 		if (x2 == x1) {
 			if (y2 > y1) {
-				theta = Math.PI * 1.5;
+				theta = PI * 1.5;
 			} else if (y2 < y1) {
-				theta = Math.PI * 0.5;
+				theta = PI * 0.5;
 			}
 		} else {
 			if (y1 == y2) {
 				if (x2 > x1) {
 					theta = 0;
 				} else if (x2 < x1) {
-					theta = Math.PI;
+					theta = PI;
 				}
 			} else {
-				theta = Math.atan((double) (y1 - y2) / (double) (x2 - x1));
+				theta = atan((double) (y1 - y2) / (double) (x2 - x1));
 
 				if (y2 - y1 < 0 && x2 - x1 < 0) {
-					theta = Math.PI + theta;
+					theta = PI + theta;
 				} else if (x2 - x1 < 0) {
-					theta = theta + Math.PI;
+					theta = theta + PI;
 				}
 			}
 		}
 
-		g2d.drawLine(x2, y2, (int) (x2 - size * Math.cos(Math.PI / 6 - theta)), (int) (y2 - size
-				* Math.sin(Math.PI / 6 - theta)));
-		g2d.drawLine(x2, y2, (int) (x2 - size * Math.cos(-Math.PI / 6 - theta)), (int) (y2 - size
-				* Math.sin(-Math.PI / 6 - theta)));
+		g2d.drawLine(x2, y2, (int) (x2 - size * cos(PI / 6 - theta)), (int) (y2 - size
+				* sin(PI / 6 - theta)));
+		g2d.drawLine(x2, y2, (int) (x2 - size * cos(-PI / 6 - theta)), (int) (y2 - size
+				* sin(-PI / 6 - theta)));
 
 	}
 

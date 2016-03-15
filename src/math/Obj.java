@@ -175,10 +175,10 @@ public class Obj {
 				if (MathUtil.PointInLineSegment(new MyPoint(point.x, point.y), new MyPoint(
 						renderPoly.xpoints[i], renderPoly.ypoints[i]), new MyPoint(
 						renderPoly.xpoints[i + 1], renderPoly.ypoints[i + 1]), tolerance)) {
-					return false;
+					return true;
 				}
 			}
-			return true;
+			return false;
 		}
 
 		return false;
