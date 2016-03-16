@@ -1,18 +1,28 @@
 package mainGui.centerOfMass;
 
+import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.GraphicsEnvironment;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.GridLayout;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.border.Border;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
 import math.MathUtil;
 import math.MyPoint;
@@ -42,44 +52,27 @@ public class DialogRect extends JDialog {
 			public void actionPerformed(ActionEvent arg0) {
 				double xval, yval, massval, w, h, cx, cy;
 
-				while (true) {
-					if (MathUtil.isNumeric(x.getText()) && MathUtil.isNumeric(y.getText())) {
-						xval = Double.valueOf(x.getText());
-						yval = Double.valueOf(y.getText());
-						if (xval == 0 && yval == 0)
-							break;
-					} else
-						break;
-
-					if (MathUtil.isNumeric(mass.getText())) {
-						massval = Double.valueOf(mass.getText());
-					} else
-						break;
-
-					if (MathUtil.isNumeric(width.getText()) && MathUtil.isNumeric(height.getText())) {
-						w = Double.valueOf(width.getText());
-						h = Double.valueOf(height.getText());
-					} else
-						break;
-
-					if (MathUtil.isNumeric(comx.getText()) && MathUtil.isNumeric(comy.getText())) {
-						cx = Double.valueOf(comx.getText());
-						cy = Double.valueOf(comy.getText());
-					} else if ((comy.getText() != null) && comy.getText() != null) {
-						cx = w / 2;
-						cy = h / 2;
-					} else
-						break;
-
-					Shape s = new Shape(new MyPoint[] { new MyPoint(0 - cx, w - cy),
-							new MyPoint(h - cx, w - cy), new MyPoint(h - cx, 0 - cy),
-							new MyPoint(0 - cx, 0 - cy) });
-					returnObj = new Obj(0, new MyPoint(xval + cx, yval + cy), s, 0);
-					filled = true;
-					close();
-					return;
+				for (Component p : getComponents()) {
+					if (p instanceof JTextField) {
+						if (!MathUtil.isNumeric(((JTextField) p).getText())) {//TODO: error empty string!
+							JOptionPane.showMessageDialog(null, "All fields must be numeric.");
+							return;
+						}
+					}
 				}
-				JOptionPane.showMessageDialog(null, "Something is not right.");
+				xval = Double.valueOf(x.getText());
+				yval = Double.valueOf(y.getText());
+				massval = Double.valueOf(mass.getText());
+				w = Double.valueOf(width.getText());
+				h = Double.valueOf(height.getText());
+				cx = Double.valueOf(comx.getText());
+				cy = Double.valueOf(comy.getText());
+				Shape s = new Shape(new MyPoint[] { new MyPoint(0 - cx, w - cy),
+						new MyPoint(h - cx, w - cy), new MyPoint(h - cx, 0 - cy),
+						new MyPoint(0 - cx, 0 - cy) });
+				returnObj = new Obj(0, new MyPoint(xval + cx, yval + cy), s, massval);
+				filled = true;
+				close();
 
 			}
 
@@ -115,54 +108,128 @@ public class DialogRect extends JDialog {
 		GridBagConstraints gbc = new GridBagConstraints();
 		//TODO: fix this
 		//gbc.insets = new Insets(10, 10, 10, 10);
-		//gbc.fill = GridBagConstraints.BOTH;
+		gbc.fill = GridBagConstraints.BOTH;
 		gbc.anchor = GridBagConstraints.WEST;
 
 		setFocusable(true);
 		setTitle("AddPointMass");
 
+		Border etchedBorder = BorderFactory.createEtchedBorder(1);
+
+		final PanelRectangle panelDiagram = new PanelRectangle();
+		panelDiagram.setPreferredSize(new Dimension(200, 200));
+		panelDiagram.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+		JPanel panelMass = new JPanel();
+		JPanel panelDimension = new JPanel();
+		JPanel panelPosition = new JPanel();
+		JPanel panelCenter = new JPanel();
+		JPanel panelDone = new JPanel();
+
+		panelMass.setBorder(BorderFactory.createTitledBorder(etchedBorder, "Mass"));
+		panelDimension.setBorder(BorderFactory.createTitledBorder(etchedBorder, "Dimensions"));
+		panelPosition.setBorder(BorderFactory.createTitledBorder(etchedBorder, "Position"));
+		panelCenter.setBorder(BorderFactory.createTitledBorder(etchedBorder, "Center of mass"));
+
+		panelMass.setLayout(new GridLayout(0, 2));
+		panelDimension.setLayout(new GridLayout(0, 2));
+		panelPosition.setLayout(new GridLayout(0, 2));
+		panelCenter.setLayout(new GridLayout(0, 2));
+		panelDone.setLayout(new GridLayout(0, 2));
+
 		gbc.gridx = 0;
 		gbc.gridy = 0;
-		add(new JLabel("Mass:"), gbc);
+		add(panelDiagram, gbc);
 		gbc.gridy = 1;
-		add(new JLabel("Dimensions"), gbc);
+		add(panelMass, gbc);
 		gbc.gridy = 2;
-		add(new JLabel("Width:"), gbc);
+		add(panelDimension, gbc);
 		gbc.gridy = 3;
-		add(new JLabel("Height:"), gbc);
+		add(panelPosition, gbc);
 		gbc.gridy = 4;
-		add(new JLabel("Position:"), gbc);
+		add(panelCenter, gbc);
 		gbc.gridy = 5;
-		add(new JLabel("X:"), gbc);
-		gbc.gridy = 6;
-		add(new JLabel("Y:"), gbc);
-		gbc.gridy = 7;
-		gbc.gridwidth = 2;
-		add(new JLabel("Center of mass relative to bottom left corner"), gbc);
-		gbc.gridwidth = 1;
-		gbc.gridy = 8;
-		add(new JLabel("X:"), gbc);
-		gbc.gridy = 9;
-		add(new JLabel("Y:"), gbc);
+		add(panelDone, gbc);
 
-		gbc.gridx = 1;
-		gbc.gridy = 0;
-		add(mass, gbc);
-		gbc.gridy = 2;
-		add(width, gbc);
-		gbc.gridy = 3;
-		add(height, gbc);
-		gbc.gridy = 5;
-		add(x, gbc);
-		gbc.gridy = 6;
-		add(y, gbc);
-		gbc.gridy = 8;
-		add(comx, gbc);
-		gbc.gridy = 9;
-		add(comy, gbc);
+		panelMass.add(new JLabel("Mass (kg):"));
+		panelMass.add(mass);
+		panelDimension.add(new JLabel("Width (m):"));
+		panelDimension.add(width);
+		panelDimension.add(new JLabel("Height (m):"));
+		panelDimension.add(height);
+		panelPosition.add(new JLabel("X (m):"));
+		panelPosition.add(x);
+		panelPosition.add(new JLabel("Y (m):"));
+		panelPosition.add(y);
+		panelCenter.add(new JLabel("X (m):"));
+		panelCenter.add(comx);
+		panelCenter.add(new JLabel("Y (m):"));
+		panelCenter.add(comy);
+		panelDone.add(new JLabel(""));//Fill space
+		panelDone.add(butDone);
 
-		gbc.gridy = 10;
-		add(butDone, gbc);
+		width.addFocusListener(new FocusListener() {
+			@Override
+			public void focusGained(FocusEvent arg0) {
+				// Do nothing				
+			}
+
+			@Override
+			public void focusLost(FocusEvent arg0) {
+				if (comx.getText().isEmpty()) {
+					if (MathUtil.isNumeric(width.getText())) {
+						comx.setText((Double.parseDouble(width.getText()) / 2) + "");
+					}
+				}
+			}
+		});
+		height.addFocusListener(new FocusListener() {
+			@Override
+			public void focusGained(FocusEvent arg0) {
+				// Do nothing				
+			}
+
+			@Override
+			public void focusLost(FocusEvent arg0) {
+				if (comy.getText().isEmpty()) {
+					if (MathUtil.isNumeric(height.getText())) {
+						comy.setText((Double.parseDouble(height.getText()) / 2) + "");
+					}
+				}
+			}
+		});
+		DocumentListener docListener = new DocumentListener() {
+			private void update() {
+				if (MathUtil.isNumeric(width.getText()) && MathUtil.isNumeric(comx.getText())) {
+					double x = Double.parseDouble(width.getText());
+					double comXVal = Double.parseDouble(comx.getText());
+					panelDiagram.comX = (int) (comXVal / x * (panelDiagram.getWidth() - 10) + 5);
+				}
+				if (MathUtil.isNumeric(height.getText()) && MathUtil.isNumeric(comy.getText())) {
+					double y = Double.parseDouble(height.getText());
+					double comYVal = Double.parseDouble(comy.getText());
+					panelDiagram.comY = (int) (comYVal / y * (panelDiagram.getHeight() - 10) + 5);
+				}
+				panelDiagram.repaint();
+			}
+
+			@Override
+			public void changedUpdate(DocumentEvent e) {
+				update();
+
+			}
+
+			@Override
+			public void insertUpdate(DocumentEvent e) {
+				update();
+			}
+
+			@Override
+			public void removeUpdate(DocumentEvent e) {
+				// Do nothing
+			}
+		};
+		comx.getDocument().addDocumentListener(docListener);
+		comy.getDocument().addDocumentListener(docListener);
+
 	}
-
 }
