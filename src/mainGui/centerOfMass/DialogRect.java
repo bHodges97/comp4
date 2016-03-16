@@ -33,30 +33,37 @@ public class DialogRect extends JDialog {
 	Dimension prefSize = new Dimension(200, 200);
 	JTextField comx = new JTextField(9);
 	JTextField comy = new JTextField(9);
-	JTextField x = new JTextField(9);
-	JTextField y = new JTextField(9);
+	JTextField x = new JTextField("0");
+	JTextField y = new JTextField("0");
 	JTextField width = new JTextField(9);
 	JTextField height = new JTextField(9);
 	JTextField mass = new JTextField(9);
 	JButton butDone = new JButton("Done");
 	boolean filled = false;
 	Obj returnObj = new Obj();
+	PanelRectangle panelDiagram = new PanelRectangle();
 
 	public DialogRect() {
 
 		placeFields();
-		//TODO: fix rectangles
+		// TODO: fix rectangles
 		butDone.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				double xval, yval, massval, w, h, cx, cy;
+				// Loops through all panels inside dialog box
+				for (Component panel : getContentPane().getComponents()) {
+					if (panel instanceof JPanel) {
 
-				for (Component p : getComponents()) {
-					if (p instanceof JTextField) {
-						if (!MathUtil.isNumeric(((JTextField) p).getText())) {//TODO: error empty string!
-							JOptionPane.showMessageDialog(null, "All fields must be numeric.");
-							return;
+						// loop through panel components
+						for (Component component : ((JPanel) panel).getComponents()) {
+							if (component instanceof JTextField) {
+								if (!MathUtil.isNumeric(((JTextField) component).getText())) {
+									JOptionPane.showMessageDialog(null, "All fields must be numeric.");
+									return;
+								}
+							}
 						}
 					}
 				}
@@ -67,9 +74,8 @@ public class DialogRect extends JDialog {
 				h = Double.valueOf(height.getText());
 				cx = Double.valueOf(comx.getText());
 				cy = Double.valueOf(comy.getText());
-				Shape s = new Shape(new MyPoint[] { new MyPoint(0 - cx, w - cy),
-						new MyPoint(h - cx, w - cy), new MyPoint(h - cx, 0 - cy),
-						new MyPoint(0 - cx, 0 - cy) });
+				Shape s = new Shape(new MyPoint[] { new MyPoint(0 - cx, h - cy), new MyPoint(w - cx, h - cy),
+						new MyPoint(w - cx, 0 - cy), new MyPoint(0 - cx, 0 - cy) });
 				returnObj = new Obj(0, new MyPoint(xval + cx, yval + cy), s, massval);
 				filled = true;
 				close();
@@ -89,8 +95,8 @@ public class DialogRect extends JDialog {
 
 	public void open() {
 		filled = false;
-		x.setText("");
-		y.setText("");
+		x.setText("0");
+		y.setText("0");
 		comx.setText("");
 		comy.setText("");
 		height.setText("");
@@ -100,14 +106,13 @@ public class DialogRect extends JDialog {
 	}
 
 	public void close() {
+		panelDiagram.clear();
 		this.setVisible(false);
 	}
 
 	private void placeFields() {
 		setLayout(new GridBagLayout());
 		GridBagConstraints gbc = new GridBagConstraints();
-		//TODO: fix this
-		//gbc.insets = new Insets(10, 10, 10, 10);
 		gbc.fill = GridBagConstraints.BOTH;
 		gbc.anchor = GridBagConstraints.WEST;
 
@@ -116,7 +121,6 @@ public class DialogRect extends JDialog {
 
 		Border etchedBorder = BorderFactory.createEtchedBorder(1);
 
-		final PanelRectangle panelDiagram = new PanelRectangle();
 		panelDiagram.setPreferredSize(new Dimension(200, 200));
 		panelDiagram.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 		JPanel panelMass = new JPanel();
@@ -164,13 +168,13 @@ public class DialogRect extends JDialog {
 		panelCenter.add(comx);
 		panelCenter.add(new JLabel("Y (m):"));
 		panelCenter.add(comy);
-		panelDone.add(new JLabel(""));//Fill space
+		panelDone.add(new JLabel(""));// Fill space
 		panelDone.add(butDone);
 
 		width.addFocusListener(new FocusListener() {
 			@Override
 			public void focusGained(FocusEvent arg0) {
-				// Do nothing				
+				// Do nothing
 			}
 
 			@Override
@@ -180,12 +184,14 @@ public class DialogRect extends JDialog {
 						comx.setText((Double.parseDouble(width.getText()) / 2) + "");
 					}
 				}
+				panelDiagram.x = (int) Double.parseDouble(width.getText());
+				panelDiagram.repaint();
 			}
 		});
 		height.addFocusListener(new FocusListener() {
 			@Override
 			public void focusGained(FocusEvent arg0) {
-				// Do nothing				
+				// Do nothing
 			}
 
 			@Override
@@ -195,6 +201,8 @@ public class DialogRect extends JDialog {
 						comy.setText((Double.parseDouble(height.getText()) / 2) + "");
 					}
 				}
+				panelDiagram.y = (int) Double.parseDouble(height.getText());
+				panelDiagram.repaint();
 			}
 		});
 		DocumentListener docListener = new DocumentListener() {
@@ -202,12 +210,12 @@ public class DialogRect extends JDialog {
 				if (MathUtil.isNumeric(width.getText()) && MathUtil.isNumeric(comx.getText())) {
 					double x = Double.parseDouble(width.getText());
 					double comXVal = Double.parseDouble(comx.getText());
-					panelDiagram.comX = (int) (comXVal / x * (panelDiagram.getWidth() - 10) + 5);
+					panelDiagram.comX = (int) comXVal;
 				}
 				if (MathUtil.isNumeric(height.getText()) && MathUtil.isNumeric(comy.getText())) {
 					double y = Double.parseDouble(height.getText());
 					double comYVal = Double.parseDouble(comy.getText());
-					panelDiagram.comY = (int) (comYVal / y * (panelDiagram.getHeight() - 10) + 5);
+					panelDiagram.comY = (int) (comYVal);
 				}
 				panelDiagram.repaint();
 			}
@@ -215,7 +223,6 @@ public class DialogRect extends JDialog {
 			@Override
 			public void changedUpdate(DocumentEvent e) {
 				update();
-
 			}
 
 			@Override
