@@ -186,7 +186,7 @@ public class DialogNewObj extends JDialog {
 			com = ver.findCenter();
 			txtCOMX.setText("" + Math.round(com.x));
 			txtCOMY.setText("" + Math.round(com.y));
-			p.setCOfM(com);
+			p.setCOM(com);
 		}
 
 	}

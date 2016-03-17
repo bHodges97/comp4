@@ -28,9 +28,9 @@ public class Obj {
 
 	/**
 	 * Center Of mass, Used as position of object in world space. The shape
-	 * associated with the object has cOfM as its origin.
+	 * associated with the object has COM as its origin.
 	 */
-	MyPoint cOfM;
+	MyPoint COM;
 	Shape shape;
 
 	/**
@@ -49,7 +49,7 @@ public class Obj {
 	public Obj() {
 		this.mass = 1;
 		this.shape = new Shape();
-		this.cOfM = shape.findCenter();
+		this.COM = shape.findCenter();
 		this.type = Polygon;
 		updateWorldSpace();
 	}
@@ -57,7 +57,7 @@ public class Obj {
 	public Obj(Float mass, MyPoint myPoint, MyPoint[] points) {
 		this.mass = mass;
 		this.shape = new Shape(points);
-		this.cOfM = myPoint;
+		this.COM = myPoint;
 		this.type = Polygon;
 		updateWorldSpace();
 	}
@@ -66,7 +66,7 @@ public class Obj {
 		this.mass = (float) mass;
 		this.type = type;
 		this.shape = PLACEHOLDER;
-		this.cOfM = centerOfMass;
+		this.COM = centerOfMass;
 		updateWorldSpace();
 	}
 
@@ -107,8 +107,8 @@ public class Obj {
 		double[] nypoints = new double[shape.getNPoints()];
 
 		for (int i = 0; i < shape.getNPoints(); i++) {
-			nxpoints[i] = shape.points[i].x + cOfM.x;
-			nypoints[i] = shape.points[i].y + cOfM.y;
+			nxpoints[i] = shape.points[i].x + COM.x;
+			nypoints[i] = shape.points[i].y + COM.y;
 		}
 		this.ypoints = nypoints;
 		this.xpoints = nxpoints;
@@ -163,8 +163,8 @@ public class Obj {
 		}
 		// Point
 		else if (type == 1) {
-			if (Math.abs(point.x - (cOfM.x / scale + ox)) < tolerance
-					&& Math.abs(point.y - (oy - cOfM.y / scale)) < tolerance) {
+			if (Math.abs(point.x - (COM.x / scale + ox)) < tolerance
+					&& Math.abs(point.y - (oy - COM.y / scale)) < tolerance) {
 				return true;
 			}
 		}
@@ -197,8 +197,8 @@ public class Obj {
 	 */
 	public void moveto(MyPoint myPoint, double scale, int offx, int offy) {
 
-		this.cOfM.x = (myPoint.x - offx) * scale;
-		this.cOfM.y = (offy - myPoint.y) * scale;
+		this.COM.x = (myPoint.x - offx) * scale;
+		this.COM.y = (offy - myPoint.y) * scale;
 		updateWorldSpace();
 	}
 
@@ -216,28 +216,28 @@ public class Obj {
 		if (!radians)
 			theta = Math.toRadians(theta);
 		if (origin != null) {
-			cOfM = new MyPoint(cOfM.x - origin.x, cOfM.y - origin.y);
+			COM = new MyPoint(COM.x - origin.x, COM.y - origin.y);
 
-			double tempx = cOfM.x * Math.cos(theta) - cOfM.y * Math.sin(theta);
-			cOfM.y = cOfM.x * Math.sin(theta) + cOfM.y * Math.cos(theta);
-			cOfM.x = tempx;
+			double tempx = COM.x * Math.cos(theta) - COM.y * Math.sin(theta);
+			COM.y = COM.x * Math.sin(theta) + COM.y * Math.cos(theta);
+			COM.x = tempx;
 
 		}
-		cOfM = new MyPoint(cOfM.x + origin.x, cOfM.y + origin.y);
+		COM = new MyPoint(COM.x + origin.x, COM.y + origin.y);
 
-		shape.rotate(theta, origin, cOfM);
+		shape.rotate(theta, origin, COM);
 		// TODO: REALLY TEST THIS
 
 		updateWorldSpace();
 	}
 
 	public int getWorldX(double scale, int offx) {
-		return (int) (cOfM.x / scale + offx);
+		return (int) (COM.x / scale + offx);
 
 	}
 
 	public int getWorldY(double scale, int offy) {
-		return (int) (offy - cOfM.y / scale);
+		return (int) (offy - COM.y / scale);
 
 	}
 
@@ -250,7 +250,7 @@ public class Obj {
 	}
 
 	public MyPoint getCOM() {
-		return new MyPoint(cOfM.x, cOfM.y);
+		return new MyPoint(COM.x, COM.y);
 	}
 
 	public void disable() {
@@ -270,8 +270,8 @@ public class Obj {
 	}
 
 	public void translate(double x, double y) {
-		cOfM.x += x;
-		cOfM.y += y;
+		COM.x += x;
+		COM.y += y;
 
 	}
 

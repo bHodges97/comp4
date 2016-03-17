@@ -192,8 +192,8 @@ public class Panel extends JPanel {
 	private void update() {
 		if (plane.objects.isEmpty())
 			return;
-		// plane.findCofM(); 
-		//TODO : findcofm
+		// plane.findCOM(); 
+		//TODO : findCOM
 	}
 
 }

@@ -11,7 +11,7 @@ import java.util.ArrayList;
 
 public class Plane {
 	public ArrayList<Obj> objects = new ArrayList<Obj>();
-	MyPoint cOfm = new MyPoint(0, 0);
+	MyPoint COM = new MyPoint(0, 0);
 	Float g = -9.8f;
 
 	public Plane() {
@@ -22,7 +22,7 @@ public class Plane {
 		//TODO: interpret
 	}
 
-	public void findCofM() {
+	public void findCOM() {
 		Double x;
 		Double y;
 		Double sumMomx = 0d;
@@ -31,15 +31,15 @@ public class Plane {
 
 		// Sum of force * dx / sum of force
 		for (Obj obj : objects) {
-			sumMomx += obj.cOfM.x * obj.mass * g;
-			sumMomy += obj.cOfM.y * obj.mass * g;
+			sumMomx += obj.COM.x * obj.mass * g;
+			sumMomy += obj.COM.y * obj.mass * g;
 			sumMass += obj.mass * g;
 		}
 		x = sumMomx / sumMass;
 		y = sumMomy / sumMass;
-		cOfm.x = x;
-		cOfm.y = y;
-		System.out.println("cOfm " + x + " " + y);
+		COM.x = x;
+		COM.y = y;
+		System.out.println("COM " + x + " " + y);
 	}
 
 	public void add(Obj obj) {

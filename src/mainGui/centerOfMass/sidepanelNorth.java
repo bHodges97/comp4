@@ -40,7 +40,7 @@ public class sidepanelNorth extends JPanel {
 	Border border = BorderFactory.createEtchedBorder(1);
 	Plane plane;
 
-	DialogNewObj popupCofM = new DialogNewObj();
+	DialogNewObj popupCOM = new DialogNewObj();
 
 	public sidepanelNorth(final Plane plane) {
 		JPanel laminars = new JPanel(new WrapLayout());
@@ -86,10 +86,10 @@ public class sidepanelNorth extends JPanel {
 		b1.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				popupCofM = new DialogNewObj();
-				popupCofM.setVisible(true);
-				plane.add(popupCofM.object);
-				popupCofM.dispose();
+				popupCOM = new DialogNewObj();
+				popupCOM.setVisible(true);
+				plane.add(popupCOM.object);
+				popupCOM.dispose();
 			}
 		});
 		b2.addActionListener(new ActionListener() {

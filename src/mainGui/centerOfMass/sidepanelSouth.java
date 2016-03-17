@@ -24,15 +24,15 @@ public class sidepanelSouth extends JPanel {
 
 	JLabel objName = new JLabel("Current Object");
 	JLabel objMass = new JLabel("Mass");
-	JLabel objCofm = new JLabel("Position");
+	JLabel objCOM = new JLabel("Position");
 
 	JTextField varName = new JTextField("NULL");
 	JTextField varMass = new JTextField("NULL");
-	JTextField varCofm = new JTextField("NULL");
+	JTextField varCOM = new JTextField("NULL");
 
 	JButton rotate = new JButton("Rotate");
 	JButton translate = new JButton("Translate");
-	JButton changeCOfM = new JButton("Change center of mass");
+	JButton changeCOM = new JButton("Change center of mass");
 
 	public Obj current;
 
@@ -54,7 +54,7 @@ public class sidepanelSouth extends JPanel {
 		varName.setText(current.getName());
 		varMass.setText(current.getMass() + "");
 		// truncated
-		varCofm.setText(Math.floor(current.getCOM().x * 100) / 100 + "," + Math.floor(current.getCOM().y * 100) / 100);
+		varCOM.setText(Math.floor(current.getCOM().x * 100) / 100 + "," + Math.floor(current.getCOM().y * 100) / 100);
 	}
 
 	/**
@@ -125,7 +125,7 @@ public class sidepanelSouth extends JPanel {
 				}
 			}
 		});
-		changeCOfM.addActionListener(new ActionListener() {
+		changeCOM.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				// TODO Auto-generated method stub
@@ -186,26 +186,26 @@ public class sidepanelSouth extends JPanel {
 		c.gridy++;
 		add(objMass, c);
 		c.gridy++;
-		add(objCofm, c);
+		add(objCOM, c);
 		c.gridx++;
 		c.gridy = 0;
 		add(varName, c);
 		c.gridy++;
 		add(varMass, c);
 		c.gridy++;
-		add(varCofm, c);
+		add(varCOM, c);
 		c.gridy++;
 		add(rotate, c);
 		c.gridy++;
 		add(translate, c);
 		c.gridy++;
-		add(changeCOfM, c);
+		add(changeCOM, c);
 
 		/*
 		 * Fixed Size so changing text doesn't change layout.
 		 */
 		varName.setColumns(9);
 		varMass.setColumns(9);
-		varCofm.setColumns(9);
+		varCOM.setColumns(9);
 	}
 }

@@ -67,7 +67,7 @@ public class IllustrationPanel extends JPanel {
 
 	}
 
-	public void setCOfM(MyPoint com) {
+	public void setCOM(MyPoint com) {
 		x = (int) ((com.x - s.getMinX()) / scale) + 10;
 		y = (int) (this.getHeight() - (com.y - s.getMinY()) / scale) - 10;
 	}
