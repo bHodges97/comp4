@@ -93,7 +93,36 @@ public class sidepanelSouth extends JPanel {
 		translate.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				//TODO: complete 
+				JPanel message = new JPanel(new GridBagLayout());
+				GridBagConstraints gbc = new GridBagConstraints();
+				JTextField fieldX = new JTextField("0", 9);
+				JTextField fieldY = new JTextField("0", 9);
+				gbc.gridx = 0;
+				gbc.gridy = 0;
+				gbc.gridwidth = 2;
+				gbc.anchor = GridBagConstraints.FIRST_LINE_START;
+				message.add(new JLabel("<html>Enter X and Y coordinates<br> to translate by."), gbc);
+				gbc.gridwidth = 1;
+				gbc.gridy = 1;
+				message.add(new JLabel("X"), gbc);
+				gbc.gridy = 2;
+				message.add(new JLabel("Y"), gbc);
+
+				gbc.gridx = 1;
+				message.add(fieldY, gbc);
+				gbc.gridy = 1;
+				message.add(fieldX, gbc);
+
+				JOptionPane
+						.showMessageDialog(null, message, "Translate", JOptionPane.PLAIN_MESSAGE);
+
+				if (!MathUtil.isNumeric(fieldX.getText()) || !MathUtil.isNumeric(fieldY.getText())) {
+					JOptionPane.showMessageDialog(null, "Not a number.", "Error",
+							JOptionPane.ERROR_MESSAGE);
+				} else {
+					current.translate(Double.parseDouble(fieldX.getText()),
+							Double.parseDouble(fieldY.getText()));
+				}
 			}
 		});
 	}
@@ -127,6 +156,9 @@ public class sidepanelSouth extends JPanel {
 		add(varCofm, c);
 		c.gridy++;
 		add(rotate, c);
+		c.gridy++;
+		add(translate);
+
 		/*
 		 * Fixed Size so changing text doesn't change layout.
 		 */

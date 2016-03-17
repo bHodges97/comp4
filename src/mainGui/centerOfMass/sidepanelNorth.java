@@ -115,7 +115,7 @@ public class sidepanelNorth extends JPanel {
 
 				if (!MathUtil.isNumeric(txt1.getText()) || !MathUtil.isNumeric(txt2.getText())
 						|| !MathUtil.isNumeric(txt3.getText())) {
-					JOptionPane.showMessageDialog(null, "Must be numeric.", "Error",
+					JOptionPane.showMessageDialog(null, "Not a number!", "Error",
 							JOptionPane.ERROR_MESSAGE);
 					return;
 				}
@@ -140,7 +140,7 @@ public class sidepanelNorth extends JPanel {
 				JOptionPane.showMessageDialog(null, body, "Rod", JOptionPane.QUESTION_MESSAGE);
 				if (!MathUtil.isNumeric(txt1.getText()) || !MathUtil.isNumeric(txt2.getText())
 						|| !MathUtil.isNumeric(txt3.getText())) {
-					JOptionPane.showMessageDialog(null, "Must be numeric.", "Error",
+					JOptionPane.showMessageDialog(null, "Not a number!", "Error",
 							JOptionPane.ERROR_MESSAGE);
 					return;
 				}
@@ -168,7 +168,7 @@ public class sidepanelNorth extends JPanel {
 
 				if (!MathUtil.isNumeric(txt1.getText()) || !MathUtil.isNumeric(txt2.getText())
 						|| !MathUtil.isNumeric(txt3.getText())) {
-					JOptionPane.showMessageDialog(null, "Must be numeric.", "Error",
+					JOptionPane.showMessageDialog(null, "Not a number!", "Error",
 							JOptionPane.ERROR_MESSAGE);
 					return;
 				}

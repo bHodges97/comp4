@@ -270,4 +270,11 @@ public class Obj {
 		return new double[][] { xpoints, ypoints };
 	}
 
+	public void translate(double x, double y) {
+		// TODO Auto-generated method stub
+		cOfM.x += x;
+		cOfM.y += y;
+
+	}
+
 }

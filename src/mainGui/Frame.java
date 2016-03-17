@@ -413,7 +413,7 @@ public class Frame extends JFrame {
 					@Override
 					public void focusLost(FocusEvent e) {
 						if (!MathUtil.isNumeric(a.getText())) {
-							JOptionPane.showMessageDialog(Frame.this, "Must be numeric.");
+							JOptionPane.showMessageDialog(Frame.this, "Not a number!.");
 							return;
 						}
 						circTextA.set(circF.indexOf(a), a.getText());
@@ -429,7 +429,7 @@ public class Frame extends JFrame {
 					@Override
 					public void actionPerformed(ActionEvent e) {
 						if (!MathUtil.isNumeric(a.getText())) {
-							JOptionPane.showMessageDialog(Frame.this, "Must be numeric.");
+							JOptionPane.showMessageDialog(Frame.this, "Not a number!");
 							return;
 						}
 						circTextA.set(circF.indexOf(a), a.getText());
@@ -440,7 +440,7 @@ public class Frame extends JFrame {
 					@Override
 					public void focusLost(FocusEvent e) {
 						if (!MathUtil.isNumeric(b.getText())) {
-							JOptionPane.showMessageDialog(Frame.this, "Must be numeric.");
+							JOptionPane.showMessageDialog(Frame.this, "Not a number!");
 							return;
 						}
 						circTextB.set(circT.indexOf(b), b.getText());
@@ -456,7 +456,7 @@ public class Frame extends JFrame {
 					@Override
 					public void actionPerformed(ActionEvent e) {
 						if (!MathUtil.isNumeric(b.getText())) {
-							JOptionPane.showMessageDialog(Frame.this, "Must be numeric.");
+							JOptionPane.showMessageDialog(Frame.this, "Not a number!");
 							return;
 						}
 						circTextB.set(circT.indexOf(b), b.getText());
@@ -783,7 +783,7 @@ public class Frame extends JFrame {
 	 *            Variable text field is associated with.
 	 * @param c
 	 *            The type of verification: <br>
-	 *            -2: No verification -1: Error if numeric <br>
+	 *            -2: No verification -1: Error if not a number <br>
 	 *            0: Error if less than or equal to zero <br>
 	 *            1: Error if less than zero <br>
 	 *            2: Error if equal to zero <br>
@@ -822,7 +822,7 @@ public class Frame extends JFrame {
 	 *            Variable text field is associated with.
 	 * @param c
 	 *            The type of verification: <br>
-	 *            -2: No verification -1: Error if numeric <br>
+	 *            -2: No verification -1: Error if not a number <br>
 	 *            0: Error if less than or equal to zero <br>
 	 *            1: Error if less than zero <br>
 	 *            2: Error if equal to zero <br>
