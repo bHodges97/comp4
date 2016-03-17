@@ -80,7 +80,7 @@ public class Panel extends JPanel {
 
 			@Override
 			public void mouseReleased(MouseEvent e) {
-				plane.update();
+				//plane.update();
 			}
 
 		});

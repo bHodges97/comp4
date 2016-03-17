@@ -24,13 +24,16 @@ public class sidepanelSouth extends JPanel {
 
 	JLabel objName = new JLabel("Current Object");
 	JLabel objMass = new JLabel("Mass");
-	JLabel objCofm = new JLabel("Center of mass");
+	JLabel objCofm = new JLabel("Position");
 
 	JTextField varName = new JTextField("NULL");
 	JTextField varMass = new JTextField("NULL");
 	JTextField varCofm = new JTextField("NULL");
 
 	JButton rotate = new JButton("Rotate");
+	JButton translate = new JButton("Translate");
+	JButton changeCOfM = new JButton("Change center of mass");
+
 	public Obj current;
 
 	public sidepanelSouth(int t, Plane plane) {
@@ -85,6 +88,12 @@ public class sidepanelSouth extends JPanel {
 						System.out.println(responce);
 					}
 				}
+			}
+		});
+		translate.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				//TODO: complete 
 			}
 		});
 	}

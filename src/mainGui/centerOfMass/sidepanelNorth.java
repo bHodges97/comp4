@@ -19,6 +19,7 @@ import math.MathUtil;
 import math.MyPoint;
 import math.Obj;
 import math.Plane;
+import math.Shape;
 
 public class sidepanelNorth extends JPanel {
 	final JButton b1 = new JButton("Custom");
@@ -133,7 +134,25 @@ public class sidepanelNorth extends JPanel {
 			// rod
 			@Override
 			public void actionPerformed(ActionEvent e) {
-
+				lbl1.setText("Direction");
+				lbl2.setText("Magnitude");
+				lbl3.setText("Mass");
+				JOptionPane.showMessageDialog(null, body, "Rod", JOptionPane.QUESTION_MESSAGE);
+				if (!MathUtil.isNumeric(txt1.getText()) || !MathUtil.isNumeric(txt2.getText())
+						|| !MathUtil.isNumeric(txt3.getText())) {
+					JOptionPane.showMessageDialog(null, "Must be numeric.", "Error",
+							JOptionPane.ERROR_MESSAGE);
+					return;
+				}
+				double angle = Double.parseDouble(txt1.getText());
+				double magnitude = Double.parseDouble(txt2.getText());
+				double mass = Double.parseDouble(txt3.getText());
+				MyPoint[] points = new MyPoint[2];
+				points[0] = new MyPoint(-magnitude * Math.cos(angle) / 2, -magnitude
+						* Math.sin(angle) / 2);
+				points[1] = new MyPoint(magnitude * Math.cos(angle) / 2, magnitude
+						* Math.sin(angle) / 2);
+				plane.add(new Obj(2, new MyPoint(0, 0), new Shape(points), mass));
 			}
 		});
 		b5.addActionListener(new ActionListener() {

@@ -18,12 +18,8 @@ public class Plane {
 
 	}
 
-	public void circleTheorem() {
-		//TODO: remove!
-	}
-
 	public void interpret() {
-
+		//TODO: interpret
 	}
 
 	public void findCofM() {
@@ -59,6 +55,7 @@ public class Plane {
 	}
 
 	public void update() {
+		//TODO: remove! this function  is completely useless/ and gives errors
 		for (int i = 0; i < objects.size(); i++) {
 			for (int u = i + 1; u < objects.size(); u++) {
 				Obj A = objects.get(i);

@@ -46,7 +46,6 @@ public class DialogRect extends JDialog {
 	public DialogRect() {
 
 		placeFields();
-		// TODO: fix rectangles
 		butDone.addActionListener(new ActionListener() {
 
 			@Override
