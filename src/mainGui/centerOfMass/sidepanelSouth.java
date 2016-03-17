@@ -54,8 +54,7 @@ public class sidepanelSouth extends JPanel {
 		varName.setText(current.getName());
 		varMass.setText(current.getMass() + "");
 		// truncated
-		varCofm.setText(Math.floor(current.getCOM().x * 100) / 100 + ","
-				+ Math.floor(current.getCOM().y * 100) / 100);
+		varCofm.setText(Math.floor(current.getCOM().x * 100) / 100 + "," + Math.floor(current.getCOM().y * 100) / 100);
 	}
 
 	/**
@@ -66,11 +65,9 @@ public class sidepanelSouth extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				if (current != null) {
-					String responce = JOptionPane
-							.showInputDialog(
-									null,
-									"Enter angle with suffix 'r' for radians or 'd' for degrees. \n Default is radians if nothing is suffixed. Do not use character π!",
-									"Rotate", JOptionPane.QUESTION_MESSAGE);
+					String responce = JOptionPane.showInputDialog(null,
+							"Enter angle with suffix 'r' for radians or 'd' for degrees. \n Default is radians if nothing is suffixed. Do not use character π!",
+							"Rotate", JOptionPane.QUESTION_MESSAGE);
 					if (responce == null)
 						return;
 					char c = responce.charAt(responce.length() - 1);
@@ -88,8 +85,7 @@ public class sidepanelSouth extends JPanel {
 						System.out.println(responce);
 					}
 				} else {
-					JOptionPane.showMessageDialog(null, "No object selected.", "Error",
-							JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, "No object selected.", "Error", JOptionPane.ERROR_MESSAGE);
 				}
 			}
 		});
@@ -117,20 +113,15 @@ public class sidepanelSouth extends JPanel {
 					gbc.gridy = 1;
 					message.add(fieldX, gbc);
 
-					JOptionPane.showMessageDialog(null, message, "Translate",
-							JOptionPane.PLAIN_MESSAGE);
+					JOptionPane.showMessageDialog(null, message, "Translate", JOptionPane.PLAIN_MESSAGE);
 
-					if (!MathUtil.isNumeric(fieldX.getText())
-							|| !MathUtil.isNumeric(fieldY.getText())) {
-						JOptionPane.showMessageDialog(null, "Not a number.", "Error",
-								JOptionPane.ERROR_MESSAGE);
+					if (!MathUtil.isNumeric(fieldX.getText()) || !MathUtil.isNumeric(fieldY.getText())) {
+						JOptionPane.showMessageDialog(null, "Not a number.", "Error", JOptionPane.ERROR_MESSAGE);
 					} else {
-						current.translate(Double.parseDouble(fieldX.getText()),
-								Double.parseDouble(fieldY.getText()));
+						current.translate(Double.parseDouble(fieldX.getText()), Double.parseDouble(fieldY.getText()));
 					}
 				} else {
-					JOptionPane.showMessageDialog(null, "No object selected.", "Error",
-							JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, "No object selected.", "Error", JOptionPane.ERROR_MESSAGE);
 				}
 			}
 		});
@@ -146,7 +137,7 @@ public class sidepanelSouth extends JPanel {
 					gbc.gridx = 0;
 					gbc.gridy = 0;
 					gbc.gridwidth = 2;
-					gbc.anchor = GridBagConstraints.FIRST_LINE_START;
+					gbc.anchor = GridBagConstraints.FIRST_LINE_END;
 					message.add(
 							new JLabel(
 									"<html>Enter new X,Y coordinates of the center <br>of mass relative to the old one."),
@@ -162,20 +153,15 @@ public class sidepanelSouth extends JPanel {
 					gbc.gridy = 1;
 					message.add(fieldX, gbc);
 
-					JOptionPane.showMessageDialog(null, message, "Translate",
-							JOptionPane.PLAIN_MESSAGE);
+					JOptionPane.showMessageDialog(null, message, "Translate", JOptionPane.PLAIN_MESSAGE);
 
-					if (!MathUtil.isNumeric(fieldX.getText())
-							|| !MathUtil.isNumeric(fieldY.getText())) {
-						JOptionPane.showMessageDialog(null, "Not a number.", "Error",
-								JOptionPane.ERROR_MESSAGE);
+					if (!MathUtil.isNumeric(fieldX.getText()) || !MathUtil.isNumeric(fieldY.getText())) {
+						JOptionPane.showMessageDialog(null, "Not a number.", "Error", JOptionPane.ERROR_MESSAGE);
 					} else {
-						current.shiftCOM(Double.parseDouble(fieldX.getText()),
-								Double.parseDouble(fieldY.getText()));
+						current.shiftCOM(Double.parseDouble(fieldX.getText()), Double.parseDouble(fieldY.getText()));
 					}
 				} else {
-					JOptionPane.showMessageDialog(null, "No object selected.", "Error",
-							JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, "No object selected.", "Error", JOptionPane.ERROR_MESSAGE);
 				}
 			}
 		});

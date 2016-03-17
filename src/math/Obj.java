@@ -129,12 +129,12 @@ public class Obj {
 	 * Tolerance is 1/4 of the inverse of the display scale.
 	 * 
 	 * @see <a href="https://en.wikipedia.org/wiki/Ray_casting">https://en.
-
+	 * 
 	 *      wikipedia.org/wiki/Ray_casting</a>
 	 * @see <a href=
 	 *      "http://mathworld.wolfram.com/Point-LineDistance2-Dimensional.html">
 	 *      http://mathworld.wolfram.com/Point-LineDistance2-Dimensional.html
-
+	 * 
 	 *      </a>
 	 * @param point
 	 *            The point to test
@@ -155,8 +155,7 @@ public class Obj {
 			for (i = 0, j = nvert - 1; i < nvert; j = i++) {
 				if (((renderPoly.ypoints[i] >= point.y) != (renderPoly.ypoints[j] >= point.y))
 						&& (point.x <= (renderPoly.xpoints[j] - renderPoly.xpoints[i])
-								* (point.y - renderPoly.ypoints[i])
-								/ (renderPoly.ypoints[j] - renderPoly.ypoints[i])
+								* (point.y - renderPoly.ypoints[i]) / (renderPoly.ypoints[j] - renderPoly.ypoints[i])
 								+ renderPoly.xpoints[i]))
 					c = !c;
 			}
@@ -172,9 +171,9 @@ public class Obj {
 		// PolyLine
 		else if (type == 2) {
 			for (int i = 0; i < renderPoly.npoints - 1; i++) {
-				if (MathUtil.PointInLineSegment(new MyPoint(point.x, point.y), new MyPoint(
-						renderPoly.xpoints[i], renderPoly.ypoints[i]), new MyPoint(
-						renderPoly.xpoints[i + 1], renderPoly.ypoints[i + 1]), tolerance)) {
+				if (MathUtil.PointInLineSegment(new MyPoint(point.x, point.y),
+						new MyPoint(renderPoly.xpoints[i], renderPoly.ypoints[i]),
+						new MyPoint(renderPoly.xpoints[i + 1], renderPoly.ypoints[i + 1]), tolerance)) {
 					return true;
 				}
 			}
@@ -271,14 +270,17 @@ public class Obj {
 	}
 
 	public void translate(double x, double y) {
-		// TODO Auto-generated method stub
 		cOfM.x += x;
 		cOfM.y += y;
 
 	}
 
-	public void shiftCOM(double parseDouble, double parseDouble2) {
-		// TODO Auto-generated method stub
+	public void shiftCOM(double x, double y) {
+		for (MyPoint p : shape.points) {
+			p.x -= x;
+			p.y -= y;
+		}
+		translate(x, y);
 
 	}
 
