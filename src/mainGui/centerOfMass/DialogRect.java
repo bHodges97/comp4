@@ -40,7 +40,7 @@ public class DialogRect extends JDialog {
 	JTextField mass = new JTextField(9);
 	JButton butDone = new JButton("Done");
 	boolean filled = false;
-	Obj returnObj = new Obj();
+	Obj returnObj;
 	PanelRectangle panelDiagram = new PanelRectangle();
 
 	public DialogRect() {
@@ -60,7 +60,8 @@ public class DialogRect extends JDialog {
 						for (Component component : ((JPanel) panel).getComponents()) {
 							if (component instanceof JTextField) {
 								if (!MathUtil.isNumeric(((JTextField) component).getText())) {
-									JOptionPane.showMessageDialog(null, "All fields must be numeric.");
+									JOptionPane.showMessageDialog(null,
+											"All fields must be numeric.");
 									return;
 								}
 							}
@@ -74,8 +75,9 @@ public class DialogRect extends JDialog {
 				h = Double.valueOf(height.getText());
 				cx = Double.valueOf(comx.getText());
 				cy = Double.valueOf(comy.getText());
-				Shape s = new Shape(new MyPoint[] { new MyPoint(0 - cx, h - cy), new MyPoint(w - cx, h - cy),
-						new MyPoint(w - cx, 0 - cy), new MyPoint(0 - cx, 0 - cy) });
+				Shape s = new Shape(new MyPoint[] { new MyPoint(0 - cx, h - cy),
+						new MyPoint(w - cx, h - cy), new MyPoint(w - cx, 0 - cy),
+						new MyPoint(0 - cx, 0 - cy) });
 				returnObj = new Obj(0, new MyPoint(xval + cx, yval + cy), s, massval);
 				filled = true;
 				close();

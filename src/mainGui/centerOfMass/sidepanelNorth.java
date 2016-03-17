@@ -51,6 +51,8 @@ public class sidepanelNorth extends JPanel {
 		//For JOptionPane
 		body.setLayout(new GridBagLayout());
 		GridBagConstraints gbc = new GridBagConstraints();
+		gbc.anchor = GridBagConstraints.FIRST_LINE_START;
+		gbc.fill = GridBagConstraints.BOTH;
 		gbc.gridx = 0;
 		gbc.gridy = 0;
 		gbc.insets = new Insets(2, 2, 2, 2);
@@ -94,7 +96,9 @@ public class sidepanelNorth extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				Dialogb2.open();
-				plane.add(Dialogb2.returnObj);
+				if (Dialogb2.returnObj != null) {
+					plane.add(Dialogb2.returnObj);
+				}
 			}
 		});
 		b3.addActionListener(new ActionListener() {
