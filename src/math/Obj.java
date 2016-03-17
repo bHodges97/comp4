@@ -277,4 +277,9 @@ public class Obj {
 
 	}
 
+	public void shiftCOM(double parseDouble, double parseDouble2) {
+		// TODO Auto-generated method stub
+
+	}
+
 }
