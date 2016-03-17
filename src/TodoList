@@ -11,13 +11,13 @@ TODO LIST
 Complete each module
 Consider using themes to make it look nice --> also save window.
 Sort out topic desc.
-
+save function
 
 :COM
 -Work on gui
 -Add topic desc
 -Add special shapes(cones etc) and group based on 3d/laminar
--Add buttons to change obj and move obj.
+-Add buttons to change obj .
 
 :Circ Mom
 -Draw diagram
@@ -28,7 +28,7 @@ Consider impulse
 
 :projectiles
 logic
-fix gui
+fix gui 
 consider ux = 0;
 
 

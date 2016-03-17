@@ -32,8 +32,7 @@ public class Panel extends JPanel {
 	public Obj currentObj;
 
 	public void print(String path) {
-		BufferedImage img = new BufferedImage(this.getWidth(), this.getHeight(),
-				BufferedImage.TYPE_INT_RGB);
+		BufferedImage img = new BufferedImage(this.getWidth(), this.getHeight(), BufferedImage.TYPE_INT_RGB);
 		Graphics print = img.getGraphics();
 		printAll(print);
 		try {
@@ -53,14 +52,15 @@ public class Panel extends JPanel {
 
 			@Override
 			public void mouseDragged(MouseEvent e) {
-				if (currentObj != null)
+				if (currentObj != null) {
 					currentObj.moveto(new MyPoint(e.getX(), e.getY()), scale, ox, oy);
+					Frame.sideSouth.updateFields();
+				}
 			}
 
 			@Override
 			public void mouseMoved(MouseEvent arg0) {
 				// Do nothing
-
 			}
 
 		});
@@ -80,7 +80,7 @@ public class Panel extends JPanel {
 
 			@Override
 			public void mouseReleased(MouseEvent e) {
-				//plane.update();
+				Frame.sideSouth.updateFields();
 			}
 
 		});
@@ -99,7 +99,7 @@ public class Panel extends JPanel {
 		g2d.fillRect(0, 0, getWidth(), getHeight());
 		g2d.setColor(Color.black);
 
-		//Draw Axis
+		// Draw Axis
 		g2d.setColor(Color.LIGHT_GRAY);
 		for (int i = oy; i < getHeight(); i += 1d / scale) {
 			g2d.drawLine(0, i, getWidth(), i);
@@ -114,15 +114,17 @@ public class Panel extends JPanel {
 			g2d.drawLine(u, 0, u, getHeight());
 		}
 
-		//Draw axis labels;
+		// Draw axis labels;
 		g2d.setColor(Color.GRAY);
 		int counter = 0;
 		for (int i = oy; i < getHeight(); i += 1d / scale) {
 			if (counter != 0) {
 				if (counter % Math.ceil(40 * scale) == 0) {
-					FontMetrics fontMetrics = g2d.getFontMetrics();//Used to make text right aligned
-					g2d.drawString("-" + counter, ox - fontMetrics.stringWidth("-" + counter) - 2,
-							i + 5);
+					FontMetrics fontMetrics = g2d.getFontMetrics();// Used to
+																	// make text
+																	// right
+																	// aligned
+					g2d.drawString("-" + counter, ox - fontMetrics.stringWidth("-" + counter) - 2, i + 5);
 				}
 			}
 			counter++;
@@ -132,8 +134,7 @@ public class Panel extends JPanel {
 			if (counter != 0) {
 				if (counter % Math.ceil(40 * scale) == 0) {
 					FontMetrics fontMetrics = g2d.getFontMetrics();
-					g2d.drawString("" + counter, u - fontMetrics.stringWidth("" + counter) / 2,
-							oy + 12);
+					g2d.drawString("" + counter, u - fontMetrics.stringWidth("" + counter) / 2, oy + 12);
 				}
 			}
 			counter++;
@@ -143,8 +144,7 @@ public class Panel extends JPanel {
 			if (counter != 0) {
 				if (counter % Math.ceil(40 * scale) == 0) {
 					FontMetrics fontMetrics = g2d.getFontMetrics();
-					g2d.drawString("" + counter, ox - fontMetrics.stringWidth("" + counter) - 2,
-							i + 5);
+					g2d.drawString("" + counter, ox - fontMetrics.stringWidth("" + counter) - 2, i + 5);
 				}
 			}
 			counter++;
@@ -154,8 +154,7 @@ public class Panel extends JPanel {
 			if (counter != 0) {
 				if (counter % Math.ceil(40 * scale) == 0) {
 					FontMetrics fontMetrics = g2d.getFontMetrics();
-					g2d.drawString("-" + counter, u - fontMetrics.stringWidth("-" + counter) / 2,
-							oy + 12);
+					g2d.drawString("-" + counter, u - fontMetrics.stringWidth("-" + counter) / 2, oy + 12);
 				}
 			}
 			counter++;
@@ -164,7 +163,8 @@ public class Panel extends JPanel {
 		g2d.setColor(Color.black);
 		g2d.drawLine(ox, getHeight(), ox, 0);
 		g2d.drawLine(0, oy, getWidth(), oy);
-		g2d.drawString("0", ox - 10, oy + 15);// Skip this as it's been done in axis already.
+		g2d.drawString("0", ox - 10, oy + 15);// Skip this as it's been done in
+												// axis already.
 
 		if (plane == null) {
 			return;
@@ -184,7 +184,7 @@ public class Panel extends JPanel {
 			g2d.fillOval(obj.getWorldX(scale, ox) - s / 2, obj.getWorldY(scale, oy) - s / 2, s, s);
 		}
 
-		g2d.drawString("" + scale, 10, 15);//TODO: debug pls remove
+		g2d.drawString("" + scale, 10, 15);// TODO: debug pls remove
 
 		update();
 	}
@@ -192,8 +192,8 @@ public class Panel extends JPanel {
 	private void update() {
 		if (plane.objects.isEmpty())
 			return;
-		// plane.findCOM(); 
-		//TODO : findCOM
+		// plane.findCOM();
+		// TODO : findCOM
 	}
 
 }

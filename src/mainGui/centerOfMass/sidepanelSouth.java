@@ -34,10 +34,14 @@ public class sidepanelSouth extends JPanel {
 	JButton translate = new JButton("Translate");
 	JButton changeCOM = new JButton("Change center of mass");
 
+	JButton lastObj = new JButton("Next");
+	JButton nextObj = new JButton("last");
+	Plane plane;
+
 	public Obj current;
 
 	public sidepanelSouth(int t, Plane plane) {
-
+		this.plane = plane;
 		setLayout();
 		addActionListeners();
 	}
@@ -47,7 +51,7 @@ public class sidepanelSouth extends JPanel {
 		updateFields();
 	}
 
-	private void updateFields() {
+	public void updateFields() {
 		if (current == null) {
 			return;
 		}
@@ -165,6 +169,38 @@ public class sidepanelSouth extends JPanel {
 				}
 			}
 		});
+		nextObj.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				if (current == null) {
+					JOptionPane.showMessageDialog(null, "No object selected.", "Error", JOptionPane.ERROR_MESSAGE);
+					return;
+				}
+				System.out.println(plane.objects.indexOf(current) + " " + plane.objects.size());
+				if (plane.objects.indexOf(current) < plane.objects.size() - 1) {
+					current = plane.objects.get(plane.objects.indexOf(current) + 1);
+				} else {
+					current = plane.objects.get(0);
+				}
+				updateFields();
+			}
+		});
+		lastObj.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				if (current == null) {
+					JOptionPane.showMessageDialog(null, "No object selected.", "Error", JOptionPane.ERROR_MESSAGE);
+					return;
+				}
+				System.out.println(plane.objects.indexOf(current) + " " + plane.objects.size());
+				if (plane.objects.indexOf(current) > 0) {
+					current = plane.objects.get(plane.objects.indexOf(current) - 1);
+				} else {
+					current = plane.objects.get(plane.objects.size() - 1);
+				}
+				updateFields();
+			}
+		});
 	}
 
 	/**
@@ -200,6 +236,8 @@ public class sidepanelSouth extends JPanel {
 		add(translate, c);
 		c.gridy++;
 		add(changeCOM, c);
+		c.gridy++;
+		add(nextObj, c);
 
 		/*
 		 * Fixed Size so changing text doesn't change layout.
