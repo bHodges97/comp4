@@ -44,14 +44,14 @@ public class Plane {
 
 	public void add(Obj obj) {
 		objects.add(obj);
-		if (obj.Name == null) {
+		if (obj.name == null) {
 			if (objects.indexOf(obj) + 'A' <= 'Z') {
-				obj.Name = (char) (objects.indexOf(obj) + 'A') + "";
+				obj.name = (char) (objects.indexOf(obj) + 'A') + "";
 			} else {
-				obj.Name = "Object " + objects.indexOf(obj);
+				obj.name = "Object " + objects.indexOf(obj);
 			}
 		}
-		System.out.println("Object added(" + obj.Name + ")");
+		System.out.println("Object added(" + obj.name + ")");
 	}
 
 	public void update() {

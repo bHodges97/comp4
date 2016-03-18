@@ -4,6 +4,8 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -11,7 +13,6 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-
 import math.MathUtil;
 import math.MyPoint;
 import math.Obj;
@@ -58,20 +59,69 @@ public class sidepanelSouth extends JPanel {
 		varName.setText(current.getName());
 		varMass.setText(current.getMass() + "");
 		// truncated
-		varCOM.setText(Math.floor(current.getCOM().x * 100) / 100 + "," + Math.floor(current.getCOM().y * 100) / 100);
+		varCOM.setText(Math.floor(current.getCOM().x * 100) / 100 + ","
+				+ Math.floor(current.getCOM().y * 100) / 100);
 	}
 
 	/**
 	 * Adds the actionlisteners;
 	 */
 	private void addActionListeners() {
+		varName.addKeyListener(new KeyListener() {
+
+			@Override
+			public void keyTyped(KeyEvent e) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void keyReleased(KeyEvent e) {
+				// TODO Auto-generated method stub
+				if (current != null) {
+					current.setName(varName.getText());
+				}
+			}
+
+			@Override
+			public void keyPressed(KeyEvent e) {
+				// TODO Auto-generated method stub
+
+			}
+		});
+		varMass.addKeyListener(new KeyListener() {
+
+			@Override
+			public void keyTyped(KeyEvent e) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void keyReleased(KeyEvent e) {
+				// TODO Auto-generated method stub
+				if (current != null && MathUtil.isNumeric(varMass.getText())) {
+					current.setMass(varMass.getText());
+				}
+			}
+
+			@Override
+			public void keyPressed(KeyEvent e) {
+				// TODO Auto-generated method stub
+
+			}
+		});
+
 		rotate.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				if (current != null) {
-					String responce = JOptionPane.showInputDialog(null,
-							"Enter angle with suffix 'r' for radians or 'd' for degrees. \n Default is radians if nothing is suffixed. Do not use character π!",
-							"Rotate", JOptionPane.QUESTION_MESSAGE);
+					String responce = JOptionPane
+							.showInputDialog(
+									null,
+									"Enter angle with suffix 'r' for radians or 'd' for degrees."
+											+ "\n Default is radians if nothing is suffixed. Do not use character π!",
+									"Rotate", JOptionPane.QUESTION_MESSAGE);
 					if (responce == null)
 						return;
 					char c = responce.charAt(responce.length() - 1);
@@ -89,7 +139,8 @@ public class sidepanelSouth extends JPanel {
 						System.out.println(responce);
 					}
 				} else {
-					JOptionPane.showMessageDialog(null, "No object selected.", "Error", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, "No object selected.", "Error",
+							JOptionPane.ERROR_MESSAGE);
 				}
 			}
 		});
@@ -117,15 +168,20 @@ public class sidepanelSouth extends JPanel {
 					gbc.gridy = 1;
 					message.add(fieldX, gbc);
 
-					JOptionPane.showMessageDialog(null, message, "Translate", JOptionPane.PLAIN_MESSAGE);
+					JOptionPane.showMessageDialog(null, message, "Translate",
+							JOptionPane.PLAIN_MESSAGE);
 
-					if (!MathUtil.isNumeric(fieldX.getText()) || !MathUtil.isNumeric(fieldY.getText())) {
-						JOptionPane.showMessageDialog(null, "Not a number.", "Error", JOptionPane.ERROR_MESSAGE);
+					if (!MathUtil.isNumeric(fieldX.getText())
+							|| !MathUtil.isNumeric(fieldY.getText())) {
+						JOptionPane.showMessageDialog(null, "Not a number.", "Error",
+								JOptionPane.ERROR_MESSAGE);
 					} else {
-						current.translate(Double.parseDouble(fieldX.getText()), Double.parseDouble(fieldY.getText()));
+						current.translate(Double.parseDouble(fieldX.getText()),
+								Double.parseDouble(fieldY.getText()));
 					}
 				} else {
-					JOptionPane.showMessageDialog(null, "No object selected.", "Error", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, "No object selected.", "Error",
+							JOptionPane.ERROR_MESSAGE);
 				}
 			}
 		});
@@ -157,15 +213,20 @@ public class sidepanelSouth extends JPanel {
 					gbc.gridy = 1;
 					message.add(fieldX, gbc);
 
-					JOptionPane.showMessageDialog(null, message, "Translate", JOptionPane.PLAIN_MESSAGE);
+					JOptionPane.showMessageDialog(null, message, "Translate",
+							JOptionPane.PLAIN_MESSAGE);
 
-					if (!MathUtil.isNumeric(fieldX.getText()) || !MathUtil.isNumeric(fieldY.getText())) {
-						JOptionPane.showMessageDialog(null, "Not a number.", "Error", JOptionPane.ERROR_MESSAGE);
+					if (!MathUtil.isNumeric(fieldX.getText())
+							|| !MathUtil.isNumeric(fieldY.getText())) {
+						JOptionPane.showMessageDialog(null, "Not a number.", "Error",
+								JOptionPane.ERROR_MESSAGE);
 					} else {
-						current.shiftCOM(Double.parseDouble(fieldX.getText()), Double.parseDouble(fieldY.getText()));
+						current.shiftCOM(Double.parseDouble(fieldX.getText()),
+								Double.parseDouble(fieldY.getText()));
 					}
 				} else {
-					JOptionPane.showMessageDialog(null, "No object selected.", "Error", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, "No object selected.", "Error",
+							JOptionPane.ERROR_MESSAGE);
 				}
 			}
 		});
@@ -173,7 +234,8 @@ public class sidepanelSouth extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				if (current == null) {
-					JOptionPane.showMessageDialog(null, "No object selected.", "Error", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, "No object selected.", "Error",
+							JOptionPane.ERROR_MESSAGE);
 					return;
 				}
 				System.out.println(plane.objects.indexOf(current) + " " + plane.objects.size());
@@ -189,7 +251,8 @@ public class sidepanelSouth extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				if (current == null) {
-					JOptionPane.showMessageDialog(null, "No object selected.", "Error", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, "No object selected.", "Error",
+							JOptionPane.ERROR_MESSAGE);
 					return;
 				}
 				System.out.println(plane.objects.indexOf(current) + " " + plane.objects.size());
@@ -245,5 +308,7 @@ public class sidepanelSouth extends JPanel {
 		varName.setColumns(9);
 		varMass.setColumns(9);
 		varCOM.setColumns(9);
+
+		varCOM.setEditable(false);
 	}
 }

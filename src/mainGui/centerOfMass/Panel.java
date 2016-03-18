@@ -32,7 +32,8 @@ public class Panel extends JPanel {
 	public Obj currentObj;
 
 	public void print(String path) {
-		BufferedImage img = new BufferedImage(this.getWidth(), this.getHeight(), BufferedImage.TYPE_INT_RGB);
+		BufferedImage img = new BufferedImage(this.getWidth(), this.getHeight(),
+				BufferedImage.TYPE_INT_RGB);
 		Graphics print = img.getGraphics();
 		printAll(print);
 		try {
@@ -51,10 +52,9 @@ public class Panel extends JPanel {
 		addMouseMotionListener(new MouseMotionListener() {
 
 			@Override
-			public void mouseDragged(MouseEvent e) {
+			public void mouseDragged(final MouseEvent e) {
 				if (currentObj != null) {
 					currentObj.moveto(new MyPoint(e.getX(), e.getY()), scale, ox, oy);
-					Frame.sideSouth.updateFields();
 				}
 			}
 
@@ -124,7 +124,8 @@ public class Panel extends JPanel {
 																	// make text
 																	// right
 																	// aligned
-					g2d.drawString("-" + counter, ox - fontMetrics.stringWidth("-" + counter) - 2, i + 5);
+					g2d.drawString("-" + counter, ox - fontMetrics.stringWidth("-" + counter) - 2,
+							i + 5);
 				}
 			}
 			counter++;
@@ -134,7 +135,8 @@ public class Panel extends JPanel {
 			if (counter != 0) {
 				if (counter % Math.ceil(40 * scale) == 0) {
 					FontMetrics fontMetrics = g2d.getFontMetrics();
-					g2d.drawString("" + counter, u - fontMetrics.stringWidth("" + counter) / 2, oy + 12);
+					g2d.drawString("" + counter, u - fontMetrics.stringWidth("" + counter) / 2,
+							oy + 12);
 				}
 			}
 			counter++;
@@ -144,7 +146,8 @@ public class Panel extends JPanel {
 			if (counter != 0) {
 				if (counter % Math.ceil(40 * scale) == 0) {
 					FontMetrics fontMetrics = g2d.getFontMetrics();
-					g2d.drawString("" + counter, ox - fontMetrics.stringWidth("" + counter) - 2, i + 5);
+					g2d.drawString("" + counter, ox - fontMetrics.stringWidth("" + counter) - 2,
+							i + 5);
 				}
 			}
 			counter++;
@@ -154,7 +157,8 @@ public class Panel extends JPanel {
 			if (counter != 0) {
 				if (counter % Math.ceil(40 * scale) == 0) {
 					FontMetrics fontMetrics = g2d.getFontMetrics();
-					g2d.drawString("-" + counter, u - fontMetrics.stringWidth("-" + counter) / 2, oy + 12);
+					g2d.drawString("-" + counter, u - fontMetrics.stringWidth("-" + counter) / 2,
+							oy + 12);
 				}
 			}
 			counter++;
