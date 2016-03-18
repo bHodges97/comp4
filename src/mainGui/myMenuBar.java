@@ -107,6 +107,8 @@ public class myMenuBar extends JMenuBar {
 		zoomOut.addActionListener(listener);
 		zoomReset.addActionListener(listener);
 		saveImage.addActionListener(listener);
+		saveFile.addActionListener(listener);
+		changeTopic.addActionListener(listener);
 
 		//Add all menu items;
 		add(menuFile);
