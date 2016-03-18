@@ -71,13 +71,11 @@ public class sidepanelSouth extends JPanel {
 
 			@Override
 			public void keyTyped(KeyEvent e) {
-				// TODO Auto-generated method stub
 
 			}
 
 			@Override
 			public void keyReleased(KeyEvent e) {
-				// TODO Auto-generated method stub
 				if (current != null) {
 					current.setName(varName.getText());
 				}
@@ -85,21 +83,16 @@ public class sidepanelSouth extends JPanel {
 
 			@Override
 			public void keyPressed(KeyEvent e) {
-				// TODO Auto-generated method stub
-
 			}
 		});
 		varMass.addKeyListener(new KeyListener() {
 
 			@Override
 			public void keyTyped(KeyEvent e) {
-				// TODO Auto-generated method stub
-
 			}
 
 			@Override
 			public void keyReleased(KeyEvent e) {
-				// TODO Auto-generated method stub
 				if (current != null && MathUtil.isNumeric(varMass.getText())) {
 					current.setMass(varMass.getText());
 				}
@@ -107,8 +100,6 @@ public class sidepanelSouth extends JPanel {
 
 			@Override
 			public void keyPressed(KeyEvent e) {
-				// TODO Auto-generated method stub
-
 			}
 		});
 

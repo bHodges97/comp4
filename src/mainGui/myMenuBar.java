@@ -29,33 +29,28 @@ public class myMenuBar extends JMenuBar {
 
 	public myMenuBar(final Frame main) {
 		frame = main;
+		final JFileChooser fileChooser = new JFileChooser();
+		final AngleConverter dialogConverter = new AngleConverter();
 
 		//File
 		JMenu menuFile = new JMenu("File");
 		menuFile.setMnemonic(KeyEvent.VK_F);
-		JMenuItem saveImage = new JMenuItem("Save image", KeyEvent.VK_I);
-		JMenuItem saveFile = new JMenuItem("Save file", KeyEvent.VK_F);
+		final JMenuItem saveImage = new JMenuItem("Save image", KeyEvent.VK_I);
+		final JMenuItem saveFile = new JMenuItem("Save file", KeyEvent.VK_F);
+		final JMenuItem loadFile = new JMenuItem("Open File...", KeyEvent.VK_O);
+		final JMenuItem changeTopic = new JMenuItem("Switch Topic", KeyEvent.VK_S);
+		menuFile.add(loadFile);
 		menuFile.add(saveImage);
 		menuFile.add(saveFile);
-
-		final JFileChooser fileChooser = new JFileChooser();
-		saveImage.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				if (fileChooser.showSaveDialog(main) == JFileChooser.APPROVE_OPTION) {
-					save(fileChooser.getSelectedFile().getPath());
-				}
-			}
-		});
+		menuFile.add(changeTopic);
 
 		//Tools			
-		JMenu menuTools = new JMenu("Tool");
+		JMenu menuTools = new JMenu("Tools");
 		menuTools.setMnemonic(KeyEvent.VK_T);
 		final JMenuItem mConverter = new JMenuItem("Degrees & radians converter", KeyEvent.VK_D);
 		final JMenuItem mTrig = new JMenuItem("Trig calculator", KeyEvent.VK_T);
 		menuTools.add(mConverter);
 		menuTools.add(mTrig);
-		final AngleConverter dialogConverter = new AngleConverter();
 
 		//Solve
 		final JMenuItem menuSolve = new JMenuItem("Solve");
@@ -87,6 +82,19 @@ public class myMenuBar extends JMenuBar {
 				}
 				if (e.getSource() == zoomReset) {
 					frame.zoom(2);
+				}
+				if (e.getSource() == saveImage) {
+					if (fileChooser.showSaveDialog(main) == JFileChooser.APPROVE_OPTION) {
+						save(fileChooser.getSelectedFile().getPath());
+					}
+				}
+				if (e.getSource() == loadFile) {
+					//TODO: complete
+				}
+				if (e.getSource() == saveFile) {
+
+				}
+				if (e.getSource() == changeTopic) {
 
 				}
 			}
@@ -98,6 +106,7 @@ public class myMenuBar extends JMenuBar {
 		zoomIn.addActionListener(listener);
 		zoomOut.addActionListener(listener);
 		zoomReset.addActionListener(listener);
+		saveImage.addActionListener(listener);
 
 		//Add all menu items;
 		add(menuFile);
