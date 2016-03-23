@@ -777,13 +777,16 @@ public class Frame extends JFrame {
 	/**
 	 * Adds a focus listener and action listener to a component.
 	 * 
-	 * @param t
+	 * @param textField
 	 *            Text field to add listeners to.
-	 * @param v
+	 * @param var1
 	 *            Variable text field is associated with.
-	 * @param c
+	 * @param var2
+	 *            Second variable text field is associated with if applicable.
+	 * @param type
 	 *            The type of verification: <br>
-	 *            -2: No verification -1: Error if not a number <br>
+	 *            -2: No verification -1:<br>
+	 *            -1: Error if not a number <br>
 	 *            0: Error if less than or equal to zero <br>
 	 *            1: Error if less than zero <br>
 	 *            2: Error if equal to zero <br>
@@ -792,8 +795,9 @@ public class Frame extends JFrame {
 	 *            5: Special case for e
 	 * 
 	 */
-	private void addListener(final JTextField t, final Var var1, final int c, final Var var2) {
-		t.addFocusListener(new FocusListener() {
+	private void addListener(final JTextField textField, final Var var1, final int type,
+			final Var var2) {
+		textField.addFocusListener(new FocusListener() {
 			@Override
 			public void focusGained(FocusEvent arg0) {
 				// DO NOTHING
@@ -801,14 +805,14 @@ public class Frame extends JFrame {
 
 			@Override
 			public void focusLost(FocusEvent arg0) {
-				addVerification(t, var1, c, var2);
+				addVerification(textField, var1, type, var2);
 			}
 		});
 
-		t.addActionListener(new ActionListener() {
+		textField.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				addVerification(t, var1, c, var2);
+				addVerification(textField, var1, type, var2);
 			}
 		});
 	}
@@ -822,7 +826,8 @@ public class Frame extends JFrame {
 	 *            Variable text field is associated with.
 	 * @param c
 	 *            The type of verification: <br>
-	 *            -2: No verification -1: Error if not a number <br>
+	 *            -2: No verification -1:<br>
+	 *            -1: Error if not a number <br>
 	 *            0: Error if less than or equal to zero <br>
 	 *            1: Error if less than zero <br>
 	 *            2: Error if equal to zero <br>
@@ -843,8 +848,12 @@ public class Frame extends JFrame {
 			v.setContents(t.getText(), false);
 			return;
 		}
-
-		if (c > -2) {
+		if (MathUtil.isNumeric(t.getText()) && t.getText().length() > 10) {
+			JOptionPane.showMessageDialog(Frame.this, "Input is too long!", "Error",
+					JOptionPane.ERROR_MESSAGE);
+			return;
+		}
+		if (c >= -1) {
 			if (!MathUtil.isNumeric(t.getText())) {
 				JOptionPane.showMessageDialog(Frame.this, "Not a number!", "Error",
 						JOptionPane.ERROR_MESSAGE);
