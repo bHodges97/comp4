@@ -13,6 +13,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+
 import math.MathUtil;
 import math.MyPoint;
 import math.Obj;
@@ -35,8 +36,8 @@ public class sidepanelSouth extends JPanel {
 	JButton translate = new JButton("Translate");
 	JButton changeCOM = new JButton("Change center of mass");
 
-	JButton lastObj = new JButton("Next");
-	JButton nextObj = new JButton("last");
+	JButton lastObj = new JButton("Previous");
+	JButton nextObj = new JButton("Next");
 	Plane plane;
 
 	public Obj current;
@@ -59,8 +60,7 @@ public class sidepanelSouth extends JPanel {
 		varName.setText(current.getName());
 		varMass.setText(current.getMass() + "");
 		// truncated
-		varCOM.setText(Math.floor(current.getCOM().x * 100) / 100 + ","
-				+ Math.floor(current.getCOM().y * 100) / 100);
+		varCOM.setText(Math.floor(current.getCOM().x * 100) / 100 + "," + Math.floor(current.getCOM().y * 100) / 100);
 	}
 
 	/**
@@ -71,7 +71,6 @@ public class sidepanelSouth extends JPanel {
 
 			@Override
 			public void keyTyped(KeyEvent e) {
-
 			}
 
 			@Override
@@ -107,12 +106,10 @@ public class sidepanelSouth extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				if (current != null) {
-					String responce = JOptionPane
-							.showInputDialog(
-									null,
-									"Enter angle with suffix 'r' for radians or 'd' for degrees."
-											+ "\n Default is radians if nothing is suffixed. Do not use character π!",
-									"Rotate", JOptionPane.QUESTION_MESSAGE);
+					String responce = JOptionPane.showInputDialog(null,
+							"Enter angle with suffix 'r' for radians or 'd' for degrees."
+									+ "\n Default is radians if nothing is suffixed. Do not use character π!",
+							"Rotate", JOptionPane.QUESTION_MESSAGE);
 					if (responce == null)
 						return;
 					char c = responce.charAt(responce.length() - 1);
@@ -130,8 +127,7 @@ public class sidepanelSouth extends JPanel {
 						System.out.println(responce);
 					}
 				} else {
-					JOptionPane.showMessageDialog(null, "No object selected.", "Error",
-							JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, "No object selected.", "Error", JOptionPane.ERROR_MESSAGE);
 				}
 			}
 		});
@@ -159,20 +155,15 @@ public class sidepanelSouth extends JPanel {
 					gbc.gridy = 1;
 					message.add(fieldX, gbc);
 
-					JOptionPane.showMessageDialog(null, message, "Translate",
-							JOptionPane.PLAIN_MESSAGE);
+					JOptionPane.showMessageDialog(null, message, "Translate", JOptionPane.PLAIN_MESSAGE);
 
-					if (!MathUtil.isNumeric(fieldX.getText())
-							|| !MathUtil.isNumeric(fieldY.getText())) {
-						JOptionPane.showMessageDialog(null, "Not a number.", "Error",
-								JOptionPane.ERROR_MESSAGE);
+					if (!MathUtil.isNumeric(fieldX.getText()) || !MathUtil.isNumeric(fieldY.getText())) {
+						JOptionPane.showMessageDialog(null, "Not a number.", "Error", JOptionPane.ERROR_MESSAGE);
 					} else {
-						current.translate(Double.parseDouble(fieldX.getText()),
-								Double.parseDouble(fieldY.getText()));
+						current.translate(Double.parseDouble(fieldX.getText()), Double.parseDouble(fieldY.getText()));
 					}
 				} else {
-					JOptionPane.showMessageDialog(null, "No object selected.", "Error",
-							JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, "No object selected.", "Error", JOptionPane.ERROR_MESSAGE);
 				}
 			}
 		});
@@ -204,20 +195,15 @@ public class sidepanelSouth extends JPanel {
 					gbc.gridy = 1;
 					message.add(fieldX, gbc);
 
-					JOptionPane.showMessageDialog(null, message, "Translate",
-							JOptionPane.PLAIN_MESSAGE);
+					JOptionPane.showMessageDialog(null, message, "Translate", JOptionPane.PLAIN_MESSAGE);
 
-					if (!MathUtil.isNumeric(fieldX.getText())
-							|| !MathUtil.isNumeric(fieldY.getText())) {
-						JOptionPane.showMessageDialog(null, "Not a number.", "Error",
-								JOptionPane.ERROR_MESSAGE);
+					if (!MathUtil.isNumeric(fieldX.getText()) || !MathUtil.isNumeric(fieldY.getText())) {
+						JOptionPane.showMessageDialog(null, "Not a number.", "Error", JOptionPane.ERROR_MESSAGE);
 					} else {
-						current.shiftCOM(Double.parseDouble(fieldX.getText()),
-								Double.parseDouble(fieldY.getText()));
+						current.shiftCOM(Double.parseDouble(fieldX.getText()), Double.parseDouble(fieldY.getText()));
 					}
 				} else {
-					JOptionPane.showMessageDialog(null, "No object selected.", "Error",
-							JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, "No object selected.", "Error", JOptionPane.ERROR_MESSAGE);
 				}
 			}
 		});
@@ -225,8 +211,7 @@ public class sidepanelSouth extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				if (current == null) {
-					JOptionPane.showMessageDialog(null, "No object selected.", "Error",
-							JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, "No object selected.", "Error", JOptionPane.ERROR_MESSAGE);
 					return;
 				}
 				System.out.println(plane.objects.indexOf(current) + " " + plane.objects.size());
@@ -242,8 +227,7 @@ public class sidepanelSouth extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				if (current == null) {
-					JOptionPane.showMessageDialog(null, "No object selected.", "Error",
-							JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, "No object selected.", "Error", JOptionPane.ERROR_MESSAGE);
 					return;
 				}
 				System.out.println(plane.objects.indexOf(current) + " " + plane.objects.size());
@@ -266,32 +250,42 @@ public class sidepanelSouth extends JPanel {
 
 		GridBagConstraints c = new GridBagConstraints();
 		c.anchor = GridBagConstraints.NORTHWEST;
-		c.fill = GridBagConstraints.HORIZONTAL;
+		// c.fill = GridBagConstraints.HORIZONTAL;
 		c.weightx = 1.0;
 		c.weighty = 0;
 
 		c.gridx = 0;
 		c.gridy = 0;
+		// First Column
+		add(lastObj, c);
+		c.gridy++;
 		add(objName, c);
 		c.gridy++;
 		add(objMass, c);
 		c.gridy++;
 		add(objCOM, c);
+
+		// Second column
 		c.gridx++;
 		c.gridy = 0;
+		add(nextObj, c);
+		c.gridy++;
 		add(varName, c);
 		c.gridy++;
 		add(varMass, c);
 		c.gridy++;
 		add(varCOM, c);
+
+		// Add buttons
+		c.gridx = 0;
 		c.gridy++;
+		c.gridwidth = 2;
+		// c.anchor = GridBagConstraints.CENTER;
 		add(rotate, c);
 		c.gridy++;
 		add(translate, c);
 		c.gridy++;
 		add(changeCOM, c);
-		c.gridy++;
-		add(nextObj, c);
 
 		/*
 		 * Fixed Size so changing text doesn't change layout.

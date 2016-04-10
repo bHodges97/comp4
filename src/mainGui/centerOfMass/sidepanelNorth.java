@@ -2,11 +2,17 @@ package mainGui.centerOfMass;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -33,7 +39,7 @@ public class sidepanelNorth extends JPanel {
 	final JPanel body = new JPanel();
 	final JLabel lbl1 = new JLabel("");
 	final JLabel lbl2 = new JLabel("");
-	final JLabel lbl3 = new JLabel("");
+	final JLabel lbl3 = new JLabel("mfdklsfmdas");
 	final JTextField txt1 = new JTextField(9);
 	final JTextField txt2 = new JTextField(9);
 	final JTextField txt3 = new JTextField(9);
@@ -49,7 +55,26 @@ public class sidepanelNorth extends JPanel {
 		solids.setBorder(border);
 		add(laminars);
 
-		//For JOptionPane
+		// Set up icons
+		try {
+			BufferedImage b1Icon = ImageIO.read(new File("resources/icons/testIcon.png"));
+			b1.setIcon(new ImageIcon(b1Icon));
+			BufferedImage b2Icon = ImageIO.read(new File("resources/icons/rectIcon.png"));
+			b2.setIcon(new ImageIcon(b2Icon));
+			BufferedImage b3Icon = ImageIO.read(new File("resources/icons/sectIcon.png"));
+			b3.setIcon(new ImageIcon(b3Icon));
+			BufferedImage b4Icon = ImageIO.read(new File("resources/icons/rodIcon.png"));
+			b4.setIcon(new ImageIcon(b4Icon));
+			BufferedImage b5Icon = ImageIO.read(new File("resources/icons/arcIcon.png"));
+			b5.setIcon(new ImageIcon(b5Icon));
+			BufferedImage b6Icon = ImageIO.read(new File("resources/icons/pointIcon.png"));
+			b6.setIcon(new ImageIcon(b5Icon));
+		} catch (IOException e) {
+			// TODO: icons
+			e.printStackTrace();
+		}
+
+		// For JOptionPane
 		body.setLayout(new GridBagLayout());
 		GridBagConstraints gbc = new GridBagConstraints();
 		gbc.anchor = GridBagConstraints.FIRST_LINE_START;
@@ -70,6 +95,7 @@ public class sidepanelNorth extends JPanel {
 		gbc.gridy++;
 		body.add(txt3, gbc);
 
+		laminars.setLayout(new GridLayout(0, 1));
 		laminars.add(b1);
 		laminars.add(b2);
 		laminars.add(b3);
@@ -82,7 +108,6 @@ public class sidepanelNorth extends JPanel {
 	}
 
 	public void addListeners() {
-
 		b1.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -103,28 +128,26 @@ public class sidepanelNorth extends JPanel {
 			}
 		});
 		b3.addActionListener(new ActionListener() {
-			// circsector
+			// circ sector
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				//Set up text for body;
+				// Set up text for body;
 				lbl1.setText("Angle");
 				lbl2.setText("Mass");
 				lbl3.setText("Radius");
-				JOptionPane.showMessageDialog(null, body, "Circle Sector",
-						JOptionPane.QUESTION_MESSAGE);
+				JOptionPane.showMessageDialog(null, body, "Circle Sector", JOptionPane.QUESTION_MESSAGE);
 
 				if (!MathUtil.isNumeric(txt1.getText()) || !MathUtil.isNumeric(txt2.getText())
 						|| !MathUtil.isNumeric(txt3.getText())) {
-					JOptionPane.showMessageDialog(null, "Not a number!", "Error",
-							JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, "Not a number!", "Error", JOptionPane.ERROR_MESSAGE);
 					return;
 				}
 				double angle = Double.parseDouble(txt1.getText());
 				double mass = Double.parseDouble(txt2.getText());
 				double radius = Double.parseDouble(txt3.getText());
 				if (angle > 2 * Math.PI || angle <= 0) {
-					JOptionPane.showMessageDialog(null, "Must be with the range 0 < a <= 2 pi",
-							"Error", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, "Must be with the range 0 < a <= 2 pi", "Error",
+							JOptionPane.ERROR_MESSAGE);
 					return;
 				}
 				plane.add(new Obj(0, new MyPoint(0, 0), MathUtil.genCirc(angle, radius, true), mass));
@@ -140,48 +163,42 @@ public class sidepanelNorth extends JPanel {
 				JOptionPane.showMessageDialog(null, body, "Rod", JOptionPane.QUESTION_MESSAGE);
 				if (!MathUtil.isNumeric(txt1.getText()) || !MathUtil.isNumeric(txt2.getText())
 						|| !MathUtil.isNumeric(txt3.getText())) {
-					JOptionPane.showMessageDialog(null, "Not a number!", "Error",
-							JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, "Not a number!", "Error", JOptionPane.ERROR_MESSAGE);
 					return;
 				}
 				double angle = Double.parseDouble(txt1.getText());
 				double magnitude = Double.parseDouble(txt2.getText());
 				double mass = Double.parseDouble(txt3.getText());
 				MyPoint[] points = new MyPoint[2];
-				points[0] = new MyPoint(-magnitude * Math.cos(angle) / 2, -magnitude
-						* Math.sin(angle) / 2);
-				points[1] = new MyPoint(magnitude * Math.cos(angle) / 2, magnitude
-						* Math.sin(angle) / 2);
+				points[0] = new MyPoint(-magnitude * Math.cos(angle) / 2, -magnitude * Math.sin(angle) / 2);
+				points[1] = new MyPoint(magnitude * Math.cos(angle) / 2, magnitude * Math.sin(angle) / 2);
 				plane.add(new Obj(2, new MyPoint(0, 0), new Shape(points), mass));
 			}
 		});
 		b5.addActionListener(new ActionListener() {
-			//arc
+			// arc
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				//Set up text for body;
+				// Set up text for body;
 				lbl1.setText("Angle");
 				lbl2.setText("Mass");
 				lbl3.setText("Radius");
-				JOptionPane.showMessageDialog(null, body, "Circle Sector",
-						JOptionPane.QUESTION_MESSAGE);
+				JOptionPane.showMessageDialog(null, body, "Circle Sector", JOptionPane.QUESTION_MESSAGE);
 
 				if (!MathUtil.isNumeric(txt1.getText()) || !MathUtil.isNumeric(txt2.getText())
 						|| !MathUtil.isNumeric(txt3.getText())) {
-					JOptionPane.showMessageDialog(null, "Not a number!", "Error",
-							JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, "Not a number!", "Error", JOptionPane.ERROR_MESSAGE);
 					return;
 				}
 				double angle = Double.parseDouble(txt1.getText());
 				double mass = Double.parseDouble(txt2.getText());
 				double radius = Double.parseDouble(txt3.getText());
 				if (angle > 2 * Math.PI || angle <= 0) {
-					JOptionPane.showMessageDialog(null, "Must be with the range 0 < a <= 2 pi",
-							"Error", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, "Must be with the range 0 < a <= 2 pi", "Error",
+							JOptionPane.ERROR_MESSAGE);
 					return;
 				}
-				plane.add(new Obj(2, new MyPoint(0, 0), MathUtil.genCirc(angle, radius, false),
-						mass));
+				plane.add(new Obj(2, new MyPoint(0, 0), MathUtil.genCirc(angle, radius, false), mass));
 			}
 		});
 		b6.addActionListener(new ActionListener() {

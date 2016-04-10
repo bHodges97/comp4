@@ -18,10 +18,6 @@ public class Plane {
 
 	}
 
-	public void interpret() {
-		//TODO: interpret
-	}
-
 	public void findCOM() {
 		Double x;
 		Double y;
@@ -52,26 +48,5 @@ public class Plane {
 			}
 		}
 		System.out.println("Object added(" + obj.name + ")");
-	}
-
-	public void update() {
-		//TODO: remove! this function  is completely useless/ and gives errors
-		for (int i = 0; i < objects.size(); i++) {
-			for (int u = i + 1; u < objects.size(); u++) {
-				Obj A = objects.get(i);
-				Obj B = objects.get(u);
-				double[][] APoints = A.getWorldPoints();
-				double[][] BPoints = B.getWorldPoints();
-				for (int o = 0; o < APoints[0].length; o++) {
-					float tolerance = 1f;
-					for (int x = 0; x < BPoints[0].length - 1; x++) {
-						MathUtil.PointInLineSegment(new MyPoint(APoints[0][o], APoints[1][o]),
-								new MyPoint(BPoints[0][i], APoints[1][i]), new MyPoint(
-										BPoints[0][i + 1], APoints[1][i + 1]), tolerance);
-					}
-				}
-			}
-		}
-
 	}
 }
