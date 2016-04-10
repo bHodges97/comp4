@@ -26,17 +26,16 @@ public class StartScreenDialog extends JDialog {
 		frame.setLayout(new FlowLayout(FlowLayout.LEFT));
 		JButton topicCircles = new JButton("circles");
 		JButton topicRestitute = new JButton("Collisons");
-		JButton topicWork = new JButton("Work Energy and Power");
 		JButton topicCenter = new JButton("topicCenterOfMass");
 		JButton topicProjectiles = new JButton("Projectile Motion");
+
 		frame.add(topicCircles);
 		frame.add(topicRestitute);
-		frame.add(topicWork);
 		frame.add(topicCenter);
 		frame.add(topicProjectiles);
+
 		topicCircles.setActionCommand("Circles");
 		topicRestitute.setActionCommand("Collisions");
-		topicWork.setActionCommand("Work");
 		topicCenter.setActionCommand("Center");
 		topicProjectiles.setActionCommand("Projectiles");
 		ActionListener tpcListener = new ActionListener() {
@@ -51,9 +50,6 @@ public class StartScreenDialog extends JDialog {
 				if (e.getActionCommand().equals("Collisions")) {
 
 				}
-				if (e.getActionCommand().equals("Work")) {
-
-				}
 				if (e.getActionCommand().equals("Center")) {
 
 				}
@@ -62,7 +58,6 @@ public class StartScreenDialog extends JDialog {
 		};
 		topicCircles.addActionListener(tpcListener);
 		topicRestitute.addActionListener(tpcListener);
-		topicWork.addActionListener(tpcListener);
 		topicCenter.addActionListener(tpcListener);
 		topicProjectiles.addActionListener(tpcListener);
 		this.pack();

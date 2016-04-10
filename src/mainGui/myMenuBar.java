@@ -306,8 +306,6 @@ public class myMenuBar extends JMenuBar {
 
 		} else if (topic.equals("Center")) {
 			JOptionPane.showMessageDialog(frame, "Not avaliable.");
-		} else if (topic.equals("Work")) {
-			// TODO:Work energy power
 		}
 		System.out.println("Solver completed in " + (System.currentTimeMillis() - startTime) + " ms");
 		frame.updateFields();
