@@ -12,7 +12,7 @@ import math.MyPoint;
 import math.MyVector;
 import math.Shape;
 
-public class IllustrationPanel extends JPanel {
+public class NewObjPanel extends JPanel {
 	Shape s;
 	double scale;
 	int[] xpoints;
@@ -20,7 +20,7 @@ public class IllustrationPanel extends JPanel {
 	int x = -1;
 	int y = -1;
 
-	public IllustrationPanel() {
+	public NewObjPanel() {
 		setPreferredSize(new Dimension(200, 200));
 		setBorder(BorderFactory.createEtchedBorder(1));
 		this.setVisible(true);

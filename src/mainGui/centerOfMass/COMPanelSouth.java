@@ -19,7 +19,7 @@ import math.MyPoint;
 import math.Obj;
 import math.Plane;
 
-public class sidepanelSouth extends JPanel {
+public class COMPanelSouth extends JPanel {
 
 	JLabel planeCom = new JLabel("Plane Center of mass");
 	JLabel planeComVal = new JLabel("");
@@ -42,7 +42,7 @@ public class sidepanelSouth extends JPanel {
 
 	public Obj current;
 
-	public sidepanelSouth(int t, Plane plane) {
+	public COMPanelSouth(Plane plane) {
 		this.plane = plane;
 		setLayout();
 		addActionListeners();

@@ -1,8 +1,8 @@
 package mainGui.centerOfMass;
 
+import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -18,21 +18,21 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 import javax.swing.border.Border;
 
-import mainGui.WrapLayout;
 import math.MathUtil;
 import math.MyPoint;
 import math.Obj;
 import math.Plane;
 import math.Shape;
 
-public class sidepanelNorth extends JPanel {
+public class COMPanelNorth extends JPanel {
 	final JButton b1 = new JButton("Custom");
 	final JButton b2 = new JButton("Rectangle");
 	final JButton b3 = new JButton("Circle Sector");
 	final JButton b4 = new JButton("Rod");
-	final JButton b5 = new JButton("arc");
+	final JButton b5 = new JButton("Arc");
 	final JButton b6 = new JButton("PointMass");
 	final DialogPointMass Dialogb6 = new DialogPointMass();
 	final DialogRect Dialogb2 = new DialogRect();
@@ -48,12 +48,8 @@ public class sidepanelNorth extends JPanel {
 
 	DialogNewObj popupCOM = new DialogNewObj();
 
-	public sidepanelNorth(final Plane plane) {
-		JPanel laminars = new JPanel(new WrapLayout());
-		JPanel solids = new JPanel();
-		laminars.setBorder(border);
-		solids.setBorder(border);
-		add(laminars);
+	public COMPanelNorth(final Plane plane) {
+		setBorder(border);
 
 		// Set up icons
 		try {
@@ -95,13 +91,31 @@ public class sidepanelNorth extends JPanel {
 		gbc.gridy++;
 		body.add(txt3, gbc);
 
-		laminars.setLayout(new GridLayout(0, 1));
-		laminars.add(b1);
-		laminars.add(b2);
-		laminars.add(b3);
-		laminars.add(b4);
-		laminars.add(b5);
-		laminars.add(b6);
+		gbc = new GridBagConstraints();
+		gbc.anchor = GridBagConstraints.FIRST_LINE_START;
+		gbc.fill = GridBagConstraints.HORIZONTAL;
+		gbc.weightx = 1;
+		setLayout(new GridBagLayout());
+		gbc.gridx = 0;
+		gbc.gridy = 0;
+		add(b1, gbc);
+		gbc.gridy++;
+		add(b2, gbc);
+		gbc.gridy++;
+		add(b3, gbc);
+		gbc.gridy++;
+		add(b4, gbc);
+		gbc.gridy++;
+		add(b5, gbc);
+		gbc.gridy++;
+		add(b6, gbc);
+
+		// left align
+		for (Component c : getComponents()) {
+			if (c instanceof JButton) {
+				((JButton) c).setHorizontalAlignment(SwingConstants.LEFT);
+			}
+		}
 
 		this.plane = plane;
 		addListeners();

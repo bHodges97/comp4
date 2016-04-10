@@ -29,9 +29,9 @@ import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.border.Border;
 
-import mainGui.centerOfMass.Panel;
-import mainGui.centerOfMass.sidepanelNorth;
-import mainGui.centerOfMass.sidepanelSouth;
+import mainGui.centerOfMass.COMPanel;
+import mainGui.centerOfMass.COMPanelNorth;
+import mainGui.centerOfMass.COMPanelSouth;
 import mainGui.circularMotion.CircTopDown;
 import mainGui.circularMotion.CircVertical;
 import mainGui.collision.ColDiagram;
@@ -51,7 +51,7 @@ public class Frame extends JFrame {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	Dialog popup = new Dialog();
+	StartScreenDialog popup = new StartScreenDialog();
 	String topic = "Default";
 	// Border border = BorderFactory.createLineBorder(Color.BLACK, 0);
 	Border border = BorderFactory.createEtchedBorder(1);
@@ -108,10 +108,10 @@ public class Frame extends JFrame {
 	JTextField circLblY;
 
 	// CenterOfMass
-	Panel canvas = new Panel();
+	COMPanel canvas = new COMPanel();
 	JPanel sidepanel = new JPanel(new GridBagLayout());
-	sidepanelNorth sideNorth;
-	public static sidepanelSouth sideSouth;
+	COMPanelNorth sideNorth;
+	public static COMPanelSouth sideSouth;
 
 	// projectile
 	ProjDiagram projDiagram;
@@ -754,8 +754,8 @@ public class Frame extends JFrame {
 	void initCenterOfMass() {
 		this.add(canvas, BorderLayout.CENTER);
 		this.add(sidepanel, BorderLayout.WEST);
-		sideNorth = new sidepanelNorth(canvas.plane);
-		sideSouth = new sidepanelSouth(0, canvas.plane);
+		sideNorth = new COMPanelNorth(canvas.plane);
+		sideSouth = new COMPanelSouth(canvas.plane);
 		// sidepanel.setPreferredSize(new Dimension(300, this.getHeight()));
 		sidepanel.setBorder(border);
 
@@ -776,13 +776,14 @@ public class Frame extends JFrame {
 		c.weighty = 1;
 		c.weightx = 1;
 		c.fill = GridBagConstraints.BOTH;
-		c.anchor = GridBagConstraints.NORTH;
+		c.anchor = GridBagConstraints.NORTHEAST;
 		c.gridy = 0;
 		sidepanel.add(panelNorth, c);
 		c.gridy++;
 		sidepanel.add(sideNorth, c);
 		c.gridy++;
 		sidepanel.add(sideSouth, c);
+
 	}
 
 	/**

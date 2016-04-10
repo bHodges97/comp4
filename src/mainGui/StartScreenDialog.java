@@ -12,11 +12,11 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 
 @SuppressWarnings("serial")
-public class Dialog extends JDialog {
+public class StartScreenDialog extends JDialog {
 	private Dimension prefSize = new Dimension(500, 500);
 	public String topic = "Default";
 
-	public Dialog() {
+	public StartScreenDialog() {
 		setPreferredSize(prefSize);
 		setTitle("Topic Selection");
 		setModal(true);

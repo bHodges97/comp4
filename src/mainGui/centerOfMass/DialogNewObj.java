@@ -36,7 +36,7 @@ public class DialogNewObj extends JDialog {
 	JTextField txtCOMY = new JTextField(4);
 	JTextField txtPosX = new JTextField(4);
 	JTextField txtPosY = new JTextField(4);
-	IllustrationPanel p = new IllustrationPanel();
+	NewObjPanel p = new NewObjPanel();
 	JButton buAdd = new JButton("Add Vertex");
 	JButton buRem = new JButton("Remove Vertex");
 	JButton buOk = new JButton("Done");

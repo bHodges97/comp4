@@ -23,7 +23,7 @@ import math.Obj;
 import math.Plane;
 
 @SuppressWarnings("serial")
-public class Panel extends JPanel {
+public class COMPanel extends JPanel {
 	String topic;
 	public Plane plane;
 	public double scale = 0.05d;
@@ -43,7 +43,7 @@ public class Panel extends JPanel {
 		}
 	}
 
-	public Panel() {
+	public COMPanel() {
 		setBorder(BorderFactory.createEtchedBorder(1));
 		setPreferredSize(new Dimension(800, 500));
 		this.setFocusable(true);
