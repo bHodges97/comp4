@@ -7,7 +7,6 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
@@ -53,18 +52,19 @@ public class COMPanelNorth extends JPanel {
 
 		// Set up icons
 		try {
-			BufferedImage b1Icon = ImageIO.read(new File("resources/icons/testIcon.png"));
+			BufferedImage b1Icon = ImageIO.read(this.getClass().getResource("/testIcon.png"));
 			b1.setIcon(new ImageIcon(b1Icon));
-			BufferedImage b2Icon = ImageIO.read(new File("resources/icons/rectIcon.png"));
+			BufferedImage b2Icon = ImageIO.read(this.getClass().getResource("/rectIcon.png"));
 			b2.setIcon(new ImageIcon(b2Icon));
-			BufferedImage b3Icon = ImageIO.read(new File("resources/icons/sectIcon.png"));
+			BufferedImage b3Icon = ImageIO.read(this.getClass().getResource("/sectIcon.png"));
 			b3.setIcon(new ImageIcon(b3Icon));
-			BufferedImage b4Icon = ImageIO.read(new File("resources/icons/rodIcon.png"));
+			BufferedImage b4Icon = ImageIO.read(this.getClass().getResource("/rodIcon.png"));
 			b4.setIcon(new ImageIcon(b4Icon));
-			BufferedImage b5Icon = ImageIO.read(new File("resources/icons/arcIcon.png"));
+			BufferedImage b5Icon = ImageIO.read(this.getClass().getResource("/arcIcon.png"));
 			b5.setIcon(new ImageIcon(b5Icon));
-			BufferedImage b6Icon = ImageIO.read(new File("resources/icons/pointIcon.png"));
-			b6.setIcon(new ImageIcon(b5Icon));
+			BufferedImage b6Icon = ImageIO.read(this.getClass().getResource("/pointIcon.png"));
+			b6.setIcon(new ImageIcon(b6Icon));
+
 		} catch (IOException e) {
 			// TODO: icons
 			e.printStackTrace();

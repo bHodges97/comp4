@@ -745,19 +745,19 @@ public class Frame extends JFrame {
 		String path = "";
 		if (topic.equals("Circles")) {
 			title = "Circular motion notes";
-			path = "resources/notes/circlesNotes";
+			path = "m2diagramDrawer/notes/circlesNotes";
 		}
 		if (topic.equals("Center")) {
 			title = "Center of mass notes";
-			path = "resources/notes/comNotes";
+			path = "m2diagramDrawer/notes/comNotes";
 		}
 		if (topic.equals("Collisions")) {
 			title = "Coefficient of restitution and impulse notes";
-			path = "resources/notes/collisionNotes";
+			path = "m2diagramDrawer/notes/collisionNotes";
 		}
 		if (topic.equals("Projectiles")) {
 			title = "Projectile motion notes";
-			path = "resources/notes/projectileNotes";
+			path = "m2diagramDrawer/notes/projectileNotes";
 		}
 		JTextField topicTitle = new JTextField(title);
 		topicTitle.setEditable(false);

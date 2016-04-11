@@ -327,16 +327,16 @@ public class MyMenuBar extends JMenuBar {
 		String path = "";
 
 		if (frame.topic.equals("Circles")) {
-			path = "resources/notes/circlesNotes";
+			path = "m2diagramDrawer/notes/circlesNotes";
 		}
 		if (frame.topic.equals("Center")) {
-			path = "resources/notes/comNotes";
+			path = "m2diagramDrawer/notes/comNotes";
 		}
 		if (frame.topic.equals("Collisions")) {
-			path = "resources/notes/collisionNotes";
+			path = "m2diagramDrawer/notes/collisionNotes";
 		}
 		if (frame.topic.equals("Projectiles")) {
-			path = "resources/notes/projectileNotes";
+			path = "m2diagramDrawer/notes/projectileNotes";
 		}
 		try {
 			FileOutputStream fout = new FileOutputStream(path);
