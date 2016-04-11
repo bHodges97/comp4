@@ -38,13 +38,13 @@ public class MyMenuBar extends JMenuBar {
 		// File
 		JMenu menuFile = new JMenu("File");
 		menuFile.setMnemonic(KeyEvent.VK_F);
-		final JMenuItem saveImage = new JMenuItem("Save image", KeyEvent.VK_I);
-		final JMenuItem saveFile = new JMenuItem("Save file", KeyEvent.VK_F);
+		final JMenuItem saveImage = new JMenuItem("Export image", KeyEvent.VK_I);
+		final JMenuItem saveFile = new JMenuItem("Save as...", KeyEvent.VK_F);
 		final JMenuItem loadFile = new JMenuItem("Open File...", KeyEvent.VK_O);
-		final JMenuItem saveNotes = new JMenuItem("Save Topic Notes", KeyEvent.VK_T);
+		final JMenuItem saveNotes = new JMenuItem("Save Notes", KeyEvent.VK_T);
 		menuFile.add(loadFile);
-		menuFile.add(saveImage);
 		menuFile.add(saveFile);
+		menuFile.add(saveImage);
 		menuFile.add(saveNotes);
 
 		// Topic

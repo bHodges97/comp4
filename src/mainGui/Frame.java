@@ -72,7 +72,6 @@ public class Frame extends JFrame {
 	Var e;
 	ColDiagram colDiagram;
 	JTextField[] colField = new JTextField[6];
-	JLabel textCurrent;
 	// CircularMotion
 	/**
 	 * Variables used in circular motion.<br>
@@ -180,11 +179,10 @@ public class Frame extends JFrame {
 				 */
 				Thread update = new Thread() {
 					public void run() {
-						if (popup.topic.equals("Circles")) {
-							circVertical.text = circVarB;
-							circVertical.force = circTextA;
-							circVertical.angle = circTextB;
-							circTopDown.vars = circVars;
+						try {
+							Thread.sleep((long) 1000);//wait till app starts
+						} catch (InterruptedException e) {
+							e.printStackTrace();
 						}
 
 						while (true) {
@@ -468,12 +466,12 @@ public class Frame extends JFrame {
 		projVars = new Var[13];
 		projDiagram = new ProjDiagram(projVars);
 		add(projDiagram, BorderLayout.CENTER);
-		JPanel sidePanel = new JPanel(new GridLayout(0, 1));
+		JPanel sidePanel = new JPanel(new BorderLayout(0, 0));
 		add(sidePanel, BorderLayout.WEST);
 		JPanel northPanel = new JPanel(new BorderLayout(0, 0));
 		JPanel southPanel = new JPanel(new GridLayout(0, 1));
-		sidePanel.add(northPanel);
-		sidePanel.add(southPanel);
+		sidePanel.add(northPanel, BorderLayout.NORTH);
+		sidePanel.add(new JScrollPane(southPanel), BorderLayout.CENTER);
 
 		northPanel.setBorder(border);
 		southPanel.setBorder(border);
@@ -521,9 +519,9 @@ public class Frame extends JFrame {
 		after.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(),
 				"When object hits someting"));
 
-		southPanel.add(before);
-		southPanel.add(after);
-		southPanel.add(others);
+		southPanel.add(new JScrollPane(before));
+		southPanel.add(new JScrollPane(after));
+		southPanel.add(new JScrollPane(others));
 
 		GridBagConstraints c = new GridBagConstraints();
 
@@ -622,11 +620,10 @@ public class Frame extends JFrame {
 		colDiagram.setBorder(border);
 		fields.setBorder(border);
 		panelNorth.setBorder(border);
-		westPanel.add(panelNorth);
-		westPanel.add(fields);
+		westPanel.add(new JScrollPane(panelNorth));
+		westPanel.add(new JScrollPane(fields));
 		displayNotes(panelNorth);
 
-		textCurrent = new JLabel("Currently selected object: A.");
 		JLabel textDesc = new JLabel(
 				"<html>Click on diagram to select point mass. <br>Use \"?\" for unknown variables. Units used are<br> kg, m/s, Ns");
 
@@ -641,29 +638,27 @@ public class Frame extends JFrame {
 		gbc.gridx = 0;
 		gbc.gridy = 0;
 		gbc.anchor = GridBagConstraints.WEST;
-		fields.add(textCurrent, gbc);
 		gbc.gridwidth = 2;
-		gbc.gridy = 1;
 		fields.add(textDesc, gbc);
 		gbc.gridwidth = 1;
 		gbc.gridx = 1;
-		gbc.gridy = 2;
+		gbc.gridy = 1;
 		for (int i = 0; i < colField.length; i++) {
 			fields.add(colField[i], gbc);
 			gbc.gridy++;
 		}
 		gbc.gridx = 0;
-		gbc.gridy = 2;
+		gbc.gridy = 1;
 		fields.add(new JLabel("Coefficient of restitution"), gbc);
-		gbc.gridy = 3;
+		gbc.gridy = 2;
 		fields.add(new JLabel("Label"), gbc);
-		gbc.gridy = 4;
+		gbc.gridy = 3;
 		fields.add(new JLabel("Mass"), gbc);
-		gbc.gridy = 5;
+		gbc.gridy = 4;
 		fields.add(new JLabel("Initial velocity"), gbc);
-		gbc.gridy = 6;
+		gbc.gridy = 5;
 		fields.add(new JLabel("Final velocity"), gbc);
-		gbc.gridy = 7;
+		gbc.gridy = 6;
 		fields.add(new JLabel("Impulse"), gbc);
 
 		colDiagram.addMouseListener(new MouseListener() {
@@ -760,8 +755,7 @@ public class Frame extends JFrame {
 			path = "m2diagramDrawer/notes/projectileNotes";
 		}
 		JTextField topicTitle = new JTextField(title);
-		topicTitle.setEditable(false);
-		topicTitle.setFont(topicTitle.getFont().deriveFont(1.2f * topicTitle.getFont().getSize()));
+
 		topicDesc = new JTextArea();
 
 		try {//load up notes.
@@ -774,8 +768,10 @@ public class Frame extends JFrame {
 			topicDesc.setText("Missing notes file");
 		}
 		System.out.print("this got here");
+		topicTitle.setEditable(false);
+		topicTitle.setFont(topicTitle.getFont().deriveFont(1.2f * topicTitle.getFont().getSize()));
 		panel.add(topicTitle, BorderLayout.NORTH);
-		panel.add(topicDesc, BorderLayout.CENTER);
+		panel.add(new JScrollPane(topicDesc), BorderLayout.CENTER);
 
 		topicDesc.setColumns(26);
 		topicDesc.setLineWrap(true);
@@ -939,15 +935,13 @@ public class Frame extends JFrame {
 		}
 		if (topic.equals("Collisions")) {
 			if (colA) {
-				for (int i = 0; i < colField.length; i++) {
-					colField[i].setText(MathUtil.round(a[i].contents));
+				for (int i = 0; i < a.length; i++) {
+					colField[i + 1].setText(MathUtil.round(a[i].contents));
 				}
-				textCurrent.setText("Currently selected object: " + colField[0].getText());
 			} else {
-				for (int i = 0; i < colField.length; i++) {
-					colField[i].setText(MathUtil.round(a[i].contents));
+				for (int i = 0; i < b.length; i++) {
+					colField[i + 1].setText(MathUtil.round(b[i].contents));
 				}
-				textCurrent.setText("Currently selected object: " + colField[0].getText());
 			}
 		}
 	}
@@ -965,6 +959,10 @@ public class Frame extends JFrame {
 		setTitle(topic);
 		if (topic.equals("Circles")) {
 			initCircularMotion();
+			circVertical.text = circVarB;
+			circVertical.force = circTextA;
+			circVertical.angle = circTextB;
+			circTopDown.vars = circVars;
 		}
 		if (topic.equals("Center")) {
 			initCenterOfMass();
@@ -974,6 +972,11 @@ public class Frame extends JFrame {
 		}
 		if (topic.equals("Projectiles")) {
 			initProjectiles();
+		}
+		try {
+			Thread.sleep((long) 100);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
 		}
 	}
 
