@@ -9,7 +9,6 @@ TODO LIST
 
 :MAIN APP
 Complete each module
-Consider using themes to make it look nice --> also save window.
 Sort out topic desc.
 save function
 use scroll panes to make it work
@@ -23,15 +22,8 @@ use scroll panes to make it work
 -Draw diagram
 -Make gui functional
 
-:collsions
-Consider impulse
-
 :projectiles
-logic
-fix gui 
 consider ux = 0;
-
-important fix selection bug on collision s
 
 EVERYTHING ELSE FINISH FASTTTTTT
 
