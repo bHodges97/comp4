@@ -13,6 +13,8 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.FileInputStream;
+import java.io.ObjectInputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -53,8 +55,8 @@ public class Frame extends JFrame {
 
 	StartScreenDialog popup = new StartScreenDialog();
 	String topic = "Default";
-	// Border border = BorderFactory.createLineBorder(Color.BLACK, 0);
 	Border border = BorderFactory.createEtchedBorder(1);
+	JTextArea topicDesc;
 
 	// collision
 	boolean colA = true;
@@ -167,19 +169,7 @@ public class Frame extends JFrame {
 				MyMenuBar menu = new MyMenuBar(Frame.this);
 				setJMenuBar(menu);
 
-				if (popup.topic.equals("Circles")) {
-					initCircularMotion();
-				}
-				if (popup.topic.equals("Center")) {
-					initCenterOfMass();
-				}
-				if (popup.topic.equals("Collisions")) {
-					initCollisions();
-				}
-				if (popup.topic.equals("Projectiles")) {
-					initProjectiles();
-				}
-
+				setTopic(popup.topic);
 				setMinimumSize(new Dimension(640, 480));
 				setDefaultCloseOperation(EXIT_ON_CLOSE);
 				pack();
@@ -218,6 +208,7 @@ public class Frame extends JFrame {
 				System.out.println("GUI initialised in " + (System.currentTimeMillis() - t)
 						+ " milliseconds");
 			}
+
 		});
 
 	}
@@ -268,17 +259,7 @@ public class Frame extends JFrame {
 		panelDiagram.add(circVertical);
 		circVertical.setBorder(border);
 
-		// Initialise topic title and desc.
-		// TODO: fill out description for circularMotion.
-		JTextField topicTitle = new JTextField("Circular motion notes");
-		topicTitle.setEditable(false);
-		topicTitle.setFont(topicTitle.getFont().deriveFont(1.2f * topicTitle.getFont().getSize()));
-		JTextArea topicDesc = new JTextArea();
-		topicDesc.setColumns(26);
-		topicDesc.setLineWrap(true);
-		topicDesc.setText("TO DO ADD SOME TEXT");
-		panelNorth.add(topicTitle, BorderLayout.NORTH);
-		panelNorth.add(topicDesc, BorderLayout.CENTER);
+		displayNotes(panelNorth);
 
 		JLabel Explanation = new JLabel("Leave unknowns as \"?\".");
 		int n = 9;
@@ -498,19 +479,7 @@ public class Frame extends JFrame {
 		southPanel.setBorder(border);
 		projDiagram.setBorder(border);
 
-		JTextField topicTitle = new JTextField("Projectile motion notes");
-		topicTitle.setEditable(false);
-		topicTitle.setFont(topicTitle.getFont().deriveFont(1.2f * topicTitle.getFont().getSize()));
-		JTextArea topicDesc = new JTextArea();
-		topicDesc.setColumns(26);
-		topicDesc.setLineWrap(true);
-		topicDesc.setText("\nEquation of trajectory:\n •y = x*tan(θ)-g*x^2/(2*v^2*cos^2(θ))\n");
-		topicDesc
-				.append("Acceleration:\n •Constant acceleration of 9.8 ms^-2 downwards.\n •No horizontal acceleration, horizontal velocity is constant.\n");
-		topicDesc
-				.append("Velocity\n •Velocity in x direction is V*cos(θ) \n •Velocity in y direction is V*sin(θ).\n");
-		northPanel.add(topicTitle, BorderLayout.NORTH);
-		northPanel.add(topicDesc, BorderLayout.CENTER);
+		displayNotes(northPanel);
 
 		for (int i = 0; i < projText.length; i++) {
 			projText[i] = new JTextField("?", 9);
@@ -649,27 +618,13 @@ public class Frame extends JFrame {
 		this.add(westPanel, BorderLayout.WEST);
 		this.add(colDiagram, BorderLayout.CENTER);
 		JPanel fields = new JPanel(new GridBagLayout());
-		JPanel text = new JPanel(new BorderLayout(0, 0));
+		JPanel panelNorth = new JPanel(new BorderLayout(0, 0));
 		colDiagram.setBorder(border);
 		fields.setBorder(border);
-		text.setBorder(border);
-		westPanel.add(text);
+		panelNorth.setBorder(border);
+		westPanel.add(panelNorth);
 		westPanel.add(fields);
-
-		// text;
-		JTextField topicTitle = new JTextField("Coefficient of restitution and impulse notes");
-		topicTitle.setEditable(false);
-		topicTitle.setFont(topicTitle.getFont().deriveFont(1.2f * topicTitle.getFont().getSize()));
-		JTextArea topicDesc = new JTextArea();
-		topicDesc
-				.setText("\nNewton's experimental law:\n   •Seperation speed = e * approach speed. \n   • 0 ≤ e ≤ 1 \n   •Perfectly elastic : e = 1	Inelastic e = 0 \n");
-		topicDesc
-				.append("Momentum:\n   •impluse = change in momentum \n   •In a closed system, the total momentum is constant.\n   •m1 * v1 + m2 * v2 = m1 * u1 + m2 * u2");
-
-		topicDesc.setColumns(26);
-		topicDesc.setLineWrap(true);
-		text.add(topicTitle, BorderLayout.NORTH);
-		text.add(topicDesc, BorderLayout.CENTER);
+		displayNotes(panelNorth);
 
 		textCurrent = new JLabel("Currently selected object: A.");
 		JLabel textDesc = new JLabel(
@@ -767,17 +722,7 @@ public class Frame extends JFrame {
 		sidePanel.setBorder(border);
 
 		JPanel panelNorth = new JPanel(new BorderLayout());
-		// Initialise topic title and desc.
-		// TODO: fill out description.
-		JTextField topicTitle = new JTextField("Center of mass notes");
-		topicTitle.setEditable(false);
-		topicTitle.setFont(topicTitle.getFont().deriveFont(1.2f * topicTitle.getFont().getSize()));
-		JTextArea topicDesc = new JTextArea();
-		topicDesc.setColumns(26);
-		topicDesc.setLineWrap(true);
-		topicDesc.setText("TO DO ADD SOME TEXT");
-		panelNorth.add(topicTitle, BorderLayout.NORTH);
-		panelNorth.add(new JScrollPane(topicDesc), BorderLayout.CENTER);
+		displayNotes(panelNorth);
 
 		GridBagConstraints c = new GridBagConstraints();
 		c.weighty = 1;
@@ -791,6 +736,49 @@ public class Frame extends JFrame {
 		c.gridy++;
 		sidePanel.add(new JScrollPane(sideSouth), c);
 
+	}
+
+	private void displayNotes(JPanel panel) {
+		// Initialise topic title and desc.
+		// TODO: fill out description for circularMotion.
+		String title = "";
+		String path = "";
+		if (topic.equals("Circles")) {
+			title = "Circular motion notes";
+			path = "resources/notes/circlesNotes";
+		}
+		if (topic.equals("Center")) {
+			title = "Center of mass notes";
+			path = "resources/notes/comNotes";
+		}
+		if (topic.equals("Collisions")) {
+			title = "Coefficient of restitution and impulse notes";
+			path = "resources/notes/collisionNotes";
+		}
+		if (topic.equals("Projectiles")) {
+			title = "Projectile motion notes";
+			path = "resources/notes/projectileNotes";
+		}
+		JTextField topicTitle = new JTextField(title);
+		topicTitle.setEditable(false);
+		topicTitle.setFont(topicTitle.getFont().deriveFont(1.2f * topicTitle.getFont().getSize()));
+		topicDesc = new JTextArea();
+
+		try {//load up notes.
+			FileInputStream fileInputStream = new FileInputStream(path);
+			ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
+			topicDesc = (JTextArea) objectInputStream.readObject();
+			objectInputStream.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+			topicDesc.setText("Missing notes file");
+		}
+		System.out.print("this got here");
+		panel.add(topicTitle, BorderLayout.NORTH);
+		panel.add(topicDesc, BorderLayout.CENTER);
+
+		topicDesc.setColumns(26);
+		topicDesc.setLineWrap(true);
 	}
 
 	/**
@@ -961,6 +949,31 @@ public class Frame extends JFrame {
 				}
 				textCurrent.setText("Currently selected object: " + colField[0].getText());
 			}
+		}
+	}
+
+	/**
+	 * Sets current topic
+	 * 
+	 * @param topic
+	 *            The new topic.
+	 * 
+	 */
+	public void setTopic(String topic) {
+		getContentPane().removeAll();
+		this.topic = topic;
+		setTitle(topic);
+		if (topic.equals("Circles")) {
+			initCircularMotion();
+		}
+		if (topic.equals("Center")) {
+			initCenterOfMass();
+		}
+		if (topic.equals("Collisions")) {
+			initCollisions();
+		}
+		if (topic.equals("Projectiles")) {
+			initProjectiles();
 		}
 	}
 

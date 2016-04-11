@@ -34,3 +34,15 @@ consider ux = 0;
 
 
 EVERYTHING ELSE FINISH FASTTTTTT
+
+
+
+
+		try {
+			FileOutputStream fout = new FileOutputStream("resources/notes/collisionNotes");
+			ObjectOutputStream oos = new ObjectOutputStream(fout);
+			oos.writeObject(topicDesc);
+			oos.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}

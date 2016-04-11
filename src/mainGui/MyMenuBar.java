@@ -6,7 +6,9 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectOutputStream;
 
 import javax.imageio.ImageIO;
 import javax.swing.JFileChooser;
@@ -14,6 +16,7 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
+import javax.swing.JTextArea;
 
 import math.Definition;
 import math.Solver;
@@ -38,9 +41,11 @@ public class MyMenuBar extends JMenuBar {
 		final JMenuItem saveImage = new JMenuItem("Save image", KeyEvent.VK_I);
 		final JMenuItem saveFile = new JMenuItem("Save file", KeyEvent.VK_F);
 		final JMenuItem loadFile = new JMenuItem("Open File...", KeyEvent.VK_O);
+		final JMenuItem saveNotes = new JMenuItem("Save Topic Notes", KeyEvent.VK_T);
 		menuFile.add(loadFile);
 		menuFile.add(saveImage);
 		menuFile.add(saveFile);
+		menuFile.add(saveNotes);
 
 		// Topic
 		JMenu menuTopic = new JMenu("Topic");
@@ -104,25 +109,20 @@ public class MyMenuBar extends JMenuBar {
 				if (e.getSource() == saveFile) {
 
 				}
+				if (e.getSource() == saveNotes) {
+					saveNotes();
+				}
 				if (e.getSource() == initCirc) {
-					frame.getContentPane().removeAll();
-					frame.initCircularMotion();
-					frame.setTitle("Circles");
+					frame.setTopic("Circles");
 				}
 				if (e.getSource() == initCOM) {
-					frame.getContentPane().removeAll();
-					frame.initCenterOfMass();
-					frame.setTitle("Center");
+					frame.setTopic("Center");
 				}
 				if (e.getSource() == initColl) {
-					frame.getContentPane().removeAll();
-					frame.initCollisions();
-					frame.setTitle("Collisions");
+					frame.setTopic("Collisions");
 				}
 				if (e.getSource() == initProj) {
-					frame.getContentPane().removeAll();
-					frame.initProjectiles();
-					frame.setTitle("Projectiles");
+					frame.setTopic("Projectiles");
 				}
 			}
 		};
@@ -135,6 +135,7 @@ public class MyMenuBar extends JMenuBar {
 		zoomReset.addActionListener(listener);
 		saveImage.addActionListener(listener);
 		saveFile.addActionListener(listener);
+		saveNotes.addActionListener(listener);
 		initCirc.addActionListener(listener);
 		initCOM.addActionListener(listener);
 		initColl.addActionListener(listener);
@@ -319,5 +320,34 @@ public class MyMenuBar extends JMenuBar {
 		System.out.println("Solver completed in " + (System.currentTimeMillis() - startTime)
 				+ " ms");
 		frame.updateFields();
+	}
+
+	private void saveNotes() {
+		JTextArea textArea = frame.topicDesc;
+		String path = "";
+
+		if (frame.topic.equals("Circles")) {
+			path = "resources/notes/circlesNotes";
+		}
+		if (frame.topic.equals("Center")) {
+			path = "resources/notes/comNotes";
+		}
+		if (frame.topic.equals("Collisions")) {
+			path = "resources/notes/collisionNotes";
+		}
+		if (frame.topic.equals("Projectiles")) {
+			path = "resources/notes/projectileNotes";
+		}
+		try {
+			FileOutputStream fout = new FileOutputStream(path);
+			ObjectOutputStream oos = new ObjectOutputStream(fout);
+			oos.writeObject(textArea);
+			oos.close();
+			JOptionPane.showMessageDialog(null, "Notes saved");
+		} catch (Exception e) {
+			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, "Failed to save notes!", "Error",
+					JOptionPane.ERROR_MESSAGE);
+		}
 	}
 }
