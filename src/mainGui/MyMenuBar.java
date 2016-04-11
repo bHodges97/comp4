@@ -19,7 +19,7 @@ import math.Definition;
 import math.Solver;
 import math.Var;
 
-public class myMenuBar extends JMenuBar {
+public class MyMenuBar extends JMenuBar {
 	final Frame frame;
 
 	/**
@@ -27,7 +27,7 @@ public class myMenuBar extends JMenuBar {
 	 */
 	private static final long serialVersionUID = -1764943131583829011L;
 
-	public myMenuBar(final Frame main) {
+	public MyMenuBar(final Frame main) {
 		frame = main;
 		final JFileChooser fileChooser = new JFileChooser();
 		final AngleConverter dialogConverter = new AngleConverter();
@@ -159,7 +159,8 @@ public class myMenuBar extends JMenuBar {
 			BufferedImage imgB = frame.circVertical.getImg();
 			int width = imgA.getWidth() + imgB.getWidth();
 			int height = imgA.getHeight();
-			BufferedImage combinedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+			BufferedImage combinedImage = new BufferedImage(width, height,
+					BufferedImage.TYPE_INT_ARGB);
 			Graphics2D g2d = combinedImage.createGraphics();
 			g2d.fillRect(0, 0, width, height);
 			g2d.drawImage(imgA, null, 0, 0);
@@ -197,8 +198,9 @@ public class myMenuBar extends JMenuBar {
 
 		long startTime = System.currentTimeMillis();
 		if (topic.equals("Circles")) {
-			int confirm = JOptionPane.showConfirmDialog(frame, "Attempts to find unkown variables if possible.",
-					"Solver", JOptionPane.OK_CANCEL_OPTION);
+			int confirm = JOptionPane.showConfirmDialog(frame,
+					"Attempts to find unkown variables if possible.", "Solver",
+					JOptionPane.OK_CANCEL_OPTION);
 			if (confirm == JOptionPane.CANCEL_OPTION || confirm == JOptionPane.CLOSED_OPTION) {
 				return;
 			}
@@ -220,13 +222,15 @@ public class myMenuBar extends JMenuBar {
 			Solver s = new Solver(defs, circVars);
 
 		} else if (topic.equals("Projectiles")) {
-			int confirm = JOptionPane.showConfirmDialog(frame, "Attempts to find unkown variables if possible.",
-					"Solver", JOptionPane.OK_CANCEL_OPTION);
+			int confirm = JOptionPane.showConfirmDialog(frame,
+					"Attempts to find unkown variables if possible.", "Solver",
+					JOptionPane.OK_CANCEL_OPTION);
 			if (confirm == JOptionPane.CANCEL_OPTION || confirm == JOptionPane.CLOSED_OPTION) {
 				return;
 			}
 			if (!projVars[9].isKnown() && !projVars[8].isKnown()) {
-				projVars[0].setContents("" + Math.atan(projVars[9].getVal() / projVars[8].getVal()), false);
+				projVars[0].setContents(
+						"" + Math.atan(projVars[9].getVal() / projVars[8].getVal()), false);
 			}
 			Definition[] defs = new Definition[11];
 			defs[0] = new Definition("d=u*cos(a)");
@@ -256,16 +260,19 @@ public class myMenuBar extends JMenuBar {
 
 				// mass 1
 				if (!a[1].isKnown()
-						&& (b[1].isKnown() && b[2].isKnown() && b[3].isKnown() && a[3].isKnown() && a[2].isKnown())) {
+						&& (b[1].isKnown() && b[2].isKnown() && b[3].isKnown() && a[3].isKnown() && a[2]
+								.isKnown())) {
 					a[1].setContents("" + (m2 * (v2 - u2) / (u1 - v1)), false);
 				}
 				// mass 2
 				if (!b[1].isKnown()
-						&& (a[1].isKnown() && a[2].isKnown() && a[3].isKnown() && b[3].isKnown() && b[2].isKnown())) {
+						&& (a[1].isKnown() && a[2].isKnown() && a[3].isKnown() && b[3].isKnown() && b[2]
+								.isKnown())) {
 					b[1].setContents("" + (m1 * (u1 - v1) / (v2 - u2)), false);
 				}
 				// e
-				if (!e.isKnown() && (a[2].isKnown() && a[3].isKnown() && b[2].isKnown() && b[3].isKnown())) {
+				if (!e.isKnown()
+						&& (a[2].isKnown() && a[3].isKnown() && b[2].isKnown() && b[3].isKnown())) {
 					e.setContents("" + ((v2 - v1) / (u1 - u2)), false);
 					break;// Exit loop as all var must be known by now.
 				}
@@ -292,7 +299,9 @@ public class myMenuBar extends JMenuBar {
 				}
 				// u1 && u2
 				if (!b[3].isKnown() && !a[3].isKnown() && b[2].isKnown() && a[2].isKnown()) {
-					b[3].setContents("" + ((m1 * v1 / m2 - m1 / m2 * ((v2 - v1) / c) + u2 / m2 + v2) / (1 - 1 / m2)),
+					b[3].setContents(
+							""
+									+ ((m1 * v1 / m2 - m1 / m2 * ((v2 - v1) / c) + u2 / m2 + v2) / (1 - 1 / m2)),
 							false);
 					a[3].setContents("" + (v1 + (m2 * v2 - m2 * u2) / m1), false);
 				}
@@ -307,7 +316,8 @@ public class myMenuBar extends JMenuBar {
 		} else if (topic.equals("Center")) {
 			JOptionPane.showMessageDialog(frame, "Not avaliable.");
 		}
-		System.out.println("Solver completed in " + (System.currentTimeMillis() - startTime) + " ms");
+		System.out.println("Solver completed in " + (System.currentTimeMillis() - startTime)
+				+ " ms");
 		frame.updateFields();
 	}
 }

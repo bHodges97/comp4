@@ -108,8 +108,8 @@ public class Frame extends JFrame {
 	JTextField circLblY;
 
 	// CenterOfMass
-	COMPanel canvas = new COMPanel();
-	JPanel sidepanel = new JPanel(new GridBagLayout());
+	COMPanel canvas;
+	JPanel sidePanel;
 	COMPanelNorth sideNorth;
 	public static COMPanelSouth sideSouth;
 
@@ -164,7 +164,7 @@ public class Frame extends JFrame {
 				setExtendedState(MAXIMIZED_BOTH);
 				setTitle(popup.topic);
 				topic = popup.topic;
-				myMenuBar menu = new myMenuBar(Frame.this);
+				MyMenuBar menu = new MyMenuBar(Frame.this);
 				setJMenuBar(menu);
 
 				if (popup.topic.equals("Circles")) {
@@ -215,7 +215,8 @@ public class Frame extends JFrame {
 
 				};
 				update.start();
-				System.out.println("GUI initialised in " + (System.currentTimeMillis() - t) + " milliseconds");
+				System.out.println("GUI initialised in " + (System.currentTimeMillis() - t)
+						+ " milliseconds");
 			}
 		});
 
@@ -234,7 +235,8 @@ public class Frame extends JFrame {
 		JScrollPane scrollSouthS = new JScrollPane(panelSouthS);
 		// Set borders
 		scrollSouthS.setBorder(BorderFactory.createEmptyBorder());
-		panelSouthS.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), "Forces"));
+		panelSouthS.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(),
+				"Forces"));
 		panelSouthN.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(),
 				"Position from 0,0(not center of rotation)"));
 		panelFields.setBorder(border);
@@ -503,9 +505,10 @@ public class Frame extends JFrame {
 		topicDesc.setColumns(26);
 		topicDesc.setLineWrap(true);
 		topicDesc.setText("\nEquation of trajectory:\n •y = x*tan(θ)-g*x^2/(2*v^2*cos^2(θ))\n");
-		topicDesc.append(
-				"Acceleration:\n •Constant acceleration of 9.8 ms^-2 downwards.\n •No horizontal acceleration, horizontal velocity is constant.\n");
-		topicDesc.append("Velocity\n •Velocity in x direction is V*cos(θ) \n •Velocity in y direction is V*sin(θ).\n");
+		topicDesc
+				.append("Acceleration:\n •Constant acceleration of 9.8 ms^-2 downwards.\n •No horizontal acceleration, horizontal velocity is constant.\n");
+		topicDesc
+				.append("Velocity\n •Velocity in x direction is V*cos(θ) \n •Velocity in y direction is V*sin(θ).\n");
 		northPanel.add(topicTitle, BorderLayout.NORTH);
 		northPanel.add(topicDesc, BorderLayout.CENTER);
 
@@ -543,10 +546,11 @@ public class Frame extends JFrame {
 
 		JPanel others = new JPanel(new GridBagLayout());
 		JPanel before = new JPanel(new GridBagLayout());
-		before.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), "Initial conditions"));
+		before.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(),
+				"Initial conditions"));
 		JPanel after = new JPanel(new GridBagLayout());
-		after.setBorder(
-				BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), "When object hits someting"));
+		after.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(),
+				"When object hits someting"));
 
 		southPanel.add(before);
 		southPanel.add(after);
@@ -657,10 +661,10 @@ public class Frame extends JFrame {
 		topicTitle.setEditable(false);
 		topicTitle.setFont(topicTitle.getFont().deriveFont(1.2f * topicTitle.getFont().getSize()));
 		JTextArea topicDesc = new JTextArea();
-		topicDesc.setText(
-				"\nNewton's experimental law:\n   •Seperation speed = e * approach speed. \n   • 0 ≤ e ≤ 1 \n   •Perfectly elastic : e = 1	Inelastic e = 0 \n");
-		topicDesc.append(
-				"Momentum:\n   •impluse = change in momentum \n   •In a closed system, the total momentum is constant.\n   •m1 * v1 + m2 * v2 = m1 * u1 + m2 * u2");
+		topicDesc
+				.setText("\nNewton's experimental law:\n   •Seperation speed = e * approach speed. \n   • 0 ≤ e ≤ 1 \n   •Perfectly elastic : e = 1	Inelastic e = 0 \n");
+		topicDesc
+				.append("Momentum:\n   •impluse = change in momentum \n   •In a closed system, the total momentum is constant.\n   •m1 * v1 + m2 * v2 = m1 * u1 + m2 * u2");
 
 		topicDesc.setColumns(26);
 		topicDesc.setLineWrap(true);
@@ -731,12 +735,12 @@ public class Frame extends JFrame {
 			public void mouseClicked(MouseEvent e) {
 				// Select object based on mouse click.
 				if (Math.abs(e.getY() - colDiagram.getHeight() / 2) < colDiagram.getHeight() * 0.1
-						&& (e.getX() < colDiagram.getWidth() / 4
-								|| (e.getX() > colDiagram.getWidth() / 2 && e.getX() < colDiagram.getWidth() * 0.75))) {
+						&& (e.getX() < colDiagram.getWidth() / 4 || (e.getX() > colDiagram
+								.getWidth() / 2 && e.getX() < colDiagram.getWidth() * 0.75))) {
 					colA = true;
 				} else if (Math.abs(e.getY() - colDiagram.getHeight() / 2) < colDiagram.getHeight() * 0.1
-						&& (e.getX() > colDiagram.getWidth() / 4
-								|| (e.getX() < colDiagram.getWidth() / 2 && e.getX() > colDiagram.getWidth() * 0.25))) {
+						&& (e.getX() > colDiagram.getWidth() / 4 || (e.getX() < colDiagram
+								.getWidth() / 2 && e.getX() > colDiagram.getWidth() * 0.25))) {
 					colA = false;
 				}
 				updateFields();
@@ -752,12 +756,15 @@ public class Frame extends JFrame {
 	}
 
 	void initCenterOfMass() {
+
+		canvas = new COMPanel();
+		sidePanel = new JPanel(new GridBagLayout());
 		this.add(canvas, BorderLayout.CENTER);
-		this.add(sidepanel, BorderLayout.WEST);
+		this.add(sidePanel, BorderLayout.WEST);
 		sideNorth = new COMPanelNorth(canvas.plane);
 		sideSouth = new COMPanelSouth(canvas.plane);
 		// sidepanel.setPreferredSize(new Dimension(300, this.getHeight()));
-		sidepanel.setBorder(border);
+		sidePanel.setBorder(border);
 
 		JPanel panelNorth = new JPanel(new BorderLayout());
 		// Initialise topic title and desc.
@@ -770,7 +777,7 @@ public class Frame extends JFrame {
 		topicDesc.setLineWrap(true);
 		topicDesc.setText("TO DO ADD SOME TEXT");
 		panelNorth.add(topicTitle, BorderLayout.NORTH);
-		panelNorth.add(topicDesc, BorderLayout.CENTER);
+		panelNorth.add(new JScrollPane(topicDesc), BorderLayout.CENTER);
 
 		GridBagConstraints c = new GridBagConstraints();
 		c.weighty = 1;
@@ -778,11 +785,11 @@ public class Frame extends JFrame {
 		c.fill = GridBagConstraints.BOTH;
 		c.anchor = GridBagConstraints.NORTHEAST;
 		c.gridy = 0;
-		sidepanel.add(panelNorth, c);
+		sidePanel.add(panelNorth, c);
 		c.gridy++;
-		sidepanel.add(sideNorth, c);
+		sidePanel.add(new JScrollPane(sideNorth), c);
 		c.gridy++;
-		sidepanel.add(sideSouth, c);
+		sidePanel.add(new JScrollPane(sideSouth), c);
 
 	}
 
@@ -807,7 +814,8 @@ public class Frame extends JFrame {
 	 *            5: Special case for e
 	 * 
 	 */
-	private void addListener(final JTextField textField, final Var var1, final int type, final Var var2) {
+	private void addListener(final JTextField textField, final Var var1, final int type,
+			final Var var2) {
 		textField.addFocusListener(new FocusListener() {
 			@Override
 			public void focusGained(FocusEvent arg0) {
@@ -860,12 +868,14 @@ public class Frame extends JFrame {
 			return;
 		}
 		if (MathUtil.isNumeric(t.getText()) && t.getText().length() > 10) {
-			JOptionPane.showMessageDialog(Frame.this, "Input is too long!", "Error", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(Frame.this, "Input is too long!", "Error",
+					JOptionPane.ERROR_MESSAGE);
 			return;
 		}
 		if (c >= -1) {
 			if (!MathUtil.isNumeric(t.getText())) {
-				JOptionPane.showMessageDialog(Frame.this, "Not a number!", "Error", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(Frame.this, "Not a number!", "Error",
+						JOptionPane.ERROR_MESSAGE);
 				return;
 			}
 		}
@@ -895,7 +905,8 @@ public class Frame extends JFrame {
 		}
 		if (c == 4) {
 			if (Math.abs(Double.parseDouble(t.getText())) > 6.28) {
-				JOptionPane.showMessageDialog(Frame.this, "Careful this value is greater than 2 PI");
+				JOptionPane
+						.showMessageDialog(Frame.this, "Careful this value is greater than 2 PI");
 			}
 		}
 		if (c == 5) {
@@ -915,8 +926,10 @@ public class Frame extends JFrame {
 		double x = 0;
 		double y = 0;
 		for (int i = 0; i < circTextA.size(); i++) {
-			x += Double.parseDouble(circTextA.get(i)) * Math.cos(Double.parseDouble(circTextB.get(i)));
-			y += Double.parseDouble(circTextA.get(i)) * Math.sin(Double.parseDouble(circTextB.get(i)));
+			x += Double.parseDouble(circTextA.get(i))
+					* Math.cos(Double.parseDouble(circTextB.get(i)));
+			y += Double.parseDouble(circTextA.get(i))
+					* Math.sin(Double.parseDouble(circTextB.get(i)));
 		}
 		circLblX.setText("Sum of horizontal forces: " + x);
 		circLblY.setText("Sum of vertical forces  : " + y);
