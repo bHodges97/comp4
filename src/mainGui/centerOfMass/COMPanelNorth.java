@@ -20,10 +20,10 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.Border;
 
+import mainGui.Frame;
 import math.MathUtil;
 import math.MyPoint;
 import math.Obj;
-import math.Plane;
 import math.Shape;
 
 public class COMPanelNorth extends JPanel {
@@ -43,12 +43,13 @@ public class COMPanelNorth extends JPanel {
 	final JTextField txt2 = new JTextField(9);
 	final JTextField txt3 = new JTextField(9);
 	Border border = BorderFactory.createEtchedBorder(1);
-	Plane plane;
+	Frame frame;
 
 	DialogNewObj popupCOM = new DialogNewObj();
 
-	public COMPanelNorth(final Plane plane) {
+	public COMPanelNorth(Frame frame) {
 		setBorder(border);
+		this.frame = frame;
 
 		// Set up icons
 		try {
@@ -117,7 +118,6 @@ public class COMPanelNorth extends JPanel {
 			}
 		}
 
-		this.plane = plane;
 		addListeners();
 	}
 
@@ -127,7 +127,7 @@ public class COMPanelNorth extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				popupCOM = new DialogNewObj();
 				popupCOM.setVisible(true);
-				plane.add(popupCOM.object);
+				frame.canvas.plane.add(popupCOM.object);
 				popupCOM.dispose();
 			}
 		});
@@ -137,7 +137,7 @@ public class COMPanelNorth extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				Dialogb2.open();
 				if (Dialogb2.returnObj != null) {
-					plane.add(Dialogb2.returnObj);
+					frame.canvas.plane.add(Dialogb2.returnObj);
 				}
 			}
 		});
@@ -149,24 +149,22 @@ public class COMPanelNorth extends JPanel {
 				lbl1.setText("Angle");
 				lbl2.setText("Mass");
 				lbl3.setText("Radius");
-				JOptionPane.showMessageDialog(null, body, "Circle Sector",
-						JOptionPane.QUESTION_MESSAGE);
+				JOptionPane.showMessageDialog(null, body, "Circle Sector", JOptionPane.QUESTION_MESSAGE);
 
 				if (!MathUtil.isNumeric(txt1.getText()) || !MathUtil.isNumeric(txt2.getText())
 						|| !MathUtil.isNumeric(txt3.getText())) {
-					JOptionPane.showMessageDialog(null, "Not a number!", "Error",
-							JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, "Not a number!", "Error", JOptionPane.ERROR_MESSAGE);
 					return;
 				}
 				double angle = Double.parseDouble(txt1.getText());
 				double mass = Double.parseDouble(txt2.getText());
 				double radius = Double.parseDouble(txt3.getText());
 				if (angle > 2 * Math.PI || angle <= 0) {
-					JOptionPane.showMessageDialog(null, "Must be with the range 0 < a <= 2 pi",
-							"Error", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, "Must be with the range 0 < a <= 2 pi", "Error",
+							JOptionPane.ERROR_MESSAGE);
 					return;
 				}
-				plane.add(new Obj(0, new MyPoint(0, 0), MathUtil.genCirc(angle, radius, true), mass));
+				frame.canvas.plane.add(new Obj(0, new MyPoint(0, 0), MathUtil.genCirc(angle, radius, true), mass));
 			}
 		});
 		b4.addActionListener(new ActionListener() {
@@ -179,19 +177,16 @@ public class COMPanelNorth extends JPanel {
 				JOptionPane.showMessageDialog(null, body, "Rod", JOptionPane.QUESTION_MESSAGE);
 				if (!MathUtil.isNumeric(txt1.getText()) || !MathUtil.isNumeric(txt2.getText())
 						|| !MathUtil.isNumeric(txt3.getText())) {
-					JOptionPane.showMessageDialog(null, "Not a number!", "Error",
-							JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, "Not a number!", "Error", JOptionPane.ERROR_MESSAGE);
 					return;
 				}
 				double angle = Double.parseDouble(txt1.getText());
 				double magnitude = Double.parseDouble(txt2.getText());
 				double mass = Double.parseDouble(txt3.getText());
 				MyPoint[] points = new MyPoint[2];
-				points[0] = new MyPoint(-magnitude * Math.cos(angle) / 2, -magnitude
-						* Math.sin(angle) / 2);
-				points[1] = new MyPoint(magnitude * Math.cos(angle) / 2, magnitude
-						* Math.sin(angle) / 2);
-				plane.add(new Obj(2, new MyPoint(0, 0), new Shape(points), mass));
+				points[0] = new MyPoint(-magnitude * Math.cos(angle) / 2, -magnitude * Math.sin(angle) / 2);
+				points[1] = new MyPoint(magnitude * Math.cos(angle) / 2, magnitude * Math.sin(angle) / 2);
+				frame.canvas.plane.add(new Obj(2, new MyPoint(0, 0), new Shape(points), mass));
 			}
 		});
 		b5.addActionListener(new ActionListener() {
@@ -202,32 +197,29 @@ public class COMPanelNorth extends JPanel {
 				lbl1.setText("Angle");
 				lbl2.setText("Mass");
 				lbl3.setText("Radius");
-				JOptionPane.showMessageDialog(null, body, "Circle Sector",
-						JOptionPane.QUESTION_MESSAGE);
+				JOptionPane.showMessageDialog(null, body, "Circle Sector", JOptionPane.QUESTION_MESSAGE);
 
 				if (!MathUtil.isNumeric(txt1.getText()) || !MathUtil.isNumeric(txt2.getText())
 						|| !MathUtil.isNumeric(txt3.getText())) {
-					JOptionPane.showMessageDialog(null, "Not a number!", "Error",
-							JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, "Not a number!", "Error", JOptionPane.ERROR_MESSAGE);
 					return;
 				}
 				double angle = Double.parseDouble(txt1.getText());
 				double mass = Double.parseDouble(txt2.getText());
 				double radius = Double.parseDouble(txt3.getText());
 				if (angle > 2 * Math.PI || angle <= 0) {
-					JOptionPane.showMessageDialog(null, "Must be with the range 0 < a <= 2 pi",
-							"Error", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, "Must be with the range 0 < a <= 2 pi", "Error",
+							JOptionPane.ERROR_MESSAGE);
 					return;
 				}
-				plane.add(new Obj(2, new MyPoint(0, 0), MathUtil.genCirc(angle, radius, false),
-						mass));
+				frame.canvas.plane.add(new Obj(2, new MyPoint(0, 0), MathUtil.genCirc(angle, radius, false), mass));
 			}
 		});
 		b6.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				Dialogb6.open();
-				plane.add(Dialogb6.returnObj);
+				frame.canvas.plane.add(Dialogb6.returnObj);
 			}
 		});
 	}

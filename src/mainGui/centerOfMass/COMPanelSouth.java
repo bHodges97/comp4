@@ -14,6 +14,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import mainGui.Frame;
 import math.MathUtil;
 import math.MyPoint;
 import math.Obj;
@@ -42,8 +43,8 @@ public class COMPanelSouth extends JPanel {
 
 	public Obj current;
 
-	public COMPanelSouth(Plane plane) {
-		this.plane = plane;
+	public COMPanelSouth(Frame frame) {
+		this.plane = frame.canvas.plane;
 		setLayout();
 		addActionListeners();
 	}

@@ -112,7 +112,7 @@ public class Frame extends JFrame {
 	public JPanel panelSouthS;
 
 	// CenterOfMass
-	COMPanel canvas;
+	public COMPanel canvas;
 	JPanel sidePanel;
 	COMPanelNorth sideNorth;
 	public static COMPanelSouth sideSouth;
@@ -154,7 +154,10 @@ public class Frame extends JFrame {
 
 	public Frame() {
 		try {
-			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName()); //Sets to os style
+			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName()); // Sets
+																					// to
+																					// os
+																					// style
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -174,11 +177,11 @@ public class Frame extends JFrame {
 				pack();
 				setVisible(true);
 
-				//Thread that updates gui 
+				// Thread that updates gui
 				Thread update = new Thread() {
 					public void run() {
 						try {
-							Thread.sleep((long) 1000);//wait till app starts
+							Thread.sleep((long) 1000);// wait till app starts
 						} catch (InterruptedException e) {
 							e.printStackTrace();
 						}
@@ -187,7 +190,7 @@ public class Frame extends JFrame {
 							revalidate();
 							for (Component c : Frame.this.getComponents()) {
 								if (c instanceof JPanel) {
-									c.repaint();//repaint every panel
+									c.repaint();// repaint every panel
 								}
 							}
 							try {
@@ -200,8 +203,7 @@ public class Frame extends JFrame {
 
 				};
 				update.start();
-				System.out.println("GUI initialised in " + (System.currentTimeMillis() - t)
-						+ " milliseconds");
+				System.out.println("GUI initialised in " + (System.currentTimeMillis() - t) + " milliseconds");
 			}
 
 		});
@@ -218,8 +220,7 @@ public class Frame extends JFrame {
 		JPanel panelSouth = new JPanel(new GridLayout(0, 1));
 		JPanel panelSouthN = new JPanel(new GridBagLayout());
 		// Set borders
-		panelSouthS.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(),
-				"Forces"));
+		panelSouthS.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), "Forces"));
 		panelSouthN.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(),
 				"Position from 0,0(not center of rotation)"));
 		panelFields.setBorder(border);
@@ -243,16 +244,16 @@ public class Frame extends JFrame {
 		circVertical = new CircVertical();
 		panelDiagram.add(circVertical);
 
-		//initiate components
+		// initiate components
 		JLabel Explanation = new JLabel("Leave unknowns as \"?\".");
 		for (int i = 0; i < circText.length; i++) {
 			circText[i] = new JTextField("?", 9);
 		}
 		circX = new JTextField("?", 9);
 		circY = new JTextField("?", 9);
-		JButton circB = new JButton("Add Force");
+		JButton circAddForce = new JButton("Add Force");
 
-		//initiate variables
+		// initiate variables
 		circVars = new Var[8];
 		circVarB = new Var[2];
 		circVars[0] = new Var("w", new String(circText[0].getText()), "w");
@@ -284,7 +285,7 @@ public class Frame extends JFrame {
 		c.weightx = 1;
 		panelFields.add(Explanation, c);
 
-		//Coloumn 1;
+		// Coloumn 1;
 		c.gridx = 0;
 		c.gridy++;
 		panelFields.add(new JLabel("Start Angle"), c);
@@ -303,7 +304,7 @@ public class Frame extends JFrame {
 		c.gridy++;
 		panelFields.add(new JLabel("Time"), c);
 
-		//Second Column
+		// Second Column
 		c.gridx = 1;
 		c.gridy = 1;
 		panelFields.add(circText[2], c);
@@ -341,7 +342,7 @@ public class Frame extends JFrame {
 		c.gridwidth = 1;
 		c.gridy = 4;
 		c.gridx = 1;
-		panelSouthN.add(circB, c);
+		panelSouthN.add(circAddForce, c);
 		c.gridy = 0;
 		panelSouthN.add(circX, c);
 		c.gridy++;
@@ -349,7 +350,6 @@ public class Frame extends JFrame {
 		c.anchor = GridBagConstraints.FIRST_LINE_START;
 		addListener(circX, circVarB[0], -1, null);
 		addListener(circY, circVarB[1], -1, null);
-
 		c.weighty = 1;
 		c.gridy = 0;
 		c.gridx = 0;
@@ -359,7 +359,7 @@ public class Frame extends JFrame {
 		lbl.setToolTipText("radians anticlock wise from 3 o'clock position");
 
 		panelSouthS.add(lbl, c);
-		circB.addActionListener(new ButtonActionListener(this));
+		circAddForce.addActionListener(new ButtonActionListener(this));
 	}
 
 	void initProjectiles() {
@@ -409,11 +409,10 @@ public class Frame extends JFrame {
 
 		JPanel others = new JPanel(new GridBagLayout());
 		JPanel before = new JPanel(new GridBagLayout());
-		before.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(),
-				"Initial conditions"));
+		before.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), "Initial conditions"));
 		JPanel after = new JPanel(new GridBagLayout());
-		after.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(),
-				"When object hits someting"));
+		after.setBorder(
+				BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), "When object hits someting"));
 
 		southPanel.add(new JScrollPane(before));
 		southPanel.add(new JScrollPane(after));
@@ -529,7 +528,7 @@ public class Frame extends JFrame {
 		fields.add(textDesc, gbc);
 		gbc.gridwidth = 1;
 
-		//place each label in place
+		// place each label in place
 		gbc.gridx = 0;
 		gbc.gridy = 1;
 		fields.add(new JLabel("Coefficient of restitution"), gbc);
@@ -544,11 +543,11 @@ public class Frame extends JFrame {
 		gbc.gridy = 6;
 		fields.add(new JLabel("Impulse"), gbc);
 
-		//Places each textfield inplace.	
+		// Places each textfield inplace.
 		gbc.gridx = 1;
 		gbc.gridy = 1;
 		for (int i = 0; i < colField.length; i++) {
-			colField[i] = new JTextField("?", 10);//initialise each field
+			colField[i] = new JTextField("?", 10);// initialise each field
 			fields.add(colField[i], gbc);
 			gbc.gridy++;
 		}
@@ -575,12 +574,12 @@ public class Frame extends JFrame {
 			public void mouseClicked(MouseEvent e) {
 				// Select object based on mouse click.
 				if (Math.abs(e.getY() - colDiagram.getHeight() / 2) < colDiagram.getHeight() * 0.1
-						&& (e.getX() < colDiagram.getWidth() / 4 || (e.getX() > colDiagram
-								.getWidth() / 2 && e.getX() < colDiagram.getWidth() * 0.75))) {
+						&& (e.getX() < colDiagram.getWidth() / 4
+								|| (e.getX() > colDiagram.getWidth() / 2 && e.getX() < colDiagram.getWidth() * 0.75))) {
 					colA = true;
 				} else if (Math.abs(e.getY() - colDiagram.getHeight() / 2) < colDiagram.getHeight() * 0.1
-						&& (e.getX() > colDiagram.getWidth() / 4 || (e.getX() < colDiagram
-								.getWidth() / 2 && e.getX() > colDiagram.getWidth() * 0.25))) {
+						&& (e.getX() > colDiagram.getWidth() / 4
+								|| (e.getX() < colDiagram.getWidth() / 2 && e.getX() > colDiagram.getWidth() * 0.25))) {
 					colA = false;
 				}
 				updateFields();
@@ -600,8 +599,8 @@ public class Frame extends JFrame {
 		sidePanel = new JPanel(new GridBagLayout());
 		this.add(canvas, BorderLayout.CENTER);
 		this.add(sidePanel, BorderLayout.WEST);
-		sideNorth = new COMPanelNorth(canvas.plane);
-		sideSouth = new COMPanelSouth(canvas.plane);
+		sideNorth = new COMPanelNorth(this);
+		sideSouth = new COMPanelSouth(this);
 		// sidepanel.setPreferredSize(new Dimension(300, this.getHeight()));
 		sidePanel.setBorder(border);
 
@@ -699,8 +698,7 @@ public class Frame extends JFrame {
 	 *            5: Special case for e
 	 * 
 	 */
-	private void addListener(final JTextField textField, final Var var1, final int type,
-			final Var var2) {
+	private void addListener(final JTextField textField, final Var var1, final int type, final Var var2) {
 		textField.addFocusListener(new FocusListener() {
 			@Override
 			public void focusGained(FocusEvent arg0) {
@@ -753,14 +751,12 @@ public class Frame extends JFrame {
 			return;
 		}
 		if (MathUtil.isNumeric(t.getText()) && t.getText().length() > 10) {
-			JOptionPane.showMessageDialog(Frame.this, "Input is too long!", "Error",
-					JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(Frame.this, "Input is too long!", "Error", JOptionPane.ERROR_MESSAGE);
 			return;
 		}
 		if (c >= -1) {
 			if (!MathUtil.isNumeric(t.getText())) {
-				JOptionPane.showMessageDialog(Frame.this, "Not a number!", "Error",
-						JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(Frame.this, "Not a number!", "Error", JOptionPane.ERROR_MESSAGE);
 				return;
 			}
 		}
@@ -790,8 +786,7 @@ public class Frame extends JFrame {
 		}
 		if (c == 4) {
 			if (Math.abs(Double.parseDouble(t.getText())) > 6.28) {
-				JOptionPane
-						.showMessageDialog(Frame.this, "Careful this value is greater than 2 PI");
+				JOptionPane.showMessageDialog(Frame.this, "Careful this value is greater than 2 PI");
 			}
 		}
 		if (c == 5) {
@@ -820,11 +815,11 @@ public class Frame extends JFrame {
 			double x = 0;
 			double y = 0;
 			for (int i = 0; i < circTextA.size(); i++) {
-				x += Double.parseDouble(circTextA.get(i))
-						* Math.cos(Double.parseDouble(circTextB.get(i)));
-				y += Double.parseDouble(circTextA.get(i))
-						* Math.sin(Double.parseDouble(circTextB.get(i)));
+				x += Double.parseDouble(circTextA.get(i)) * Math.cos(Double.parseDouble(circTextB.get(i)));
+				y += Double.parseDouble(circTextA.get(i)) * Math.sin(Double.parseDouble(circTextB.get(i)));
 			}
+			circX.setText(circVarB[0].contents);
+			circX.setText(circVarB[1].contents);
 			circLblX.setText("Sum of horizontal forces: " + MathUtil.round("" + x));
 			circLblY.setText("Sum of vertical forces  : " + MathUtil.round("" + y));
 		}

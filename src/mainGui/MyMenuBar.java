@@ -1,5 +1,6 @@
 package mainGui;
 
+import java.awt.Component;
 import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -14,7 +15,6 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
-import java.util.List;
 
 import javax.imageio.ImageIO;
 import javax.swing.JFileChooser;
@@ -23,13 +23,12 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
-import javax.swing.JTextField;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import math.Definition;
+import math.Plane;
 import math.Solver;
 import math.Var;
-import math.Plane;
 
 public class MyMenuBar extends JMenuBar {
 	final Frame frame;
@@ -41,11 +40,14 @@ public class MyMenuBar extends JMenuBar {
 
 	public MyMenuBar(final Frame main) {
 		frame = main;
-		final JFileChooser imageChooser = new JFileChooser();
 		final AngleConverter dialogConverter = new AngleConverter();
+
+		final JFileChooser imageChooser = new JFileChooser();
 		final JFileChooser fileChooser = new JFileChooser();
-		FileNameExtensionFilter filter = new FileNameExtensionFilter("m2 files (*.m2)", ".m2");
-		fileChooser.setFileFilter(filter);
+		FileNameExtensionFilter filterFile = new FileNameExtensionFilter("m2 files (*.m2)", "m2");
+		FileNameExtensionFilter filterImage = new FileNameExtensionFilter("PNG files (*.png)", "png");
+		imageChooser.setFileFilter(filterImage);
+		fileChooser.setFileFilter(filterFile);
 
 		// File
 		JMenu menuFile = new JMenu("File");
@@ -116,13 +118,13 @@ public class MyMenuBar extends JMenuBar {
 					}
 				}
 				if (e.getSource() == loadFile) {
-					if (imageChooser.showOpenDialog(main) == JFileChooser.APPROVE_OPTION) {
-						load(imageChooser.getSelectedFile().getPath());
+					if (fileChooser.showOpenDialog(main) == JFileChooser.APPROVE_OPTION) {
+						load(fileChooser.getSelectedFile().getPath());
 					}
 				}
 				if (e.getSource() == saveFile) {
-					if (imageChooser.showSaveDialog(main) == JFileChooser.APPROVE_OPTION) {
-						save(imageChooser.getSelectedFile().getPath());
+					if (fileChooser.showSaveDialog(main) == JFileChooser.APPROVE_OPTION) {
+						save(fileChooser.getSelectedFile().getPath());
 					}
 				}
 				if (e.getSource() == saveNotes) {
@@ -178,8 +180,7 @@ public class MyMenuBar extends JMenuBar {
 			BufferedImage imgB = frame.circVertical.getImg();
 			int width = imgA.getWidth() + imgB.getWidth();
 			int height = imgA.getHeight();
-			BufferedImage combinedImage = new BufferedImage(width, height,
-					BufferedImage.TYPE_INT_ARGB);
+			BufferedImage combinedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
 			Graphics2D g2d = combinedImage.createGraphics();
 			g2d.fillRect(0, 0, width, height);
 			g2d.drawImage(imgA, null, 0, 0);
@@ -212,10 +213,11 @@ public class MyMenuBar extends JMenuBar {
 
 		} catch (Exception e) {
 			e.printStackTrace();
-			JOptionPane.showMessageDialog(null, "Failed to save!\n" + e.getMessage(), "Error",
+			JOptionPane.showMessageDialog(null, "Failed to load!\n" + e.getMessage(), "Error",
 					JOptionPane.ERROR_MESSAGE);
 		}
 		if (savedItem == null) {
+			JOptionPane.showMessageDialog(null, "Failed to load!", "Error", JOptionPane.ERROR_MESSAGE);
 			throw new IllegalArgumentException("File not found");
 		}
 		Object[] saves = (Object[]) savedItem;
@@ -223,10 +225,11 @@ public class MyMenuBar extends JMenuBar {
 		if (topic.equals("Circles")) {
 			frame.circVars = (Var[]) saves[1];
 			frame.circVarB = (Var[]) saves[2];
-			frame.circTextA = (List<String>) saves[3];
-			frame.circTextB = (List<String>) saves[4];
-			frame.circX = (JTextField) saves[5];
-			frame.circY = (JTextField) saves[6];
+			Component[] fields = (Component[]) saves[3];
+			frame.panelSouthS.removeAll();
+			for (Component field : fields) {
+				frame.panelSouthS.add(field);
+			}
 			frame.updateFields();
 		}
 		if (topic.equals("Center")) {
@@ -244,17 +247,17 @@ public class MyMenuBar extends JMenuBar {
 	private void save(String pathName) {
 		Object savedItem = null;
 		if (frame.topic.equals("Circles")) {
-			//savedItem = new Object[] { "Circles", frame.circVars, frame.circVarB, frame.circTextA,
-			//	frame.circTextB, frame.circX, frame.circY };
+			savedItem = new Object[] { "Circles", frame.circVars, frame.circVarB, frame.panelSouthS.getComponents() };
 		}
 		if (frame.topic.equals("Center")) {
 			savedItem = new Object[] { "Center", frame.canvas.plane };
 		}
 		if (frame.topic.equals("Collisions")) {
-			//savedItem = new Object[] { "Collision", frame.colVarA, frame.colVarB, frame.colVarE };
+			// savedItem = new Object[] { "Collision", frame.colVarA,
+			// frame.colVarB, frame.colVarE };
 		}
 		if (frame.topic.equals("Projectiles")) {
-			//savedItem = new Object[] { "Center", frame.projVars };
+			// savedItem = new Object[] { "Center", frame.projVars };
 		}
 
 		try {
@@ -284,9 +287,8 @@ public class MyMenuBar extends JMenuBar {
 
 		long startTime = System.currentTimeMillis();
 		if (topic.equals("Circles")) {
-			int confirm = JOptionPane.showConfirmDialog(frame,
-					"Attempts to find unkown variables if possible.", "Solver",
-					JOptionPane.OK_CANCEL_OPTION);
+			int confirm = JOptionPane.showConfirmDialog(frame, "Attempts to find unkown variables if possible.",
+					"Solver", JOptionPane.OK_CANCEL_OPTION);
 			if (confirm == JOptionPane.CANCEL_OPTION || confirm == JOptionPane.CLOSED_OPTION) {
 				return;
 			}
@@ -308,15 +310,13 @@ public class MyMenuBar extends JMenuBar {
 			Solver s = new Solver(defs, circVars);
 
 		} else if (topic.equals("Projectiles")) {
-			int confirm = JOptionPane.showConfirmDialog(frame,
-					"Attempts to find unkown variables if possible.", "Solver",
-					JOptionPane.OK_CANCEL_OPTION);
+			int confirm = JOptionPane.showConfirmDialog(frame, "Attempts to find unkown variables if possible.",
+					"Solver", JOptionPane.OK_CANCEL_OPTION);
 			if (confirm == JOptionPane.CANCEL_OPTION || confirm == JOptionPane.CLOSED_OPTION) {
 				return;
 			}
 			if (!projVars[9].isKnown() && !projVars[8].isKnown()) {
-				projVars[0].setContents(
-						"" + Math.atan(projVars[9].getVal() / projVars[8].getVal()), false);
+				projVars[0].setContents("" + Math.atan(projVars[9].getVal() / projVars[8].getVal()), false);
 			}
 			Definition[] defs = new Definition[11];
 			defs[0] = new Definition("d=u*cos(a)");
@@ -346,19 +346,16 @@ public class MyMenuBar extends JMenuBar {
 
 				// mass 1
 				if (!a[1].isKnown()
-						&& (b[1].isKnown() && b[2].isKnown() && b[3].isKnown() && a[3].isKnown() && a[2]
-								.isKnown())) {
+						&& (b[1].isKnown() && b[2].isKnown() && b[3].isKnown() && a[3].isKnown() && a[2].isKnown())) {
 					a[1].setContents("" + (m2 * (v2 - u2) / (u1 - v1)), false);
 				}
 				// mass 2
 				if (!b[1].isKnown()
-						&& (a[1].isKnown() && a[2].isKnown() && a[3].isKnown() && b[3].isKnown() && b[2]
-								.isKnown())) {
+						&& (a[1].isKnown() && a[2].isKnown() && a[3].isKnown() && b[3].isKnown() && b[2].isKnown())) {
 					b[1].setContents("" + (m1 * (u1 - v1) / (v2 - u2)), false);
 				}
 				// e
-				if (!e.isKnown()
-						&& (a[2].isKnown() && a[3].isKnown() && b[2].isKnown() && b[3].isKnown())) {
+				if (!e.isKnown() && (a[2].isKnown() && a[3].isKnown() && b[2].isKnown() && b[3].isKnown())) {
 					e.setContents("" + ((v2 - v1) / (u1 - u2)), false);
 					break;// Exit loop as all var must be known by now.
 				}
@@ -385,9 +382,7 @@ public class MyMenuBar extends JMenuBar {
 				}
 				// u1 && u2
 				if (!b[3].isKnown() && !a[3].isKnown() && b[2].isKnown() && a[2].isKnown()) {
-					b[3].setContents(
-							""
-									+ ((m1 * v1 / m2 - m1 / m2 * ((v2 - v1) / c) + u2 / m2 + v2) / (1 - 1 / m2)),
+					b[3].setContents("" + ((m1 * v1 / m2 - m1 / m2 * ((v2 - v1) / c) + u2 / m2 + v2) / (1 - 1 / m2)),
 							false);
 					a[3].setContents("" + (v1 + (m2 * v2 - m2 * u2) / m1), false);
 				}
@@ -402,8 +397,7 @@ public class MyMenuBar extends JMenuBar {
 		} else if (topic.equals("Center")) {
 			JOptionPane.showMessageDialog(frame, "Not avaliable.");
 		}
-		System.out.println("Solver completed in " + (System.currentTimeMillis() - startTime)
-				+ " ms");
+		System.out.println("Solver completed in " + (System.currentTimeMillis() - startTime) + " ms");
 		frame.updateFields();
 	}
 
@@ -431,8 +425,7 @@ public class MyMenuBar extends JMenuBar {
 			JOptionPane.showMessageDialog(null, "Notes saved");
 		} catch (Exception e) {
 			e.printStackTrace();
-			JOptionPane.showMessageDialog(null, "Failed to save notes!", "Error",
-					JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, "Failed to save notes!", "Error", JOptionPane.ERROR_MESSAGE);
 		} finally {
 			try {
 				writer.close();
