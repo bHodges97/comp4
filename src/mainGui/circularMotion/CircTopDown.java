@@ -9,6 +9,7 @@ import java.awt.Graphics2D;
 import java.awt.Stroke;
 import java.awt.image.BufferedImage;
 
+import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 
 import math.MathUtil;
@@ -29,6 +30,7 @@ public class CircTopDown extends JPanel {
 	public CircTopDown() {
 		this.setVisible(true);
 		this.setFocusable(true);
+		setBorder(BorderFactory.createEtchedBorder(1));
 	}
 
 	public BufferedImage getImg() {

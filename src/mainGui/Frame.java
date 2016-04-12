@@ -151,10 +151,7 @@ public class Frame extends JFrame {
 
 	public Frame() {
 		try {
-			// Set style
-			// alternative use
-			// "com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel" (keep quotes);
-			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName()); //Sets to os style
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -174,9 +171,7 @@ public class Frame extends JFrame {
 				pack();
 				setVisible(true);
 
-				/*
-				 * Repaint every panel used!!!
-				 */
+				//Thread that updates gui 
 				Thread update = new Thread() {
 					public void run() {
 						try {
@@ -184,13 +179,12 @@ public class Frame extends JFrame {
 						} catch (InterruptedException e) {
 							e.printStackTrace();
 						}
-
 						while (true) {
 							repaint();
 							revalidate();
 							for (Component c : Frame.this.getComponents()) {
 								if (c instanceof JPanel) {
-									c.repaint();
+									c.repaint();//repaint every panel
 								}
 							}
 							try {
@@ -217,32 +211,23 @@ public class Frame extends JFrame {
 		JPanel panelDiagram = new JPanel(new GridLayout());
 		JPanel panelFields = new JPanel(new GridBagLayout());
 		JPanel panelWest = new JPanel(new GridLayout(0, 1, 5, 5));
-		JPanel panelNorth = new JPanel(new BorderLayout(5, 5));
 		final JPanel panelSouthS = new JPanel(new GridBagLayout());
 		JPanel panelSouth = new JPanel(new GridLayout(0, 1));
 		JPanel panelSouthN = new JPanel(new GridBagLayout());
-		JScrollPane scrollSouthS = new JScrollPane(panelSouthS);
 		// Set borders
-		scrollSouthS.setBorder(BorderFactory.createEmptyBorder());
 		panelSouthS.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(),
 				"Forces"));
 		panelSouthN.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(),
 				"Position from 0,0(not center of rotation)"));
 		panelFields.setBorder(border);
-		// panelWest.setBorder(border);
 		panelSouth.setBorder(border);
-		panelNorth.setBorder(border);
 
-		// Makes it work for small screens.
-		JScrollPane scrollFields = new JScrollPane(panelFields);
-		JScrollPane scrollSouthN = new JScrollPane(panelSouthN);
-
-		// Add to it.
-		panelWest.add(panelNorth);
-		panelWest.add(scrollFields);
+		// Add panels to gui
+		panelWest.add(createNotesPanel());
+		panelWest.add(new JScrollPane(panelFields));
 		panelWest.add(panelSouth);
-		panelSouth.add(scrollSouthN);
-		panelSouth.add(scrollSouthS);
+		panelSouth.add(new JScrollPane(panelSouthN));
+		panelSouth.add(new JScrollPane(panelSouthS));
 		this.add(panelWest, BorderLayout.WEST);
 		this.add(panelDiagram, BorderLayout.CENTER);
 
@@ -251,23 +236,20 @@ public class Frame extends JFrame {
 		c.gridx = 0;
 		circTopDown = new CircTopDown();
 		panelDiagram.add(circTopDown);
-		circTopDown.setBorder(border);
 		c.gridx++;
 		circVertical = new CircVertical();
 		panelDiagram.add(circVertical);
-		circVertical.setBorder(border);
 
-		displayNotes(panelNorth);
-
+		//initiate components
 		JLabel Explanation = new JLabel("Leave unknowns as \"?\".");
-		int n = 9;
 		for (int i = 0; i < circText.length; i++) {
-			circText[i] = new JTextField("?", n);
+			circText[i] = new JTextField("?", 9);
 		}
-		circX = new JTextField("?", n);
-		circY = new JTextField("?", n);
+		circX = new JTextField("?", 9);
+		circY = new JTextField("?", 9);
 		JButton circB = new JButton("Add Force");
 
+		//initiate variables
 		circVars = new Var[8];
 		circVarB = new Var[2];
 		circVars[0] = new Var("w", new String(circText[0].getText()), "w");
@@ -298,52 +280,43 @@ public class Frame extends JFrame {
 		c.insets = new Insets(2, 2, 2, 2);
 		c.weightx = 1;
 		panelFields.add(Explanation, c);
-		c.gridy++;
+
+		//Coloumn 1;
 		c.gridx = 0;
+		c.gridy++;
 		panelFields.add(new JLabel("Start Angle"), c);
-		c.gridx = 1;
-		panelFields.add(circText[2], c);
-
 		c.gridy++;
-		c.gridx = 0;
 		panelFields.add(new JLabel("End Angle"), c);
-		c.gridx = 1;
-		panelFields.add(circText[3], c);
-
 		c.gridy++;
-		c.gridx = 0;
 		panelFields.add(new JLabel("Angular Velocity"), c);
-		c.gridx = 1;
-		panelFields.add(circText[0], c);
-
 		c.gridy++;
-		c.gridx = 0;
 		panelFields.add(new JLabel("Tangential Velocity"), c);
-		c.gridx = 1;
-		panelFields.add(circText[4], c);
-
 		c.gridy++;
-		c.gridx = 0;
 		panelFields.add(new JLabel("Mass"), c);
-		c.gridx = 1;
-		panelFields.add(circText[1], c);
-
 		c.gridy++;
-		c.gridx = 0;
 		panelFields.add(new JLabel("Radius"), c);
-		c.gridx = 1;
-		panelFields.add(circText[5], c);
-
 		c.gridy++;
-		c.gridx = 0;
 		panelFields.add(new JLabel("Centripetal Acceleration"), c);
-		c.gridx = 1;
-		panelFields.add(circText[6], c);
-
 		c.gridy++;
-		c.gridx = 0;
 		panelFields.add(new JLabel("Time"), c);
+
+		//Second Column
 		c.gridx = 1;
+		c.gridy = 1;
+		panelFields.add(circText[2], c);
+		c.gridy++;
+		panelFields.add(circText[3], c);
+		c.gridy++;
+		panelFields.add(circText[0], c);
+		c.gridy++;
+		panelFields.add(circText[4], c);
+		c.gridy++;
+		panelFields.add(circText[1], c);
+		c.gridy++;
+		panelFields.add(circText[5], c);
+		c.gridy++;
+		panelFields.add(circText[6], c);
+		c.gridy++;
 		panelFields.add(circText[7], c);
 
 		// Layout panelSouthN;
@@ -458,26 +431,20 @@ public class Frame extends JFrame {
 				});
 			}
 		});
-
 	}
 
 	void initProjectiles() {
-
 		projVars = new Var[13];
 		projDiagram = new ProjDiagram(projVars);
-		add(projDiagram, BorderLayout.CENTER);
 		JPanel sidePanel = new JPanel(new BorderLayout(0, 0));
-		add(sidePanel, BorderLayout.WEST);
-		JPanel northPanel = new JPanel(new BorderLayout(0, 0));
 		JPanel southPanel = new JPanel(new GridLayout(0, 1));
-		sidePanel.add(northPanel, BorderLayout.NORTH);
-		sidePanel.add(new JScrollPane(southPanel), BorderLayout.CENTER);
 
-		northPanel.setBorder(border);
+		sidePanel.add(createNotesPanel(), BorderLayout.NORTH);
+		sidePanel.add(new JScrollPane(southPanel), BorderLayout.CENTER);
+		add(projDiagram, BorderLayout.CENTER);
+		add(sidePanel, BorderLayout.WEST);
 		southPanel.setBorder(border);
 		projDiagram.setBorder(border);
-
-		displayNotes(northPanel);
 
 		for (int i = 0; i < projText.length; i++) {
 			projText[i] = new JTextField("?", 9);
@@ -592,7 +559,6 @@ public class Frame extends JFrame {
 		others.add(new JLabel("Max distance:                "), c);
 		c.gridx = 1;
 		others.add(projText[6], c);
-
 	}
 
 	void initCollisions() {
@@ -613,24 +579,16 @@ public class Frame extends JFrame {
 		// layout
 		colDiagram = new ColDiagram(a, b, e);
 		JPanel westPanel = new JPanel(new GridLayout(0, 1));
+		JPanel fields = new JPanel(new GridBagLayout());
 		this.add(westPanel, BorderLayout.WEST);
 		this.add(colDiagram, BorderLayout.CENTER);
-		JPanel fields = new JPanel(new GridBagLayout());
-		JPanel panelNorth = new JPanel(new BorderLayout(0, 0));
+		westPanel.add(new JScrollPane(createNotesPanel()));
+		westPanel.add(new JScrollPane(fields));
 		colDiagram.setBorder(border);
 		fields.setBorder(border);
-		panelNorth.setBorder(border);
-		westPanel.add(new JScrollPane(panelNorth));
-		westPanel.add(new JScrollPane(fields));
-		displayNotes(panelNorth);
 
 		JLabel textDesc = new JLabel(
 				"<html>Click on diagram to select point mass. <br>Use \"?\" for unknown variables. Units used are<br> kg, m/s, Ns");
-
-		for (int i = 0; i < colField.length; i++) {
-			colField[i] = new JTextField("?", 10);
-		}
-		colField[1] = new JTextField("A", 10);
 
 		GridBagConstraints gbc = new GridBagConstraints();
 		gbc.insets = new Insets(2, 2, 2, 2);
@@ -641,12 +599,8 @@ public class Frame extends JFrame {
 		gbc.gridwidth = 2;
 		fields.add(textDesc, gbc);
 		gbc.gridwidth = 1;
-		gbc.gridx = 1;
-		gbc.gridy = 1;
-		for (int i = 0; i < colField.length; i++) {
-			fields.add(colField[i], gbc);
-			gbc.gridy++;
-		}
+
+		//place each label in place
 		gbc.gridx = 0;
 		gbc.gridy = 1;
 		fields.add(new JLabel("Coefficient of restitution"), gbc);
@@ -661,11 +615,19 @@ public class Frame extends JFrame {
 		gbc.gridy = 6;
 		fields.add(new JLabel("Impulse"), gbc);
 
-		colDiagram.addMouseListener(new MouseListener() {
+		//Places each textfield inplace.	
+		gbc.gridx = 1;
+		gbc.gridy = 1;
+		for (int i = 0; i < colField.length; i++) {
+			colField[i] = new JTextField("?", 10);//initialise each field
+			fields.add(colField[i], gbc);
+			gbc.gridy++;
+		}
+		colField[1].setText("A");
 
-			// Do nothing
+		colDiagram.addMouseListener(new MouseListener() {
 			@Override
-			public void mousePressed(MouseEvent e) {
+			public void mousePressed(MouseEvent e) {// Do nothing
 			}
 
 			@Override
@@ -678,7 +640,6 @@ public class Frame extends JFrame {
 
 			@Override
 			public void mouseReleased(MouseEvent arg0) {
-
 			}
 
 			@Override
@@ -706,7 +667,6 @@ public class Frame extends JFrame {
 	}
 
 	void initCenterOfMass() {
-
 		canvas = new COMPanel();
 		sidePanel = new JPanel(new GridBagLayout());
 		this.add(canvas, BorderLayout.CENTER);
@@ -716,26 +676,26 @@ public class Frame extends JFrame {
 		// sidepanel.setPreferredSize(new Dimension(300, this.getHeight()));
 		sidePanel.setBorder(border);
 
-		JPanel panelNorth = new JPanel(new BorderLayout());
-		displayNotes(panelNorth);
-
 		GridBagConstraints c = new GridBagConstraints();
 		c.weighty = 1;
 		c.weightx = 1;
 		c.fill = GridBagConstraints.BOTH;
 		c.anchor = GridBagConstraints.NORTHEAST;
 		c.gridy = 0;
-		sidePanel.add(panelNorth, c);
+		sidePanel.add(createNotesPanel(), c);
 		c.gridy++;
 		sidePanel.add(new JScrollPane(sideNorth), c);
 		c.gridy++;
 		sidePanel.add(new JScrollPane(sideSouth), c);
-
 	}
 
-	private void displayNotes(JPanel panel) {
-		// Initialise topic title and desc.
-		// TODO: fill out description for circularMotion.
+	/**
+	 * Create a panel that contains the topic's notes.
+	 * 
+	 * @return panel that contain's topic's notes
+	 */
+	private JPanel createNotesPanel() {
+		JPanel panel = new JPanel(new BorderLayout());
 		String title = "";
 		String path = "";
 		if (topic.equals("Circles")) {
@@ -767,7 +727,6 @@ public class Frame extends JFrame {
 			e.printStackTrace();
 			topicDesc.setText("Missing notes file");
 		}
-		System.out.print("this got here");
 		topicTitle.setEditable(false);
 		topicTitle.setFont(topicTitle.getFont().deriveFont(1.2f * topicTitle.getFont().getSize()));
 		panel.add(topicTitle, BorderLayout.NORTH);
@@ -775,6 +734,8 @@ public class Frame extends JFrame {
 
 		topicDesc.setColumns(26);
 		topicDesc.setLineWrap(true);
+
+		return panel;
 	}
 
 	/**
@@ -919,7 +880,7 @@ public class Frame extends JFrame {
 		circLblY.setText("Sum of vertical forces  : " + y);
 	}
 
-	/*
+	/**
 	 * Updates textfields to show variable contents.
 	 */
 	public void updateFields() {
