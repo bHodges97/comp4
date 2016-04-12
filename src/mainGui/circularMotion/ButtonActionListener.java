@@ -1,11 +1,13 @@
 package mainGui.circularMotion;
 
+import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
@@ -18,15 +20,33 @@ public class ButtonActionListener implements ActionListener {
 
 	public ButtonActionListener(Frame frame) {
 		this.frame = frame;
+		frame.circLblX.setText("Sum of horizontal forces: ?");
+		frame.circLblY.setText("Sum of vertical forces  : ?");
+
+		GridBagConstraints c = new GridBagConstraints();
+		c.anchor = GridBagConstraints.FIRST_LINE_START;
+		c.weightx = 1;
+		c.weighty = 1;
+		c.gridy = 0;
+		c.gridx = 0;
+		frame.panelSouthS.add(new JLabel("Magnitude"), c);
+		c.gridx = 1;
+		JLabel lbl = new JLabel("Direction.");
+		lbl.setToolTipText("radians anticlock wise from 3 o'clock position");
+		frame.panelSouthS.add(lbl, c);
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
+		addField("0", "0");
+	}
+
+	private void addField(String fieldA, String fieldB) {
 		GridBagConstraints c = new GridBagConstraints();
-		frame.circF.add(new JTextField("0", 9));
-		frame.circT.add(new JTextField("0", 9));
-		frame.circTextA.add("0");
-		frame.circTextB.add("0");
+		frame.circF.add(new JTextField(fieldA, 9));
+		frame.circT.add(new JTextField(fieldB, 9));
+		frame.circTextA.add(fieldA);
+		frame.circTextB.add(fieldB);
 		final JTextField a = frame.circF.get(frame.circF.size() - 1);
 		final JTextField b = frame.circT.get(frame.circT.size() - 1);
 		c.gridy = frame.circF.size();
@@ -91,6 +111,22 @@ public class ButtonActionListener implements ActionListener {
 				frame.updateFields();
 			}
 		});
+	}
+
+	public void loadFields(Component[] fields) {
+		int i = 0;
+		String temp = "";
+		for (Component c : fields) {
+			if (c instanceof JTextField) {
+				if (i == 1) {
+					i = 0;
+					addField(temp, ((JTextField) c).getText());
+				} else {
+					i = 1;
+					temp = ((JTextField) c).getText();
+				}
+			}
+		}
 	}
 
 }

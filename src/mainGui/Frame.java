@@ -107,8 +107,8 @@ public class Frame extends JFrame {
 	public List<JTextField> circF = new ArrayList<JTextField>();
 	public List<JTextField> circT = new ArrayList<JTextField>();
 	Var[] circVarB;
-	JTextField circLblX;
-	JTextField circLblY;
+	public JTextField circLblX;
+	public JTextField circLblY;
 	public JPanel panelSouthS;
 
 	// CenterOfMass
@@ -221,8 +221,7 @@ public class Frame extends JFrame {
 		JPanel panelSouthN = new JPanel(new GridBagLayout());
 		// Set borders
 		panelSouthS.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), "Forces"));
-		panelSouthN.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(),
-				"Position from 0,0(not center of rotation)"));
+		panelSouthN.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), "Position from O"));
 		panelFields.setBorder(border);
 		panelSouth.setBorder(border);
 
@@ -249,8 +248,8 @@ public class Frame extends JFrame {
 		for (int i = 0; i < circText.length; i++) {
 			circText[i] = new JTextField("?", 9);
 		}
-		circX = new JTextField("?", 9);
-		circY = new JTextField("?", 9);
+		circX = new JTextField("?", 7);
+		circY = new JTextField("?", 7);
 		JButton circAddForce = new JButton("Add Force");
 
 		// initiate variables
@@ -328,37 +327,36 @@ public class Frame extends JFrame {
 		circLblY = new JTextField("Sum of vertical forces  : ?");
 		circLblX.setEditable(false);
 		circLblY.setEditable(false);
-		c.gridx = 0;
+		c.weightx = 1;
+
+		// row 1
 		c.gridy = 0;
+		c.gridx = 0;
 		panelSouthN.add(new JLabel("X:"), c);
-		c.gridy++;
+		c.gridx++;
+		panelSouthN.add(circX, c);
+		c.gridx++;
 		panelSouthN.add(new JLabel("Y:"), c);
-		c.gridwidth = 2;
-		c.gridy++;
+		c.gridx++;
+		panelSouthN.add(circY, c);
+
+		// row 2 & 3
+		c.gridx = 0;
+		c.gridy = 1;
+		c.gridwidth = 4;
 		panelSouthN.add(circLblX, c);
 		c.gridy++;
 		panelSouthN.add(circLblY, c);
+
+		// last button
 		c.anchor = GridBagConstraints.EAST;
-		c.gridwidth = 1;
-		c.gridy = 4;
-		c.gridx = 1;
-		panelSouthN.add(circAddForce, c);
-		c.gridy = 0;
-		panelSouthN.add(circX, c);
+		c.gridwidth = 2;
 		c.gridy++;
-		panelSouthN.add(circY, c);
-		c.anchor = GridBagConstraints.FIRST_LINE_START;
+		c.gridx = 2;
+		panelSouthN.add(circAddForce, c);
+
 		addListener(circX, circVarB[0], -1, null);
 		addListener(circY, circVarB[1], -1, null);
-		c.weighty = 1;
-		c.gridy = 0;
-		c.gridx = 0;
-		panelSouthS.add(new JLabel("Magnitude"), c);
-		c.gridx = 1;
-		JLabel lbl = new JLabel("Direction.");
-		lbl.setToolTipText("radians anticlock wise from 3 o'clock position");
-
-		panelSouthS.add(lbl, c);
 		circAddForce.addActionListener(new ButtonActionListener(this));
 	}
 
@@ -601,7 +599,6 @@ public class Frame extends JFrame {
 		this.add(sidePanel, BorderLayout.WEST);
 		sideNorth = new COMPanelNorth(this);
 		sideSouth = new COMPanelSouth(this);
-		// sidepanel.setPreferredSize(new Dimension(300, this.getHeight()));
 		sidePanel.setBorder(border);
 
 		GridBagConstraints c = new GridBagConstraints();
@@ -670,7 +667,7 @@ public class Frame extends JFrame {
 		panel.add(topicTitle, BorderLayout.NORTH);
 		panel.add(new JScrollPane(topicDesc), BorderLayout.CENTER);
 
-		topicDesc.setRows(20);
+		topicDesc.setRows(15);
 		topicDesc.setColumns(26);
 		topicDesc.setLineWrap(true);
 
@@ -817,11 +814,13 @@ public class Frame extends JFrame {
 			for (int i = 0; i < circTextA.size(); i++) {
 				x += Double.parseDouble(circTextA.get(i)) * Math.cos(Double.parseDouble(circTextB.get(i)));
 				y += Double.parseDouble(circTextA.get(i)) * Math.sin(Double.parseDouble(circTextB.get(i)));
+				System.out.println(x);
 			}
 			circX.setText(circVarB[0].contents);
 			circX.setText(circVarB[1].contents);
 			circLblX.setText("Sum of horizontal forces: " + MathUtil.round("" + x));
 			circLblY.setText("Sum of vertical forces  : " + MathUtil.round("" + y));
+
 		}
 		if (topic.equals("Collisions")) {
 			if (colA) {

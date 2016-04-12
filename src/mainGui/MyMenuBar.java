@@ -25,6 +25,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+import mainGui.circularMotion.ButtonActionListener;
 import math.Definition;
 import math.Plane;
 import math.Solver;
@@ -204,6 +205,7 @@ public class MyMenuBar extends JMenuBar {
 	}
 
 	private void load(String pathName) {
+
 		Object savedItem = null;
 		try {
 			FileInputStream fout = new FileInputStream(pathName);
@@ -220,28 +222,30 @@ public class MyMenuBar extends JMenuBar {
 			JOptionPane.showMessageDialog(null, "Failed to load!", "Error", JOptionPane.ERROR_MESSAGE);
 			throw new IllegalArgumentException("File not found");
 		}
-		Object[] saves = (Object[]) savedItem;
-		String topic = ((String) saves[0]);
-		if (topic.equals("Circles")) {
-			frame.circVars = (Var[]) saves[1];
-			frame.circVarB = (Var[]) saves[2];
-			Component[] fields = (Component[]) saves[3];
-			frame.panelSouthS.removeAll();
-			for (Component field : fields) {
-				frame.panelSouthS.add(field);
+		try {
+			Object[] saves = (Object[]) savedItem;
+			String topic = ((String) saves[0]);
+			if (topic.equals("Circles")) {
+				frame.circVars = (Var[]) saves[1];
+				frame.circVarB = (Var[]) saves[2];
+				Component[] fields = (Component[]) saves[3];
+				new ButtonActionListener(frame).loadFields(fields);
+				frame.updateFields();
 			}
-			frame.updateFields();
+			if (topic.equals("Center")) {
+				frame.canvas.plane = (Plane) saves[1];
+			}
+			if (topic.equals("Collisions")) {
+				savedItem = new Object[] { frame.colVarA, frame.colVarB, frame.colVarE };
+			}
+			if (topic.equals("Projectiles")) {
+				savedItem = frame.projVars;
+			}
+			JOptionPane.showMessageDialog(null, "Loaded successfully!");
+		} catch (ClassCastException e) {
+			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, "File is corrupted!", "Error", JOptionPane.ERROR_MESSAGE);
 		}
-		if (topic.equals("Center")) {
-			frame.canvas.plane = (Plane) saves[1];
-		}
-		if (topic.equals("Collisions")) {
-			savedItem = new Object[] { frame.colVarA, frame.colVarB, frame.colVarE };
-		}
-		if (topic.equals("Projectiles")) {
-			savedItem = frame.projVars;
-		}
-		JOptionPane.showMessageDialog(null, "Loaded successfully!");
 	}
 
 	private void save(String pathName) {
