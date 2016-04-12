@@ -2,14 +2,7 @@ package math;
 
 import java.util.ArrayList;
 
-/*
- * 
- * 
- * 
- * 
- */
-
-public class Plane {
+public class Plane implements java.io.Serializable {
 	public ArrayList<Obj> objects = new ArrayList<Obj>();
 	MyPoint COM = new MyPoint(0, 0);
 	Float g = -9.8f;

@@ -29,6 +29,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import math.Definition;
 import math.Solver;
 import math.Var;
+import math.Plane;
 
 public class MyMenuBar extends JMenuBar {
 	final Frame frame;
@@ -43,7 +44,7 @@ public class MyMenuBar extends JMenuBar {
 		final JFileChooser imageChooser = new JFileChooser();
 		final AngleConverter dialogConverter = new AngleConverter();
 		final JFileChooser fileChooser = new JFileChooser();
-		FileNameExtensionFilter filter = new FileNameExtensionFilter("m2 files (*.m2s)", "m2s");
+		FileNameExtensionFilter filter = new FileNameExtensionFilter("m2 files (*.m2)", ".m2");
 		fileChooser.setFileFilter(filter);
 
 		// File
@@ -229,7 +230,7 @@ public class MyMenuBar extends JMenuBar {
 			frame.updateFields();
 		}
 		if (topic.equals("Center")) {
-			savedItem = frame.canvas.plane;
+			frame.canvas.plane = (Plane) saves[1];
 		}
 		if (topic.equals("Collisions")) {
 			savedItem = new Object[] { frame.colVarA, frame.colVarB, frame.colVarE };
@@ -242,15 +243,12 @@ public class MyMenuBar extends JMenuBar {
 
 	private void save(String pathName) {
 		Object savedItem = null;
-		if (pathName.endsWith(".m2s")) {
-			pathName.replace(".m2s", "");
-		}
 		if (frame.topic.equals("Circles")) {
 			//savedItem = new Object[] { "Circles", frame.circVars, frame.circVarB, frame.circTextA,
 			//	frame.circTextB, frame.circX, frame.circY };
 		}
 		if (frame.topic.equals("Center")) {
-			//savedItem = new Object[] { "Center", frame.canvas.plane };
+			savedItem = new Object[] { "Center", frame.canvas.plane };
 		}
 		if (frame.topic.equals("Collisions")) {
 			//savedItem = new Object[] { "Collision", frame.colVarA, frame.colVarB, frame.colVarE };
@@ -260,7 +258,7 @@ public class MyMenuBar extends JMenuBar {
 		}
 
 		try {
-			FileOutputStream fout = new FileOutputStream(pathName + ".m2s");
+			FileOutputStream fout = new FileOutputStream(pathName.replace(".m2", "") + ".m2");
 			ObjectOutputStream oos = new ObjectOutputStream(fout);
 			oos.writeObject(savedItem);
 			oos.close();

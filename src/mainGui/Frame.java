@@ -652,14 +652,11 @@ public class Frame extends JFrame {
 			br = new BufferedReader(new FileReader(path));
 			StringBuilder sb = new StringBuilder();
 			String line = br.readLine();
-
 			while (line != null) {
-				sb.append(line);
-				sb.append(System.lineSeparator());
+				topicDesc.append(line);
+				topicDesc.append(System.lineSeparator());
 				line = br.readLine();
 			}
-			String everything = sb.toString();
-			topicDesc.setText(everything);
 		} catch (IOException e) {
 			e.printStackTrace();
 			topicDesc.setText("Missing text file");

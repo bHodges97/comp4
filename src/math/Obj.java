@@ -2,12 +2,13 @@ package math;
 
 import java.awt.Point;
 import java.awt.Polygon;
+import java.io.Serializable;
 
 /**
  * Object Class
  * 
  */
-public class Obj {
+public class Obj implements Serializable {
 
 	boolean enabled = true;
 	String name;

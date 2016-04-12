@@ -1,9 +1,11 @@
 package math;
 
-public class MyPoint {
-	public Double x,y;
-	
-	public MyPoint(Double x,Double y){
+import java.io.Serializable;
+
+public class MyPoint implements Serializable {
+	public Double x, y;
+
+	public MyPoint(Double x, Double y) {
 		this.x = x;
 		this.y = y;
 	}
@@ -14,6 +16,6 @@ public class MyPoint {
 	}
 
 	public MyPoint copy() {
-		return new MyPoint(x,y);
+		return new MyPoint(x, y);
 	}
 }
