@@ -5,10 +5,16 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
+import java.util.List;
 
 import javax.imageio.ImageIO;
 import javax.swing.JFileChooser;
@@ -17,6 +23,8 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
+import javax.swing.JTextField;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 import math.Definition;
 import math.Solver;
@@ -32,8 +40,11 @@ public class MyMenuBar extends JMenuBar {
 
 	public MyMenuBar(final Frame main) {
 		frame = main;
-		final JFileChooser fileChooser = new JFileChooser();
+		final JFileChooser imageChooser = new JFileChooser();
 		final AngleConverter dialogConverter = new AngleConverter();
+		final JFileChooser fileChooser = new JFileChooser();
+		FileNameExtensionFilter filter = new FileNameExtensionFilter("m2 files (*.m2s)", "m2s");
+		fileChooser.setFileFilter(filter);
 
 		// File
 		JMenu menuFile = new JMenu("File");
@@ -99,15 +110,19 @@ public class MyMenuBar extends JMenuBar {
 					frame.zoom(2);
 				}
 				if (e.getSource() == saveImage) {
-					if (fileChooser.showSaveDialog(main) == JFileChooser.APPROVE_OPTION) {
-						save(fileChooser.getSelectedFile().getPath());
+					if (imageChooser.showSaveDialog(main) == JFileChooser.APPROVE_OPTION) {
+						exportImage(imageChooser.getSelectedFile().getPath());
 					}
 				}
 				if (e.getSource() == loadFile) {
-					// TODO: complete
+					if (imageChooser.showOpenDialog(main) == JFileChooser.APPROVE_OPTION) {
+						load(imageChooser.getSelectedFile().getPath());
+					}
 				}
 				if (e.getSource() == saveFile) {
-
+					if (imageChooser.showSaveDialog(main) == JFileChooser.APPROVE_OPTION) {
+						save(imageChooser.getSelectedFile().getPath());
+					}
 				}
 				if (e.getSource() == saveNotes) {
 					saveNotes();
@@ -125,6 +140,7 @@ public class MyMenuBar extends JMenuBar {
 					frame.setTopic("Projectiles");
 				}
 			}
+
 		};
 
 		// AddListeners;
@@ -133,6 +149,7 @@ public class MyMenuBar extends JMenuBar {
 		zoomIn.addActionListener(listener);
 		zoomOut.addActionListener(listener);
 		zoomReset.addActionListener(listener);
+		loadFile.addActionListener(listener);
 		saveImage.addActionListener(listener);
 		saveFile.addActionListener(listener);
 		saveNotes.addActionListener(listener);
@@ -151,7 +168,7 @@ public class MyMenuBar extends JMenuBar {
 		}
 	}
 
-	private void save(String pathName) {
+	private void exportImage(String pathName) {
 		if (pathName.endsWith(".png")) {
 			pathName.replace(".png", "");
 		}
@@ -182,7 +199,77 @@ public class MyMenuBar extends JMenuBar {
 		if (frame.topic.equals("Projectiles")) {
 			frame.projDiagram.print(pathName);
 		}
+	}
 
+	private void load(String pathName) {
+		Object savedItem = null;
+		try {
+			FileInputStream fout = new FileInputStream(pathName);
+			ObjectInputStream oos = new ObjectInputStream(fout);
+			savedItem = oos.readObject();
+			oos.close();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, "Failed to save!\n" + e.getMessage(), "Error",
+					JOptionPane.ERROR_MESSAGE);
+		}
+		if (savedItem == null) {
+			throw new IllegalArgumentException("File not found");
+		}
+		Object[] saves = (Object[]) savedItem;
+		String topic = ((String) saves[0]);
+		if (topic.equals("Circles")) {
+			frame.circVars = (Var[]) saves[1];
+			frame.circVarB = (Var[]) saves[2];
+			frame.circTextA = (List<String>) saves[3];
+			frame.circTextB = (List<String>) saves[4];
+			frame.circX = (JTextField) saves[5];
+			frame.circY = (JTextField) saves[6];
+			frame.updateFields();
+		}
+		if (topic.equals("Center")) {
+			savedItem = frame.canvas.plane;
+		}
+		if (topic.equals("Collisions")) {
+			savedItem = new Object[] { frame.colVarA, frame.colVarB, frame.colVarE };
+		}
+		if (topic.equals("Projectiles")) {
+			savedItem = frame.projVars;
+		}
+		JOptionPane.showMessageDialog(null, "Loaded successfully!");
+	}
+
+	private void save(String pathName) {
+		Object savedItem = null;
+		if (pathName.endsWith(".m2s")) {
+			pathName.replace(".m2s", "");
+		}
+		if (frame.topic.equals("Circles")) {
+			//savedItem = new Object[] { "Circles", frame.circVars, frame.circVarB, frame.circTextA,
+			//	frame.circTextB, frame.circX, frame.circY };
+		}
+		if (frame.topic.equals("Center")) {
+			//savedItem = new Object[] { "Center", frame.canvas.plane };
+		}
+		if (frame.topic.equals("Collisions")) {
+			//savedItem = new Object[] { "Collision", frame.colVarA, frame.colVarB, frame.colVarE };
+		}
+		if (frame.topic.equals("Projectiles")) {
+			//savedItem = new Object[] { "Center", frame.projVars };
+		}
+
+		try {
+			FileOutputStream fout = new FileOutputStream(pathName + ".m2s");
+			ObjectOutputStream oos = new ObjectOutputStream(fout);
+			oos.writeObject(savedItem);
+			oos.close();
+			JOptionPane.showMessageDialog(null, "Saved successfully!");
+		} catch (IOException e) {
+			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, "Failed to save!\n" + e.getMessage(), "Error",
+					JOptionPane.ERROR_MESSAGE);
+		}
 	}
 
 	/**
@@ -193,9 +280,9 @@ public class MyMenuBar extends JMenuBar {
 		Var[] circVars = frame.circVars;
 		Var[] circVarB = frame.circVars;
 		Var[] projVars = frame.projVars;
-		Var[] a = frame.a;
-		Var[] b = frame.b;
-		Var e = frame.e;
+		Var[] a = frame.colVarA;
+		Var[] b = frame.colVarB;
+		Var e = frame.colVarE;
 
 		long startTime = System.currentTimeMillis();
 		if (topic.equals("Circles")) {
@@ -338,16 +425,21 @@ public class MyMenuBar extends JMenuBar {
 		if (frame.topic.equals("Projectiles")) {
 			path = "m2diagramDrawer/notes/projectileNotes";
 		}
+		Writer writer = null;
 		try {
 			FileOutputStream fout = new FileOutputStream(path);
-			ObjectOutputStream oos = new ObjectOutputStream(fout);
-			oos.writeObject(textArea);
-			oos.close();
+			writer = new BufferedWriter(new OutputStreamWriter(fout));
+			writer.write(textArea.getText());
 			JOptionPane.showMessageDialog(null, "Notes saved");
 		} catch (Exception e) {
 			e.printStackTrace();
 			JOptionPane.showMessageDialog(null, "Failed to save notes!", "Error",
 					JOptionPane.ERROR_MESSAGE);
+		} finally {
+			try {
+				writer.close();
+			} catch (Exception e) {
+			}
 		}
 	}
 }

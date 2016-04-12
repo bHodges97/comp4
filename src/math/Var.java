@@ -1,6 +1,6 @@
 package math;
 
-public class Var {
+public class Var implements java.io.Serializable {
 	public String contents;
 	public String name;
 	public String label;
@@ -53,8 +53,7 @@ public class Var {
 	}
 
 	public Var copy() {
-		Var out = new Var(new String(name), new String(contents), new String(
-				label));
+		Var out = new Var(new String(name), new String(contents), new String(label));
 		out.given = given;
 		return out;
 	}

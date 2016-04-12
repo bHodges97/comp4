@@ -13,8 +13,9 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.io.FileInputStream;
-import java.io.ObjectInputStream;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -68,9 +69,9 @@ public class Frame extends JFrame {
 	 * 3 u1 <br>
 	 * 4 i1
 	 */
-	Var[] a;
-	Var[] b;
-	Var e;
+	public Var[] colVarA;
+	public Var[] colVarB;
+	public Var colVarE;
 	ColDiagram colDiagram;
 	JTextField[] colField = new JTextField[6];
 	// CircularMotion
@@ -490,22 +491,22 @@ public class Frame extends JFrame {
 	}
 
 	void initCollisions() {
-		a = new Var[5];
-		b = new Var[5];
-		e = new Var("e", "?", "e");
-		a[0] = new Var("a", "A", "1");
-		a[1] = new Var("m1", "?", "M1");
-		a[2] = new Var("v1", "?", "V1");
-		a[3] = new Var("u1", "?", "U1");
-		a[4] = new Var("i1", "?", "i1");
-		b[0] = new Var("b", "B", "2");
-		b[1] = new Var("m2", "?", "M2");
-		b[2] = new Var("v2", "?", "V2");
-		b[3] = new Var("u2", "?", "U2");
-		b[4] = new Var("i2", "?", "i2");
+		colVarA = new Var[5];
+		colVarB = new Var[5];
+		colVarE = new Var("e", "?", "e");
+		colVarA[0] = new Var("a", "A", "1");
+		colVarA[1] = new Var("m1", "?", "M1");
+		colVarA[2] = new Var("v1", "?", "V1");
+		colVarA[3] = new Var("u1", "?", "U1");
+		colVarA[4] = new Var("i1", "?", "i1");
+		colVarB[0] = new Var("b", "B", "2");
+		colVarB[1] = new Var("m2", "?", "M2");
+		colVarB[2] = new Var("v2", "?", "V2");
+		colVarB[3] = new Var("u2", "?", "U2");
+		colVarB[4] = new Var("i2", "?", "i2");
 
 		// layout
-		colDiagram = new ColDiagram(a, b, e);
+		colDiagram = new ColDiagram(colVarA, colVarB, colVarE);
 		JPanel westPanel = new JPanel(new GridLayout(0, 1));
 		JPanel fields = new JPanel(new GridBagLayout());
 		this.add(westPanel, BorderLayout.WEST);
@@ -586,12 +587,12 @@ public class Frame extends JFrame {
 			}
 
 		});
-		addListener(colField[0], e, 5, e);
-		addListener(colField[1], a[0], -2, b[0]);
-		addListener(colField[2], a[1], 0, b[1]);
-		addListener(colField[3], a[2], -1, b[2]);
-		addListener(colField[4], a[3], -1, b[3]);
-		addListener(colField[5], a[4], -1, b[4]);
+		addListener(colField[0], colVarE, 5, colVarE);
+		addListener(colField[1], colVarA[0], -2, colVarB[0]);
+		addListener(colField[2], colVarA[1], 0, colVarB[1]);
+		addListener(colField[3], colVarA[2], -1, colVarB[2]);
+		addListener(colField[4], colVarA[3], -1, colVarB[3]);
+		addListener(colField[5], colVarA[4], -1, colVarB[4]);
 	}
 
 	void initCenterOfMass() {
@@ -646,20 +647,34 @@ public class Frame extends JFrame {
 
 		topicDesc = new JTextArea();
 
-		try {//load up notes.
-			FileInputStream fileInputStream = new FileInputStream(path);
-			ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
-			topicDesc = (JTextArea) objectInputStream.readObject();
-			objectInputStream.close();
-		} catch (Exception e) {
+		BufferedReader br = null;
+		try {
+			br = new BufferedReader(new FileReader(path));
+			StringBuilder sb = new StringBuilder();
+			String line = br.readLine();
+
+			while (line != null) {
+				sb.append(line);
+				sb.append(System.lineSeparator());
+				line = br.readLine();
+			}
+			String everything = sb.toString();
+			topicDesc.setText(everything);
+		} catch (IOException e) {
 			e.printStackTrace();
-			topicDesc.setText("Missing notes file");
+			topicDesc.setText("Missing text file");
+		} finally {
+			try {
+				br.close();
+			} catch (IOException e) {
+			}
 		}
 		topicTitle.setEditable(false);
 		topicTitle.setFont(topicTitle.getFont().deriveFont(1.2f * topicTitle.getFont().getSize()));
 		panel.add(topicTitle, BorderLayout.NORTH);
 		panel.add(new JScrollPane(topicDesc), BorderLayout.CENTER);
 
+		topicDesc.setRows(20);
 		topicDesc.setColumns(26);
 		topicDesc.setLineWrap(true);
 
@@ -818,12 +833,12 @@ public class Frame extends JFrame {
 		}
 		if (topic.equals("Collisions")) {
 			if (colA) {
-				for (int i = 0; i < a.length; i++) {
-					colField[i + 1].setText(MathUtil.round(a[i].contents));
+				for (int i = 0; i < colVarA.length; i++) {
+					colField[i + 1].setText(MathUtil.round(colVarA[i].contents));
 				}
 			} else {
-				for (int i = 0; i < b.length; i++) {
-					colField[i + 1].setText(MathUtil.round(b[i].contents));
+				for (int i = 0; i < colVarB.length; i++) {
+					colField[i + 1].setText(MathUtil.round(colVarB[i].contents));
 				}
 			}
 		}
