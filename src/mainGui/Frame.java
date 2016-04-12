@@ -34,6 +34,7 @@ import javax.swing.border.Border;
 import mainGui.centerOfMass.COMPanel;
 import mainGui.centerOfMass.COMPanelNorth;
 import mainGui.centerOfMass.COMPanelSouth;
+import mainGui.circularMotion.ButtonActionListener;
 import mainGui.circularMotion.CircTopDown;
 import mainGui.circularMotion.CircVertical;
 import mainGui.collision.ColDiagram;
@@ -84,17 +85,17 @@ public class Frame extends JFrame {
 	 * 6 = a<br>
 	 * 7 = t<br>
 	 */
-	Var[] circVars;
+	public Var[] circVars;
 	/**
 	 * Magnitude list.
 	 */
-	List<String> circTextA = new ArrayList<String>();
+	public List<String> circTextA = new ArrayList<String>();
 	/**
 	 * Direction list. Angle begins at 3 o'clock in radians.
 	 */
-	List<String> circTextB = new ArrayList<String>();
-	CircTopDown circTopDown;
-	CircVertical circVertical;
+	public List<String> circTextB = new ArrayList<String>();
+	public CircTopDown circTopDown;
+	public CircVertical circVertical;
 
 	/**
 	 * wmuxvrat
@@ -102,11 +103,12 @@ public class Frame extends JFrame {
 	JTextField[] circText = new JTextField[8];
 	JTextField circX;
 	JTextField circY;
-	List<JTextField> circF = new ArrayList<JTextField>();
-	List<JTextField> circT = new ArrayList<JTextField>();
+	public List<JTextField> circF = new ArrayList<JTextField>();
+	public List<JTextField> circT = new ArrayList<JTextField>();
 	Var[] circVarB;
 	JTextField circLblX;
 	JTextField circLblY;
+	public JPanel panelSouthS;
 
 	// CenterOfMass
 	COMPanel canvas;
@@ -211,7 +213,7 @@ public class Frame extends JFrame {
 		JPanel panelDiagram = new JPanel(new GridLayout());
 		JPanel panelFields = new JPanel(new GridBagLayout());
 		JPanel panelWest = new JPanel(new GridLayout(0, 1, 5, 5));
-		final JPanel panelSouthS = new JPanel(new GridBagLayout());
+		panelSouthS = new JPanel(new GridBagLayout());
 		JPanel panelSouth = new JPanel(new GridLayout(0, 1));
 		JPanel panelSouthN = new JPanel(new GridBagLayout());
 		// Set borders
@@ -356,81 +358,7 @@ public class Frame extends JFrame {
 		lbl.setToolTipText("radians anticlock wise from 3 o'clock position");
 
 		panelSouthS.add(lbl, c);
-		circB.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				GridBagConstraints c = new GridBagConstraints();
-				circF.add(new JTextField("0", 9));
-				circT.add(new JTextField("0", 9));
-				circTextA.add("0");
-				circTextB.add("0");
-				final JTextField a = circF.get(circF.size() - 1);
-				final JTextField b = circT.get(circT.size() - 1);
-				c.gridy = circF.size();
-				c.gridx = 0;
-				c.weightx = 1;
-				c.anchor = GridBagConstraints.FIRST_LINE_START;
-				panelSouthS.add(a, c);
-				c.gridx = 1;
-				panelSouthS.add(b, c);
-
-				a.addFocusListener(new FocusListener() {
-					@Override
-					public void focusLost(FocusEvent e) {
-						if (!MathUtil.isNumeric(a.getText())) {
-							JOptionPane.showMessageDialog(Frame.this, "Not a number!.");
-							return;
-						}
-						circTextA.set(circF.indexOf(a), a.getText());
-						circUpdate();
-					}
-
-					@Override
-					public void focusGained(FocusEvent e) {
-						// Do nothing
-					}
-				});
-				a.addActionListener(new ActionListener() {
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						if (!MathUtil.isNumeric(a.getText())) {
-							JOptionPane.showMessageDialog(Frame.this, "Not a number!");
-							return;
-						}
-						circTextA.set(circF.indexOf(a), a.getText());
-						circUpdate();
-					}
-				});
-				b.addFocusListener(new FocusListener() {
-					@Override
-					public void focusLost(FocusEvent e) {
-						if (!MathUtil.isNumeric(b.getText())) {
-							JOptionPane.showMessageDialog(Frame.this, "Not a number!");
-							return;
-						}
-						circTextB.set(circT.indexOf(b), b.getText());
-						circUpdate();
-					}
-
-					@Override
-					public void focusGained(FocusEvent e) {
-						// Do nothing
-					}
-				});
-				b.addActionListener(new ActionListener() {
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						if (!MathUtil.isNumeric(b.getText())) {
-							JOptionPane.showMessageDialog(Frame.this, "Not a number!");
-							return;
-						}
-						circTextB.set(circT.indexOf(b), b.getText());
-						circUpdate();
-					}
-				});
-			}
-		});
+		circB.addActionListener(new ButtonActionListener(this));
 	}
 
 	void initProjectiles() {
@@ -865,22 +793,6 @@ public class Frame extends JFrame {
 	}
 
 	/**
-	 * Sums up x and y components.
-	 */
-	private void circUpdate() {
-		double x = 0;
-		double y = 0;
-		for (int i = 0; i < circTextA.size(); i++) {
-			x += Double.parseDouble(circTextA.get(i))
-					* Math.cos(Double.parseDouble(circTextB.get(i)));
-			y += Double.parseDouble(circTextA.get(i))
-					* Math.sin(Double.parseDouble(circTextB.get(i)));
-		}
-		circLblX.setText("Sum of horizontal forces: " + x);
-		circLblY.setText("Sum of vertical forces  : " + y);
-	}
-
-	/**
 	 * Updates textfields to show variable contents.
 	 */
 	public void updateFields() {
@@ -893,6 +805,16 @@ public class Frame extends JFrame {
 			for (int i = 0; i < circText.length; i++) {
 				circText[i].setText(MathUtil.round(circVars[i].contents));
 			}
+			double x = 0;
+			double y = 0;
+			for (int i = 0; i < circTextA.size(); i++) {
+				x += Double.parseDouble(circTextA.get(i))
+						* Math.cos(Double.parseDouble(circTextB.get(i)));
+				y += Double.parseDouble(circTextA.get(i))
+						* Math.sin(Double.parseDouble(circTextB.get(i)));
+			}
+			circLblX.setText("Sum of horizontal forces: " + MathUtil.round("" + x));
+			circLblY.setText("Sum of vertical forces  : " + MathUtil.round("" + y));
 		}
 		if (topic.equals("Collisions")) {
 			if (colA) {
