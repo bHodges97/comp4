@@ -21,7 +21,6 @@ import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
@@ -647,37 +646,6 @@ public class Frame extends JFrame {
 			initProjectiles();
 			setTitle("Motion of a Projectile");
 		}
-	}
-
-	/**
-	 * Increase/decrease scale of display.
-	 * 
-	 * @param option
-	 *            0 : zoom in<br>
-	 *            1 : zoom out<br>
-	 *            2 : reset
-	 */
-	public void zoom(int option) {
-		if (option == 0) {
-			if (panelCOM.scale - 0.01d <= 0) {
-				if (panelCOM.scale - 0.002d <= 0) {
-					JOptionPane.showMessageDialog(Frame.this, "Max zoom reached");
-					return;// No zoom;
-				}
-				panelCOM.scale -= 0.002d;// Smaller zoom;
-			} else {
-				panelCOM.scale -= 0.01d;// Standard zoom;
-			}
-		} else if (option == 1) {
-			if (panelCOM.scale + 0.002d >= 0.5d) {
-				JOptionPane.showMessageDialog(Frame.this, "Max zoom reached");
-				return;// No zoom;
-			}
-			panelCOM.scale += 0.02d;
-		} else if (option == 2) {
-			panelCOM.scale = 0.05d;
-		}
-		panelCOM.repaint();
 	}
 
 	/**
