@@ -75,7 +75,7 @@ public class Frame extends JFrame {
 	public Var[] colVarB;
 	public Var colVarE;
 	ColDiagram colDiagram;
-	JTextField[] colField = new JTextField[6];
+	JTextField[] colField = new JTextField[6];//TODO: remove?
 	// CircularMotion
 	/**
 	 * Variables used in circular motion.<br>
@@ -114,7 +114,7 @@ public class Frame extends JFrame {
 	public JPanel panelSouthS;
 
 	// CenterOfMass
-	public COMPanel canvas;
+	public COMPanel panelCOM;
 	JPanel sidePanel;
 	COMPanelNorth sideNorth;
 	public static COMPanelSouth sideSouth;
@@ -166,8 +166,8 @@ public class Frame extends JFrame {
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
 
-				long t = System.currentTimeMillis();
-				setExtendedState(MAXIMIZED_BOTH);
+				long timer = System.currentTimeMillis();//record time of starting
+				setExtendedState(MAXIMIZED_BOTH);//FullScreen
 
 				MyMenuBar menu = new MyMenuBar(Frame.this);
 				setJMenuBar(menu);
@@ -204,12 +204,10 @@ public class Frame extends JFrame {
 
 				};
 				update.start();
-				System.out.println("GUI initialised in " + (System.currentTimeMillis() - t)
+				System.out.println("GUI initialised in " + (System.currentTimeMillis() - timer)
 						+ " milliseconds");
 			}
-
 		});
-
 	}
 
 	void initCircularMotion() {
@@ -598,9 +596,9 @@ public class Frame extends JFrame {
 	}
 
 	void initCenterOfMass() {
-		canvas = new COMPanel();
+		panelCOM = new COMPanel();
 		sidePanel = new JPanel(new GridBagLayout());
-		this.add(canvas, BorderLayout.CENTER);
+		this.add(panelCOM, BorderLayout.CENTER);
 		this.add(sidePanel, BorderLayout.WEST);
 		sideNorth = new COMPanelNorth(this);
 		sideSouth = new COMPanelSouth(this);
@@ -873,22 +871,25 @@ public class Frame extends JFrame {
 	public void setTopic(String topic) {
 		getContentPane().removeAll();
 		this.topic = topic;
-		setTitle(topic);
 		if (topic.equals("Circles")) {
 			initCircularMotion();
 			circVertical.text = circVarB;
 			circVertical.force = circTextA;
 			circVertical.angle = circTextB;
 			circTopDown.vars = circVars;
+			setTitle("Uniform Motion in a Circle");
 		}
 		if (topic.equals("Center")) {
 			initCenterOfMass();
+			setTitle("Center of Mass");
 		}
 		if (topic.equals("Collisions")) {
 			initCollisions();
+			setTitle("Coefficient of Restitution; Impulse");
 		}
 		if (topic.equals("Projectiles")) {
 			initProjectiles();
+			setTitle("Motion of a Projectile");
 		}
 		try {
 			Thread.sleep((long) 100);
@@ -898,7 +899,7 @@ public class Frame extends JFrame {
 	}
 
 	/**
-	 * Zooms for topic center of mass.
+	 * Increase/decrease scale of display.
 	 * 
 	 * @param option
 	 *            0 : zoom in<br>
@@ -907,25 +908,25 @@ public class Frame extends JFrame {
 	 */
 	public void zoom(int option) {
 		if (option == 0) {
-			if (canvas.scale - 0.01d <= 0) {
-				if (canvas.scale - 0.002d <= 0) {
+			if (panelCOM.scale - 0.01d <= 0) {
+				if (panelCOM.scale - 0.002d <= 0) {
 					JOptionPane.showMessageDialog(Frame.this, "Max zoom reached");
 					return;// No zoom;
 				}
-				canvas.scale -= 0.002d;// Smaller zoom;
+				panelCOM.scale -= 0.002d;// Smaller zoom;
 			} else {
-				canvas.scale -= 0.01d;// Standard zoom;
+				panelCOM.scale -= 0.01d;// Standard zoom;
 			}
 		} else if (option == 1) {
-			if (canvas.scale + 0.002d >= 0.5d) {
+			if (panelCOM.scale + 0.002d >= 0.5d) {
 				JOptionPane.showMessageDialog(Frame.this, "Max zoom reached");
 				return;// No zoom;
 			}
-			canvas.scale += 0.02d;
+			panelCOM.scale += 0.02d;
 		} else if (option == 2) {
-			canvas.scale = 0.05d;
+			panelCOM.scale = 0.05d;
 		}
-		canvas.repaint();
+		panelCOM.repaint();
 	}
 
 	/**

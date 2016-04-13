@@ -44,7 +44,7 @@ public class COMPanelSouth extends JPanel {
 	public Obj current;
 
 	public COMPanelSouth(Frame frame) {
-		this.plane = frame.canvas.plane;
+		this.plane = frame.panelCOM.plane;
 		setLayout();
 		addActionListeners();
 	}

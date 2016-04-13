@@ -14,7 +14,7 @@ import javax.swing.JDialog;
 @SuppressWarnings("serial")
 public class StartScreenDialog extends JDialog {
 	private Dimension prefSize = new Dimension(500, 500);
-	public String topic = "Default";
+	public String topic = "Center";
 
 	public StartScreenDialog() {
 		setPreferredSize(prefSize);
@@ -24,7 +24,7 @@ public class StartScreenDialog extends JDialog {
 		this.setResizable(false);
 		Container frame = this.getContentPane();
 		frame.setLayout(new FlowLayout(FlowLayout.LEFT));
-		JButton topicCircles = new JButton("circles");
+		JButton topicCircles = new JButton("Circles");
 		JButton topicRestitute = new JButton("Collisons");
 		JButton topicCenter = new JButton("topicCenterOfMass");
 		JButton topicProjectiles = new JButton("Projectile Motion");
@@ -42,17 +42,7 @@ public class StartScreenDialog extends JDialog {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
 				topic = e.getActionCommand();
-				if (e.getActionCommand().equals("Circles")) {
-
-				}
-				if (e.getActionCommand().equals("Collisions")) {
-
-				}
-				if (e.getActionCommand().equals("Center")) {
-
-				}
 				setVisible(false);
 			}
 		};

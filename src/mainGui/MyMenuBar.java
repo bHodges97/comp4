@@ -196,7 +196,7 @@ public class MyMenuBar extends JMenuBar {
 			}
 		}
 		if (frame.topic.equals("Center")) {
-			frame.canvas.print(pathName);
+			frame.panelCOM.print(pathName);
 		}
 		if (frame.topic.equals("Collisions")) {
 			frame.colDiagram.print(pathName);
@@ -231,7 +231,7 @@ public class MyMenuBar extends JMenuBar {
 				Component[] fields = (Component[]) saves[3];
 				new ButtonActionListener(frame).loadFields(fields);//use the methods in here for convenience
 			} else if (topic.equals("Center")) {
-				frame.canvas.plane = (Plane) saves[1];
+				frame.panelCOM.plane = (Plane) saves[1];
 			} else if (topic.equals("Collisions")) {
 				frame.colVarA = (Var[]) saves[1];
 				frame.colVarB = (Var[]) saves[2];
@@ -257,7 +257,7 @@ public class MyMenuBar extends JMenuBar {
 					frame.panelSouthS.getComponents() };
 		}
 		if (frame.topic.equals("Center")) {
-			savedItem = new Object[] { "Center", frame.canvas.plane };
+			savedItem = new Object[] { "Center", frame.panelCOM.plane };
 		}
 		if (frame.topic.equals("Collisions")) {
 			savedItem = new Object[] { "Collisions", frame.colVarA, frame.colVarB, frame.colVarE };

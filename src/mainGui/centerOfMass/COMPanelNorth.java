@@ -127,7 +127,7 @@ public class COMPanelNorth extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				popupCOM = new DialogNewObj();
 				popupCOM.setVisible(true);
-				frame.canvas.plane.add(popupCOM.object);
+				frame.panelCOM.plane.add(popupCOM.object);
 				popupCOM.dispose();
 			}
 		});
@@ -137,7 +137,7 @@ public class COMPanelNorth extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				Dialogb2.open();
 				if (Dialogb2.returnObj != null) {
-					frame.canvas.plane.add(Dialogb2.returnObj);
+					frame.panelCOM.plane.add(Dialogb2.returnObj);
 				}
 			}
 		});
@@ -164,7 +164,7 @@ public class COMPanelNorth extends JPanel {
 							JOptionPane.ERROR_MESSAGE);
 					return;
 				}
-				frame.canvas.plane.add(new Obj(0, new MyPoint(0, 0), MathUtil.genCirc(angle, radius, true), mass));
+				frame.panelCOM.plane.add(new Obj(0, new MyPoint(0, 0), MathUtil.genCirc(angle, radius, true), mass));
 			}
 		});
 		b4.addActionListener(new ActionListener() {
@@ -186,7 +186,7 @@ public class COMPanelNorth extends JPanel {
 				MyPoint[] points = new MyPoint[2];
 				points[0] = new MyPoint(-magnitude * Math.cos(angle) / 2, -magnitude * Math.sin(angle) / 2);
 				points[1] = new MyPoint(magnitude * Math.cos(angle) / 2, magnitude * Math.sin(angle) / 2);
-				frame.canvas.plane.add(new Obj(2, new MyPoint(0, 0), new Shape(points), mass));
+				frame.panelCOM.plane.add(new Obj(2, new MyPoint(0, 0), new Shape(points), mass));
 			}
 		});
 		b5.addActionListener(new ActionListener() {
@@ -212,14 +212,14 @@ public class COMPanelNorth extends JPanel {
 							JOptionPane.ERROR_MESSAGE);
 					return;
 				}
-				frame.canvas.plane.add(new Obj(2, new MyPoint(0, 0), MathUtil.genCirc(angle, radius, false), mass));
+				frame.panelCOM.plane.add(new Obj(2, new MyPoint(0, 0), MathUtil.genCirc(angle, radius, false), mass));
 			}
 		});
 		b6.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				Dialogb6.open();
-				frame.canvas.plane.add(Dialogb6.returnObj);
+				frame.panelCOM.plane.add(Dialogb6.returnObj);
 			}
 		});
 	}
