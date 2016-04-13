@@ -58,7 +58,6 @@ public class Frame extends JFrame {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	StartScreenDialog popup;;
 	String topic = "Default";
 	Border border = BorderFactory.createEtchedBorder(1);
 	JTextArea topicDesc;
@@ -155,24 +154,17 @@ public class Frame extends JFrame {
 	 */
 	Var[] projVars;
 
-	public Frame() {
+	public Frame(String popupTopic) {
 		try {//Set to os style
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
-		popup = new StartScreenDialog();
-		setTitle(popup.topic);
-		topic = popup.topic;
+		topic = popupTopic;
 
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
-				try {
-					Thread.sleep((long) 10);// wait till app starts
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
 
 				long t = System.currentTimeMillis();
 				setExtendedState(MAXIMIZED_BOTH);
@@ -180,7 +172,7 @@ public class Frame extends JFrame {
 				MyMenuBar menu = new MyMenuBar(Frame.this);
 				setJMenuBar(menu);
 
-				setTopic(popup.topic);
+				setTopic(topic);
 				setMinimumSize(new Dimension(640, 480));
 				setDefaultCloseOperation(EXIT_ON_CLOSE);
 				pack();
@@ -942,6 +934,7 @@ public class Frame extends JFrame {
 	 * @param Args
 	 */
 	public static void main(String[] Args) {
-		Frame window = new Frame();
+		StartScreenDialog popup = new StartScreenDialog();
+		Frame window = new Frame(popup.topic);
 	}
 }

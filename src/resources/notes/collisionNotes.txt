@@ -1,0 +1,9 @@
+
+Newton's experimental law:
+   •Seperation speed = e * approach speed. 
+   • 0 ≤ e ≤ 1 
+   •Perfectly elastic : e = 1	Inelastic e = 0 
+Momentum:
+   •impluse = change in momentum 
+   •In a closed system, the total momentum is constant.
+   •m1 * v1 + m2 * v2 = m1 * u1 + m2 * u2
