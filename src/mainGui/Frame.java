@@ -624,42 +624,33 @@ public class Frame extends JFrame {
 	 */
 	private JPanel createNotesPanel() {
 		JPanel panel = new JPanel(new BorderLayout());
-		String title = "";
+		String title = getTitle() + " notes";
 		String path = "";
 		BufferedReader br = null;
 		InputStream input = null;
-		topicDesc = new JTextArea();
+		topicDesc = new JTextArea("Missing notes file");
 
-		try {
-			if (topic.equals("Circles")) {
-				input = this.getClass().getResourceAsStream("/circlesNotes.txt");
-				title = "Circular motion notes";
-				path = "m2diagramDrawer/notes/circlesNotes.txt";
-			}
-			if (topic.equals("Center")) {
-				input = this.getClass().getResourceAsStream("/comNotes.txt");
-				title = "Center of mass notes";
-				path = "m2diagramDrawer/notes/comNotes.txt";
-			}
-			if (topic.equals("Collisions")) {
-				input = this.getClass().getResourceAsStream("/collisionNotes.txt");
-				title = "Coefficient of restitution and impulse notes";
-				path = "m2diagramDrawer/notes/collisionNotes.txt";
-			}
-			if (topic.equals("Projectiles")) {
-				input = this.getClass().getResourceAsStream("/projectileNotes.txt");
-				title = "Projectile motion notes";
-				path = "m2/notes/projectileNotes.txt";
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
+		if (topic.equals("Circles")) {
+			input = this.getClass().getResourceAsStream("/circlesNotes.txt");
+			path = "m2diagramDrawer/notes/circlesNotes.txt";
+		}
+		if (topic.equals("Center")) {
+			input = this.getClass().getResourceAsStream("/comNotes.txt");
+			path = "m2diagramDrawer/notes/comNotes.txt";
+		}
+		if (topic.equals("Collisions")) {
+			input = this.getClass().getResourceAsStream("/collisionNotes.txt");
+			path = "m2diagramDrawer/notes/collisionNotes.txt";
+		}
+		if (topic.equals("Projectiles")) {
+			input = this.getClass().getResourceAsStream("/projectileNotes.txt");
+			path = "m2/notes/projectileNotes.txt";
 		}
 		try {
 			File file = new File(path);
 			if (file.exists() && !file.isDirectory()) {
 				br = new BufferedReader(new FileReader(path));
 			} else {
-				System.out.println(title);
 				br = new BufferedReader(new InputStreamReader(input));
 			}
 			String line = br.readLine();
@@ -670,7 +661,6 @@ public class Frame extends JFrame {
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
-			topicDesc.setText("Missing text file");
 		} finally {
 			try {
 				if (br != null) {
@@ -720,7 +710,9 @@ public class Frame extends JFrame {
 		textField.addFocusListener(new FocusListener() {
 			@Override
 			public void focusGained(FocusEvent arg0) {
-				// DO NOTHING
+				if (textField.getText().equals("?")) {
+					textField.setText("");
+				}
 			}
 
 			@Override
@@ -792,30 +784,21 @@ public class Frame extends JFrame {
 				return;
 			}
 		}
-		if (c == 1) {
-			if (Double.parseDouble(t.getText()) <= 0) {
-				JOptionPane.showMessageDialog(Frame.this, "Must be greater than 0.");
-				return;
-			}
+		if (c == 1 && Double.parseDouble(t.getText()) <= 0) {//TODO:Shorten
+			JOptionPane.showMessageDialog(Frame.this, "Must be greater than 0.");
+			return;
 		}
-		if (c == 3) {
-			if (Double.parseDouble(t.getText()) > 0) {
-				JOptionPane.showMessageDialog(Frame.this, "Must be less than 0.");
-				return;
-			}
+		if (c == 3 && Double.parseDouble(t.getText()) > 0) {
+			JOptionPane.showMessageDialog(Frame.this, "Must be less than 0.");
+			return;
 		}
-		if (c == 4) {
-			if (Math.abs(Double.parseDouble(t.getText())) > 6.28) {
-				JOptionPane
-						.showMessageDialog(Frame.this, "Careful this value is greater than 2 PI");
-			}
+		if (c == 4 && Math.abs(Double.parseDouble(t.getText())) > 6.28) {
+			JOptionPane.showMessageDialog(Frame.this, "Careful this value is greater than 2 PI");
 		}
-		if (c == 5) {
-			if (Double.parseDouble(t.getText()) > 1 || Double.parseDouble(t.getText()) < 0) {
-				JOptionPane.showMessageDialog(Frame.this, "Must follow: 0 <= e <= 1", "Error",
-						JOptionPane.ERROR_MESSAGE);
-				return;
-			}
+		if (c == 5 && Double.parseDouble(t.getText()) > 1 || Double.parseDouble(t.getText()) < 0) {
+			JOptionPane.showMessageDialog(Frame.this, "Must follow: 0 <= e <= 1", "Error",
+					JOptionPane.ERROR_MESSAGE);
+			return;
 		}
 		v.setContents(new String(t.getText()), true);
 	}
@@ -846,7 +829,6 @@ public class Frame extends JFrame {
 			circX.setText(circVarB[1].contents);
 			circLblX.setText("Sum of horizontal forces: " + MathUtil.round("" + x));
 			circLblY.setText("Sum of vertical forces  : " + MathUtil.round("" + y));
-
 		}
 		if (topic.equals("Collisions")) {
 			if (colA) {
