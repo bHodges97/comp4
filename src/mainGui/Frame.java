@@ -14,8 +14,11 @@ import java.awt.event.FocusListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -55,7 +58,7 @@ public class Frame extends JFrame {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	StartScreenDialog popup = new StartScreenDialog();
+	StartScreenDialog popup;;
 	String topic = "Default";
 	Border border = BorderFactory.createEtchedBorder(1);
 	JTextArea topicDesc;
@@ -153,21 +156,27 @@ public class Frame extends JFrame {
 	Var[] projVars;
 
 	public Frame() {
-		try {
-			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName()); // Sets
-																					// to
-																					// os
-																					// style
+		try {//Set to os style
+			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
+		popup = new StartScreenDialog();
+		setTitle(popup.topic);
+		topic = popup.topic;
+
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
+				try {
+					Thread.sleep((long) 10);// wait till app starts
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+
 				long t = System.currentTimeMillis();
 				setExtendedState(MAXIMIZED_BOTH);
-				setTitle(popup.topic);
-				topic = popup.topic;
+
 				MyMenuBar menu = new MyMenuBar(Frame.this);
 				setJMenuBar(menu);
 
@@ -203,7 +212,8 @@ public class Frame extends JFrame {
 
 				};
 				update.start();
-				System.out.println("GUI initialised in " + (System.currentTimeMillis() - t) + " milliseconds");
+				System.out.println("GUI initialised in " + (System.currentTimeMillis() - t)
+						+ " milliseconds");
 			}
 
 		});
@@ -220,8 +230,10 @@ public class Frame extends JFrame {
 		JPanel panelSouth = new JPanel(new GridLayout(0, 1));
 		JPanel panelSouthN = new JPanel(new GridBagLayout());
 		// Set borders
-		panelSouthS.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), "Forces"));
-		panelSouthN.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), "Position from O"));
+		panelSouthS.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(),
+				"Forces"));
+		panelSouthN.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(),
+				"Position from O"));
 		panelFields.setBorder(border);
 		panelSouth.setBorder(border);
 
@@ -407,10 +419,11 @@ public class Frame extends JFrame {
 
 		JPanel others = new JPanel(new GridBagLayout());
 		JPanel before = new JPanel(new GridBagLayout());
-		before.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), "Initial conditions"));
+		before.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(),
+				"Initial conditions"));
 		JPanel after = new JPanel(new GridBagLayout());
-		after.setBorder(
-				BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), "When object hits someting"));
+		after.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(),
+				"When object hits someting"));
 
 		southPanel.add(new JScrollPane(before));
 		southPanel.add(new JScrollPane(after));
@@ -572,12 +585,12 @@ public class Frame extends JFrame {
 			public void mouseClicked(MouseEvent e) {
 				// Select object based on mouse click.
 				if (Math.abs(e.getY() - colDiagram.getHeight() / 2) < colDiagram.getHeight() * 0.1
-						&& (e.getX() < colDiagram.getWidth() / 4
-								|| (e.getX() > colDiagram.getWidth() / 2 && e.getX() < colDiagram.getWidth() * 0.75))) {
+						&& (e.getX() < colDiagram.getWidth() / 4 || (e.getX() > colDiagram
+								.getWidth() / 2 && e.getX() < colDiagram.getWidth() * 0.75))) {
 					colA = true;
 				} else if (Math.abs(e.getY() - colDiagram.getHeight() / 2) < colDiagram.getHeight() * 0.1
-						&& (e.getX() > colDiagram.getWidth() / 4
-								|| (e.getX() < colDiagram.getWidth() / 2 && e.getX() > colDiagram.getWidth() * 0.25))) {
+						&& (e.getX() > colDiagram.getWidth() / 4 || (e.getX() < colDiagram
+								.getWidth() / 2 && e.getX() > colDiagram.getWidth() * 0.25))) {
 					colA = false;
 				}
 				updateFields();
@@ -623,30 +636,42 @@ public class Frame extends JFrame {
 		JPanel panel = new JPanel(new BorderLayout());
 		String title = "";
 		String path = "";
-		if (topic.equals("Circles")) {
-			title = "Circular motion notes";
-			path = "m2diagramDrawer/notes/circlesNotes";
-		}
-		if (topic.equals("Center")) {
-			title = "Center of mass notes";
-			path = "m2diagramDrawer/notes/comNotes";
-		}
-		if (topic.equals("Collisions")) {
-			title = "Coefficient of restitution and impulse notes";
-			path = "m2diagramDrawer/notes/collisionNotes";
-		}
-		if (topic.equals("Projectiles")) {
-			title = "Projectile motion notes";
-			path = "m2diagramDrawer/notes/projectileNotes";
-		}
-		JTextField topicTitle = new JTextField(title);
-
+		BufferedReader br = null;
+		InputStream input = null;
 		topicDesc = new JTextArea();
 
-		BufferedReader br = null;
 		try {
-			br = new BufferedReader(new FileReader(path));
-			StringBuilder sb = new StringBuilder();
+			if (topic.equals("Circles")) {
+				input = this.getClass().getResourceAsStream("/circlesNotes.txt");
+				title = "Circular motion notes";
+				path = "m2diagramDrawer/notes/circlesNotes.txt";
+			}
+			if (topic.equals("Center")) {
+				input = this.getClass().getResourceAsStream("/comNotes.txt");
+				title = "Center of mass notes";
+				path = "m2diagramDrawer/notes/comNotes.txt";
+			}
+			if (topic.equals("Collisions")) {
+				input = this.getClass().getResourceAsStream("/collisionNotes.txt");
+				title = "Coefficient of restitution and impulse notes";
+				path = "m2diagramDrawer/notes/collisionNotes.txt";
+			}
+			if (topic.equals("Projectiles")) {
+				input = this.getClass().getResourceAsStream("/projectileNotes.txt");
+				title = "Projectile motion notes";
+				path = "m2/notes/projectileNotes.txt";
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		try {
+			File file = new File(path);
+			if (file.exists() && !file.isDirectory()) {
+				br = new BufferedReader(new FileReader(path));
+			} else {
+				System.out.println(title);
+				br = new BufferedReader(new InputStreamReader(input));
+			}
 			String line = br.readLine();
 			while (line != null) {
 				topicDesc.append(line);
@@ -658,10 +683,15 @@ public class Frame extends JFrame {
 			topicDesc.setText("Missing text file");
 		} finally {
 			try {
-				br.close();
-			} catch (IOException e) {
+				if (br != null) {
+					br.close();
+				}
+			} catch (Exception e) {
+				//Do nothing
 			}
 		}
+
+		JTextField topicTitle = new JTextField(title);
 		topicTitle.setEditable(false);
 		topicTitle.setFont(topicTitle.getFont().deriveFont(1.2f * topicTitle.getFont().getSize()));
 		panel.add(topicTitle, BorderLayout.NORTH);
@@ -695,7 +725,8 @@ public class Frame extends JFrame {
 	 *            5: Special case for e
 	 * 
 	 */
-	private void addListener(final JTextField textField, final Var var1, final int type, final Var var2) {
+	private void addListener(final JTextField textField, final Var var1, final int type,
+			final Var var2) {
 		textField.addFocusListener(new FocusListener() {
 			@Override
 			public void focusGained(FocusEvent arg0) {
@@ -748,12 +779,14 @@ public class Frame extends JFrame {
 			return;
 		}
 		if (MathUtil.isNumeric(t.getText()) && t.getText().length() > 10) {
-			JOptionPane.showMessageDialog(Frame.this, "Input is too long!", "Error", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(Frame.this, "Input is too long!", "Error",
+					JOptionPane.ERROR_MESSAGE);
 			return;
 		}
 		if (c >= -1) {
 			if (!MathUtil.isNumeric(t.getText())) {
-				JOptionPane.showMessageDialog(Frame.this, "Not a number!", "Error", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(Frame.this, "Not a number!", "Error",
+						JOptionPane.ERROR_MESSAGE);
 				return;
 			}
 		}
@@ -783,7 +816,8 @@ public class Frame extends JFrame {
 		}
 		if (c == 4) {
 			if (Math.abs(Double.parseDouble(t.getText())) > 6.28) {
-				JOptionPane.showMessageDialog(Frame.this, "Careful this value is greater than 2 PI");
+				JOptionPane
+						.showMessageDialog(Frame.this, "Careful this value is greater than 2 PI");
 			}
 		}
 		if (c == 5) {
@@ -812,8 +846,10 @@ public class Frame extends JFrame {
 			double x = 0;
 			double y = 0;
 			for (int i = 0; i < circTextA.size(); i++) {
-				x += Double.parseDouble(circTextA.get(i)) * Math.cos(Double.parseDouble(circTextB.get(i)));
-				y += Double.parseDouble(circTextA.get(i)) * Math.sin(Double.parseDouble(circTextB.get(i)));
+				x += Double.parseDouble(circTextA.get(i))
+						* Math.cos(Double.parseDouble(circTextB.get(i)));
+				y += Double.parseDouble(circTextA.get(i))
+						* Math.sin(Double.parseDouble(circTextB.get(i)));
 				System.out.println(x);
 			}
 			circX.setText(circVarB[0].contents);
