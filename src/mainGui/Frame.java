@@ -343,15 +343,8 @@ public class Frame extends JFrame {
 		southPanel.add(new JScrollPane(after));
 		southPanel.add(new JScrollPane(others));
 
-		GridBagConstraints c = new GridBagConstraints();
-
-		c.fill = GridBagConstraints.HORIZONTAL;
-		c.insets = new Insets(2, 2, 2, 2);
-		c.anchor = GridBagConstraints.WEST;
-		c.weightx = 1;
-
-		c.gridx = 0;
-		c.gridy = 0;
+		GridBagConstraints c = new GridBagConstraints(0, 0, 1, 1, 1, 0, GridBagConstraints.WEST,
+				GridBagConstraints.HORIZONTAL, new Insets(2, 2, 2, 2), 0, 0);
 		before.add(new JLabel("Height:"), c);
 		c.gridy++;
 		before.add(new JLabel("Angle(radians)"), c);
