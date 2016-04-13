@@ -1,16 +1,65 @@
 package mainGui;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
+
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
 import math.MathUtil;
 import math.Var;
 
-public class Verifier {
+public class ListenerAdder {
 	Frame frame;
 
-	public Verifier(Frame frame) {
+	public ListenerAdder(Frame frame) {
 		this.frame = frame;
+	}
+
+	/**
+	 * Adds a focus listener and action listener to a component.
+	 * 
+	 * @param textField
+	 *            Text field to add listeners to.
+	 * @param var1
+	 *            Variable text field is associated with.
+	 * @param var2
+	 *            Second variable text field is associated with if applicable.
+	 * @param type
+	 *            The type of verification: <br>
+	 *            -2: No verification -1:<br>
+	 *            -1: Error if not a number <br>
+	 *            0: Error if less than or equal to zero <br>
+	 *            1: Error if less than zero <br>
+	 *            2: Error if equal to zero <br>
+	 *            3: Error if greater than 0 <br>
+	 *            4: Warning if greater than 2 pi<br>
+	 *            5: Special case for e
+	 * 
+	 */
+	public void addListener(final JTextField textField, final Var var1, final int type, final Var var2) {
+		textField.addFocusListener(new FocusListener() {
+			@Override
+			public void focusGained(FocusEvent arg0) {
+				if (textField.getText().equals("?")) {
+					textField.setText("");
+				}
+			}
+
+			@Override
+			public void focusLost(FocusEvent arg0) {
+				addVerification(textField, var1, type, var2);
+			}
+		});
+
+		textField.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				addVerification(textField, var1, type, var2);
+			}
+		});
 	}
 
 	/**
@@ -69,8 +118,7 @@ public class Verifier {
 		if (type == 4 && Math.abs(Double.parseDouble(textField.getText())) > 6.28) {
 			showErrorMsg("Careful this value is greater than 2 PI");
 		}
-		if (type == 5 && Double.parseDouble(textField.getText()) > 1
-				|| Double.parseDouble(textField.getText()) < 0) {
+		if (type == 5 && Double.parseDouble(textField.getText()) > 1 || Double.parseDouble(textField.getText()) < 0) {
 			showErrorMsg("Must follow: 0 <= e <= 1");
 			return;
 		}

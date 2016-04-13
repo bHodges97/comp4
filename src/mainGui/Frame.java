@@ -8,10 +8,6 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Insets;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -74,7 +70,8 @@ public class Frame extends JFrame {
 	public Var[] colVarB;
 	public Var colVarE;
 	ColDiagram colDiagram;
-	JTextField[] colField = new JTextField[6];//TODO: remove?
+	JTextField[] colField = new JTextField[6];
+
 	// CircularMotion
 	/**
 	 * Variables used in circular motion.<br>
@@ -88,26 +85,16 @@ public class Frame extends JFrame {
 	 * 7 = t<br>
 	 */
 	public Var[] circVars;
-	/**
-	 * Magnitude list.
-	 */
 	public List<String> circTextA = new ArrayList<String>();
-	/**
-	 * Direction list. Angle begins at 3 o'clock in radians.
-	 */
 	public List<String> circTextB = new ArrayList<String>();
 	public CircTopDown circTopDown;
 	public CircVertical circVertical;
-
-	/**
-	 * wmuxvrat
-	 */
+	Var[] circVarB;
 	JTextField[] circText = new JTextField[8];
 	JTextField circX;
 	JTextField circY;
 	public List<JTextField> circF = new ArrayList<JTextField>();
 	public List<JTextField> circT = new ArrayList<JTextField>();
-	Var[] circVarB;
 	public JLabel circLblX;
 	public JLabel circLblY;
 	public JPanel panelSouthS;
@@ -116,25 +103,10 @@ public class Frame extends JFrame {
 	public COMPanel panelCOM;
 	JPanel sidePanel;
 	COMPanelNorth sideNorth;
-	public static COMPanelSouth sideSouth;
+	public COMPanelSouth sideSouth;
 
 	// projectile
 	ProjDiagram projDiagram;
-	/**
-	 * projTheta- 0. <br>
-	 * projV- 1. <br>
-	 * projVx- 2. <br>
-	 * projVy- 3. <br>
-	 * projY- 4. <br>
-	 * projX- 5. <br>
-	 * projT- 6. <br>
-	 * projU- 7. <br>
-	 * projUx- 8. <br>
-	 * projUy- 9. <br>
-	 * projS- 10. <br>
-	 * projLabel- 11. <br>
-	 * projSy- 12
-	 */
 	JTextField[] projText = new JTextField[13];
 	/**
 	 * 0 a theta<br>
@@ -142,7 +114,7 @@ public class Frame extends JFrame {
 	 * 2 b Vx<br>
 	 * 3 c Vy<br>
 	 * 4 h Height<br>
-	 * 5 z max distamce.<br>
+	 * 5 z max distance.<br>
 	 * 6 t t<br>
 	 * 7 u U<br>
 	 * 8 d Ux<br>
@@ -154,7 +126,7 @@ public class Frame extends JFrame {
 	Var[] projVars;
 
 	public Frame(String popupTopic) {
-		try {//Set to os style
+		try {// Set to os style
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -164,9 +136,8 @@ public class Frame extends JFrame {
 
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
-				long timer = System.currentTimeMillis();//record time of starting
-
-				setExtendedState(MAXIMIZED_BOTH);//FullScreen
+				long timer = System.currentTimeMillis();
+				setExtendedState(MAXIMIZED_BOTH);// FullScreen
 				setJMenuBar(new MyMenuBar(Frame.this));
 				setTopic(topic);
 				setMinimumSize(new Dimension(640, 480));
@@ -174,7 +145,7 @@ public class Frame extends JFrame {
 				pack();
 				setVisible(true);
 
-				// Thread that updates gui
+				// Thread that updates GUI
 				Thread update = new Thread() {
 					public void run() {
 						while (true) {
@@ -184,17 +155,16 @@ public class Frame extends JFrame {
 								c.repaint();// repaint every panel
 							}
 							try {
-								Thread.sleep((long) 100);//wait 1/10 of a second
+								Thread.sleep((long) 100);
 							} catch (InterruptedException e) {
 								e.printStackTrace();
 							}
 						}
 					}
-
 				};
 				update.start();
-				System.out.println("GUI initialised in " + (System.currentTimeMillis() - timer)
-						+ " milliseconds");//print time taken to start
+				// print time taken to start
+				System.out.println("GUI initialised in " + (System.currentTimeMillis() - timer) + " milliseconds");
 			}
 		});
 	}
@@ -236,7 +206,7 @@ public class Frame extends JFrame {
 			circText[i] = new JTextField("?", 9);
 		}
 
-		// Add panels to gui
+		// Add panels to GUI
 		panelWest.add(createNotesPanel());
 		panelWest.add(new JScrollPane(panelFields));
 		panelWest.add(panelSouth);
@@ -258,10 +228,10 @@ public class Frame extends JFrame {
 		circVarB[0] = new Var("x", "?", "x");
 		circVarB[1] = new Var("y", "?", "y");
 
-		c = new GridBagConstraints(0, 0, 1, 1, 1, 0, GridBagConstraints.FIRST_LINE_START,
-				GridBagConstraints.HORIZONTAL, new Insets(2, 2, 2, 2), 0, 0);
+		c = new GridBagConstraints(0, 0, 1, 1, 1, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.HORIZONTAL,
+				new Insets(2, 2, 2, 2), 0, 0);
 
-		// Coloumn 1;
+		// Column 1;
 		panelFields.add(Explanation, c);
 		c.gridy++;
 		panelFields.add(new JLabel("Start Angle"), c);
@@ -330,17 +300,18 @@ public class Frame extends JFrame {
 		c.gridx = 2;
 		panelSouthN.add(circAddForce, c);
 
-		//add listeners
-		addListener(circText[0], circVars[0], 2, null);
-		addListener(circText[1], circVars[1], 1, null);
-		addListener(circText[2], circVars[2], 4, null);
-		addListener(circText[3], circVars[3], 4, null);
-		addListener(circText[4], circVars[4], -1, null);
-		addListener(circText[5], circVars[5], 1, null);
-		addListener(circText[6], circVars[6], 1, null);
-		addListener(circText[7], circVars[7], 1, null);
-		addListener(circX, circVarB[0], -1, null);
-		addListener(circY, circVarB[1], -1, null);
+		// add listeners
+		ListenerAdder adder = new ListenerAdder(this);
+		adder.addListener(circText[0], circVars[0], 2, null);
+		adder.addListener(circText[1], circVars[1], 1, null);
+		adder.addListener(circText[2], circVars[2], 4, null);
+		adder.addListener(circText[3], circVars[3], 4, null);
+		adder.addListener(circText[4], circVars[4], -1, null);
+		adder.addListener(circText[5], circVars[5], 1, null);
+		adder.addListener(circText[6], circVars[6], 1, null);
+		adder.addListener(circText[7], circVars[7], 1, null);
+		adder.addListener(circX, circVarB[0], -1, null);
+		adder.addListener(circY, circVarB[1], -1, null);
 		circAddForce.addActionListener(new ButtonActionListener(this));
 	}
 
@@ -362,27 +333,12 @@ public class Frame extends JFrame {
 		}
 		projText[11].setText("A");
 
-		addListener(projText[0], projVars[0], 4, null);
-		addListener(projText[1], projVars[1], -1, null);
-		addListener(projText[2], projVars[2], -1, null);
-		addListener(projText[3], projVars[3], -1, null);
-		addListener(projText[4], projVars[4], 0, null);
-		addListener(projText[5], projVars[5], 0, null);
-		addListener(projText[6], projVars[6], 0, null);
-		addListener(projText[7], projVars[7], -1, null);
-		addListener(projText[8], projVars[8], 0, null);
-		addListener(projText[9], projVars[9], -1, null);
-		addListener(projText[10], projVars[10], 0, null);
-		addListener(projText[12], projVars[12], 0, null);
-		addListener(projText[11], projVars[11], -2, null);
-
 		JPanel others = new JPanel(new GridBagLayout());
 		JPanel before = new JPanel(new GridBagLayout());
-		before.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(),
-				"Initial conditions"));
+		before.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), "Initial conditions"));
 		JPanel after = new JPanel(new GridBagLayout());
-		after.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(),
-				"When object hits someting"));
+		after.setBorder(
+				BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), "When object hits someting"));
 
 		southPanel.add(new JScrollPane(before));
 		southPanel.add(new JScrollPane(after));
@@ -457,10 +413,26 @@ public class Frame extends JFrame {
 		others.add(new JLabel("Max distance:                "), c);
 		c.gridx = 1;
 		others.add(projText[6], c);
+
+		// addListeners
+		ListenerAdder adder = new ListenerAdder(this);
+		adder.addListener(projText[0], projVars[0], 4, null);
+		adder.addListener(projText[1], projVars[1], -1, null);
+		adder.addListener(projText[2], projVars[2], -1, null);
+		adder.addListener(projText[3], projVars[3], -1, null);
+		adder.addListener(projText[4], projVars[4], 0, null);
+		adder.addListener(projText[5], projVars[5], 0, null);
+		adder.addListener(projText[6], projVars[6], 0, null);
+		adder.addListener(projText[7], projVars[7], -1, null);
+		adder.addListener(projText[8], projVars[8], 0, null);
+		adder.addListener(projText[9], projVars[9], -1, null);
+		adder.addListener(projText[10], projVars[10], 0, null);
+		adder.addListener(projText[12], projVars[12], 0, null);
+		adder.addListener(projText[11], projVars[11], -2, null);
 	}
 
 	void initCollisions() {
-		//Initialise vars and panels
+		// Initialise vars and panels
 		colVarA = Var.initVars(colVarA, "colVarA");
 		colVarB = Var.initVars(colVarB, "colVarB");
 		colVarE = new Var("e", "?", "e");
@@ -478,7 +450,7 @@ public class Frame extends JFrame {
 		colDiagram.setBorder(border);
 		fields.setBorder(border);
 
-		//initalise constraints
+		// initialise constraints
 		GridBagConstraints gbc = new GridBagConstraints(0, 0, 2, 1, 1, 0, GridBagConstraints.WEST,
 				GridBagConstraints.HORIZONTAL, new Insets(2, 2, 2, 2), 0, 0);
 		fields.add(textDesc, gbc);
@@ -498,7 +470,7 @@ public class Frame extends JFrame {
 		gbc.gridy = 6;
 		fields.add(new JLabel("Impulse"), gbc);
 
-		// Places each textfield inplace.
+		// Places each text field in place.
 		gbc.gridx = 1;
 		gbc.gridy = 1;
 		for (int i = 0; i < colField.length; i++) {
@@ -508,17 +480,18 @@ public class Frame extends JFrame {
 		}
 		colField[1].setText("A");
 
-		//add listeners
-		addListener(colField[0], colVarE, 5, colVarE);
-		addListener(colField[1], colVarA[0], -2, colVarB[0]);
-		addListener(colField[2], colVarA[1], 0, colVarB[1]);
-		addListener(colField[3], colVarA[2], -1, colVarB[2]);
-		addListener(colField[4], colVarA[3], -1, colVarB[3]);
-		addListener(colField[5], colVarA[4], -1, colVarB[4]);
+		// add listeners
+		ListenerAdder adder = new ListenerAdder(this);
+		adder.addListener(colField[0], colVarE, 5, colVarE);
+		adder.addListener(colField[1], colVarA[0], -2, colVarB[0]);
+		adder.addListener(colField[2], colVarA[1], 0, colVarB[1]);
+		adder.addListener(colField[3], colVarA[2], -1, colVarB[2]);
+		adder.addListener(colField[4], colVarA[3], -1, colVarB[3]);
+		adder.addListener(colField[5], colVarA[4], -1, colVarB[4]);
 	}
 
 	void initCenterOfMass() {
-		panelCOM = new COMPanel();
+		panelCOM = new COMPanel(this);
 		sidePanel = new JPanel(new GridBagLayout());
 		this.add(panelCOM, BorderLayout.CENTER);
 		this.add(sidePanel, BorderLayout.WEST);
@@ -589,7 +562,7 @@ public class Frame extends JFrame {
 					br.close();
 				}
 			} catch (Exception e) {
-				//Do nothing
+				// Do nothing
 			}
 		}
 
@@ -607,54 +580,7 @@ public class Frame extends JFrame {
 	}
 
 	/**
-	 * Adds a focus listener and action listener to a component.
-	 * 
-	 * @param textField
-	 *            Text field to add listeners to.
-	 * @param var1
-	 *            Variable text field is associated with.
-	 * @param var2
-	 *            Second variable text field is associated with if applicable.
-	 * @param type
-	 *            The type of verification: <br>
-	 *            -2: No verification -1:<br>
-	 *            -1: Error if not a number <br>
-	 *            0: Error if less than or equal to zero <br>
-	 *            1: Error if less than zero <br>
-	 *            2: Error if equal to zero <br>
-	 *            3: Error if greater than 0 <br>
-	 *            4: Warning if greater than 2 pi<br>
-	 *            5: Special case for e
-	 * 
-	 */
-	private void addListener(final JTextField textField, final Var var1, final int type,
-			final Var var2) {
-		final Verifier verifier = new Verifier(this);
-
-		textField.addFocusListener(new FocusListener() {
-			@Override
-			public void focusGained(FocusEvent arg0) {
-				if (textField.getText().equals("?")) {
-					textField.setText("");
-				}
-			}
-
-			@Override
-			public void focusLost(FocusEvent arg0) {
-				verifier.addVerification(textField, var1, type, var2);
-			}
-		});
-
-		textField.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				verifier.addVerification(textField, var1, type, var2);
-			}
-		});
-	}
-
-	/**
-	 * Updates textfields to show variable contents.
+	 * Updates text fields to show variable contents.
 	 */
 	public void updateFields() {
 		if (topic.equals("Projectiles")) {
@@ -669,10 +595,8 @@ public class Frame extends JFrame {
 			double x = 0;
 			double y = 0;
 			for (int i = 0; i < circTextA.size(); i++) {
-				x += Double.parseDouble(circTextA.get(i))
-						* Math.cos(Double.parseDouble(circTextB.get(i)));
-				y += Double.parseDouble(circTextA.get(i))
-						* Math.sin(Double.parseDouble(circTextB.get(i)));
+				x += Double.parseDouble(circTextA.get(i)) * Math.cos(Double.parseDouble(circTextB.get(i)));
+				y += Double.parseDouble(circTextA.get(i)) * Math.sin(Double.parseDouble(circTextB.get(i)));
 				System.out.println(x);
 			}
 			circX.setText(circVarB[0].contents);
