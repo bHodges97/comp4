@@ -2,6 +2,7 @@ package mainGui;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
+import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -11,8 +12,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -63,7 +62,7 @@ public class Frame extends JFrame {
 	JTextArea topicDesc;
 
 	// collision
-	boolean colA = true;
+	public boolean colA = true;
 	/**
 	 * 0 a <br>
 	 * 1 m1 <br>
@@ -109,8 +108,8 @@ public class Frame extends JFrame {
 	public List<JTextField> circF = new ArrayList<JTextField>();
 	public List<JTextField> circT = new ArrayList<JTextField>();
 	Var[] circVarB;
-	public JTextField circLblX;
-	public JTextField circLblY;
+	public JLabel circLblX;
+	public JLabel circLblY;
 	public JPanel panelSouthS;
 
 	// CenterOfMass
@@ -165,13 +164,10 @@ public class Frame extends JFrame {
 
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
-
 				long timer = System.currentTimeMillis();//record time of starting
+
 				setExtendedState(MAXIMIZED_BOTH);//FullScreen
-
-				MyMenuBar menu = new MyMenuBar(Frame.this);
-				setJMenuBar(menu);
-
+				setJMenuBar(new MyMenuBar(Frame.this));
 				setTopic(topic);
 				setMinimumSize(new Dimension(640, 480));
 				setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -181,21 +177,14 @@ public class Frame extends JFrame {
 				// Thread that updates gui
 				Thread update = new Thread() {
 					public void run() {
-						try {
-							Thread.sleep((long) 1000);// wait till app starts
-						} catch (InterruptedException e) {
-							e.printStackTrace();
-						}
 						while (true) {
 							repaint();
 							revalidate();
-							for (Component c : Frame.this.getComponents()) {
-								if (c instanceof JPanel) {
-									c.repaint();// repaint every panel
-								}
+							for (Component c : getAllPanels(getContentPane())) {
+								c.repaint();// repaint every panel
 							}
 							try {
-								Thread.sleep((long) 100);
+								Thread.sleep((long) 100);//wait 1/10 of a second
 							} catch (InterruptedException e) {
 								e.printStackTrace();
 							}
@@ -205,13 +194,24 @@ public class Frame extends JFrame {
 				};
 				update.start();
 				System.out.println("GUI initialised in " + (System.currentTimeMillis() - timer)
-						+ " milliseconds");
+						+ " milliseconds");//print time taken to start
 			}
 		});
 	}
 
+	public static List<Component> getAllPanels(final Container container) {
+		Component[] panels = container.getComponents();
+		List<Component> panelList = new ArrayList<Component>();
+		for (Component panel : panels) {
+			if (panel instanceof Container) {
+				panelList.add(panel);
+				panelList.addAll(getAllPanels((Container) panel));
+			}
+		}
+		return panelList;
+	}
+
 	void initCircularMotion() {
-		setLayout(new BorderLayout(5, 5));
 		// Initialised panels;
 		JPanel panelDiagram = new JPanel(new GridLayout());
 		JPanel panelFields = new JPanel(new GridBagLayout());
@@ -220,12 +220,21 @@ public class Frame extends JFrame {
 		JPanel panelSouth = new JPanel(new GridLayout(0, 1));
 		JPanel panelSouthN = new JPanel(new GridBagLayout());
 		// Set borders
-		panelSouthS.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(),
-				"Forces"));
-		panelSouthN.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(),
-				"Position from O"));
+		panelSouthS.setBorder(BorderFactory.createTitledBorder(border, "Forces"));
+		panelSouthN.setBorder(BorderFactory.createTitledBorder(border, "Position from O"));
 		panelFields.setBorder(border);
 		panelSouth.setBorder(border);
+
+		// initiate components
+		circVertical = new CircVertical();
+		circTopDown = new CircTopDown();
+		JLabel Explanation = new JLabel("Leave unknowns as \"?\".");
+		circX = new JTextField("?", 7);
+		circY = new JTextField("?", 7);
+		JButton circAddForce = new JButton("Add Force");
+		for (int i = 0; i < circText.length; i++) {
+			circText[i] = new JTextField("?", 9);
+		}
 
 		// Add panels to gui
 		panelWest.add(createNotesPanel());
@@ -239,55 +248,21 @@ public class Frame extends JFrame {
 		// Add diagram panels.
 		GridBagConstraints c = new GridBagConstraints();
 		c.gridx = 0;
-		circTopDown = new CircTopDown();
 		panelDiagram.add(circTopDown);
 		c.gridx++;
-		circVertical = new CircVertical();
 		panelDiagram.add(circVertical);
 
-		// initiate components
-		JLabel Explanation = new JLabel("Leave unknowns as \"?\".");
-		for (int i = 0; i < circText.length; i++) {
-			circText[i] = new JTextField("?", 9);
-		}
-		circX = new JTextField("?", 7);
-		circY = new JTextField("?", 7);
-		JButton circAddForce = new JButton("Add Force");
-
 		// initiate variables
-		circVars = new Var[8];
+		circVars = Var.initVars(circVars, "circVars");
 		circVarB = new Var[2];
-		circVars[0] = new Var("w", new String(circText[0].getText()), "w");
-		circVars[1] = new Var("m", new String(circText[1].getText()), "m");
-		circVars[2] = new Var("u", new String(circText[2].getText()), "u");
-		circVars[3] = new Var("x", new String(circText[3].getText()), "x");
-		circVars[4] = new Var("v", new String(circText[4].getText()), "v");
-		circVars[5] = new Var("r", new String(circText[5].getText()), "r");
-		circVars[6] = new Var("a", new String(circText[6].getText()), "a");
-		circVars[7] = new Var("t", new String(circText[7].getText()), "t");
 		circVarB[0] = new Var("x", "?", "x");
 		circVarB[1] = new Var("y", "?", "y");
 
-		addListener(circText[0], circVars[0], 2, null);
-		addListener(circText[1], circVars[1], 1, null);
-		addListener(circText[2], circVars[2], 4, null);
-		addListener(circText[3], circVars[3], 4, null);
-		addListener(circText[4], circVars[4], -1, null);
-		addListener(circText[5], circVars[5], 1, null);
-		addListener(circText[6], circVars[6], 1, null);
-		addListener(circText[7], circVars[7], 1, null);
-
-		c = new GridBagConstraints();
-		c.gridx = 0;
-		c.weighty = 0;
-		c.anchor = GridBagConstraints.FIRST_LINE_START;
-		c.gridy = 0;
-		c.insets = new Insets(2, 2, 2, 2);
-		c.weightx = 1;
-		panelFields.add(Explanation, c);
+		c = new GridBagConstraints(0, 0, 1, 1, 1, 0, GridBagConstraints.FIRST_LINE_START,
+				GridBagConstraints.HORIZONTAL, new Insets(2, 2, 2, 2), 0, 0);
 
 		// Coloumn 1;
-		c.gridx = 0;
+		panelFields.add(Explanation, c);
 		c.gridy++;
 		panelFields.add(new JLabel("Start Angle"), c);
 		c.gridy++;
@@ -325,10 +300,8 @@ public class Frame extends JFrame {
 		panelFields.add(circText[7], c);
 
 		// Layout panelSouthN;
-		circLblX = new JTextField("Sum of horizontal forces: ?");
-		circLblY = new JTextField("Sum of vertical forces  : ?");
-		circLblX.setEditable(false);
-		circLblY.setEditable(false);
+		circLblX = new JLabel("Sum of horizontal forces: ?");
+		circLblY = new JLabel("Sum of vertical forces  : ?");
 		c.weightx = 1;
 
 		// row 1
@@ -357,13 +330,22 @@ public class Frame extends JFrame {
 		c.gridx = 2;
 		panelSouthN.add(circAddForce, c);
 
+		//add listeners
+		addListener(circText[0], circVars[0], 2, null);
+		addListener(circText[1], circVars[1], 1, null);
+		addListener(circText[2], circVars[2], 4, null);
+		addListener(circText[3], circVars[3], 4, null);
+		addListener(circText[4], circVars[4], -1, null);
+		addListener(circText[5], circVars[5], 1, null);
+		addListener(circText[6], circVars[6], 1, null);
+		addListener(circText[7], circVars[7], 1, null);
 		addListener(circX, circVarB[0], -1, null);
 		addListener(circY, circVarB[1], -1, null);
 		circAddForce.addActionListener(new ButtonActionListener(this));
 	}
 
 	void initProjectiles() {
-		projVars = new Var[13];
+		projVars = Var.initVars(projVars, "projVars");
 		projDiagram = new ProjDiagram(projVars);
 		JPanel sidePanel = new JPanel(new BorderLayout(0, 0));
 		JPanel southPanel = new JPanel(new GridLayout(0, 1));
@@ -379,19 +361,6 @@ public class Frame extends JFrame {
 			projText[i] = new JTextField("?", 9);
 		}
 		projText[11].setText("A");
-		projVars[0] = new Var("a", new String(projText[0].getText()), "θ");
-		projVars[1] = new Var("v", new String(projText[1].getText()), "V");
-		projVars[2] = new Var("b", new String(projText[2].getText()), "Vx");
-		projVars[3] = new Var("c", new String(projText[3].getText()), "Vy");
-		projVars[4] = new Var("h", new String(projText[4].getText()), "Height");
-		projVars[5] = new Var("z", new String(projText[5].getText()), "UNUSED");
-		projVars[6] = new Var("t", new String(projText[6].getText()), "t");
-		projVars[7] = new Var("u", new String(projText[7].getText()), "U");
-		projVars[8] = new Var("d", new String(projText[8].getText()), "Ux");
-		projVars[9] = new Var("e", new String(projText[9].getText()), "Uy");
-		projVars[10] = new Var("x", new String(projText[10].getText()), "x");
-		projVars[11] = new Var("", new String(projText[11].getText()), "A");
-		projVars[12] = new Var("y", new String(projText[12].getText()), "y");
 
 		addListener(projText[0], projVars[0], 4, null);
 		addListener(projText[1], projVars[1], -1, null);
@@ -491,24 +460,17 @@ public class Frame extends JFrame {
 	}
 
 	void initCollisions() {
-		colVarA = new Var[5];
-		colVarB = new Var[5];
+		//Initialise vars and panels
+		colVarA = Var.initVars(colVarA, "colVarA");
+		colVarB = Var.initVars(colVarB, "colVarB");
 		colVarE = new Var("e", "?", "e");
-		colVarA[0] = new Var("a", "A", "1");
-		colVarA[1] = new Var("m1", "?", "M1");
-		colVarA[2] = new Var("v1", "?", "V1");
-		colVarA[3] = new Var("u1", "?", "U1");
-		colVarA[4] = new Var("i1", "?", "i1");
-		colVarB[0] = new Var("b", "B", "2");
-		colVarB[1] = new Var("m2", "?", "M2");
-		colVarB[2] = new Var("v2", "?", "V2");
-		colVarB[3] = new Var("u2", "?", "U2");
-		colVarB[4] = new Var("i2", "?", "i2");
-
-		// layout
-		colDiagram = new ColDiagram(colVarA, colVarB, colVarE);
+		colDiagram = new ColDiagram(this);
 		JPanel westPanel = new JPanel(new GridLayout(0, 1));
 		JPanel fields = new JPanel(new GridBagLayout());
+		JLabel textDesc = new JLabel(
+				"<html>Click on diagram to select point mass. <br>Use \"?\" for unknown variables. Units used are<br> kg, m/s, Ns");
+
+		// layout
 		this.add(westPanel, BorderLayout.WEST);
 		this.add(colDiagram, BorderLayout.CENTER);
 		westPanel.add(new JScrollPane(createNotesPanel()));
@@ -516,20 +478,12 @@ public class Frame extends JFrame {
 		colDiagram.setBorder(border);
 		fields.setBorder(border);
 
-		JLabel textDesc = new JLabel(
-				"<html>Click on diagram to select point mass. <br>Use \"?\" for unknown variables. Units used are<br> kg, m/s, Ns");
-
-		GridBagConstraints gbc = new GridBagConstraints();
-		gbc.insets = new Insets(2, 2, 2, 2);
-		gbc.weightx = 1;
-		gbc.gridx = 0;
-		gbc.gridy = 0;
-		gbc.anchor = GridBagConstraints.WEST;
-		gbc.gridwidth = 2;
+		//initalise constraints
+		GridBagConstraints gbc = new GridBagConstraints(0, 0, 2, 1, 1, 0, GridBagConstraints.WEST,
+				GridBagConstraints.HORIZONTAL, new Insets(2, 2, 2, 2), 0, 0);
 		fields.add(textDesc, gbc);
-		gbc.gridwidth = 1;
-
 		// place each label in place
+		gbc.gridwidth = 1;
 		gbc.gridx = 0;
 		gbc.gridy = 1;
 		fields.add(new JLabel("Coefficient of restitution"), gbc);
@@ -554,39 +508,7 @@ public class Frame extends JFrame {
 		}
 		colField[1].setText("A");
 
-		colDiagram.addMouseListener(new MouseListener() {
-			@Override
-			public void mousePressed(MouseEvent e) {// Do nothing
-			}
-
-			@Override
-			public void mouseExited(MouseEvent e) {
-			}
-
-			@Override
-			public void mouseEntered(MouseEvent e) {
-			}
-
-			@Override
-			public void mouseReleased(MouseEvent arg0) {
-			}
-
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				// Select object based on mouse click.
-				if (Math.abs(e.getY() - colDiagram.getHeight() / 2) < colDiagram.getHeight() * 0.1
-						&& (e.getX() < colDiagram.getWidth() / 4 || (e.getX() > colDiagram
-								.getWidth() / 2 && e.getX() < colDiagram.getWidth() * 0.75))) {
-					colA = true;
-				} else if (Math.abs(e.getY() - colDiagram.getHeight() / 2) < colDiagram.getHeight() * 0.1
-						&& (e.getX() > colDiagram.getWidth() / 4 || (e.getX() < colDiagram
-								.getWidth() / 2 && e.getX() > colDiagram.getWidth() * 0.25))) {
-					colA = false;
-				}
-				updateFields();
-			}
-
-		});
+		//add listeners
 		addListener(colField[0], colVarE, 5, colVarE);
 		addListener(colField[1], colVarA[0], -2, colVarB[0]);
 		addListener(colField[2], colVarA[1], 0, colVarB[1]);
@@ -707,6 +629,8 @@ public class Frame extends JFrame {
 	 */
 	private void addListener(final JTextField textField, final Var var1, final int type,
 			final Var var2) {
+		final Verifier verifier = new Verifier(this);
+
 		textField.addFocusListener(new FocusListener() {
 			@Override
 			public void focusGained(FocusEvent arg0) {
@@ -717,90 +641,16 @@ public class Frame extends JFrame {
 
 			@Override
 			public void focusLost(FocusEvent arg0) {
-				addVerification(textField, var1, type, var2);
+				verifier.addVerification(textField, var1, type, var2);
 			}
 		});
 
 		textField.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				addVerification(textField, var1, type, var2);
+				verifier.addVerification(textField, var1, type, var2);
 			}
 		});
-	}
-
-	/**
-	 * Adds verification to a text field.
-	 * 
-	 * @param t
-	 *            Text field to add verification to.
-	 * @param v
-	 *            Variable text field is associated with.
-	 * @param c
-	 *            The type of verification: <br>
-	 *            -2: No verification -1:<br>
-	 *            -1: Error if not a number <br>
-	 *            0: Error if less than or equal to zero <br>
-	 *            1: Error if less than zero <br>
-	 *            2: Error if equal to zero <br>
-	 *            3: Error if greater than 0 <br>
-	 *            4: Warning if greater than 2 pi<br>
-	 *            5: Special case for e
-	 * 
-	 */
-	private void addVerification(JTextField t, Var var1, int c, Var var2) {
-		Var v;
-		if (var2 != null && !colA) {
-			v = var2;
-		} else {
-			v = var1;
-		}
-
-		if (t.getText().equals("?")) {
-			v.setContents(t.getText(), false);
-			return;
-		}
-		if (MathUtil.isNumeric(t.getText()) && t.getText().length() > 10) {
-			JOptionPane.showMessageDialog(Frame.this, "Input is too long!", "Error",
-					JOptionPane.ERROR_MESSAGE);
-			return;
-		}
-		if (c >= -1) {
-			if (!MathUtil.isNumeric(t.getText())) {
-				JOptionPane.showMessageDialog(Frame.this, "Not a number!", "Error",
-						JOptionPane.ERROR_MESSAGE);
-				return;
-			}
-		}
-		if (c == 0) {
-			if (Double.parseDouble(t.getText()) < 0) {
-				JOptionPane.showMessageDialog(Frame.this, "Must be greater than or equal to 0.");
-				return;
-			}
-		}
-		if (c == 2) {
-			if (Double.parseDouble(t.getText()) == 0) {
-				JOptionPane.showMessageDialog(Frame.this, "Must not equal 0.");
-				return;
-			}
-		}
-		if (c == 1 && Double.parseDouble(t.getText()) <= 0) {//TODO:Shorten
-			JOptionPane.showMessageDialog(Frame.this, "Must be greater than 0.");
-			return;
-		}
-		if (c == 3 && Double.parseDouble(t.getText()) > 0) {
-			JOptionPane.showMessageDialog(Frame.this, "Must be less than 0.");
-			return;
-		}
-		if (c == 4 && Math.abs(Double.parseDouble(t.getText())) > 6.28) {
-			JOptionPane.showMessageDialog(Frame.this, "Careful this value is greater than 2 PI");
-		}
-		if (c == 5 && Double.parseDouble(t.getText()) > 1 || Double.parseDouble(t.getText()) < 0) {
-			JOptionPane.showMessageDialog(Frame.this, "Must follow: 0 <= e <= 1", "Error",
-					JOptionPane.ERROR_MESSAGE);
-			return;
-		}
-		v.setContents(new String(t.getText()), true);
 	}
 
 	/**
@@ -826,7 +676,7 @@ public class Frame extends JFrame {
 				System.out.println(x);
 			}
 			circX.setText(circVarB[0].contents);
-			circX.setText(circVarB[1].contents);
+			circY.setText(circVarB[1].contents);
 			circLblX.setText("Sum of horizontal forces: " + MathUtil.round("" + x));
 			circLblY.setText("Sum of vertical forces  : " + MathUtil.round("" + y));
 		}
@@ -872,11 +722,6 @@ public class Frame extends JFrame {
 		if (topic.equals("Projectiles")) {
 			initProjectiles();
 			setTitle("Motion of a Projectile");
-		}
-		try {
-			Thread.sleep((long) 100);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
 		}
 	}
 
