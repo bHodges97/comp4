@@ -256,7 +256,7 @@ public class MyMenuBar extends JMenuBar {
 	private void save(String pathName) {
 		Object savedItem = null;
 		if (frame.topic.equals("Circles")) {
-			savedItem = new Object[] { "Circles", frame.circVars, frame.circVarB, frame.panelSouthS.getComponents() };
+			savedItem = new Object[] { "Circles", frame.circVars, frame.circVarB, frame.circSouthS.getComponents() };
 		}
 		if (frame.topic.equals("Center")) {
 			savedItem = new Object[] { "Center", frame.panelCOM.plane };

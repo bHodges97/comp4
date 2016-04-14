@@ -1,16 +1,8 @@
-
-Notes
-Don't make dialog automatic.
-Form design go vertical,, textfield followed by description,
-FINISH BEFORE DEADLINE
-
-
 TODO LIST
 
 :MAIN APP
 Complete each module
 Sort out topic desc.
-save function
 
 :COM
 -Work on gui
@@ -23,10 +15,6 @@ save function
 
 :projectiles
 consider ux = 0;
-
-EVERYTHING ELSE FINISH FASTTTTTT
-
-
 
 
 		try {

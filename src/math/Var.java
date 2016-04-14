@@ -83,7 +83,7 @@ public class Var implements java.io.Serializable {
 			vars[8] = new Var("d", "?", "Ux");
 			vars[9] = new Var("e", "?", "Uy");
 			vars[10] = new Var("x", "?", "x");
-			vars[11] = new Var("", "?", "A");
+			vars[11] = new Var("", "A", "A");
 			vars[12] = new Var("y", "?", "y");
 		} else if (type.equals("colVarA")) {
 			vars = new Var[5];

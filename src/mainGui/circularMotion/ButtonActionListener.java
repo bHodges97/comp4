@@ -29,11 +29,11 @@ public class ButtonActionListener implements ActionListener {
 		c.weighty = 1;
 		c.gridy = 0;
 		c.gridx = 0;
-		frame.panelSouthS.add(new JLabel("Magnitude"), c);
+		frame.circSouthS.add(new JLabel("Magnitude"), c);
 		c.gridx = 1;
 		JLabel lbl = new JLabel("Direction.");
 		lbl.setToolTipText("radians anticlock wise from 3 o'clock position");
-		frame.panelSouthS.add(lbl, c);
+		frame.circSouthS.add(lbl, c);
 	}
 
 	@Override
@@ -53,9 +53,9 @@ public class ButtonActionListener implements ActionListener {
 		c.gridx = 0;
 		c.weightx = 1;
 		c.anchor = GridBagConstraints.FIRST_LINE_START;
-		frame.panelSouthS.add(a, c);
+		frame.circSouthS.add(a, c);
 		c.gridx = 1;
-		frame.panelSouthS.add(b, c);
+		frame.circSouthS.add(b, c);
 
 		a.addFocusListener(new FocusListener() {
 			@Override

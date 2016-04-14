@@ -56,8 +56,7 @@ public class Frame extends JFrame {
 	Border border = BorderFactory.createEtchedBorder(1);
 	JTextArea topicDesc;
 
-	// collision
-	public boolean colA = true;
+	// collision	
 	/**
 	 * 0 a <br>
 	 * 1 m1 <br>
@@ -70,6 +69,7 @@ public class Frame extends JFrame {
 	public Var colVarE;
 	ColDiagram colDiagram;
 	JTextField[] colField = new JTextField[6];
+	public boolean colA = true;
 
 	// CircularMotion
 	/**
@@ -96,17 +96,13 @@ public class Frame extends JFrame {
 	public List<JTextField> circT = new ArrayList<JTextField>();
 	public JLabel circLblX;
 	public JLabel circLblY;
-	public JPanel panelSouthS;
+	public JPanel circSouthS;
 
 	// CenterOfMass
 	public COMPanel panelCOM;
-	JPanel sidePanel;
-	COMPanelNorth sideNorth;
 	public COMPanelSouth sideSouth;
 
-	// projectile
-	ProjDiagram projDiagram;
-	JTextField[] projText = new JTextField[13];
+	// projectile	
 	/**
 	 * 0 a theta<br>
 	 * 1 v v<br>
@@ -123,6 +119,8 @@ public class Frame extends JFrame {
 	 * 12 y y<br>
 	 */
 	Var[] projVars;
+	ProjDiagram projDiagram;
+	JTextField[] projText = new JTextField[13];
 
 	public Frame(String popupTopic) {
 		try {// Set to os style
@@ -163,7 +161,8 @@ public class Frame extends JFrame {
 				};
 				update.start();
 				// print time taken to start
-				System.out.println("GUI initialised in " + (System.currentTimeMillis() - timer) + " milliseconds");
+				System.out.println("GUI initialised in " + (System.currentTimeMillis() - timer)
+						+ " milliseconds");
 			}
 		});
 	}
@@ -185,11 +184,11 @@ public class Frame extends JFrame {
 		JPanel panelDiagram = new JPanel(new GridLayout());
 		JPanel panelFields = new JPanel(new GridBagLayout());
 		JPanel panelWest = new JPanel(new GridLayout(0, 1, 5, 5));
-		panelSouthS = new JPanel(new GridBagLayout());
+		circSouthS = new JPanel(new GridBagLayout());
 		JPanel panelSouth = new JPanel(new GridLayout(0, 1));
 		JPanel panelSouthN = new JPanel(new GridBagLayout());
 		// Set borders
-		panelSouthS.setBorder(BorderFactory.createTitledBorder(border, "Forces"));
+		circSouthS.setBorder(BorderFactory.createTitledBorder(border, "Forces"));
 		panelSouthN.setBorder(BorderFactory.createTitledBorder(border, "Position from O"));
 		panelFields.setBorder(border);
 		panelSouth.setBorder(border);
@@ -200,17 +199,25 @@ public class Frame extends JFrame {
 		JLabel Explanation = new JLabel("Leave unknowns as \"?\".");
 		circX = new JTextField("?", 7);
 		circY = new JTextField("?", 7);
+		circLblX = new JLabel("Sum of horizontal forces: ?");
+		circLblY = new JLabel("Sum of vertical forces  : ?");
 		JButton circAddForce = new JButton("Add Force");
 		for (int i = 0; i < circText.length; i++) {
 			circText[i] = new JTextField("?", 9);
 		}
+
+		// initiate variables
+		circVars = Var.initVars(circVars, "circVars");
+		circVarB = new Var[2];
+		circVarB[0] = new Var("x", "?", "x");
+		circVarB[1] = new Var("y", "?", "y");
 
 		// Add panels to GUI
 		panelWest.add(createNotesPanel());
 		panelWest.add(new JScrollPane(panelFields));
 		panelWest.add(panelSouth);
 		panelSouth.add(new JScrollPane(panelSouthN));
-		panelSouth.add(new JScrollPane(panelSouthS));
+		panelSouth.add(new JScrollPane(circSouthS));
 		this.add(panelWest, BorderLayout.WEST);
 		this.add(panelDiagram, BorderLayout.CENTER);
 
@@ -221,14 +228,8 @@ public class Frame extends JFrame {
 		c.gridx++;
 		panelDiagram.add(circVertical);
 
-		// initiate variables
-		circVars = Var.initVars(circVars, "circVars");
-		circVarB = new Var[2];
-		circVarB[0] = new Var("x", "?", "x");
-		circVarB[1] = new Var("y", "?", "y");
-
-		c = new GridBagConstraints(0, 0, 1, 1, 1, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.HORIZONTAL,
-				new Insets(2, 2, 2, 2), 0, 0);
+		c = new GridBagConstraints(0, 0, 1, 1, 1, 0, GridBagConstraints.FIRST_LINE_START,
+				GridBagConstraints.HORIZONTAL, new Insets(2, 2, 2, 2), 0, 0);
 
 		// Column 1;
 		panelFields.add(Explanation, c);
@@ -268,11 +269,7 @@ public class Frame extends JFrame {
 		c.gridy++;
 		panelFields.add(circText[7], c);
 
-		// Layout panelSouthN;
-		circLblX = new JLabel("Sum of horizontal forces: ?");
-		circLblY = new JLabel("Sum of vertical forces  : ?");
-		c.weightx = 1;
-
+		// Layout panelSouthN;		
 		// row 1
 		c.gridy = 0;
 		c.gridx = 0;
@@ -315,36 +312,39 @@ public class Frame extends JFrame {
 	}
 
 	void initProjectiles() {
+		//initialise variables
 		projVars = Var.initVars(projVars, "projVars");
 		projDiagram = new ProjDiagram(projVars);
 		JPanel sidePanel = new JPanel(new BorderLayout(0, 0));
 		JPanel southPanel = new JPanel(new GridLayout(0, 1));
+		JPanel others = new JPanel(new GridBagLayout());
+		JPanel before = new JPanel(new GridBagLayout());
+		JPanel after = new JPanel(new GridBagLayout());
+		for (int i = 0; i < projText.length; i++) {
+			projText[i] = new JTextField("?", 9);
+		}
 
+		//Set borders
+		southPanel.setBorder(border);
+		projDiagram.setBorder(border);
+		before.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(),
+				"Initial conditions"));
+		after.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(),
+				"When object hits someting"));
+
+		//Add components to pane
 		sidePanel.add(createNotesPanel(), BorderLayout.NORTH);
 		sidePanel.add(new JScrollPane(southPanel), BorderLayout.CENTER);
 		add(projDiagram, BorderLayout.CENTER);
 		add(sidePanel, BorderLayout.WEST);
-		southPanel.setBorder(border);
-		projDiagram.setBorder(border);
-
-		for (int i = 0; i < projText.length; i++) {
-			projText[i] = new JTextField("?", 9);
-		}
-		projText[11].setText("A");
-
-		JPanel others = new JPanel(new GridBagLayout());
-		JPanel before = new JPanel(new GridBagLayout());
-		before.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), "Initial conditions"));
-		JPanel after = new JPanel(new GridBagLayout());
-		after.setBorder(
-				BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), "When object hits someting"));
-
 		southPanel.add(new JScrollPane(before));
 		southPanel.add(new JScrollPane(after));
 		southPanel.add(new JScrollPane(others));
 
 		GridBagConstraints c = new GridBagConstraints(0, 0, 1, 1, 1, 0, GridBagConstraints.WEST,
 				GridBagConstraints.HORIZONTAL, new Insets(2, 2, 2, 2), 0, 0);
+		//Layout out before panel
+		//column 1
 		before.add(new JLabel("Height:"), c);
 		c.gridy++;
 		before.add(new JLabel("Angle(radians)"), c);
@@ -354,7 +354,7 @@ public class Frame extends JFrame {
 		before.add(new JLabel("Velocity(x component):"), c);
 		c.gridy++;
 		before.add(new JLabel("Velocity(y component):"), c);
-
+		//column 2;
 		c.gridx = 1;
 		c.gridy = 0;
 		before.add(projText[4], c);
@@ -367,6 +367,8 @@ public class Frame extends JFrame {
 		c.gridy++;
 		before.add(projText[9], c);
 
+		//layout panel after
+		//column 1
 		c.gridx = 0;
 		c.gridy = 0;
 		after.add(new JLabel("Time:"), c);
@@ -380,7 +382,7 @@ public class Frame extends JFrame {
 		after.add(new JLabel("X position:"), c);
 		c.gridy++;
 		after.add(new JLabel("Y position:"), c);
-
+		//column 2
 		c.gridx = 1;
 		c.gridy = 0;
 		after.add(projText[6], c);
@@ -395,6 +397,7 @@ public class Frame extends JFrame {
 		c.gridy++;
 		after.add(projText[12], c);
 
+		//layout panel others
 		c.gridx = 0;
 		c.gridy = 0;
 		others.add(new JLabel("Name:          "), c);
@@ -464,13 +467,11 @@ public class Frame extends JFrame {
 
 		// Places each text field in place.
 		gbc.gridx = 1;
-		gbc.gridy = 1;
 		for (int i = 0; i < colField.length; i++) {
+			gbc.gridy = i + 1;
 			colField[i] = new JTextField("?", 10);// initialise each field
 			fields.add(colField[i], gbc);
-			gbc.gridy++;
 		}
-		colField[1].setText("A");
 
 		// add listeners
 		ListenerAdder adder = new ListenerAdder(this);
@@ -484,10 +485,10 @@ public class Frame extends JFrame {
 
 	void initCenterOfMass() {
 		panelCOM = new COMPanel(this);
-		sidePanel = new JPanel(new GridBagLayout());
+		JPanel sidePanel = new JPanel(new GridBagLayout());
 		this.add(panelCOM, BorderLayout.CENTER);
 		this.add(sidePanel, BorderLayout.WEST);
-		sideNorth = new COMPanelNorth(this);
+		COMPanelNorth sideNorth = new COMPanelNorth(this);
 		sideSouth = new COMPanelSouth(this);
 		sidePanel.setBorder(border);
 
@@ -511,28 +512,29 @@ public class Frame extends JFrame {
 	 */
 	private JPanel createNotesPanel() {
 		JPanel panel = new JPanel(new BorderLayout());
-		String title = getTitle() + " notes";
 		String path = "";
 		BufferedReader br = null;
 		InputStream input = null;
-		topicDesc = new JTextArea("Missing notes file");
+		topicDesc = new JTextArea(null, "Missing notes file", 15, 26);
+		topicDesc.setLineWrap(true);
 
 		if (topic.equals("Circles")) {
 			input = this.getClass().getResourceAsStream("/circlesNotes.txt");
-			path = "m2diagramDrawer/notes/circlesNotes.txt";
+			path = "m2/notes/circlesNotes.txt";
 		}
 		if (topic.equals("Center")) {
 			input = this.getClass().getResourceAsStream("/comNotes.txt");
-			path = "m2diagramDrawer/notes/comNotes.txt";
+			path = "m2/notes/comNotes.txt";
 		}
 		if (topic.equals("Collisions")) {
 			input = this.getClass().getResourceAsStream("/collisionNotes.txt");
-			path = "m2diagramDrawer/notes/collisionNotes.txt";
+			path = "m2/notes/collisionNotes.txt";
 		}
 		if (topic.equals("Projectiles")) {
 			input = this.getClass().getResourceAsStream("/projectileNotes.txt");
 			path = "m2/notes/projectileNotes.txt";
 		}
+
 		try {
 			File file = new File(path);
 			if (file.exists() && !file.isDirectory()) {
@@ -558,15 +560,11 @@ public class Frame extends JFrame {
 			}
 		}
 
-		JTextField topicTitle = new JTextField(title);
+		JTextField topicTitle = new JTextField(getTitle() + " notes");
 		topicTitle.setEditable(false);
 		topicTitle.setFont(topicTitle.getFont().deriveFont(1.2f * topicTitle.getFont().getSize()));
 		panel.add(topicTitle, BorderLayout.NORTH);
 		panel.add(new JScrollPane(topicDesc), BorderLayout.CENTER);
-
-		topicDesc.setRows(15);
-		topicDesc.setColumns(26);
-		topicDesc.setLineWrap(true);
 
 		return panel;
 	}
@@ -587,8 +585,10 @@ public class Frame extends JFrame {
 			double x = 0;
 			double y = 0;
 			for (int i = 0; i < circTextA.size(); i++) {
-				x += Double.parseDouble(circTextA.get(i)) * Math.cos(Double.parseDouble(circTextB.get(i)));
-				y += Double.parseDouble(circTextA.get(i)) * Math.sin(Double.parseDouble(circTextB.get(i)));
+				x += Double.parseDouble(circTextA.get(i))
+						* Math.cos(Double.parseDouble(circTextB.get(i)));
+				y += Double.parseDouble(circTextA.get(i))
+						* Math.sin(Double.parseDouble(circTextB.get(i)));
 				System.out.println(x);
 			}
 			circX.setText(circVarB[0].contents);
@@ -639,6 +639,7 @@ public class Frame extends JFrame {
 			initProjectiles();
 			setTitle("Motion of a Projectile");
 		}
+		updateFields();
 	}
 
 	/**
