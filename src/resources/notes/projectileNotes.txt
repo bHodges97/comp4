@@ -1,1 +1,9 @@
-test
+
+Equation of trajectory:
+ •y = x*tan(θ)-g*x^2/(2*v^2*cos^2(θ))
+Acceleration:
+ •Constant acceleration of 9.8 ms^-2 downwards.
+ •No horizontal acceleration, horizontal velocity is constant.
+Velocity
+ •Velocity in x direction is V*cos(θ) 
+ •Velocity in y direction is V*sin(θ).

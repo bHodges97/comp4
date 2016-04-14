@@ -537,7 +537,7 @@ public class Frame extends JFrame {
 
 		try {
 			File file = new File(path);
-			if (file.exists() && !file.isDirectory()) {
+			if (file.exists()) {
 				br = new BufferedReader(new FileReader(path));
 			} else {
 				br = new BufferedReader(new InputStreamReader(input));
@@ -559,6 +559,11 @@ public class Frame extends JFrame {
 				// Do nothing
 			}
 		}
+		topicDesc.setText("\nEquation of trajectory:\n •y = x*tan(θ)-g*x^2/(2*v^2*cos^2(θ))\n");
+		topicDesc
+				.append("Acceleration:\n •Constant acceleration of 9.8 ms^-2 downwards.\n •No horizontal acceleration, horizontal velocity is constant.\n");
+		topicDesc
+				.append("Velocity\n •Velocity in x direction is V*cos(θ) \n •Velocity in y direction is V*sin(θ).\n");
 
 		JTextField topicTitle = new JTextField(getTitle() + " notes");
 		topicTitle.setEditable(false);

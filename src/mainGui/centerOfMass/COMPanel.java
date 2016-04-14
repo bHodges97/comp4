@@ -15,6 +15,7 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import mainGui.Frame;
@@ -32,8 +33,40 @@ public class COMPanel extends JPanel {
 	public Obj currentObj;
 	Frame frame;
 
+	/**
+	 * Increase/decrease scale of display.
+	 * 
+	 * @param option
+	 *            0 : zoom in<br>
+	 *            1 : zoom out<br>
+	 *            2 : reset
+	 */
+	public void zoom(int option) {
+		if (option == 0) {
+			if (scale - 0.01d <= 0) {
+				if (scale - 0.002d <= 0) {
+					JOptionPane.showMessageDialog(frame, "Max zoom reached");
+					return;// No zoom;
+				}
+				scale -= 0.002d;// Smaller zoom;
+			} else {
+				scale -= 0.01d;// Standard zoom;
+			}
+		} else if (option == 1) {
+			if (scale + 0.002d >= 0.5d) {
+				JOptionPane.showMessageDialog(frame, "Max zoom reached");
+				return;// No zoom;
+			}
+			scale += 0.02d;
+		} else if (option == 2) {
+			scale = 0.05d;
+		}
+		repaint();
+	}
+
 	public void print(String path) {
-		BufferedImage img = new BufferedImage(this.getWidth(), this.getHeight(), BufferedImage.TYPE_INT_RGB);
+		BufferedImage img = new BufferedImage(this.getWidth(), this.getHeight(),
+				BufferedImage.TYPE_INT_RGB);
 		Graphics print = img.getGraphics();
 		printAll(print);
 		try {
@@ -121,7 +154,8 @@ public class COMPanel extends JPanel {
 				if (counter % Math.ceil(40 * scale) == 0) {
 					// make text right aligned
 					FontMetrics fontMetrics = g2d.getFontMetrics();
-					g2d.drawString("-" + counter, ox - fontMetrics.stringWidth("-" + counter) - 2, i + 5);
+					g2d.drawString("-" + counter, ox - fontMetrics.stringWidth("-" + counter) - 2,
+							i + 5);
 				}
 			}
 			counter++;
@@ -131,7 +165,8 @@ public class COMPanel extends JPanel {
 			if (counter != 0) {
 				if (counter % Math.ceil(40 * scale) == 0) {
 					FontMetrics fontMetrics = g2d.getFontMetrics();
-					g2d.drawString("" + counter, u - fontMetrics.stringWidth("" + counter) / 2, oy + 12);
+					g2d.drawString("" + counter, u - fontMetrics.stringWidth("" + counter) / 2,
+							oy + 12);
 				}
 			}
 			counter++;
@@ -141,7 +176,8 @@ public class COMPanel extends JPanel {
 			if (counter != 0) {
 				if (counter % Math.ceil(40 * scale) == 0) {
 					FontMetrics fontMetrics = g2d.getFontMetrics();
-					g2d.drawString("" + counter, ox - fontMetrics.stringWidth("" + counter) - 2, i + 5);
+					g2d.drawString("" + counter, ox - fontMetrics.stringWidth("" + counter) - 2,
+							i + 5);
 				}
 			}
 			counter++;
@@ -151,7 +187,8 @@ public class COMPanel extends JPanel {
 			if (counter != 0) {
 				if (counter % Math.ceil(40 * scale) == 0) {
 					FontMetrics fontMetrics = g2d.getFontMetrics();
-					g2d.drawString("-" + counter, u - fontMetrics.stringWidth("-" + counter) / 2, oy + 12);
+					g2d.drawString("-" + counter, u - fontMetrics.stringWidth("-" + counter) / 2,
+							oy + 12);
 				}
 			}
 			counter++;

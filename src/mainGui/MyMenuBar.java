@@ -25,7 +25,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
-import mainGui.centerOfMass.COMPanel;
 import mainGui.circularMotion.ButtonActionListener;
 import math.Definition;
 import math.Plane;
@@ -107,13 +106,13 @@ public class MyMenuBar extends JMenuBar {
 					dialogConverter.Open();
 				}
 				if (e.getSource() == zoomIn) {
-					zoom(0);
+					frame.panelCOM.zoom(0);
 				}
 				if (e.getSource() == zoomOut) {
-					zoom(1);
+					frame.panelCOM.zoom(1);
 				}
 				if (e.getSource() == zoomReset) {
-					zoom(2);
+					frame.panelCOM.zoom(2);
 				}
 				if (e.getSource() == saveImage) {
 					if (imageChooser.showSaveDialog(main) == JFileChooser.APPROVE_OPTION) {
@@ -418,57 +417,35 @@ public class MyMenuBar extends JMenuBar {
 		frame.updateFields();
 	}
 
-	/**
-	 * Increase/decrease scale of display.
-	 * 
-	 * @param option
-	 *            0 : zoom in<br>
-	 *            1 : zoom out<br>
-	 *            2 : reset
-	 */
-	public void zoom(int option) {
-		COMPanel panel = frame.panelCOM;
-		if (option == 0) {
-			if (panel.scale - 0.01d <= 0) {
-				if (panel.scale - 0.002d <= 0) {
-					JOptionPane.showMessageDialog(frame, "Max zoom reached");
-					return;// No zoom;
-				}
-				panel.scale -= 0.002d;// Smaller zoom;
-			} else {
-				panel.scale -= 0.01d;// Standard zoom;
-			}
-		} else if (option == 1) {
-			if (panel.scale + 0.002d >= 0.5d) {
-				JOptionPane.showMessageDialog(frame, "Max zoom reached");
-				return;// No zoom;
-			}
-			panel.scale += 0.02d;
-		} else if (option == 2) {
-			panel.scale = 0.05d;
-		}
-		panel.repaint();
-	}
-
 	private void saveNotes() {
 		JTextArea textArea = frame.topicDesc;
 		String path = "";
 
 		if (frame.topic.equals("Circles")) {
-			path = "m2diagramDrawer/notes/circlesNotes";
+			path = "m2/notes/circlesNotes.txt";
 		}
 		if (frame.topic.equals("Center")) {
-			path = "m2diagramDrawer/notes/comNotes";
+			path = "m2/notes/comNotes.txt";
 		}
 		if (frame.topic.equals("Collisions")) {
-			path = "m2diagramDrawer/notes/collisionNotes";
+			path = "m2/notes/collisionNotes.txt";
 		}
 		if (frame.topic.equals("Projectiles")) {
-			path = "m2diagramDrawer/notes/projectileNotes";
+			path = "m2/notes/projectileNotes.txt";
 		}
+		File file = new File(path);
+		if (!file.exists()) {
+			try {
+				file.getParentFile().mkdirs();
+				file.createNewFile();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+
 		Writer writer = null;
 		try {
-			FileOutputStream fout = new FileOutputStream(path);
+			FileOutputStream fout = new FileOutputStream(file, false);
 			writer = new BufferedWriter(new OutputStreamWriter(fout));
 			writer.write(textArea.getText());
 			JOptionPane.showMessageDialog(null, "Notes saved");
