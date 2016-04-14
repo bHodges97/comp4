@@ -112,7 +112,7 @@ public class ColDiagram extends JPanel {
 			g2d.drawString("e = " + e.contents, lx, ly);
 		}
 
-		String label = new String(a[1].isKnown() ? a[1].label : a[1].contents);
+		String label = new String(a[1].isUnknown() ? a[1].label : a[1].contents);
 		g2d.drawString(label + " kg", (int) (lx - lx * 0.5), (int) (ly * 1.18));
 		g2d.drawString(a[0].contents, (int) (lx - lx * 0.55), (int) (ly));
 
@@ -130,7 +130,7 @@ public class ColDiagram extends JPanel {
 				g2d.drawLine(tx, ty, (int) (tx + ly * 0.04 * 0.6), (int) (ty + ly * 0.04 * 0.6));
 
 			} else {
-				if (a[2].isKnown()) {
+				if (a[2].isUnknown()) {
 					label = new String(a[2].label);
 
 				} else {
@@ -153,7 +153,7 @@ public class ColDiagram extends JPanel {
 		// DRAWING B
 
 		g2d.drawString(b[0].contents, (int) (lx * 1.4), (int) (ly));
-		label = new String(b[1].isKnown() ? b[1].label : b[1].contents);
+		label = new String(b[1].isUnknown() ? b[1].label : b[1].contents);
 		g2d.drawString(label + " kg", (int) (lx * 1.45), (int) (ly * 1.18));
 
 		if (!b[2].isZero()) {
@@ -171,7 +171,7 @@ public class ColDiagram extends JPanel {
 				g2d.drawLine(tx, ty, (int) (tx + ly * 0.04 * 0.6), (int) (ty + ly * 0.04 * 0.6));
 
 			} else {
-				if (b[2].isKnown()) {
+				if (b[2].isUnknown()) {
 					label = new String(b[2].label);
 
 				} else {
@@ -217,7 +217,7 @@ public class ColDiagram extends JPanel {
 
 		// Draw name rather than contents if unknown! Using String constructor
 		// to avoid changing original variable.
-		label = new String(a[1].isKnown() ? a[1].label : a[1].contents);
+		label = new String(a[1].isUnknown() ? a[1].label : a[1].contents);
 		g2d.drawString(label + " kg", (int) (lx - lx * 0.5 + c), (int) (ly * 1.18));
 		g2d.drawString(a[0].contents, (int) (lx - lx * 0.55 + c), (int) (ly));
 
@@ -235,7 +235,7 @@ public class ColDiagram extends JPanel {
 				g2d.drawLine(tx, ty, (int) (tx + ly * 0.04 * 0.6), (int) (ty + ly * 0.04 * 0.6));
 
 			} else {
-				if (a[3].isKnown()) {
+				if (a[3].isUnknown()) {
 					label = new String(a[3].label);
 
 				} else {
@@ -258,7 +258,7 @@ public class ColDiagram extends JPanel {
 		// DRAWING B
 
 		g2d.drawString(b[0].contents, (int) (lx * 1.4 + c), (int) (ly));
-		label = new String(b[1].isKnown() ? b[1].label : b[1].contents);
+		label = new String(b[1].isUnknown() ? b[1].label : b[1].contents);
 		g2d.drawString(label + " kg", (int) (lx * 1.45 + c), (int) (ly * 1.18));
 
 		if (!b[3].isZero()) {
@@ -276,7 +276,7 @@ public class ColDiagram extends JPanel {
 				g2d.drawLine(tx, ty, (int) (tx + ly * 0.04 * 0.6), (int) (ty + ly * 0.04 * 0.6));
 
 			} else {
-				if (b[3].isKnown()) {
+				if (b[3].isUnknown()) {
 					label = new String(b[3].label);
 
 				} else {

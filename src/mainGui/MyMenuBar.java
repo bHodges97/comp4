@@ -301,7 +301,7 @@ public class MyMenuBar extends JMenuBar {
 				return;
 			}
 
-			if (!circVarB[0].isKnown() && circVars[5].isKnown()) {
+			if (!circVarB[0].isUnknown() && circVars[5].isUnknown()) {
 				circVars[5].setContents(circVarB[0].contents, false);
 			}
 			System.out.println("Started");
@@ -324,7 +324,7 @@ public class MyMenuBar extends JMenuBar {
 			if (confirm == JOptionPane.CANCEL_OPTION || confirm == JOptionPane.CLOSED_OPTION) {
 				return;
 			}
-			if (!projVars[9].isKnown() && !projVars[8].isKnown()) {
+			if (!projVars[9].isUnknown() && !projVars[8].isUnknown()) {
 				projVars[0].setContents(
 						"" + Math.atan(projVars[9].getVal() / projVars[8].getVal()), false);
 			}
@@ -355,46 +355,46 @@ public class MyMenuBar extends JMenuBar {
 				double c = e.getVal();// c since e is used.
 
 				// mass 1
-				if (!a[1].isKnown()
-						&& (b[1].isKnown() && b[2].isKnown() && b[3].isKnown() && a[3].isKnown() && a[2]
-								.isKnown())) {
+				if (!a[1].isUnknown()
+						&& (b[1].isUnknown() && b[2].isUnknown() && b[3].isUnknown() && a[3].isUnknown() && a[2]
+								.isUnknown())) {
 					a[1].setContents("" + (m2 * (v2 - u2) / (u1 - v1)), false);
 				}
 				// mass 2
-				if (!b[1].isKnown()
-						&& (a[1].isKnown() && a[2].isKnown() && a[3].isKnown() && b[3].isKnown() && b[2]
-								.isKnown())) {
+				if (!b[1].isUnknown()
+						&& (a[1].isUnknown() && a[2].isUnknown() && a[3].isUnknown() && b[3].isUnknown() && b[2]
+								.isUnknown())) {
 					b[1].setContents("" + (m1 * (u1 - v1) / (v2 - u2)), false);
 				}
 				// e
-				if (!e.isKnown()
-						&& (a[2].isKnown() && a[3].isKnown() && b[2].isKnown() && b[3].isKnown())) {
+				if (!e.isUnknown()
+						&& (a[2].isUnknown() && a[3].isUnknown() && b[2].isUnknown() && b[3].isUnknown())) {
 					e.setContents("" + ((v2 - v1) / (u1 - u2)), false);
 					break;// Exit loop as all var must be known by now.
 				}
 				// v1
-				if (!a[2].isKnown() && a[2].isKnown() && b[3].isKnown() && b[3].isKnown()) {
+				if (!a[2].isUnknown() && a[2].isUnknown() && b[3].isUnknown() && b[3].isUnknown()) {
 					a[2].setContents("" + (u1 + (m2 * u2 - m2 * v2) / m1), false);
 				}
 				// v2
-				if (!b[2].isKnown() && a[2].isKnown() && b[3].isKnown() && a[3].isKnown()) {
+				if (!b[2].isUnknown() && a[2].isUnknown() && b[3].isUnknown() && a[3].isUnknown()) {
 					b[2].setContents("" + (u2 - (m1 * u1 - m1 * v1) / m2), false);
 				}
 				// u1
-				if (!a[3].isKnown() && a[2].isKnown() && b[2].isKnown() && b[3].isKnown()) {
+				if (!a[3].isUnknown() && a[2].isUnknown() && b[2].isUnknown() && b[3].isUnknown()) {
 					a[3].setContents("" + (v1 + (m2 * v2 - m2 * u2) / m1), false);
 				}
 				// u2
-				if (!b[3].isKnown() && a[2].isKnown() && b[2].isKnown() && a[3].isKnown()) {
+				if (!b[3].isUnknown() && a[2].isUnknown() && b[2].isUnknown() && a[3].isUnknown()) {
 					b[3].setContents("" + v2 + (m1 * v1 - m1 * u1) / m2, false);
 				}
 				// v1 && v2
-				if (!b[2].isKnown() && !a[2].isKnown() && b[3].isKnown() && a[3].isKnown()) {
+				if (!b[2].isUnknown() && !a[2].isUnknown() && b[3].isUnknown() && a[3].isUnknown()) {
 					a[2].setContents("" + (u1 + (m2 * u2 - m2 * (c * (u1 - u2) + v1)) / m1), false);
 					b[2].setContents("" + (u2 - (m1 * u1 - m1 * v1) / m2), false);
 				}
 				// u1 && u2
-				if (!b[3].isKnown() && !a[3].isKnown() && b[2].isKnown() && a[2].isKnown()) {
+				if (!b[3].isUnknown() && !a[3].isUnknown() && b[2].isUnknown() && a[2].isUnknown()) {
 					b[3].setContents(
 							""
 									+ ((m1 * v1 / m2 - m1 / m2 * ((v2 - v1) / c) + u2 / m2 + v2) / (1 - 1 / m2)),

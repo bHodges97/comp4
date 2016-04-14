@@ -119,7 +119,7 @@ public class Definition {
 	public void resolve() {
 
 		String holder = "0";
-		if (!vars[0].isKnown()) {
+		if (!vars[0].isUnknown()) {
 			return;
 		}
 		for (int i = 0; i < terms.length; i++) {
@@ -127,7 +127,7 @@ public class Definition {
 				for (Var v : vars) {
 
 					if (v.name.equals(terms[i])) {
-						if (v.isKnown()) {
+						if (v.isUnknown()) {
 							return;
 						}
 						terms[i] = new String(v.contents);
@@ -140,7 +140,7 @@ public class Definition {
 				for (Var v : vars) {
 					if (v.name.equals(terms[i].substring(
 							terms[i].indexOf("(") + 1, terms[i].length() - 1))) {
-						if (v.isKnown()) {
+						if (v.isUnknown()) {
 							return;
 						}
 						terms[i] = terms[i].substring(0,

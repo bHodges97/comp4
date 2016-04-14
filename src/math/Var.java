@@ -36,7 +36,7 @@ public class Var implements java.io.Serializable {
 		given = true;
 	}
 
-	public boolean isKnown() {
+	public boolean isUnknown() {
 		return contents.equals("?");
 	}
 
