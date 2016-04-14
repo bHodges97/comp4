@@ -56,7 +56,7 @@ public class Frame extends JFrame {
 	Border border = BorderFactory.createEtchedBorder(1);
 	JTextArea topicDesc;
 
-	// collision	
+	// collision
 	/**
 	 * 0 a <br>
 	 * 1 m1 <br>
@@ -102,7 +102,7 @@ public class Frame extends JFrame {
 	public COMPanel panelCOM;
 	public COMPanelSouth sideSouth;
 
-	// projectile	
+	// projectile
 	/**
 	 * 0 a theta<br>
 	 * 1 v v<br>
@@ -161,8 +161,7 @@ public class Frame extends JFrame {
 				};
 				update.start();
 				// print time taken to start
-				System.out.println("GUI initialised in " + (System.currentTimeMillis() - timer)
-						+ " milliseconds");
+				System.out.println("GUI initialised in " + (System.currentTimeMillis() - timer) + " milliseconds");
 			}
 		});
 	}
@@ -228,8 +227,8 @@ public class Frame extends JFrame {
 		c.gridx++;
 		panelDiagram.add(circVertical);
 
-		c = new GridBagConstraints(0, 0, 1, 1, 1, 0, GridBagConstraints.FIRST_LINE_START,
-				GridBagConstraints.HORIZONTAL, new Insets(2, 2, 2, 2), 0, 0);
+		c = new GridBagConstraints(0, 0, 1, 1, 1, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.HORIZONTAL,
+				new Insets(2, 2, 2, 2), 0, 0);
 
 		// Column 1;
 		panelFields.add(Explanation, c);
@@ -269,7 +268,7 @@ public class Frame extends JFrame {
 		c.gridy++;
 		panelFields.add(circText[7], c);
 
-		// Layout panelSouthN;		
+		// Layout panelSouthN;
 		// row 1
 		c.gridy = 0;
 		c.gridx = 0;
@@ -312,7 +311,7 @@ public class Frame extends JFrame {
 	}
 
 	void initProjectiles() {
-		//initialise variables
+		// initialise variables
 		projVars = Var.initVars(projVars, "projVars");
 		projDiagram = new ProjDiagram(projVars);
 		JPanel sidePanel = new JPanel(new BorderLayout(0, 0));
@@ -324,15 +323,14 @@ public class Frame extends JFrame {
 			projText[i] = new JTextField("?", 9);
 		}
 
-		//Set borders
+		// Set borders
 		southPanel.setBorder(border);
 		projDiagram.setBorder(border);
-		before.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(),
-				"Initial conditions"));
-		after.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(),
-				"When object hits someting"));
+		before.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), "Initial conditions"));
+		after.setBorder(
+				BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), "When object hits someting"));
 
-		//Add components to pane
+		// Add components to pane
 		sidePanel.add(createNotesPanel(), BorderLayout.NORTH);
 		sidePanel.add(new JScrollPane(southPanel), BorderLayout.CENTER);
 		add(projDiagram, BorderLayout.CENTER);
@@ -343,8 +341,8 @@ public class Frame extends JFrame {
 
 		GridBagConstraints c = new GridBagConstraints(0, 0, 1, 1, 1, 0, GridBagConstraints.WEST,
 				GridBagConstraints.HORIZONTAL, new Insets(2, 2, 2, 2), 0, 0);
-		//Layout out before panel
-		//column 1
+		// Layout out before panel
+		// column 1
 		before.add(new JLabel("Height:"), c);
 		c.gridy++;
 		before.add(new JLabel("Angle(radians)"), c);
@@ -354,7 +352,7 @@ public class Frame extends JFrame {
 		before.add(new JLabel("Velocity(x component):"), c);
 		c.gridy++;
 		before.add(new JLabel("Velocity(y component):"), c);
-		//column 2;
+		// column 2;
 		c.gridx = 1;
 		c.gridy = 0;
 		before.add(projText[4], c);
@@ -367,8 +365,8 @@ public class Frame extends JFrame {
 		c.gridy++;
 		before.add(projText[9], c);
 
-		//layout panel after
-		//column 1
+		// layout panel after
+		// column 1
 		c.gridx = 0;
 		c.gridy = 0;
 		after.add(new JLabel("Time:"), c);
@@ -382,7 +380,7 @@ public class Frame extends JFrame {
 		after.add(new JLabel("X position:"), c);
 		c.gridy++;
 		after.add(new JLabel("Y position:"), c);
-		//column 2
+		// column 2
 		c.gridx = 1;
 		c.gridy = 0;
 		after.add(projText[6], c);
@@ -397,7 +395,7 @@ public class Frame extends JFrame {
 		c.gridy++;
 		after.add(projText[12], c);
 
-		//layout panel others
+		// layout panel others
 		c.gridx = 0;
 		c.gridy = 0;
 		others.add(new JLabel("Name:          "), c);
@@ -560,10 +558,9 @@ public class Frame extends JFrame {
 			}
 		}
 		topicDesc.setText("\nEquation of trajectory:\n •y = x*tan(θ)-g*x^2/(2*v^2*cos^2(θ))\n");
-		topicDesc
-				.append("Acceleration:\n •Constant acceleration of 9.8 ms^-2 downwards.\n •No horizontal acceleration, horizontal velocity is constant.\n");
-		topicDesc
-				.append("Velocity\n •Velocity in x direction is V*cos(θ) \n •Velocity in y direction is V*sin(θ).\n");
+		topicDesc.append(
+				"Acceleration:\n •Constant acceleration of 9.8 ms^-2 downwards.\n •No horizontal acceleration, horizontal velocity is constant.\n");
+		topicDesc.append("Velocity\n •Velocity in x direction is V*cos(θ) \n •Velocity in y direction is V*sin(θ).\n");
 
 		JTextField topicTitle = new JTextField(getTitle() + " notes");
 		topicTitle.setEditable(false);
@@ -590,10 +587,8 @@ public class Frame extends JFrame {
 			double x = 0;
 			double y = 0;
 			for (int i = 0; i < circTextA.size(); i++) {
-				x += Double.parseDouble(circTextA.get(i))
-						* Math.cos(Double.parseDouble(circTextB.get(i)));
-				y += Double.parseDouble(circTextA.get(i))
-						* Math.sin(Double.parseDouble(circTextB.get(i)));
+				x += Double.parseDouble(circTextA.get(i)) * Math.cos(Double.parseDouble(circTextB.get(i)));
+				y += Double.parseDouble(circTextA.get(i)) * Math.sin(Double.parseDouble(circTextB.get(i)));
 				System.out.println(x);
 			}
 			circX.setText(circVarB[0].contents);

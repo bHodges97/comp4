@@ -22,13 +22,10 @@ public class Solver {
 
 	/**
 	 * Attempts to solve a variable based on known.
-	 * 
 	 */
 	public void solve() {
 
-		/*
-		 * Sets the references.
-		 */
+		// Sets the references.
 		for (Definition c : defs) {
 			for (Var var : c.vars) {
 				for (Var v : vars) {
@@ -37,17 +34,14 @@ public class Solver {
 			}
 		}
 
-		/*
-		 * Links the variables Iterates through each def
-		 */
+		// Links the variables Iterates through each def
 		// Iterates through defs.
 		for (int i = 0; i < defs.length; i++) {
-			/*
-			 * iterate through each var
-			 */
+
+			// iterate through each var
+
 			for (int w = 0; w < defs[i].vars.length; w++) {
 				for (int x = 0; x < vars.length; x++) {
-					String wammu = defs[i].vars[w].name;
 					if (defs[i].vars[w].name.equals(vars[x].name)) {
 						defs[i].vars[w] = vars[x];
 					}
@@ -56,30 +50,18 @@ public class Solver {
 		}
 
 		long t = System.currentTimeMillis();
-		while (true)
-
-		{
-			/*
-			 * limit time spent on operation as the problem could be unsolvable.
-			 */
+		while (true) {
+			// limit time spent on operation as the problem could be unsolvable.
 			if (System.currentTimeMillis() - t > 500) {
 				System.out.println("Maximum time reached");
 				break;
 			}
-
-			/*
-			 * Fills in ? variables
-			 */
+			// fills in vars
 			for (Definition c : defs) {
 				c.resolve();
 			}
-
 		}
-		for (
-
-		Definition c : defs)
-
-		{
+		for (Definition c : defs) {
 			c.clearRef();
 		}
 	}

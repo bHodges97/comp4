@@ -3,6 +3,8 @@ package math;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.JOptionPane;
+
 /**
  * 
  */
@@ -22,15 +24,8 @@ public class Definition {
 		if (!in.contains("=")) {
 			throw new IllegalArgumentException("Illegal Argument: Missing \"=\"");
 		}
-		/*
-		 * Removed to support math functions.
-		 * 
-		 * if(in.contains("(") || in.contains(")")) throw new
-		 * IllegalArgumentException("Illegal Argument: Contains brackets");
-		 */
-
-		if (in.contains("%") || in.contains("|") || in.contains("⋅") || in.contains("×")
-				|| in.contains("±") || in.contains("∓") || in.contains("÷") || in.contains("√")) {
+		if (in.contains("%") || in.contains("|") || in.contains("⋅") || in.contains("×") || in.contains("±")
+				|| in.contains("∓") || in.contains("÷") || in.contains("√")) {
 			throw new IllegalArgumentException("Illegal Argument: Illegal operators");
 		}
 		String[] parts = in.split("=", 2);
@@ -44,45 +39,19 @@ public class Definition {
 		 */
 		method = parts[1];
 		if (method.contains("=")) {
-			throw new IllegalArgumentException(
-					"Illegal Argument: Definition contains too many \"=\"");
+			throw new IllegalArgumentException("Illegal Argument: Definition contains too many \"=\"");
 		}
-
-		/*
-		 * // Remove while (true) { if (method.contains("(")) {
-		 * 
-		 * if (Character.isLetter(method.charAt(method.indexOf("(") - 1))) {
-		 * char[] temp = method.toCharArray(); temp[method.indexOf("(")] = '<';
-		 * temp[method.indexOf("(")] = '>'; method = temp.toString(); } if
-		 * (method.contains("(")) { String temp =
-		 * method.substring(method.indexOf("("), method.indexOf(")")); String[]
-		 * tempTerms = temp .split("((?<=[+*^/-])|(?=[+*^/-]))"); if
-		 * (!MathUtil.isNumeric(tempTerms[0])) { tempList.add(new Var(new
-		 * String(terms[0]), "?", "", false)); } String tempSolved =
-		 * MathUtil.evaluate(tempTerms[0], tempTerms[1], tempTerms[2]);
-		 * method.replace(temp, tempSolved); }
-		 * 
-		 * } else { break; } }
-		 */
-
 		terms = method.split("((?<=[+*^/-])|(?=[+*^/-]))");
 
 		/*
 		 * Creates list of variables used in definition.
 		 */
-		int counter = 0;
-		for (String s : terms) {
-			if (!MathUtil.isNumeric(s)) {
-				counter++;
-			}
-		}
 		List<Var> tempList = new ArrayList<Var>();
 		tempList.add(new Var(name, "?", ""));
 		for (int i = 0; i < terms.length; i += 2) {
 			if (!MathUtil.isNumeric(terms[i])) {
 				if (terms[i].contains("(")) {
-					String contents = terms[i].substring(terms[i].indexOf("(") + 1,
-							terms[i].length() - 1);
+					String contents = terms[i].substring(terms[i].indexOf("(") + 1, terms[i].length() - 1);
 					if (!MathUtil.isNumeric(contents)) {
 						tempList.add(new Var(new String(contents), "?", ""));
 					}
@@ -93,7 +62,7 @@ public class Definition {
 			}
 		}
 		vars = new Var[tempList.size()];
-		for (int i = 0; i < tempList.size() - 1; i++) {
+		for (int i = 0; i < tempList.size(); i++) {
 			vars[i] = tempList.get(i);
 		}
 	}
@@ -133,13 +102,11 @@ public class Definition {
 				}
 			} else {
 				for (Var v : vars) {
-					if (v.name.equals(terms[i].substring(terms[i].indexOf("(") + 1,
-							terms[i].length() - 1))) {
+					if (v.name.equals(terms[i].substring(terms[i].indexOf("(") + 1, terms[i].length() - 1))) {
 						if (v.isUnknown()) {
 							return;
 						}
-						terms[i] = terms[i].substring(0, terms[i].indexOf("(") + 1)
-								+ new String(v.contents) + ")";
+						terms[i] = terms[i].substring(0, terms[i].indexOf("(") + 1) + new String(v.contents) + ")";
 					}
 				}
 			}
@@ -154,5 +121,8 @@ public class Definition {
 			holder = terms[0];
 		}
 		vars[0].contents = new String(holder);
+		if (vars[0].given && MathUtil.isEqual(vars[0].contents, holder)) {
+			JOptionPane.showMessageDialog(null, "oijdsajds");
+		}
 	}
 }

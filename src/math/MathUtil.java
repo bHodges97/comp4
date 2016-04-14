@@ -1,9 +1,17 @@
 package math;
 
+import static java.lang.Math.PI;
+import static java.lang.Math.abs;
+import static java.lang.Math.atan;
+import static java.lang.Math.cos;
+import static java.lang.Math.pow;
+import static java.lang.Math.sin;
+import static java.lang.Math.sqrt;
+import static java.lang.Math.tan;
+
 import java.awt.Graphics2D;
 import java.text.DecimalFormatSymbols;
 import java.util.ArrayList;
-import static java.lang.Math.*;
 
 public class MathUtil {
 	/**
@@ -240,10 +248,8 @@ public class MathUtil {
 			}
 		}
 
-		g2d.drawLine(x2, y2, (int) (x2 - size * cos(PI / 6 - theta)), (int) (y2 - size
-				* sin(PI / 6 - theta)));
-		g2d.drawLine(x2, y2, (int) (x2 - size * cos(-PI / 6 - theta)), (int) (y2 - size
-				* sin(-PI / 6 - theta)));
+		g2d.drawLine(x2, y2, (int) (x2 - size * cos(PI / 6 - theta)), (int) (y2 - size * sin(PI / 6 - theta)));
+		g2d.drawLine(x2, y2, (int) (x2 - size * cos(-PI / 6 - theta)), (int) (y2 - size * sin(-PI / 6 - theta)));
 
 	}
 
@@ -262,5 +268,11 @@ public class MathUtil {
 			return true;
 		} else
 			return false;
+	}
+
+	public static boolean isEqual(String a, String b) {
+		double num1 = Double.parseDouble(a);
+		double num2 = Double.parseDouble(b);
+		return abs(num1 - num2) < 0.001 ? true : false;
 	}
 }
