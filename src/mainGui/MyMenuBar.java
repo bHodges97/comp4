@@ -301,7 +301,7 @@ public class MyMenuBar extends JMenuBar {
 				return;
 			}
 
-			if (circVarB[0].isKnown() && !circVars[5].isKnown()) {
+			if (!circVarB[0].isKnown() && circVars[5].isKnown()) {
 				circVars[5].setContents(circVarB[0].contents, false);
 			}
 			System.out.println("Started");
@@ -324,7 +324,7 @@ public class MyMenuBar extends JMenuBar {
 			if (confirm == JOptionPane.CANCEL_OPTION || confirm == JOptionPane.CLOSED_OPTION) {
 				return;
 			}
-			if (projVars[9].isKnown() && projVars[8].isKnown()) {
+			if (!projVars[9].isKnown() && !projVars[8].isKnown()) {
 				projVars[0].setContents(
 						"" + Math.atan(projVars[9].getVal() / projVars[8].getVal()), false);
 			}

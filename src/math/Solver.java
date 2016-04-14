@@ -65,12 +65,20 @@ public class Solver {
 				System.out.println("Maximum time reached");
 				break;
 			}
+
+			/*
+			 * Fills in ? variables
+			 */
 			for (Definition c : defs) {
 				c.resolve();
 			}
 
 		}
-		for (Definition c : defs) {
+		for (
+
+		Definition c : defs)
+
+		{
 			c.clearRef();
 		}
 	}
