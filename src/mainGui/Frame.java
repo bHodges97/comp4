@@ -396,7 +396,6 @@ public class Frame extends JFrame {
 		after.add(projText[10], c);
 		c.gridy++;
 		after.add(projText[12], c);
-
 		//layout panel others
 		c.gridx = 0;
 		c.gridy = 0;
@@ -407,7 +406,7 @@ public class Frame extends JFrame {
 		c.gridy = 1;
 		others.add(new JLabel("Max distance:                "), c);
 		c.gridx = 1;
-		others.add(projText[6], c);
+		others.add(projText[5], c);
 
 		// addListeners
 		ListenerAdder adder = new ListenerAdder(this);
