@@ -20,8 +20,7 @@ public class Definition {
 		in = in.toLowerCase();
 		in = in.replace(" ", "");
 		if (!in.contains("=")) {
-			throw new IllegalArgumentException(
-					"Illegal Argument: Missing \"=\"");
+			throw new IllegalArgumentException("Illegal Argument: Missing \"=\"");
 		}
 		/*
 		 * Removed to support math functions.
@@ -30,18 +29,14 @@ public class Definition {
 		 * IllegalArgumentException("Illegal Argument: Contains brackets");
 		 */
 
-		if (in.contains("%") || in.contains("|") || in.contains("⋅")
-				|| in.contains("×") || in.contains("±") || in.contains("∓")
-				|| in.contains("÷") || in.contains("√")) {
-			throw new IllegalArgumentException(
-					"Illegal Argument: Illegal operators");
+		if (in.contains("%") || in.contains("|") || in.contains("⋅") || in.contains("×")
+				|| in.contains("±") || in.contains("∓") || in.contains("÷") || in.contains("√")) {
+			throw new IllegalArgumentException("Illegal Argument: Illegal operators");
 		}
 		String[] parts = in.split("=", 2);
 		name = parts[0];
-		if (name.contains("*") || name.contains("/") || name.contains("+")
-				|| name.contains("-")) {
-			throw new IllegalArgumentException(
-					"Illegal Argument: Variable contains operators");
+		if (name.contains("*") || name.contains("/") || name.contains("+") || name.contains("-")) {
+			throw new IllegalArgumentException("Illegal Argument: Variable contains operators");
 		}
 
 		/*
@@ -86,8 +81,8 @@ public class Definition {
 		for (int i = 0; i < terms.length; i += 2) {
 			if (!MathUtil.isNumeric(terms[i])) {
 				if (terms[i].contains("(")) {
-					String contents = terms[i].substring(
-							terms[i].indexOf("(") + 1, terms[i].length() - 1);
+					String contents = terms[i].substring(terms[i].indexOf("(") + 1,
+							terms[i].length() - 1);
 					if (!MathUtil.isNumeric(contents)) {
 						tempList.add(new Var(new String(contents), "?", ""));
 					}
@@ -98,7 +93,7 @@ public class Definition {
 			}
 		}
 		vars = new Var[tempList.size()];
-		for (int i = 0; i < tempList.size(); i++) {
+		for (int i = 0; i < tempList.size() - 1; i++) {
 			vars[i] = tempList.get(i);
 		}
 	}
@@ -138,13 +133,12 @@ public class Definition {
 				}
 			} else {
 				for (Var v : vars) {
-					if (v.name.equals(terms[i].substring(
-							terms[i].indexOf("(") + 1, terms[i].length() - 1))) {
+					if (v.name.equals(terms[i].substring(terms[i].indexOf("(") + 1,
+							terms[i].length() - 1))) {
 						if (v.isUnknown()) {
 							return;
 						}
-						terms[i] = terms[i].substring(0,
-								terms[i].indexOf("(") + 1)
+						terms[i] = terms[i].substring(0, terms[i].indexOf("(") + 1)
 								+ new String(v.contents) + ")";
 					}
 				}

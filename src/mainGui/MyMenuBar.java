@@ -305,7 +305,7 @@ public class MyMenuBar extends JMenuBar {
 				circVars[5].setContents(circVarB[0].contents, false);
 			}
 			System.out.println("Started");
-			Definition[] defs = new Definition[10];
+			Definition[] defs = new Definition[9];
 			defs[0] = new Definition("v=r*w");
 			defs[1] = new Definition("w=v/r");
 			defs[2] = new Definition("f=m*a");
@@ -356,19 +356,20 @@ public class MyMenuBar extends JMenuBar {
 
 				// mass 1
 				if (!a[1].isUnknown()
-						&& (b[1].isUnknown() && b[2].isUnknown() && b[3].isUnknown() && a[3].isUnknown() && a[2]
-								.isUnknown())) {
+						&& (b[1].isUnknown() && b[2].isUnknown() && b[3].isUnknown()
+								&& a[3].isUnknown() && a[2].isUnknown())) {
 					a[1].setContents("" + (m2 * (v2 - u2) / (u1 - v1)), false);
 				}
 				// mass 2
 				if (!b[1].isUnknown()
-						&& (a[1].isUnknown() && a[2].isUnknown() && a[3].isUnknown() && b[3].isUnknown() && b[2]
-								.isUnknown())) {
+						&& (a[1].isUnknown() && a[2].isUnknown() && a[3].isUnknown()
+								&& b[3].isUnknown() && b[2].isUnknown())) {
 					b[1].setContents("" + (m1 * (u1 - v1) / (v2 - u2)), false);
 				}
 				// e
 				if (!e.isUnknown()
-						&& (a[2].isUnknown() && a[3].isUnknown() && b[2].isUnknown() && b[3].isUnknown())) {
+						&& (a[2].isUnknown() && a[3].isUnknown() && b[2].isUnknown() && b[3]
+								.isUnknown())) {
 					e.setContents("" + ((v2 - v1) / (u1 - u2)), false);
 					break;// Exit loop as all var must be known by now.
 				}

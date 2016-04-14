@@ -102,6 +102,9 @@ public class Var implements java.io.Serializable {
 		}
 
 		return vars;
+	}
 
+	public String toString() {
+		return name + " " + contents + " " + label + " " + given;
 	}
 }

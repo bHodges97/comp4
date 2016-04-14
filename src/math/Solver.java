@@ -47,6 +47,7 @@ public class Solver {
 			 */
 			for (int w = 0; w < defs[i].vars.length; w++) {
 				for (int x = 0; x < vars.length; x++) {
+					String wammu = defs[i].vars[w].name;
 					if (defs[i].vars[w].name.equals(vars[x].name)) {
 						defs[i].vars[w] = vars[x];
 					}
