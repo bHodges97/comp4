@@ -515,7 +515,7 @@ public class Frame extends JFrame {
 		String path = "";
 		BufferedReader br = null;
 		InputStream input = null;
-		topicDesc = new JTextArea(null, "Missing notes file", 15, 26);
+		topicDesc = new JTextArea(null, "", 15, 26);
 		topicDesc.setLineWrap(true);
 
 		if (topic.equals("Circles")) {
