@@ -1,10 +1,18 @@
 package math;
 
+/**
+ * Var is a class used to represent variables for used in calculations.
+ * 
+ */
 public class Var implements java.io.Serializable {
 	public String contents;
 	public String name;
 	public String label;
 	public boolean given;
+	public final static int CIRC_VARS = 0;
+	public final static int COL_VAR_A = 1;
+	public final static int COL_VAR_B = 2;
+	public final static int PROJ_VARS = 3;
 
 	/**
 	 * Constructs a variable
@@ -12,8 +20,8 @@ public class Var implements java.io.Serializable {
 	 * @param n
 	 *            The name of the variable.
 	 * @param c
-	 *            The numerical value of the variable. Set to "?" if variable
-	 *            content is not yet known.
+	 *            The numerical value of the variable. <br>
+	 *            Set to "?" if variable content is unknown..
 	 * @param label
 	 *            Displayed name of variable;
 	 */
@@ -24,6 +32,12 @@ public class Var implements java.io.Serializable {
 		given = false;
 	}
 
+	/**
+	 * Gets the value of a variable. If variable is unkown returns
+	 * <b>Double.MAX_VALUE</b>
+	 * 
+	 * @return <b>Double</b> representing variable of variable.
+	 */
 	public double getVal() {
 		if (contents.equals("?")) {
 			return Double.MAX_VALUE;
@@ -31,15 +45,33 @@ public class Var implements java.io.Serializable {
 		return Double.parseDouble(contents);
 	}
 
-	public void setContents(String in, boolean given) {
-		contents = new String(in);
-		given = true;
+	/**
+	 * Sets the contents.
+	 * 
+	 * @param contents
+	 *            The new contents of the variable.
+	 * @param given
+	 *            <true> if contents is inputed by user.
+	 */
+	public void setContents(String contents, boolean given) {
+		this.contents = new String(contents);
+		this.given = given;
 	}
 
+	/**
+	 * Checks if contents is unkown.
+	 * 
+	 * @return <b>true</b> if contents is unkown
+	 */
 	public boolean isUnknown() {
 		return contents.equals("?");
 	}
 
+	/**
+	 * Checks if contents is approximately zero.
+	 * 
+	 * @return <b>true</b> if contents is approximately zero.
+	 */
 	public boolean isZero() {
 		if (contents.equals("0")) {
 			return true;
@@ -52,15 +84,23 @@ public class Var implements java.io.Serializable {
 		return false;
 	}
 
-	public Var copy() {
-		Var out = new Var(new String(name), new String(contents), new String(label));
-		out.given = given;
-		return out;
-	}
-
-	public static Var[] initVars(Var[] vars, String type) {
-
-		if (type.equals("circVars")) {
+	/**
+	 * Creates a list of variables.
+	 * 
+	 * @param type
+	 *            an integer specifying the justification of the title -- one of
+	 *            the following:<br>
+	 *            •Var.CIRC_VARS <br>
+	 *            •Var.COL_VAR_A<br>
+	 *            •Var.COL_VAR_B <br>
+	 *            •Var.PROJ_VARS <br>
+	 * 
+	 * @return the <b>Var[]</b> object
+	 * 
+	 */
+	public static Var[] createVars(int type) {
+		Var[] vars = null;
+		if (type == CIRC_VARS) {
 			vars = new Var[8];
 			vars[0] = new Var("w", "?", "w");
 			vars[1] = new Var("m", "?", "m");
@@ -70,7 +110,7 @@ public class Var implements java.io.Serializable {
 			vars[5] = new Var("r", "?", "r");
 			vars[6] = new Var("a", "?", "a");
 			vars[7] = new Var("t", "?", "t");
-		} else if (type.equals("projVars")) {
+		} else if (type == PROJ_VARS) {
 			vars = new Var[13];
 			vars[0] = new Var("a", "?", "θ");
 			vars[1] = new Var("v", "?", "V");
@@ -85,14 +125,14 @@ public class Var implements java.io.Serializable {
 			vars[10] = new Var("x", "?", "x");
 			vars[11] = new Var("", "A", "A");
 			vars[12] = new Var("y", "?", "y");
-		} else if (type.equals("colVarA")) {
+		} else if (type == COL_VAR_A) {
 			vars = new Var[5];
 			vars[0] = new Var("a", "A", "1");
 			vars[1] = new Var("m1", "?", "M1");
 			vars[2] = new Var("v1", "?", "V1");
 			vars[3] = new Var("u1", "?", "U1");
 			vars[4] = new Var("i1", "?", "i1");
-		} else if (type.equals("colVarB")) {
+		} else if (type == COL_VAR_B) {
 			vars = new Var[5];
 			vars[0] = new Var("b", "B", "2");
 			vars[1] = new Var("m2", "?", "M2");
@@ -104,6 +144,11 @@ public class Var implements java.io.Serializable {
 		return vars;
 	}
 
+	/**
+	 * Returns a string representation of the object
+	 * 
+	 * @return a string representation of the object.
+	 */
 	public String toString() {
 		return name + " " + contents + " " + label + " " + given;
 	}

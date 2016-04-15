@@ -1,20 +1,28 @@
 package math;
 
-/*
- * Should really test this thing.
+/**
+ * Solver is a class the evaluates the Definitions class based on given
+ * variable.
+ * 
+ * 
  */
 public class Solver {
 
 	Definition[] defs;
 	Var[] vars;
 
-	/*
+	/**
+	 * Creates a new <b>Solver</b>.
 	 * 
+	 * @param defs
+	 *            The definitions to be used.
+	 * @param vars
+	 *            The variables to be used.
 	 * 
 	 */
-	public Solver(Definition[] d, Var[] n) {
-		defs = d;
-		vars = n;
+	public Solver(Definition[] defs, Var[] vars) {
+		this.defs = defs;
+		this.vars = vars;
 		long t = System.currentTimeMillis();
 		solve();
 

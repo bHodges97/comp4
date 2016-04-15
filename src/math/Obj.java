@@ -227,7 +227,7 @@ public class Obj implements Serializable {
 		}
 		COM = new MyPoint(COM.x + origin.x, COM.y + origin.y);
 
-		shape.rotate(theta, origin, COM);
+		shape.rotate(theta, origin);
 		// TODO: REALLY TEST THIS
 
 		updateWorldSpace();

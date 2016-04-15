@@ -161,7 +161,8 @@ public class Frame extends JFrame {
 				};
 				update.start();
 				// print time taken to start
-				System.out.println("GUI initialised in " + (System.currentTimeMillis() - timer) + " milliseconds");
+				System.out.println("GUI initialised in " + (System.currentTimeMillis() - timer)
+						+ " milliseconds");
 			}
 		});
 	}
@@ -206,7 +207,7 @@ public class Frame extends JFrame {
 		}
 
 		// initiate variables
-		circVars = Var.initVars(circVars, "circVars");
+		circVars = Var.createVars(Var.CIRC_VARS);
 		circVarB = new Var[2];
 		circVarB[0] = new Var("x", "?", "x");
 		circVarB[1] = new Var("y", "?", "y");
@@ -227,8 +228,8 @@ public class Frame extends JFrame {
 		c.gridx++;
 		panelDiagram.add(circVertical);
 
-		c = new GridBagConstraints(0, 0, 1, 1, 1, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.HORIZONTAL,
-				new Insets(2, 2, 2, 2), 0, 0);
+		c = new GridBagConstraints(0, 0, 1, 1, 1, 0, GridBagConstraints.FIRST_LINE_START,
+				GridBagConstraints.HORIZONTAL, new Insets(2, 2, 2, 2), 0, 0);
 
 		// Column 1;
 		panelFields.add(Explanation, c);
@@ -312,7 +313,7 @@ public class Frame extends JFrame {
 
 	void initProjectiles() {
 		// initialise variables
-		projVars = Var.initVars(projVars, "projVars");
+		projVars = Var.createVars(Var.PROJ_VARS);
 		projDiagram = new ProjDiagram(projVars);
 		JPanel sidePanel = new JPanel(new BorderLayout(0, 0));
 		JPanel southPanel = new JPanel(new GridLayout(0, 1));
@@ -326,9 +327,10 @@ public class Frame extends JFrame {
 		// Set borders
 		southPanel.setBorder(border);
 		projDiagram.setBorder(border);
-		before.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), "Initial conditions"));
-		after.setBorder(
-				BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), "When object hits someting"));
+		before.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(),
+				"Initial conditions"));
+		after.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(),
+				"When object hits someting"));
 
 		// Add components to pane
 		sidePanel.add(createNotesPanel(), BorderLayout.NORTH);
@@ -426,8 +428,8 @@ public class Frame extends JFrame {
 
 	void initCollisions() {
 		// Initialise vars and panels
-		colVarA = Var.initVars(colVarA, "colVarA");
-		colVarB = Var.initVars(colVarB, "colVarB");
+		colVarA = Var.createVars(Var.COL_VAR_A);
+		colVarB = Var.createVars(Var.COL_VAR_B);
 		colVarE = new Var("e", "?", "e");
 		colDiagram = new ColDiagram(this);
 		JPanel westPanel = new JPanel(new GridLayout(0, 1));
@@ -558,9 +560,10 @@ public class Frame extends JFrame {
 			}
 		}
 		topicDesc.setText("\nEquation of trajectory:\n •y = x*tan(θ)-g*x^2/(2*v^2*cos^2(θ))\n");
-		topicDesc.append(
-				"Acceleration:\n •Constant acceleration of 9.8 ms^-2 downwards.\n •No horizontal acceleration, horizontal velocity is constant.\n");
-		topicDesc.append("Velocity\n •Velocity in x direction is V*cos(θ) \n •Velocity in y direction is V*sin(θ).\n");
+		topicDesc
+				.append("Acceleration:\n •Constant acceleration of 9.8 ms^-2 downwards.\n •No horizontal acceleration, horizontal velocity is constant.\n");
+		topicDesc
+				.append("Velocity\n •Velocity in x direction is V*cos(θ) \n •Velocity in y direction is V*sin(θ).\n");
 
 		JTextField topicTitle = new JTextField(getTitle() + " notes");
 		topicTitle.setEditable(false);
@@ -587,8 +590,10 @@ public class Frame extends JFrame {
 			double x = 0;
 			double y = 0;
 			for (int i = 0; i < circTextA.size(); i++) {
-				x += Double.parseDouble(circTextA.get(i)) * Math.cos(Double.parseDouble(circTextB.get(i)));
-				y += Double.parseDouble(circTextA.get(i)) * Math.sin(Double.parseDouble(circTextB.get(i)));
+				x += Double.parseDouble(circTextA.get(i))
+						* Math.cos(Double.parseDouble(circTextB.get(i)));
+				y += Double.parseDouble(circTextA.get(i))
+						* Math.sin(Double.parseDouble(circTextB.get(i)));
 				System.out.println(x);
 			}
 			circX.setText(circVarB[0].contents);

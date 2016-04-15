@@ -4,6 +4,10 @@ TODO LIST
 Complete each module
 Sort out topic desc.
 
+Check etched border param
+serialisation
+remove deprecated
+
 :COM
 -Work on gui
 -Add special shapes(cones etc) and group based on 3d/laminar

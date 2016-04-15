@@ -11,6 +11,9 @@ public class Plane implements java.io.Serializable {
 
 	}
 
+	/**
+	 * Finds the COM of this plane.
+	 */
 	public void findCOM() {
 		Double x;
 		Double y;
@@ -31,6 +34,13 @@ public class Plane implements java.io.Serializable {
 		System.out.println("COM " + x + " " + y);
 	}
 
+	/**
+	 * Add an object to the current plane object.
+	 * 
+	 * @param obj
+	 *            - the obj to add
+	 * 
+	 */
 	public void add(Obj obj) {
 		objects.add(obj);
 		if (obj.name == null) {

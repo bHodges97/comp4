@@ -3,37 +3,61 @@ package math;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+/**
+ * The Shape class represents a 2d shape by using an array of vertices.
+ * 
+ */
 public class Shape implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	public MyPoint[] points;
-	private int npoints;
+	private int nPoints;
 	public Double area;
 	private Double maxX, minX, maxY, minY;
 
+	/**
+	 * Creates a default shape.Used for debugging.
+	 * 
+	 * @deprecated
+	 */
 	public Shape() {
-		npoints = 4;
+		nPoints = 4;
 		points = new MyPoint[] { new MyPoint(0, 0), new MyPoint(1, 0), new MyPoint(1, 1),
 				new MyPoint(0, 1), };
 	}
 
-	public Shape(MyPoint[] p) {
-		points = p;
-		npoints = points.length;
+	/**
+	 * Creates a new shape with its vertices set to parameter.
+	 * 
+	 * @param points
+	 *            The vertices representing the shape
+	 */
+	public Shape(MyPoint[] points) {
+		this.points = points;
+		nPoints = points.length;
 		findRange();
 	}
 
+	/**
+	 * Creates a new shape with its vertices set to parameter.
+	 * 
+	 * @param vertices
+	 *            The vertices representing the shape
+	 */
 	public Shape(ArrayList<MyPoint> vertices) {
 		points = new MyPoint[vertices.size()];
 		for (int i = 0; i < vertices.size(); i++) {
 			points[i] = vertices.get(i).copy();
 		}
 		findRange();
-		npoints = points.length;
+		nPoints = points.length;
 	}
 
-	public MyPoint getPoint(int i) {
-		return points[i];
-	}
-
+	/**
+	 * Finds the bounds of the current shape
+	 */
 	private void findRange() {
 		maxX = Double.MIN_VALUE;
 		minX = Double.MAX_VALUE;
@@ -48,39 +72,72 @@ public class Shape implements Serializable {
 		}
 	}
 
+	/**
+	 * Returns the point at index <b>i</b>
+	 * 
+	 * @param i
+	 *            Index of the point to retreive
+	 * @return point at index <b>i</b>
+	 */
+	public MyPoint getPoint(int i) {
+		return points[i];
+	}
+
+	/**
+	 * Gets an array of x coordinates.
+	 * 
+	 * @return an array of all x coordinates.
+	 */
 	public Double[] getXPoints() {
-		Double[] XPoints = new Double[npoints];
-		for (int i = 0; i < npoints; i++) {
+		Double[] XPoints = new Double[nPoints];
+		for (int i = 0; i < nPoints; i++) {
 			XPoints[i] = points[i].x;
 		}
 		return XPoints;
 	}
 
+	/**
+	 * Gets an array of y coordinates.
+	 * 
+	 * @return an array of all y coordinates.
+	 */
 	public Double[] getYPoints() {
-		Double[] YPoints = new Double[npoints];
-		for (int i = 0; i < npoints; i++) {
+		Double[] YPoints = new Double[nPoints];
+		for (int i = 0; i < nPoints; i++) {
 			YPoints[i] = points[i].y;
 		}
 		return YPoints;
 	}
 
-	public MyPoint findCenter() {
-		int i;
+	/**
+	 * Finds area of current shape
+	 */
+	public void findArea() {
 		Double sum = 0d;
+		int i = 0;
 
-		for (i = 0; i < npoints - 1; i++) {
+		for (i = 0; i < nPoints - 1; i++) {
 			sum += (points[i].x * points[i + 1].y - points[i + 1].x * points[i].y);
 		}
 
 		sum += (points[i].x * points[0].y - points[0].x * points[i].y);
 
 		area = sum / 2;
+	}
 
-		//x
-		i = 0;
-		sum = 0d;
+	/**
+	 * Finds the geometric center of the shape
+	 * 
+	 * @return point representing the center of the shape.
+	 */
+	public MyPoint findCenter() {
+		int i;
+		Double sum = 0d;
 
-		for (i = 0; i < npoints - 1; i++) {
+		findArea();
+
+		//find x co-ords of center
+		for (i = 0; i < nPoints - 1; i++) {//loops through each vertex
 			sum += (points[i].x + points[i + 1].x)
 					* (points[i].x * points[i + 1].y - points[i + 1].x * points[i].y);
 		}
@@ -88,11 +145,11 @@ public class Shape implements Serializable {
 				* (points[i].x * points[0].y - points[0].x * points[i].y);
 		Double centroidx = sum / (6 * area);
 
-		//y
+		//find y co-ords of center
 		i = 0;
 		sum = 0d;
 
-		for (i = 0; i < npoints - 1; i++) {
+		for (i = 0; i < nPoints - 1; i++) {//loops through each vertex
 			sum += (points[i].y + points[i + 1].y)
 					* (points[i].x * points[i + 1].y - points[i + 1].x * points[i].y);
 		}
@@ -103,33 +160,66 @@ public class Shape implements Serializable {
 		return new MyPoint(centroidx, centroidy);
 	}
 
+	/**
+	 * Returns every vertex in this shape.
+	 * 
+	 * @return Every vertex in this shape.
+	 */
 	public MyPoint[] getPoints() {
 		return points;
 	}
 
+	/**
+	 * Returns the number of vertexs in this shape
+	 * 
+	 * @return the number of vertexs in this shape
+	 */
 	public int getNPoints() {
-		return npoints;
+		return nPoints;
 	}
 
+	/**
+	 * Returns vector representation of the range of the object
+	 * 
+	 * @return vector representation of the range of the object
+	 */
 	public MyVector getRange() {
 		return new MyVector(maxX - minX, maxY - minY);
 	}
 
+	/**
+	 * Gets the value of minX
+	 * 
+	 * @return the value of minX
+	 */
 	public Double getMinX() {
 		return minX;
 	}
 
+	/**
+	 * Gets the value of minY
+	 * 
+	 * @return the value of minY
+	 */
 	public Double getMinY() {
 		return minY;
 	}
 
-	public boolean contains(MyPoint test) {
+	/**
+	 * Checks if shape containts the point in parameters.
+	 * 
+	 * @param point
+	 *            The point to text
+	 * @return <b>true</b> if point is int shape,<b>false</b> if otherwise
+	 * @deprecated
+	 */
+	public boolean contains(MyPoint point) {
 		int i;
 		int j;
 		boolean result = false;
 		for (i = 0, j = points.length - 1; i < points.length; j = i++) {
-			if ((points[i].y > test.y) != (points[j].y > test.y)
-					&& (test.x < (points[j].x - points[i].x) * (test.y - points[i].y)
+			if ((points[i].y > point.y) != (points[j].y > point.y)
+					&& (point.x < (points[j].x - points[i].x) * (point.y - points[i].y)
 							/ (points[j].y - points[i].y) + points[i].x)) {
 				result = !result;
 			}
@@ -137,9 +227,17 @@ public class Shape implements Serializable {
 		return result;
 	}
 
-	public void rotate(Double x, MyPoint origin, MyPoint offset) {
+	/**
+	 * Rotates the shape by theta degrees relative to origin
+	 * 
+	 * @param theta
+	 *            The angle to rotate by
+	 * @param origin
+	 *            The point to rotate around
+	 */
+	public void rotate(Double theta, MyPoint origin) {
 		MyPoint[] offPoints = new MyPoint[points.length];
-		if (origin == null) {
+		if (origin != null) {
 			for (int i = 0; i < points.length; i++) {
 				offPoints[i] = new MyPoint(points[i].x - origin.x, points[i].y - origin.y);
 			}
@@ -147,8 +245,8 @@ public class Shape implements Serializable {
 			offPoints = points;
 		}
 		for (MyPoint p : offPoints) {
-			double tempx = p.x * Math.cos(x) - p.y * Math.sin(x);
-			p.y = p.x * Math.sin(x) + p.y * Math.cos(x);
+			double tempx = p.x * Math.cos(theta) - p.y * Math.sin(theta);
+			p.y = p.x * Math.sin(theta) + p.y * Math.cos(theta);
 			p.x = tempx;
 		}
 		if (origin != null) {
