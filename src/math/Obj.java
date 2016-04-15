@@ -130,12 +130,12 @@ public class Obj implements Serializable {
 	 * Tolerance is 1/4 of the inverse of the display scale.
 	 * 
 	 * @see <a href="https://en.wikipedia.org/wiki/Ray_casting">https://en.
-
+	 * 
 	 *      wikipedia.org/wiki/Ray_casting</a>
 	 * @see <a href=
 	 *      "http://mathworld.wolfram.com/Point-LineDistance2-Dimensional.html">
 	 *      http://mathworld.wolfram.com/Point-LineDistance2-Dimensional.html
-
+	 * 
 	 *      </a>
 	 * @param point
 	 *            The point to test
@@ -156,8 +156,7 @@ public class Obj implements Serializable {
 			for (i = 0, j = nvert - 1; i < nvert; j = i++) {
 				if (((renderPoly.ypoints[i] >= point.y) != (renderPoly.ypoints[j] >= point.y))
 						&& (point.x <= (renderPoly.xpoints[j] - renderPoly.xpoints[i])
-								* (point.y - renderPoly.ypoints[i])
-								/ (renderPoly.ypoints[j] - renderPoly.ypoints[i])
+								* (point.y - renderPoly.ypoints[i]) / (renderPoly.ypoints[j] - renderPoly.ypoints[i])
 								+ renderPoly.xpoints[i]))
 					c = !c;
 			}
@@ -173,9 +172,9 @@ public class Obj implements Serializable {
 		// PolyLine
 		else if (type == 2) {
 			for (int i = 0; i < renderPoly.npoints - 1; i++) {
-				if (MathUtil.PointInLineSegment(new MyPoint(point.x, point.y), new MyPoint(
-						renderPoly.xpoints[i], renderPoly.ypoints[i]), new MyPoint(
-						renderPoly.xpoints[i + 1], renderPoly.ypoints[i + 1]), tolerance)) {
+				if (MathUtil.PointInLineSegment(new MyPoint(point.x, point.y),
+						new MyPoint(renderPoly.xpoints[i], renderPoly.ypoints[i]),
+						new MyPoint(renderPoly.xpoints[i + 1], renderPoly.ypoints[i + 1]), tolerance)) {
 					return true;
 				}
 			}
@@ -215,16 +214,18 @@ public class Obj implements Serializable {
 	 *            The center to rotate the shape by.
 	 */
 	public void rotate(Double theta, boolean radians, MyPoint origin) {
-		if (!radians)
+		if (!radians) {
 			theta = Math.toRadians(theta);
-		if (origin != null) {
-			COM = new MyPoint(COM.x - origin.x, COM.y - origin.y);
-
-			double tempx = COM.x * Math.cos(theta) - COM.y * Math.sin(theta);
-			COM.y = COM.x * Math.sin(theta) + COM.y * Math.cos(theta);
-			COM.x = tempx;
-
 		}
+		if (origin == null) {
+			origin = new MyPoint(0, 0);
+		}
+		COM = new MyPoint(COM.x - origin.x, COM.y - origin.y);
+
+		double tempx = COM.x * Math.cos(theta) - COM.y * Math.sin(theta);
+		COM.y = COM.x * Math.sin(theta) + COM.y * Math.cos(theta);
+		COM.x = tempx;
+
 		COM = new MyPoint(COM.x + origin.x, COM.y + origin.y);
 
 		shape.rotate(theta, origin);

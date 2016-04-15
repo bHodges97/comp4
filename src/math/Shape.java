@@ -24,8 +24,7 @@ public class Shape implements Serializable {
 	 */
 	public Shape() {
 		nPoints = 4;
-		points = new MyPoint[] { new MyPoint(0, 0), new MyPoint(1, 0), new MyPoint(1, 1),
-				new MyPoint(0, 1), };
+		points = new MyPoint[] { new MyPoint(0, 0), new MyPoint(1, 0), new MyPoint(1, 1), new MyPoint(0, 1), };
 	}
 
 	/**
@@ -136,25 +135,21 @@ public class Shape implements Serializable {
 
 		findArea();
 
-		//find x co-ords of center
-		for (i = 0; i < nPoints - 1; i++) {//loops through each vertex
-			sum += (points[i].x + points[i + 1].x)
-					* (points[i].x * points[i + 1].y - points[i + 1].x * points[i].y);
+		// find x co-ords of center
+		for (i = 0; i < nPoints - 1; i++) {// loops through each vertex
+			sum += (points[i].x + points[i + 1].x) * (points[i].x * points[i + 1].y - points[i + 1].x * points[i].y);
 		}
-		sum += (points[i].x + points[0].x)
-				* (points[i].x * points[0].y - points[0].x * points[i].y);
+		sum += (points[i].x + points[0].x) * (points[i].x * points[0].y - points[0].x * points[i].y);
 		Double centroidx = sum / (6 * area);
 
-		//find y co-ords of center
+		// find y co-ords of center
 		i = 0;
 		sum = 0d;
 
-		for (i = 0; i < nPoints - 1; i++) {//loops through each vertex
-			sum += (points[i].y + points[i + 1].y)
-					* (points[i].x * points[i + 1].y - points[i + 1].x * points[i].y);
+		for (i = 0; i < nPoints - 1; i++) {// loops through each vertex
+			sum += (points[i].y + points[i + 1].y) * (points[i].x * points[i + 1].y - points[i + 1].x * points[i].y);
 		}
-		sum += (points[i].y + points[0].y)
-				* (points[i].x * points[0].y - points[0].x * points[i].y);
+		sum += (points[i].y + points[0].y) * (points[i].x * points[0].y - points[0].x * points[i].y);
 		Double centroidy = sum / (6 * area);
 
 		return new MyPoint(centroidx, centroidy);
@@ -219,8 +214,8 @@ public class Shape implements Serializable {
 		boolean result = false;
 		for (i = 0, j = points.length - 1; i < points.length; j = i++) {
 			if ((points[i].y > point.y) != (points[j].y > point.y)
-					&& (point.x < (points[j].x - points[i].x) * (point.y - points[i].y)
-							/ (points[j].y - points[i].y) + points[i].x)) {
+					&& (point.x < (points[j].x - points[i].x) * (point.y - points[i].y) / (points[j].y - points[i].y)
+							+ points[i].x)) {
 				result = !result;
 			}
 		}
@@ -236,26 +231,13 @@ public class Shape implements Serializable {
 	 *            The point to rotate around
 	 */
 	public void rotate(Double theta, MyPoint origin) {
-		MyPoint[] offPoints = new MyPoint[points.length];
-		if (origin != null) {
-			for (int i = 0; i < points.length; i++) {
-				offPoints[i] = new MyPoint(points[i].x - origin.x, points[i].y - origin.y);
-			}
-		} else {
-			offPoints = points;
-		}
-		for (MyPoint p : offPoints) {
+		for (MyPoint p : points) {
 			double tempx = p.x * Math.cos(theta) - p.y * Math.sin(theta);
 			p.y = p.x * Math.sin(theta) + p.y * Math.cos(theta);
 			p.x = tempx;
 		}
-		if (origin != null) {
-			for (int i = 0; i < points.length; i++) {
-				points[i] = new MyPoint(offPoints[i].x, offPoints[i].y);
-			}
-		} else {
-			points = offPoints;
+		for (int i = 0; i < points.length; i++) {
+			points[i] = new MyPoint(points[i].x, points[i].y);
 		}
-
 	}
 }
