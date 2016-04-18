@@ -36,8 +36,8 @@ public class DialogNewVertex extends JDialog{
 				String sx = xField.getText();
 				String sy = yField.getText();
 				if(MathUtil.isNumeric(sx) && MathUtil.isNumeric(sy)){
-					x = Double.valueOf(sx);
-					y = Double.valueOf(sy);
+					x = Double.parseDouble(sx);
+					y = Double.parseDouble(sy);
 					setVisible(false);
 				}else{
 					JOptionPane.showMessageDialog(getParent(), "Please enter a valid number!","Oops",JOptionPane.ERROR_MESSAGE);

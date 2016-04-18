@@ -8,10 +8,6 @@ public class MyVector {
 	public Double x;
 	public Double y;
 
-	public MyVector() {
-
-	}
-
 	/**
 	 * Constructs a new vector with parameters x and y
 	 * 

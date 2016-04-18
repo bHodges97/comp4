@@ -153,7 +153,7 @@ public class DialogNewObj extends JDialog {
 				for (int i = 0; i < vertices.size(); i++) {
 					points[i] = new MyPoint(vertices.get(i).x - com.x, vertices.get(i).y - com.y);
 				}
-				object = new Obj(Float.valueOf(mass), new MyPoint(Double.valueOf(PosX), Double
+				object = new Obj(Float.valueOf(mass), new MyPoint(Double.parseDouble(PosX), Double
 						.valueOf(PosY)), points);
 				setVisible(false);
 			}

@@ -2,19 +2,33 @@ package math;
 
 import java.util.ArrayList;
 
+/**
+ * The Plane class is used to hold a collection of the Obj class
+ */
 public class Plane implements java.io.Serializable {
-	public ArrayList<Obj> objects = new ArrayList<Obj>();
-	MyPoint COM = new MyPoint(0, 0);
-	Float g = -9.8f;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
+	public ArrayList<Obj> objects;
+	private final Float g = -9.8f;
+
+	/**
+	 * Create a new plane;
+	 */
 	public Plane() {
-
+		objects = new ArrayList<Obj>();
 	}
 
 	/**
 	 * Finds the COM of this plane.
+	 * 
+	 * @return The center of mass of the plane
 	 */
-	public void findCOM() {
+	public MyPoint findCOM() {
+		MyPoint COM = new MyPoint(0, 0);
+		;
 		Double x;
 		Double y;
 		Double sumMomx = 0d;
@@ -32,6 +46,7 @@ public class Plane implements java.io.Serializable {
 		COM.x = x;
 		COM.y = y;
 		System.out.println("COM " + x + " " + y);
+		return COM;
 	}
 
 	/**
@@ -51,5 +66,14 @@ public class Plane implements java.io.Serializable {
 			}
 		}
 		System.out.println("Object added(" + obj.getName() + ")");
+	}
+
+	/**
+	 * @param obj
+	 *            The Obj to remove;
+	 */
+	public void remove(Obj obj) {
+		int i = objects.indexOf(obj);
+		objects.remove(i);
 	}
 }

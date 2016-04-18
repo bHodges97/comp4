@@ -5,11 +5,15 @@ import java.awt.Polygon;
 import java.io.Serializable;
 
 /**
- * Object Class
+ * The Obj class represents shapes used in mechanics 2
  * 
  */
 public class Obj implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String name;
 	private float density;
 	private float mass;
@@ -47,24 +51,46 @@ public class Obj implements Serializable {
 		updateWorldSpace();
 	}
 
-	public Obj(Float mass, MyPoint myPoint, MyPoint[] points) {
+	/**
+	 * Constructs a new Obj of type POLYGON based on parameters
+	 * 
+	 * @param centerOfMass
+	 *            Point representing the center of mass of the object
+	 * @param points
+	 *            Points representing the vertices of the shape
+	 * @param mass
+	 *            The mass of the obj
+	 */
+	public Obj(Float mass, MyPoint centerOfMass, MyPoint[] points) {
 		this.mass = mass;
 		this.shape = new Shape(points);
-		this.COM = myPoint;
+		this.COM = centerOfMass;
 		this.type = POLYGON;
 		updateWorldSpace();
 	}
 
-	public Obj(int type, MyPoint centerOfMass, Shape PLACEHOLDER, double mass) {
-		this.mass = (float) mass;
+	/**
+	 * Constructs a new Obj based on parameters
+	 * 
+	 * @param type
+	 *            Can be one of Obj.POLYGON, Obj.POINTMASS and Obj.POLYLINE
+	 * @param centerOfMass
+	 *            Point representing the center of mass of the object
+	 * @param shape
+	 *            The shape of the obj
+	 * @param mass
+	 *            The mass of the obj
+	 */
+	public Obj(int type, MyPoint centerOfMass, Shape shape, float mass) {
+		this.mass = mass;
 		this.type = type;
-		this.shape = PLACEHOLDER;
+		this.shape = shape;
 		this.COM = centerOfMass;
 		updateWorldSpace();
 	}
 
 	/**
-	 * Get object Type 0 = Polygon 1 = Point 2 = PolyLine
+	 * Get object type, one of Obj.POLYGON, Obj.POINTMASS and Obj.POLYLINE
 	 * 
 	 * @return int type
 	 */

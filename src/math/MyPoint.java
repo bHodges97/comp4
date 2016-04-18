@@ -49,6 +49,9 @@ public class MyPoint implements Serializable {
 		return new MyPoint(x, y);
 	}
 
+	/**
+	 * @return String representation of this point
+	 */
 	public String toString() {
 		return x + " " + y;
 	}

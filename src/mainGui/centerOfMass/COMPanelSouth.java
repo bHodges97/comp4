@@ -118,7 +118,7 @@ public class COMPanelSouth extends JPanel {
 						responce = responce.substring(0, responce.length() - 1);
 					}
 					if (MathUtil.isNumeric(responce)) {
-						double x = Double.valueOf(responce);
+						double x = Double.parseDouble(responce);
 						boolean radians = true;
 						if (c == 'D' || c == 'd')
 							radians = false;

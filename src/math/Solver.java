@@ -23,9 +23,7 @@ public class Solver {
 	public Solver(Definition[] defs, Var[] vars) {
 		this.defs = defs;
 		this.vars = vars;
-		long t = System.currentTimeMillis();
 		solve();
-
 	}
 
 	/**
@@ -45,7 +43,6 @@ public class Solver {
 		// Links the variables Iterates through each def
 		// Iterates through defs.
 		for (int i = 0; i < defs.length; i++) {
-
 			// iterate through each var
 
 			for (int w = 0; w < defs[i].vars.length; w++) {

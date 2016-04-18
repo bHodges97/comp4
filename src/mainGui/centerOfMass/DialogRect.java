@@ -50,7 +50,8 @@ public class DialogRect extends JDialog {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				double xval, yval, massval, w, h, cx, cy;
+				double xval, yval, w, h, cx, cy;
+				float massval;
 				// Loops through all panels inside dialog box
 				for (Component panel : getContentPane().getComponents()) {
 					if (panel instanceof JPanel) {
@@ -67,17 +68,17 @@ public class DialogRect extends JDialog {
 						}
 					}
 				}
-				xval = Double.valueOf(x.getText());
-				yval = Double.valueOf(y.getText());
-				massval = Double.valueOf(mass.getText());
-				w = Double.valueOf(width.getText());
-				h = Double.valueOf(height.getText());
-				cx = Double.valueOf(comx.getText());
-				cy = Double.valueOf(comy.getText());
+				xval = Double.parseDouble(x.getText());
+				yval = Double.parseDouble(y.getText());
+				massval = Float.parseFloat(mass.getText());
+				w = Double.parseDouble(width.getText());
+				h = Double.parseDouble(height.getText());
+				cx = Double.parseDouble(comx.getText());
+				cy = Double.parseDouble(comy.getText());
 				Shape s = new Shape(new MyPoint[] { new MyPoint(0 - cx, h - cy),
 						new MyPoint(w - cx, h - cy), new MyPoint(w - cx, 0 - cy),
 						new MyPoint(0 - cx, 0 - cy) });
-				returnObj = new Obj(0, new MyPoint(xval + cx, yval + cy), s, massval);
+				returnObj = new Obj(Obj.POLYGON, new MyPoint(xval + cx, yval + cy), s, massval);
 				filled = true;
 				close();
 

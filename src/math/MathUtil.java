@@ -13,6 +13,11 @@ import java.awt.Graphics2D;
 import java.text.DecimalFormatSymbols;
 import java.util.ArrayList;
 
+/**
+ * The MathUtil class contatins math methods not included in the java.lang.Math
+ * class;
+ * 
+ */
 public class MathUtil {
 	/**
 	 * Checks if a string is numeric. Blank strings are not numeric.
@@ -211,11 +216,17 @@ public class MathUtil {
 	 * Draws an arrow.
 	 * 
 	 * @param g2d
+	 *            The graphics object to draw the arrow to
 	 * @param x1
+	 *            The x coord of first point
 	 * @param y1
+	 *            The y coord of first point
 	 * @param x2
+	 *            The x coord of second point
 	 * @param y2
+	 *            The y coord of second point
 	 * @param size
+	 *            The size of the tip of the arrow
 	 */
 	public static void drawArrow(Graphics2D g2d, int x1, int y1, int x2, int y2, int size) {
 		size = size / 2;
@@ -255,6 +266,13 @@ public class MathUtil {
 
 	}
 
+	/**
+	 * Round a numerical string to 3 decimal places
+	 * 
+	 * @param contents
+	 *            The string to round
+	 * @return The rounded string
+	 */
 	public static String round(String contents) {
 		if (contents.contains(".")) {
 			if (contents.length() > contents.indexOf(".") + 4) {
@@ -265,19 +283,29 @@ public class MathUtil {
 		return contents;
 	}
 
-	public static boolean isFunc(String in) {
-		if (in.matches("(cos)|(sin)|(tan)|(abs)")) {
-			return true;
-		} else
-			return false;
-	}
-
+	/**
+	 * Checks if the parameters are approximately equal in numerical values;
+	 * 
+	 * @param a
+	 *            The first string to compare
+	 * @param b
+	 *            The second string to compare
+	 * @return true if parameters are apprixmately equal, false if otherwise
+	 */
 	public static boolean isEqual(String a, String b) {
 		double num1 = Double.parseDouble(a);
 		double num2 = Double.parseDouble(b);
 		return abs(num1 - num2) < 0.001 ? true : false;
 	}
 
+	/**
+	 * Rotate a point with the given parameters
+	 * 
+	 * @param point
+	 *            The point to return;
+	 * @param angle
+	 *            The angle to rotate by;
+	 */
 	public static void rotate(MyPoint point, Double angle) {
 		double tempx = point.x * Math.cos(angle) - point.y * Math.sin(angle);
 		point.y = point.x * Math.sin(angle) + point.y * Math.cos(angle);
