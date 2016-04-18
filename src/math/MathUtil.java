@@ -248,8 +248,10 @@ public class MathUtil {
 			}
 		}
 
-		g2d.drawLine(x2, y2, (int) (x2 - size * cos(PI / 6 - theta)), (int) (y2 - size * sin(PI / 6 - theta)));
-		g2d.drawLine(x2, y2, (int) (x2 - size * cos(-PI / 6 - theta)), (int) (y2 - size * sin(-PI / 6 - theta)));
+		g2d.drawLine(x2, y2, (int) (x2 - size * cos(PI / 6 - theta)), (int) (y2 - size
+				* sin(PI / 6 - theta)));
+		g2d.drawLine(x2, y2, (int) (x2 - size * cos(-PI / 6 - theta)), (int) (y2 - size
+				* sin(-PI / 6 - theta)));
 
 	}
 
@@ -274,5 +276,11 @@ public class MathUtil {
 		double num1 = Double.parseDouble(a);
 		double num2 = Double.parseDouble(b);
 		return abs(num1 - num2) < 0.001 ? true : false;
+	}
+
+	public static void rotate(MyPoint point, Double angle) {
+		double tempx = point.x * Math.cos(angle) - point.y * Math.sin(angle);
+		point.y = point.x * Math.sin(angle) + point.y * Math.cos(angle);
+		point.x = tempx;
 	}
 }

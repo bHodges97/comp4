@@ -207,12 +207,12 @@ public class COMPanel extends JPanel {
 		for (Obj obj : plane.objects) {
 			obj.prepareForPaint(ox, oy, scale);
 			Polygon renderPoly = null;
-			if (obj.getType() != obj.PointMass) {
+			if (obj.getType() != Obj.POINTMASS) {
 				renderPoly = obj.getRenderPoly();
 			}
-			if (obj.getType() == obj.Polygon) {
+			if (obj.getType() == Obj.POLYGON) {
 				g2d.drawPolygon(renderPoly);
-			} else if (obj.getType() == obj.Polyline) {
+			} else if (obj.getType() == Obj.POLYLINE) {
 				g2d.drawPolyline(renderPoly.xpoints, renderPoly.ypoints, renderPoly.npoints);
 			}
 			g2d.fillOval(obj.getWorldX(scale, ox) - s / 2, obj.getWorldY(scale, oy) - s / 2, s, s);

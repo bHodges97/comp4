@@ -23,9 +23,9 @@ public class Plane implements java.io.Serializable {
 
 		// Sum of force * dx / sum of force
 		for (Obj obj : objects) {
-			sumMomx += obj.COM.x * obj.mass * g;
-			sumMomy += obj.COM.y * obj.mass * g;
-			sumMass += obj.mass * g;
+			sumMomx += obj.getCOM().x * obj.getMass() * g;
+			sumMomy += obj.getCOM().y * obj.getMass() * g;
+			sumMass += obj.getMass() * g;
 		}
 		x = sumMomx / sumMass;
 		y = sumMomy / sumMass;
@@ -43,13 +43,13 @@ public class Plane implements java.io.Serializable {
 	 */
 	public void add(Obj obj) {
 		objects.add(obj);
-		if (obj.name == null) {
+		if (obj.getName() == null) {
 			if (objects.indexOf(obj) + 'A' <= 'Z') {
-				obj.name = (char) (objects.indexOf(obj) + 'A') + "";
+				obj.setName((char) (objects.indexOf(obj) + 'A') + "");
 			} else {
-				obj.name = "Object " + objects.indexOf(obj);
+				obj.setName("Object " + objects.indexOf(obj));
 			}
 		}
-		System.out.println("Object added(" + obj.name + ")");
+		System.out.println("Object added(" + obj.getName() + ")");
 	}
 }

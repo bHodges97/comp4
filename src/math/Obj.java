@@ -10,29 +10,21 @@ import java.io.Serializable;
  */
 public class Obj implements Serializable {
 
-	boolean enabled = true;
-	String name;
-	float density;
-	float mu = 0;
-	float mass;
-	float invMass;
-	float r;
-	float theta;
+	private String name;
+	private float density;
+	private float mass;
 
-	/**
-	 * 0 = Polygon; 1 = PointMass; 2 = Polyline;
-	 */
-	int type = 0;
-	public final int Polygon = 0;
-	public final int PointMass = 1;
-	public final int Polyline = 2;
+	private int type = 0;
+	static public final int POLYGON = 0;
+	static public final int POINTMASS = 1;
+	static public final int POLYLINE = 2;
 
 	/**
 	 * Center Of mass, Used as position of object in world space. The shape
 	 * associated with the object has COM as its origin.
 	 */
-	MyPoint COM;
-	Shape shape;
+	private MyPoint COM;
+	private Shape shape;
 
 	/**
 	 * For display
@@ -51,7 +43,7 @@ public class Obj implements Serializable {
 		this.mass = 1;
 		this.shape = new Shape();
 		this.COM = shape.findCenter();
-		this.type = Polygon;
+		this.type = POLYGON;
 		updateWorldSpace();
 	}
 
@@ -59,7 +51,7 @@ public class Obj implements Serializable {
 		this.mass = mass;
 		this.shape = new Shape(points);
 		this.COM = myPoint;
-		this.type = Polygon;
+		this.type = POLYGON;
 		updateWorldSpace();
 	}
 
@@ -101,15 +93,16 @@ public class Obj implements Serializable {
 	 * Update position in world space.
 	 */
 	private void updateWorldSpace() {
-		if (type == PointMass)
+		if (type == POINTMASS) {
 			return;
+		}
 
 		double[] nxpoints = new double[shape.getNPoints()];
 		double[] nypoints = new double[shape.getNPoints()];
 
 		for (int i = 0; i < shape.getNPoints(); i++) {
-			nxpoints[i] = shape.points[i].x + COM.x;
-			nypoints[i] = shape.points[i].y + COM.y;
+			nxpoints[i] = shape.getPoint(i).x + COM.x;
+			nypoints[i] = shape.getPoint(i).y + COM.y;
 		}
 		this.ypoints = nypoints;
 		this.xpoints = nxpoints;
@@ -129,13 +122,12 @@ public class Obj implements Serializable {
 	 * For lines and points test if distance from cursor is with the tolerance.
 	 * Tolerance is 1/4 of the inverse of the display scale.
 	 * 
-	 * @see <a href="https://en.wikipedia.org/wiki/Ray_casting">https://en.
-	 * 
-	 *      wikipedia.org/wiki/Ray_casting</a>
+	 * @see <a href="https://en.wikipedia.org/wiki/Ray_casting">
+	 *      https://en.wikipedia.org/wiki/Ray_casting</a>
 	 * @see <a href=
 	 *      "http://mathworld.wolfram.com/Point-LineDistance2-Dimensional.html">
 	 *      http://mathworld.wolfram.com/Point-LineDistance2-Dimensional.html
-	 * 
+
 	 *      </a>
 	 * @param point
 	 *            The point to test
@@ -150,31 +142,36 @@ public class Obj implements Serializable {
 	public boolean PointInPolygon(Point point, int ox, int oy, double scale) {
 		double tolerance = 0.25d / scale;
 		// Polygon
-		if (type == 0) {
-			int i, j, nvert = xpoints.length;
-			boolean c = false;
-			for (i = 0, j = nvert - 1; i < nvert; j = i++) {
-				if (((renderPoly.ypoints[i] >= point.y) != (renderPoly.ypoints[j] >= point.y))
-						&& (point.x <= (renderPoly.xpoints[j] - renderPoly.xpoints[i])
-								* (point.y - renderPoly.ypoints[i]) / (renderPoly.ypoints[j] - renderPoly.ypoints[i])
-								+ renderPoly.xpoints[i]))
-					c = !c;
+		if (type == POLYGON) {
+			int i, j;
+			boolean test = false;
+			for (i = 0, j = xpoints.length - 1; i < xpoints.length; j = i++) {
+				int x1 = renderPoly.xpoints[i];
+				int x2 = renderPoly.xpoints[j];
+
+				int y1 = renderPoly.ypoints[i];
+				int y2 = renderPoly.ypoints[j];
+
+				if (((y1 >= point.y) != (y2 >= point.y))
+						&& (point.x <= (x2 - x1) * (point.y - y1) / (y2 - y1) + x1)) {
+					test = !test;
+				}
 			}
-			return c;
+			return test;
 		}
 		// Point
-		else if (type == 1) {
+		else if (type == POINTMASS) {
 			if (Math.abs(point.x - (COM.x / scale + ox)) < tolerance
 					&& Math.abs(point.y - (oy - COM.y / scale)) < tolerance) {
 				return true;
 			}
 		}
 		// PolyLine
-		else if (type == 2) {
+		else if (type == POLYLINE) {
 			for (int i = 0; i < renderPoly.npoints - 1; i++) {
-				if (MathUtil.PointInLineSegment(new MyPoint(point.x, point.y),
-						new MyPoint(renderPoly.xpoints[i], renderPoly.ypoints[i]),
-						new MyPoint(renderPoly.xpoints[i + 1], renderPoly.ypoints[i + 1]), tolerance)) {
+				if (MathUtil.PointInLineSegment(new MyPoint(point.x, point.y), new MyPoint(
+						renderPoly.xpoints[i], renderPoly.ypoints[i]), new MyPoint(
+						renderPoly.xpoints[i + 1], renderPoly.ypoints[i + 1]), tolerance)) {
 					return true;
 				}
 			}
@@ -206,30 +203,28 @@ public class Obj implements Serializable {
 	/**
 	 * Rotate object by angle theta about it's center of mass.
 	 * 
-	 * @param theta
+	 * @param angle
 	 *            The angle to rotate by.
 	 * @param radians
 	 *            True if theta is in radians.
 	 * @param origin
 	 *            The center to rotate the shape by.
 	 */
-	public void rotate(Double theta, boolean radians, MyPoint origin) {
+	public void rotate(Double angle, boolean radians, MyPoint origin) {
 		if (!radians) {
-			theta = Math.toRadians(theta);
+			angle = Math.toRadians(angle);
 		}
 		if (origin == null) {
 			origin = new MyPoint(0, 0);
 		}
+
+		//offset by origin
 		COM = new MyPoint(COM.x - origin.x, COM.y - origin.y);
-
-		double tempx = COM.x * Math.cos(theta) - COM.y * Math.sin(theta);
-		COM.y = COM.x * Math.sin(theta) + COM.y * Math.cos(theta);
-		COM.x = tempx;
-
+		MathUtil.rotate(COM, angle);
+		//undo offset
 		COM = new MyPoint(COM.x + origin.x, COM.y + origin.y);
 
-		shape.rotate(theta, origin);
-		// TODO: REALLY TEST THIS
+		shape.rotate(angle);
 
 		updateWorldSpace();
 	}
@@ -244,52 +239,86 @@ public class Obj implements Serializable {
 
 	}
 
+	/**
+	 * @return the name of this obj
+	 */
 	public String getName() {
 		return name;
 	}
 
-	public double getMass() {
+	/**
+	 * @return the mass value
+	 */
+	public float getMass() {
 		return mass;
 	}
 
+	/**
+	 * 
+	 * @return the point representing the COM
+	 */
 	public MyPoint getCOM() {
 		return new MyPoint(COM.x, COM.y);
 	}
 
-	public void disable() {
-		enabled = true;
-	}
-
-	public void enable() {
-		enabled = false;
-	}
-
+	/**
+	 * @return Polgygon used for display in gui
+	 */
 	public Polygon getRenderPoly() {
 		return renderPoly;
 	}
 
+	/**
+	 * @return The the points for worldspace
+	 */
 	public double[][] getWorldPoints() {
 		return new double[][] { xpoints, ypoints };
 	}
 
+	/**
+	 * Translate the obj by x units across and y units up.
+	 * 
+	 * @param x
+	 *            The x amount to translate
+	 * @param y
+	 *            The y amount to translate
+	 */
 	public void translate(double x, double y) {
 		COM.x += x;
 		COM.y += y;
-
 	}
 
+	/**
+	 * Translate the center of mass relative to the obj
+	 * 
+	 * @param x
+	 *            The x amount to translate
+	 * @param y
+	 *            The y amount to translate
+	 */
 	public void shiftCOM(double x, double y) {
-		for (MyPoint p : shape.points) {
+		for (MyPoint p : shape.getPoints()) {
 			p.x -= x;
 			p.y -= y;
 		}
 		translate(x, y);
 	}
 
+	/**
+	 * 
+	 * @param name
+	 *            The new name of the obj
+	 */
 	public void setName(String name) {
 		this.name = name;
 	}
 
+	/**
+	 * 
+	 * @param mass
+	 *            The new mass of the obj
+	 * @throws NumberFormatException
+	 */
 	public void setMass(String mass) throws NumberFormatException {
 		this.mass = Float.parseFloat(mass);
 	}
