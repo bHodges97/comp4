@@ -31,6 +31,12 @@ import math.Plane;
 import math.Solver;
 import math.Var;
 
+/**
+ * The MyMenuBar class creates a menubar for the gui and handles the menu
+ * events.
+ * 
+ * 
+ */
 public class MyMenuBar extends JMenuBar {
 	final Frame frame;
 
@@ -39,6 +45,12 @@ public class MyMenuBar extends JMenuBar {
 	 */
 	private static final long serialVersionUID = -1764943131583829011L;
 
+	/**
+	 * Construct a new menubar for the Frame
+	 * 
+	 * @param main
+	 *            The frame to add the menubar to
+	 */
 	public MyMenuBar(final Frame main) {
 		frame = main;
 		final AngleConverter dialogConverter = new AngleConverter();
@@ -68,8 +80,8 @@ public class MyMenuBar extends JMenuBar {
 		menuFile.setMnemonic(KeyEvent.VK_T);
 		final JMenuItem initCirc = new JMenuItem("Circular Motion", KeyEvent.VK_M);
 		final JMenuItem initCOM = new JMenuItem("Center of mass", KeyEvent.VK_O);
-		final JMenuItem initColl = new JMenuItem("Collisions", KeyEvent.VK_C);
-		final JMenuItem initProj = new JMenuItem("Projectiles", KeyEvent.VK_P);
+		final JMenuItem initColl = new JMenuItem(Frame.COLLISIONS, KeyEvent.VK_C);
+		final JMenuItem initProj = new JMenuItem(Frame.PROJECTILES, KeyEvent.VK_P);
 		menuTopic.add(initCirc);
 		menuTopic.add(initCOM);
 		menuTopic.add(initColl);
@@ -133,16 +145,16 @@ public class MyMenuBar extends JMenuBar {
 					saveNotes();
 				}
 				if (e.getSource() == initCirc) {
-					frame.setTopic("Circles");
+					frame.setTopic(Frame.CIRCLES);
 				}
 				if (e.getSource() == initCOM) {
-					frame.setTopic("Center");
+					frame.setTopic(Frame.CENTER);
 				}
 				if (e.getSource() == initColl) {
-					frame.setTopic("Collisions");
+					frame.setTopic(Frame.COLLISIONS);
 				}
 				if (e.getSource() == initProj) {
-					frame.setTopic("Projectiles");
+					frame.setTopic(Frame.PROJECTILES);
 				}
 			}
 
@@ -168,16 +180,22 @@ public class MyMenuBar extends JMenuBar {
 		add(menuTools);
 		add(menuTopic);
 		add(menuSolve);
-		if (frame.topic.equals("Center")) {
+		if (frame.topic.equals(Frame.CENTER)) {
 			add(menuZoom);
 		}
 	}
 
+	/**
+	 * Export the diagram as a png
+	 * 
+	 * @param pathName
+	 *            The destination to export to
+	 */
 	private void exportImage(String pathName) {
 		if (pathName.endsWith(".png")) {
 			pathName.replace(".png", "");
 		}
-		if (frame.topic.equals("Circles")) {
+		if (frame.topic.equals(Frame.CIRCLES)) {
 			BufferedImage imgA = frame.circTopDown.getImg();
 			BufferedImage imgB = frame.circVertical.getImg();
 			int width = imgA.getWidth() + imgB.getWidth();
@@ -195,17 +213,23 @@ public class MyMenuBar extends JMenuBar {
 				e.printStackTrace();
 			}
 		}
-		if (frame.topic.equals("Center")) {
+		if (frame.topic.equals(Frame.CENTER)) {
 			frame.panelCOM.print(pathName);
 		}
-		if (frame.topic.equals("Collisions")) {
+		if (frame.topic.equals(Frame.COLLISIONS)) {
 			frame.colDiagram.print(pathName);
 		}
-		if (frame.topic.equals("Projectiles")) {
+		if (frame.topic.equals(Frame.PROJECTILES)) {
 			frame.projDiagram.print(pathName);
 		}
 	}
 
+	/**
+	 * Load the file at the specified location.
+	 * 
+	 * @param pathName
+	 *            The path of the file to load
+	 */
 	private void load(String pathName) {
 
 		Object savedItem = null;
@@ -225,19 +249,19 @@ public class MyMenuBar extends JMenuBar {
 			Object[] saves = (Object[]) savedItem;
 			String topic = ((String) saves[0]);
 			frame.setTopic(topic);
-			if (topic.equals("Circles")) {
+			if (topic.equals(Frame.CIRCLES)) {
 				frame.circVars = (Var[]) saves[1];
 				frame.circVarB = (Var[]) saves[2];
 				Component[] fields = (Component[]) saves[3];
 				//this class has the right method.
 				new ButtonActionListener(frame).loadFields(fields);
-			} else if (topic.equals("Center")) {
+			} else if (topic.equals(Frame.CENTER)) {
 				frame.panelCOM.plane = (Plane) saves[1];
-			} else if (topic.equals("Collisions")) {
+			} else if (topic.equals(Frame.COLLISIONS)) {
 				frame.colVarA = (Var[]) saves[1];
 				frame.colVarB = (Var[]) saves[2];
 				frame.colVarE = (Var) saves[3];
-			} else if (topic.equals("Projectiles")) {
+			} else if (topic.equals(Frame.PROJECTILES)) {
 				frame.projVars = (Var[]) saves[1];
 			} else {
 				throw new ClassCastException("No matching topic");
@@ -251,20 +275,27 @@ public class MyMenuBar extends JMenuBar {
 		}
 	}
 
+	/**
+	 * Saves the conditions of the current program.
+	 * 
+	 * @param pathName
+	 *            The path to save too
+	 */
 	private void save(String pathName) {
 		Object savedItem = null;
-		if (frame.topic.equals("Circles")) {
-			savedItem = new Object[] { "Circles", frame.circVars, frame.circVarB,
+		if (frame.topic.equals(Frame.CIRCLES)) {
+			savedItem = new Object[] { Frame.CIRCLES, frame.circVars, frame.circVarB,
 					frame.circSouthS.getComponents() };
 		}
-		if (frame.topic.equals("Center")) {
-			savedItem = new Object[] { "Center", frame.panelCOM.plane };
+		if (frame.topic.equals(Frame.CENTER)) {
+			savedItem = new Object[] { Frame.CENTER, frame.panelCOM.plane };
 		}
-		if (frame.topic.equals("Collisions")) {
-			savedItem = new Object[] { "Collisions", frame.colVarA, frame.colVarB, frame.colVarE };
+		if (frame.topic.equals(Frame.COLLISIONS)) {
+			savedItem = new Object[] { Frame.COLLISIONS, frame.colVarA, frame.colVarB,
+					frame.colVarE };
 		}
-		if (frame.topic.equals("Projectiles")) {
-			savedItem = new Object[] { "Projectiles", frame.projVars };
+		if (frame.topic.equals(Frame.PROJECTILES)) {
+			savedItem = new Object[] { Frame.PROJECTILES, frame.projVars };
 		}
 
 		try {
@@ -281,7 +312,7 @@ public class MyMenuBar extends JMenuBar {
 	}
 
 	/**
-	 * 
+	 * Attempts to sovle
 	 */
 	public void solve() {
 		String topic = frame.topic;
@@ -293,7 +324,7 @@ public class MyMenuBar extends JMenuBar {
 		Var e = frame.colVarE;
 
 		long startTime = System.currentTimeMillis();
-		if (topic.equals("Circles")) {
+		if (topic.equals(Frame.CIRCLES)) {
 			int confirm = JOptionPane.showConfirmDialog(frame,
 					"Attempts to find unkown variables if possible.", "Solver",
 					JOptionPane.OK_CANCEL_OPTION);
@@ -317,7 +348,7 @@ public class MyMenuBar extends JMenuBar {
 			defs[8] = new Definition("r=v^2/a");
 			Solver s = new Solver(defs, circVars);
 
-		} else if (topic.equals("Projectiles")) {
+		} else if (topic.equals(Frame.PROJECTILES)) {
 			int confirm = JOptionPane.showConfirmDialog(frame,
 					"Attempts to find unkown variables if possible.", "Solver",
 					JOptionPane.OK_CANCEL_OPTION);
@@ -342,7 +373,7 @@ public class MyMenuBar extends JMenuBar {
 			defs[10] = new Definition("v=(u^2)+0.5*a*(y-h)^1/2");
 			Solver s = new Solver(defs, projVars);
 
-		} else if (topic.equals("Collisions")) {
+		} else if (topic.equals(Frame.COLLISIONS)) {
 			// Not using solver as simultaneous equations are too complex to be
 			// represented.
 			while (true) {
@@ -410,7 +441,7 @@ public class MyMenuBar extends JMenuBar {
 				}
 			}
 
-		} else if (topic.equals("Center")) {
+		} else if (topic.equals(Frame.CENTER)) {
 			JOptionPane.showMessageDialog(frame, "Not avaliable.");
 		}
 		System.out.println("Solver completed in " + (System.currentTimeMillis() - startTime)
@@ -418,22 +449,26 @@ public class MyMenuBar extends JMenuBar {
 		frame.updateFields();
 	}
 
+	/**
+	 * Saves the notes file to the folder m2/notes/ in the program location
+	 */
 	private void saveNotes() {
 		JTextArea textArea = frame.topicDesc;
 		String path = "";
 
-		if (frame.topic.equals("Circles")) {
+		if (frame.topic.equals(Frame.CIRCLES)) {
 			path = "m2/notes/circlesNotes.txt";
 		}
-		if (frame.topic.equals("Center")) {
+		if (frame.topic.equals(Frame.CENTER)) {
 			path = "m2/notes/comNotes.txt";
 		}
-		if (frame.topic.equals("Collisions")) {
+		if (frame.topic.equals(Frame.COLLISIONS)) {
 			path = "m2/notes/collisionNotes.txt";
 		}
-		if (frame.topic.equals("Projectiles")) {
+		if (frame.topic.equals(Frame.PROJECTILES)) {
 			path = "m2/notes/projectileNotes.txt";
 		}
+		//Create file if none exists.
 		File file = new File(path);
 		if (!file.exists()) {
 			try {
@@ -443,7 +478,7 @@ public class MyMenuBar extends JMenuBar {
 				e.printStackTrace();
 			}
 		}
-
+		//Overwrite the file in the selected path
 		Writer writer = null;
 		try {
 			FileOutputStream fout = new FileOutputStream(file, false);

@@ -56,6 +56,11 @@ public class Frame extends JFrame {
 	Border border = BorderFactory.createEtchedBorder(1);
 	JTextArea topicDesc;
 
+	public static String CIRCLES = "circles";
+	public static String COLLISIONS = "collisions";
+	public static String CENTER = "center";
+	public static String PROJECTILES = "projectiles";
+
 	// collision
 	/**
 	 * 0 a <br>
@@ -518,19 +523,19 @@ public class Frame extends JFrame {
 		topicDesc = new JTextArea(null, "", 15, 26);
 		topicDesc.setLineWrap(true);
 
-		if (topic.equals("Circles")) {
+		if (topic.equals(CIRCLES)) {
 			input = this.getClass().getResourceAsStream("/circlesNotes.txt");
 			path = "m2/notes/circlesNotes.txt";
 		}
-		if (topic.equals("Center")) {
+		if (topic.equals(CENTER)) {
 			input = this.getClass().getResourceAsStream("/comNotes.txt");
 			path = "m2/notes/comNotes.txt";
 		}
-		if (topic.equals("Collisions")) {
+		if (topic.equals(COLLISIONS)) {
 			input = this.getClass().getResourceAsStream("/collisionNotes.txt");
 			path = "m2/notes/collisionNotes.txt";
 		}
-		if (topic.equals("Projectiles")) {
+		if (topic.equals(PROJECTILES)) {
 			input = this.getClass().getResourceAsStream("/projectileNotes.txt");
 			path = "m2/notes/projectileNotes.txt";
 		}
@@ -578,12 +583,12 @@ public class Frame extends JFrame {
 	 * Updates text fields to show variable contents.
 	 */
 	public void updateFields() {
-		if (topic.equals("Projectiles")) {
+		if (topic.equals(PROJECTILES)) {
 			for (int i = 0; i < projText.length; i++) {
 				projText[i].setText(MathUtil.round(projVars[i].contents));
 			}
 		}
-		if (topic.equals("Circles")) {
+		if (topic.equals(CIRCLES)) {
 			for (int i = 0; i < circText.length; i++) {
 				circText[i].setText(MathUtil.round(circVars[i].contents));
 			}
@@ -601,7 +606,7 @@ public class Frame extends JFrame {
 			circLblX.setText("Sum of horizontal forces: " + MathUtil.round("" + x));
 			circLblY.setText("Sum of vertical forces  : " + MathUtil.round("" + y));
 		}
-		if (topic.equals("Collisions")) {
+		if (topic.equals(COLLISIONS)) {
 			if (colA) {
 				for (int i = 0; i < colVarA.length; i++) {
 					colField[i + 1].setText(MathUtil.round(colVarA[i].contents));
@@ -624,7 +629,7 @@ public class Frame extends JFrame {
 	public void setTopic(String topic) {
 		getContentPane().removeAll();
 		this.topic = topic;
-		if (topic.equals("Circles")) {
+		if (topic.equals(CIRCLES)) {
 			initCircularMotion();
 			circVertical.text = circVarB;
 			circVertical.force = circTextA;
@@ -632,15 +637,15 @@ public class Frame extends JFrame {
 			circTopDown.vars = circVars;
 			setTitle("Uniform Motion in a Circle");
 		}
-		if (topic.equals("Center")) {
+		if (topic.equals(CENTER)) {
 			initCenterOfMass();
 			setTitle("Center of Mass");
 		}
-		if (topic.equals("Collisions")) {
+		if (topic.equals(COLLISIONS)) {
 			initCollisions();
 			setTitle("Coefficient of Restitution; Impulse");
 		}
-		if (topic.equals("Projectiles")) {
+		if (topic.equals(PROJECTILES)) {
 			initProjectiles();
 			setTitle("Motion of a Projectile");
 		}
@@ -654,6 +659,6 @@ public class Frame extends JFrame {
 	 */
 	public static void main(String[] Args) {
 		StartScreenDialog popup = new StartScreenDialog();
-		Frame window = new Frame(popup.topic);
+		Frame window = new Frame(popup.getTopic());
 	}
 }
