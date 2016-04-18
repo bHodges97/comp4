@@ -1,9 +1,11 @@
 package mainGui.centerOfMass;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 
+import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 
 public class PanelRectangle extends JPanel {
@@ -11,6 +13,11 @@ public class PanelRectangle extends JPanel {
 	int comY = -1;
 	int x;
 	int y;
+
+	public PanelRectangle() {
+		setPreferredSize(new Dimension(200, 200));
+		setBorder(BorderFactory.createLineBorder(Color.BLACK));
+	}
 
 	@Override
 	public void paintComponent(Graphics g) {
@@ -32,8 +39,8 @@ public class PanelRectangle extends JPanel {
 
 		int scale = 180 / (x > y ? x : y);
 
-		g2d.drawString(x + " m", y * scale / 2 + 8, 20);
 		g2d.drawString(y + " m", 15, x * scale / 2 + 8);
+		g2d.drawString(x + " m", y * scale / 2 + 8, 20);
 		g2d.drawRect(ox - width, oy - height, x * scale + 5, y * scale + 5);
 		g2d.setColor(Color.red);
 		g2d.fillOval(comX * scale + 8, comY * scale + 8, 4, 4);

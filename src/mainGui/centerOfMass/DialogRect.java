@@ -1,6 +1,5 @@
 package mainGui.centerOfMass;
 
-import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.GraphicsEnvironment;
@@ -10,8 +9,10 @@ import java.awt.GridLayout;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -39,9 +40,46 @@ public class DialogRect extends JDialog {
 	JTextField height = new JTextField(9);
 	JTextField mass = new JTextField(9);
 	JButton butDone = new JButton("Done");
-	boolean filled = false;
 	Obj returnObj;
 	PanelRectangle panelDiagram = new PanelRectangle();
+	boolean xFilled = false, yFilled = false;
+
+	DocumentListener docListener = new DocumentListener() {
+		@Override
+		public void changedUpdate(DocumentEvent e) {
+			updatePanel();
+		}
+
+		@Override
+		public void insertUpdate(DocumentEvent e) {
+			updatePanel();
+		}
+
+		@Override
+		public void removeUpdate(DocumentEvent e) {
+			updatePanel();
+		}
+	};
+
+	KeyListener keyListener = new KeyListener() {
+		@Override
+		public void keyPressed(KeyEvent e) {
+		}
+
+		@Override
+		public void keyReleased(KeyEvent e) {
+		}
+
+		@Override
+		public void keyTyped(KeyEvent e) {
+			if (e.getSource() == comx) {
+				xFilled = true;
+			}
+			if (e.getSource() == comy) {
+				yFilled = true;
+			}
+		}
+	};
 
 	public DialogRect() {
 
@@ -55,13 +93,11 @@ public class DialogRect extends JDialog {
 				// Loops through all panels inside dialog box
 				for (Component panel : getContentPane().getComponents()) {
 					if (panel instanceof JPanel) {
-
 						// loop through panel components
 						for (Component component : ((JPanel) panel).getComponents()) {
 							if (component instanceof JTextField) {
 								if (!MathUtil.isNumeric(((JTextField) component).getText())) {
-									JOptionPane.showMessageDialog(null,
-											"All fields must be numeric.");
+									JOptionPane.showMessageDialog(null, "All fields must be numeric.");
 									return;
 								}
 							}
@@ -75,15 +111,28 @@ public class DialogRect extends JDialog {
 				h = Double.parseDouble(height.getText());
 				cx = Double.parseDouble(comx.getText());
 				cy = Double.parseDouble(comy.getText());
-				Shape s = new Shape(new MyPoint[] { new MyPoint(0 - cx, h - cy),
-						new MyPoint(w - cx, h - cy), new MyPoint(w - cx, 0 - cy),
-						new MyPoint(0 - cx, 0 - cy) });
+				Shape s = new Shape(new MyPoint[] { new MyPoint(0 - cx, h - cy), new MyPoint(w - cx, h - cy),
+						new MyPoint(w - cx, 0 - cy), new MyPoint(0 - cx, 0 - cy) });
 				returnObj = new Obj(Obj.POLYGON, new MyPoint(xval + cx, yval + cy), s, massval);
-				filled = true;
-				close();
-
+				dispose();
 			}
+		});
 
+		width.getDocument().addDocumentListener(docListener);
+		height.getDocument().addDocumentListener(docListener);
+		comx.getDocument().addDocumentListener(docListener);
+		comy.getDocument().addDocumentListener(docListener);
+		comx.addKeyListener(keyListener);
+		comy.addKeyListener(keyListener);
+
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+				width.getDocument().removeDocumentListener(docListener);
+				height.getDocument().removeDocumentListener(docListener);
+				comx.getDocument().removeDocumentListener(docListener);
+				comy.getDocument().removeDocumentListener(docListener);
+			}
 		});
 
 		setResizable(false);
@@ -92,24 +141,7 @@ public class DialogRect extends JDialog {
 		Point center = g.getCenterPoint();
 		setLocation(center.x - prefSize.width / 2, center.y - prefSize.height / 2);
 		pack();
-
-	}
-
-	public void open() {
-		filled = false;
-		x.setText("0");
-		y.setText("0");
-		comx.setText("");
-		comy.setText("");
-		height.setText("");
-		width.setText("");
-		mass.setText("");
-		this.setVisible(true);
-	}
-
-	public void close() {
-		panelDiagram.clear();
-		this.setVisible(false);
+		setVisible(true);
 	}
 
 	private void placeFields() {
@@ -123,24 +155,16 @@ public class DialogRect extends JDialog {
 
 		Border etchedBorder = BorderFactory.createEtchedBorder(1);
 
-		panelDiagram.setPreferredSize(new Dimension(200, 200));
-		panelDiagram.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-		JPanel panelMass = new JPanel();
-		JPanel panelDimension = new JPanel();
-		JPanel panelPosition = new JPanel();
-		JPanel panelCenter = new JPanel();
-		JPanel panelDone = new JPanel();
+		JPanel panelMass = new JPanel(new GridLayout(0, 2));
+		JPanel panelDimension = new JPanel(new GridLayout(0, 2));
+		JPanel panelPosition = new JPanel(new GridLayout(0, 2));
+		JPanel panelCenter = new JPanel(new GridLayout(0, 2));
+		JPanel panelDone = new JPanel(new GridLayout(0, 2));
 
 		panelMass.setBorder(BorderFactory.createTitledBorder(etchedBorder, "Mass"));
 		panelDimension.setBorder(BorderFactory.createTitledBorder(etchedBorder, "Dimensions"));
 		panelPosition.setBorder(BorderFactory.createTitledBorder(etchedBorder, "Position"));
 		panelCenter.setBorder(BorderFactory.createTitledBorder(etchedBorder, "Center of mass"));
-
-		panelMass.setLayout(new GridLayout(0, 2));
-		panelDimension.setLayout(new GridLayout(0, 2));
-		panelPosition.setLayout(new GridLayout(0, 2));
-		panelCenter.setLayout(new GridLayout(0, 2));
-		panelDone.setLayout(new GridLayout(0, 2));
 
 		gbc.gridx = 0;
 		gbc.gridy = 0;
@@ -173,72 +197,34 @@ public class DialogRect extends JDialog {
 		panelDone.add(new JLabel(""));// Fill space
 		panelDone.add(butDone);
 
-		width.addFocusListener(new FocusListener() {
-			@Override
-			public void focusGained(FocusEvent arg0) {
-				// Do nothing
-			}
+	}
 
-			@Override
-			public void focusLost(FocusEvent arg0) {
-				if (comx.getText().isEmpty()) {
-					if (MathUtil.isNumeric(width.getText())) {
-						comx.setText((Double.parseDouble(width.getText()) / 2) + "");
-					}
-				}
-				panelDiagram.x = (int) Double.parseDouble(width.getText());
-				panelDiagram.repaint();
-			}
-		});
-		height.addFocusListener(new FocusListener() {
-			@Override
-			public void focusGained(FocusEvent arg0) {
-				// Do nothing
-			}
+	private void updatePanel() {
+		// Cast to Double then int to fix number format exception
+		if (MathUtil.isNumeric(width.getText())) {
+			panelDiagram.x = (int) Double.parseDouble(width.getText());
+		}
+		if (MathUtil.isNumeric(height.getText())) {
+			panelDiagram.y = (int) Double.parseDouble(height.getText());
+		}
+		if (MathUtil.isNumeric(comx.getText())) {
+			panelDiagram.comX = (int) Double.parseDouble(comx.getText());
+		}
+		if (MathUtil.isNumeric(comy.getText())) {
+			panelDiagram.comY = (int) Double.parseDouble(comy.getText());
+		}
+		if (!xFilled && MathUtil.isNumeric(width.getText())) {
+			comx.getDocument().removeDocumentListener(docListener);
+			comx.setText((Double.parseDouble(width.getText()) / 2) + "");
+			comx.getDocument().addDocumentListener(docListener);
+		}
+		if (!yFilled && MathUtil.isNumeric(height.getText())) {
+			comy.getDocument().removeDocumentListener(docListener);
+			comy.setText((Double.parseDouble(height.getText()) / 2) + "");
+			comy.getDocument().addDocumentListener(docListener);
+		}
 
-			@Override
-			public void focusLost(FocusEvent arg0) {
-				if (comy.getText().isEmpty()) {
-					if (MathUtil.isNumeric(height.getText())) {
-						comy.setText((Double.parseDouble(height.getText()) / 2) + "");
-					}
-				}
-				panelDiagram.y = (int) Double.parseDouble(height.getText());
-				panelDiagram.repaint();
-			}
-		});
-		DocumentListener docListener = new DocumentListener() {
-			private void update() {
-				if (MathUtil.isNumeric(width.getText()) && MathUtil.isNumeric(comx.getText())) {
-					double x = Double.parseDouble(width.getText());
-					double comXVal = Double.parseDouble(comx.getText());
-					panelDiagram.comX = (int) comXVal;
-				}
-				if (MathUtil.isNumeric(height.getText()) && MathUtil.isNumeric(comy.getText())) {
-					double y = Double.parseDouble(height.getText());
-					double comYVal = Double.parseDouble(comy.getText());
-					panelDiagram.comY = (int) (comYVal);
-				}
-				panelDiagram.repaint();
-			}
-
-			@Override
-			public void changedUpdate(DocumentEvent e) {
-				update();
-			}
-
-			@Override
-			public void insertUpdate(DocumentEvent e) {
-				update();
-			}
-
-			@Override
-			public void removeUpdate(DocumentEvent e) {
-				// Do nothing
-			}
-		};
-		comx.getDocument().addDocumentListener(docListener);
-		comy.getDocument().addDocumentListener(docListener);
-
+		// Repaint panel
+		panelDiagram.repaint();
 	}
 }
