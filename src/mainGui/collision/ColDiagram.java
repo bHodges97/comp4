@@ -18,16 +18,24 @@ import mainGui.Frame;
 import math.MathUtil;
 import math.Var;
 
+/**
+ * The ColDiagram class is a panel that is used to illustrate the variables in
+ * the collisions topic
+ * 
+ */
 public class ColDiagram extends JPanel {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 6979312766899117413L;
+	private static final long serialVersionUID = 1L;
 	Var[] a;
 	Var[] b;
 	Var e;
 
+	/**
+	 * Construct a new instance of this panel
+	 * 
+	 * @param frame
+	 *            The frame this panel belongs to
+	 */
 	public ColDiagram(final Frame frame) {
 		this.a = frame.colVarA;
 		this.b = frame.colVarB;
@@ -52,19 +60,31 @@ public class ColDiagram extends JPanel {
 
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				// Select object based on mouse click.
-				if (Math.abs(e.getY() - getHeight() / 2) < getHeight() * 0.1
-						&& (e.getX() < getWidth() / 4 || (e.getX() > getWidth() / 2 && e.getX() < getWidth() * 0.75))) {
+				// Select object based on mouse click location.
+				int width = getWidth();
+				int height = getHeight();
+				int x = e.getX();
+				int y = e.getY();
+				if (Math.abs(y - height / 2) < height * 0.1
+						&& (x < width * 0.25 || (x > width * 0.5 && x < width * 0.75))) {
 					frame.colA = true;
-				} else if (Math.abs(e.getY() - getHeight() / 2) < getHeight() * 0.1
-						&& (e.getX() > getWidth() / 4 || (e.getX() < getWidth() / 2 && e.getX() > getWidth() * 0.25))) {
+				} else if (Math.abs(y - height / 2) < height * 0.1
+						&& (x > width * 0.25 || (x < width * 0.5 && x > width * 0.25))) {
 					frame.colA = false;
 				}
 				frame.updateFields();
 			}
 		});
+
+		setFocusable(true);
 	}
 
+	/**
+	 * Write the current panel as an image to the location specified
+	 * 
+	 * @param path
+	 *            The path to write the file to
+	 */
 	public void print(String path) {
 		BufferedImage img = new BufferedImage(this.getWidth(), this.getHeight(),
 				BufferedImage.TYPE_INT_RGB);
@@ -229,10 +249,10 @@ public class ColDiagram extends JPanel {
 				label = new String(a[3].contents).substring(1, a[3].contents.length());
 
 				// Draw < arrows
-				int tx = (int) (lx - lx * 0.5 + ly * 0.05 - ly * 0.1 + c);
+				int tx = (int) (lx * 0.5 - +c);
 				int ty = (int) (ly * 0.95);
-				g2d.drawLine(tx, ty, (int) (tx + ly * 0.04 * 0.6), (int) (ty - ly * 0.04 * 0.6));
-				g2d.drawLine(tx, ty, (int) (tx + ly * 0.04 * 0.6), (int) (ty + ly * 0.04 * 0.6));
+				g2d.drawLine(tx, ty, (int) (tx + ly * 0.024), (int) (ty - ly * 0.024));
+				g2d.drawLine(tx, ty, (int) (tx + ly * 0.024), (int) (ty + ly * 0.024));
 
 			} else {
 				if (a[3].isUnknown()) {
@@ -243,7 +263,7 @@ public class ColDiagram extends JPanel {
 				}
 
 				// Draw > arrows
-				int tx = (int) (lx - lx * 0.5 + ly * 0.05 + ly * 0.1 + c);
+				int tx = (int) (lx * 0.5 + ly * 0.15 + c);
 				int ty = (int) (ly * 0.95);
 				g2d.drawLine(tx, ty, (int) (tx - ly * 0.04 * 0.6), (int) (ty - ly * 0.04 * 0.6));
 				g2d.drawLine(tx, ty, (int) (tx - ly * 0.04 * 0.6), (int) (ty + ly * 0.04 * 0.6));
@@ -263,8 +283,8 @@ public class ColDiagram extends JPanel {
 
 		if (!b[3].isZero()) {
 
-			g2d.drawLine((int) (lx + lx * 0.5 - ly * 0.1 + c), (int) (ly * 0.95), (int) (c + lx
-					+ lx * 0.5 + ly * 0.1), (int) (ly * 0.95));
+			g2d.drawLine((int) (lx * 1.5 - ly * 0.1 + c), (int) (ly * 0.95),
+					(int) (c + lx * 1.5 + ly * 0.1), (int) (ly * 0.95));
 			if (MathUtil.isNumeric(b[3].contents) && Double.parseDouble(b[3].contents) < 0) {
 				// removes negative sign
 				label = new String(b[3].contents).substring(1, b[3].contents.length());
@@ -272,8 +292,8 @@ public class ColDiagram extends JPanel {
 				// Draw < arrows
 				int tx = (int) (lx + lx * 0.5 - ly * 0.1 + c);
 				int ty = (int) (ly * 0.95);
-				g2d.drawLine(tx, ty, (int) (tx + ly * 0.04 * 0.6), (int) (ty - ly * 0.04 * 0.6));
-				g2d.drawLine(tx, ty, (int) (tx + ly * 0.04 * 0.6), (int) (ty + ly * 0.04 * 0.6));
+				g2d.drawLine(tx, ty, (int) (tx + ly * 0.024), (int) (ty - ly * 0.024));
+				g2d.drawLine(tx, ty, (int) (tx + ly * 0.024), (int) (ty + ly * 0.024));
 
 			} else {
 				if (b[3].isUnknown()) {
@@ -283,10 +303,10 @@ public class ColDiagram extends JPanel {
 					label = new String(b[3].contents);
 				}
 				// Draw > arrows
-				int tx = (int) (lx + lx * 0.5 + ly * 0.1 + c);
+				int tx = (int) (lx * 1.5 + ly * 0.1 + c);
 				int ty = (int) (ly * 0.95);
-				g2d.drawLine(tx, ty, (int) (tx - ly * 0.04 * 0.6), (int) (ty - ly * 0.04 * 0.6));
-				g2d.drawLine(tx, ty, (int) (tx - ly * 0.04 * 0.6), (int) (ty + ly * 0.04 * 0.6));
+				g2d.drawLine(tx, ty, (int) (tx - ly * 0.024), (int) (ty - ly * 0.024));
+				g2d.drawLine(tx, ty, (int) (tx - ly * 0.024), (int) (ty + ly * 0.024));
 
 			}
 			label = label + " m/s";

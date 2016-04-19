@@ -202,16 +202,16 @@ public class DialogRect extends JDialog {
 	private void updatePanel() {
 		// Cast to Double then int to fix number format exception
 		if (MathUtil.isNumeric(width.getText())) {
-			panelDiagram.x = (int) Double.parseDouble(width.getText());
+			panelDiagram.setX(Double.parseDouble(width.getText()));
 		}
 		if (MathUtil.isNumeric(height.getText())) {
-			panelDiagram.y = (int) Double.parseDouble(height.getText());
+			panelDiagram.setY(Double.parseDouble(height.getText()));
 		}
 		if (MathUtil.isNumeric(comx.getText())) {
-			panelDiagram.comX = (int) Double.parseDouble(comx.getText());
+			panelDiagram.setCOMX(Double.parseDouble(comx.getText()));
 		}
 		if (MathUtil.isNumeric(comy.getText())) {
-			panelDiagram.comY = (int) Double.parseDouble(comy.getText());
+			panelDiagram.setCOMY(Double.parseDouble(comy.getText()));
 		}
 		if (!xFilled && MathUtil.isNumeric(width.getText())) {
 			comx.getDocument().removeDocumentListener(docListener);
