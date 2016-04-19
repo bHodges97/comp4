@@ -22,7 +22,12 @@ import math.MyPoint;
 import math.Obj;
 import math.Shape;
 
+/**
+ * The DialogNewObj class creates a new dialog for creating a obj
+ */
 public class DialogNewObj extends JDialog {
+	private static final long serialVersionUID = 1L;
+
 	Dimension prefSize = new Dimension(200, 500);
 
 	MyPoint com;
@@ -47,6 +52,9 @@ public class DialogNewObj extends JDialog {
 	Obj object = new Obj();
 	boolean done;
 
+	/**
+	 * Construct a new instance of this class
+	 */
 	public DialogNewObj() {
 		setTitle("AddShape");
 		add(p, BorderLayout.NORTH);
@@ -96,8 +104,8 @@ public class DialogNewObj extends JDialog {
 		bot.add(buOk, c);
 
 		txtPoints.setEditable(false);
+		// Add vertex
 		buAdd.addActionListener(new ActionListener() {
-
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				popup.open();
@@ -106,10 +114,9 @@ public class DialogNewObj extends JDialog {
 					updateVertices();
 				}
 			}
-
 		});
+		// remove vertex
 		buRem.addActionListener(new ActionListener() {
-
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				if (vertices.isEmpty())
@@ -117,14 +124,11 @@ public class DialogNewObj extends JDialog {
 				vertices.remove(vertices.size() - 1);
 				updateVertices();
 			}
-
 		});
-
+		// Ok button
 		buOk.addActionListener(new ActionListener() {
-
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-
 				String mass = txtMass.getText();
 				String comX = txtCOMX.getText();
 				String comY = txtCOMY.getText();
@@ -132,20 +136,17 @@ public class DialogNewObj extends JDialog {
 				String PosY = txtPosY.getText();
 
 				if (!MathUtil.isNumeric(mass)) {
-					JOptionPane
-							.showMessageDialog(getParent(), "Please enter a valid number(mass)!",
-									"Oops", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(getParent(), "Please enter a valid number(mass)!", "Oops",
+							JOptionPane.ERROR_MESSAGE);
 					return;
 				}
 				if (!MathUtil.isNumeric(comX) || !MathUtil.isNumeric(comY)) {
-					JOptionPane.showMessageDialog(getParent(),
-							"Please enter a valid number(fenter of mass)!", "Oops",
+					JOptionPane.showMessageDialog(getParent(), "Please enter a valid number(fenter of mass)!", "Oops",
 							JOptionPane.ERROR_MESSAGE);
 					return;
 				}
 				if (!MathUtil.isNumeric(PosX) || !MathUtil.isNumeric(PosY)) {
-					JOptionPane.showMessageDialog(getParent(),
-							"Please enter a valid number(position)!", "Oops",
+					JOptionPane.showMessageDialog(getParent(), "Please enter a valid number(position)!", "Oops",
 							JOptionPane.ERROR_MESSAGE);
 					return;
 				}
@@ -153,8 +154,8 @@ public class DialogNewObj extends JDialog {
 				for (int i = 0; i < vertices.size(); i++) {
 					points[i] = new MyPoint(vertices.get(i).x - com.x, vertices.get(i).y - com.y);
 				}
-				object = new Obj(Float.valueOf(mass), new MyPoint(Double.parseDouble(PosX), Double
-						.valueOf(PosY)), points);
+				object = new Obj(Float.valueOf(mass), new MyPoint(Double.parseDouble(PosX), Double.valueOf(PosY)),
+						points);
 				setVisible(false);
 			}
 		});
@@ -166,6 +167,9 @@ public class DialogNewObj extends JDialog {
 
 	}
 
+	/**
+	 * update vertices list
+	 */
 	private void updateVertices() {
 		ArrayList<MyPoint> copy = new ArrayList<MyPoint>();
 
@@ -191,6 +195,9 @@ public class DialogNewObj extends JDialog {
 
 	}
 
+	/**
+	 * centers the gui
+	 */
 	private void center() {
 		GraphicsEnvironment g = GraphicsEnvironment.getLocalGraphicsEnvironment();
 		Point center = g.getCenterPoint();

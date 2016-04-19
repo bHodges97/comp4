@@ -30,7 +30,11 @@ import math.MyPoint;
 import math.Obj;
 import math.Shape;
 
+/**
+ * The DialogRect class creates a new dialog for creating a new rectangle
+ */
 public class DialogRect extends JDialog {
+	private static final long serialVersionUID = 1L;
 	Dimension prefSize = new Dimension(200, 200);
 	JTextField comx = new JTextField(9);
 	JTextField comy = new JTextField(9);
@@ -81,8 +85,10 @@ public class DialogRect extends JDialog {
 		}
 	};
 
+	/**
+	 * Construct new instance of this class
+	 */
 	public DialogRect() {
-
 		placeFields();
 		butDone.addActionListener(new ActionListener() {
 
@@ -144,6 +150,9 @@ public class DialogRect extends JDialog {
 		setVisible(true);
 	}
 
+	/**
+	 * Set up the GUI
+	 */
 	private void placeFields() {
 		setLayout(new GridBagLayout());
 		GridBagConstraints gbc = new GridBagConstraints();
@@ -199,6 +208,9 @@ public class DialogRect extends JDialog {
 
 	}
 
+	/**
+	 * Update the fields and diagram
+	 */
 	private void updatePanel() {
 		// Cast to Double then int to fix number format exception
 		if (MathUtil.isNumeric(width.getText())) {
@@ -217,11 +229,13 @@ public class DialogRect extends JDialog {
 			comx.getDocument().removeDocumentListener(docListener);
 			comx.setText((Double.parseDouble(width.getText()) / 2) + "");
 			comx.getDocument().addDocumentListener(docListener);
+			panelDiagram.setCOMX(Double.parseDouble(comx.getText()));
 		}
 		if (!yFilled && MathUtil.isNumeric(height.getText())) {
 			comy.getDocument().removeDocumentListener(docListener);
 			comy.setText((Double.parseDouble(height.getText()) / 2) + "");
 			comy.getDocument().addDocumentListener(docListener);
+			panelDiagram.setCOMY(Double.parseDouble(comy.getText()));
 		}
 
 		// Repaint panel

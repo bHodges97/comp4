@@ -27,7 +27,11 @@ import math.Obj;
 import math.Plane;
 import math.Shape;
 
+/**
+ * The COMPanelNorth class is a panel that is used to hold the new obj buttons
+ */
 public class COMPanelNorth extends JPanel {
+	private static final long serialVersionUID = 1L;
 	final JButton b1 = new JButton("Custom");
 	final JButton b2 = new JButton("Rectangle");
 	final JButton b3 = new JButton("Circle Sector");
@@ -48,6 +52,12 @@ public class COMPanelNorth extends JPanel {
 
 	DialogNewObj popupCOM = new DialogNewObj();
 
+	/**
+	 * Construct a new instance of the COMPanelNorth class
+	 * 
+	 * @param frame
+	 *            The frame this panel belongs to
+	 */
 	public COMPanelNorth(Frame frame) {
 		setBorder(border);
 		this.frame = frame;
@@ -123,7 +133,10 @@ public class COMPanelNorth extends JPanel {
 		addListeners();
 	}
 
-	public void addListeners() {
+	/**
+	 * Add action listeners to each button
+	 */
+	private void addListeners() {
 		b1.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
