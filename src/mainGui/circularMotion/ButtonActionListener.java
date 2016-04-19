@@ -14,10 +14,21 @@ import javax.swing.JTextField;
 import mainGui.Frame;
 import math.MathUtil;
 
+/**
+ * The ButtonActionListener class handles ActionEvent thrown when the user
+ * clicks the Add Force button
+ * 
+ */
 public class ButtonActionListener implements ActionListener {
 
 	Frame frame;
 
+	/**
+	 * Constructs a new action listener
+	 * 
+	 * @param frame
+	 *            The frame this listener belongs to
+	 */
 	public ButtonActionListener(Frame frame) {
 		this.frame = frame;
 		frame.circLblX.setText("Sum of horizontal forces: ?");
@@ -41,6 +52,14 @@ public class ButtonActionListener implements ActionListener {
 		addField("0", "0");
 	}
 
+	/**
+	 * Add the parameters into the gui
+	 * 
+	 * @param fieldA
+	 *            The first field
+	 * @param fieldB
+	 *            The second field
+	 */
 	private void addField(String fieldA, String fieldB) {
 		GridBagConstraints c = new GridBagConstraints();
 		frame.circF.add(new JTextField(fieldA, 9));
@@ -57,6 +76,7 @@ public class ButtonActionListener implements ActionListener {
 		c.gridx = 1;
 		frame.circSouthS.add(b, c);
 
+		//add listeners
 		a.addFocusListener(new FocusListener() {
 			@Override
 			public void focusLost(FocusEvent e) {
@@ -113,6 +133,12 @@ public class ButtonActionListener implements ActionListener {
 		});
 	}
 
+	/**
+	 * Add all fields in the parameter to the panel
+	 * 
+	 * @param fields
+	 *            The fields to add
+	 */
 	public void loadFields(Component[] fields) {
 		int i = 0;
 		String temp = "";

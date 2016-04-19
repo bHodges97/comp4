@@ -15,24 +15,37 @@ import javax.swing.JPanel;
 import math.MathUtil;
 import math.Var;
 
+/**
+ * The CircTopDown class is a panel that is used to illustrate the variables in
+ * the circular motion topic
+ * 
+ */
 public class CircTopDown extends JPanel {
 
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -6017603251833338146L;
+	private static final long serialVersionUID = 1L;
 	private Font font;
 	private Font largeFont;
 	private Stroke norm;
 	public Var[] vars;
 	public float thickness = 2f;
 
+	/**
+	 * Construct a new CircTopDown class
+	 */
 	public CircTopDown() {
 		this.setVisible(true);
 		this.setFocusable(true);
 		setBorder(BorderFactory.createEtchedBorder(1));
 	}
 
+	/**
+	 * Generates and returns this panel as an image
+	 * 
+	 * @return A BufferedImage of the current panel
+	 */
 	public BufferedImage getImg() {
 		BufferedImage img = new BufferedImage(this.getWidth(), this.getHeight(),
 				BufferedImage.TYPE_INT_RGB);
@@ -45,14 +58,12 @@ public class CircTopDown extends JPanel {
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		Graphics2D g2d = (Graphics2D) g;
-		g2d.setColor(Color.white);
+		g2d.setColor(Color.white);//Paint background
 		g2d.fillRect(0, 0, getWidth(), getHeight());
 		g2d.setColor(Color.black);
 		g2d.setStroke(new BasicStroke(thickness));
 
-		/*
-		 * Sets up fonts; Might not be used
-		 */
+		// Sets up fonts
 		if (font == null) {
 			font = g.getFont();
 			largeFont = font.deriveFont((float) (font.getSize() * 1.5));
@@ -60,34 +71,28 @@ public class CircTopDown extends JPanel {
 		g2d.setFont(largeFont);
 		String label;
 
-		/*
-		 * Strokes
-		 */
+		// Strokes		
 		if (norm == null) {
 			norm = g2d.getStroke();
 		}
 		Stroke dashed = new BasicStroke(thickness, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0,
 				new float[] { 2 }, 0);
 
-		/*
-		 * Draw title
-		 */
+		// Draw title
 		g2d.drawString("Overview", 0, 20);
 
-		/*
-		 * Don't draw if not initialised.
-		 */
+		// Don't draw if not initialised.
 		if (vars == null) {
 			return;
 		}
-		/*
-		 * Dimension
-		 */
+
+		//Set up dimensions
 		Dimension d = this.getSize();
 		int ox = d.width / 2;
 		int oy = d.height / 2;
 		int r = (int) (d.width / 2 * 0.9);
 
+		//Draw big circles
 		g2d.setStroke(dashed);
 		g2d.drawOval(ox - r, oy - r, r * 2, r * 2);
 
@@ -102,7 +107,7 @@ public class CircTopDown extends JPanel {
 				- smallR, smallR * 2, smallR * 2);
 		g2d.drawLine(ox, oy, (int) (ox + r * Math.sin(theta)), (int) (oy + r * Math.cos(theta)));
 
-		// draw final pos?
+		// draw final pos
 		g2d.setStroke(norm);
 		int objX;
 		int objY;
@@ -112,13 +117,13 @@ public class CircTopDown extends JPanel {
 			g2d.drawString(vars[3].contents + " rad", ox + smallR, oy - smallR);
 		} else {
 			theta = Math.PI / 4;
-			theta = 0;
 			g2d.drawString("ϴ" + " rad", ox + smallR, oy - smallR);
 		}
-		objX = (int) (ox + (r) * Math.sin(theta) - smallR);
-		objY = (int) (oy + (r) * Math.cos(theta) - smallR);
-		g2d.drawOval((int) (objX), (int) (objY), smallR * 2, smallR * 2);
+		objX = (int) (ox + r * Math.sin(theta) - smallR);
+		objY = (int) (oy + r * Math.cos(theta) - smallR);
+		g2d.drawOval(objX, objY, smallR * 2, smallR * 2);
 
+		//Draw arc
 		int temp = (int) (Math.toDegrees(!vars[2].isUnknown() ? vars[2].getVal() : 0));
 		g2d.drawArc(ox - smallR, oy - smallR, smallR * 2, smallR * 2, temp + 270,
 				(int) (Math.toDegrees(theta) - temp));
@@ -134,8 +139,8 @@ public class CircTopDown extends JPanel {
 		int gb = (int) (smallR * 2.5 * Math.sin(theta));
 		MathUtil.drawArrow(g2d, gx - ga, gy + gb, gx + ga, gy - gb, smallR);
 
-		gx = (int) (objX + 1 * smallR - smallR * Math.sin(theta));
-		gy = (int) (objY + 1 * smallR - smallR * Math.cos(theta));
+		gx = (int) (objX + smallR - smallR * Math.sin(theta));
+		gy = (int) (objY + smallR - smallR * Math.cos(theta));
 		MathUtil.drawArrow(g2d, gx, gy, (gx - ox) / 2 + ox, (gy - oy) / 2 + oy, smallR * 2);
 
 		label = vars[6].isUnknown() ? vars[6].label : vars[6].contents;
