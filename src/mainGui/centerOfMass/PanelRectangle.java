@@ -1,53 +1,92 @@
 package mainGui.centerOfMass;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 
-import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 
+/**
+ * The PanelRectangle class is a panel that draws a rectangle of given
+ * constraints.
+ * 
+ */
 public class PanelRectangle extends JPanel {
-	int comX = -1;
-	int comY = -1;
-	int x;
-	int y;
-
-	public PanelRectangle() {
-		setPreferredSize(new Dimension(200, 200));
-		setBorder(BorderFactory.createLineBorder(Color.BLACK));
-	}
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private int x, y, comX = -1, comY = -1;
 
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		Graphics2D g2d = (Graphics2D) g;
+		int ox = getWidth() / 2;
+		int oy = getHeight() / 2;
 
-		if (x == 0 || y == 0) {
+		//Stop painting 
+		if (x <= 0 || y <= 0) {
+			g2d.drawString("Input dimensions in the fields below.", 5, oy);
 			return;
 		}
 
-		int ox = getWidth() / 2;
-		int oy = getHeight() / 2;
-		int width = ox - 5;
-		int height = oy - 5;
 		if (comX == -1 && comY == -1) {
 			comX = ox;
 			comY = oy;
 		}
 
-		int scale = 180 / (x > y ? x : y);
+		//Divide avaliable pixel into the x and y ratio
+		int xPixels, yPixels;
+		if (x > y) {
+			xPixels = 185;
+			yPixels = (int) (180 * ((float) y / (float) x) + 5);
+		} else {
+			xPixels = (int) (180 * ((float) x / (float) y) + 5);
+			yPixels = 185;
+		}
 
-		g2d.drawString(y + " m", 15, x * scale / 2 + 8);
-		g2d.drawString(x + " m", y * scale / 2 + 8, 20);
-		g2d.drawRect(ox - width, oy - height, x * scale + 5, y * scale + 5);
+		g2d.drawString(x + " m", (xPixels - 5) / 2 + 10, 20);
+		g2d.drawString(y + " m", 20, (yPixels - 5) / 2 + 10);
+		g2d.drawRect(5, 5, xPixels, yPixels);
 		g2d.setColor(Color.red);
-		g2d.fillOval(comX * scale + 8, comY * scale + 8, 4, 4);
+
+		g2d.fillOval((int) (xPixels * ((float) comX / x)) + 2,
+				(int) (yPixels * ((float) comY / y)) + 2, 4, 4);
 	}
 
-	public void clear() {
+	/**
+	 * Resets the panel
+	 */
+	public void reset() {
 		x = 0;
 		y = 0;
+		comX = -1;
+		comY = -1;
+	}
+
+	/**
+	 * @param x
+	 *            The x value to set
+	 */
+	public void setX(double x) {
+		this.x = (int) x;
+	}
+
+	/**
+	 * 
+	 * @param y
+	 *            The y value to set
+	 */
+	public void setY(double y) {
+		this.y = (int) y;
+	}
+
+	public void setCOMX(double x) {
+		this.comX = (int) x;
+	}
+
+	public void setCOMY(double y) {
+		this.comY = (int) y;
 	}
 }
