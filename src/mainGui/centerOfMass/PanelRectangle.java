@@ -1,6 +1,7 @@
 package mainGui.centerOfMass;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 
@@ -12,11 +13,15 @@ import javax.swing.JPanel;
  * 
  */
 public class PanelRectangle extends JPanel {
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	private int x, y, comX = -1, comY = -1;
+
+	/**
+	 * Construct a new instance of this class
+	 */
+	public PanelRectangle() {
+		setPreferredSize(new Dimension(200, 200));
+	}
 
 	@Override
 	public void paintComponent(Graphics g) {
@@ -25,7 +30,7 @@ public class PanelRectangle extends JPanel {
 		int ox = getWidth() / 2;
 		int oy = getHeight() / 2;
 
-		//Stop painting 
+		// Stop painting
 		if (x <= 0 || y <= 0) {
 			g2d.drawString("Input dimensions in the fields below.", 5, oy);
 			return;
@@ -36,7 +41,7 @@ public class PanelRectangle extends JPanel {
 			comY = oy;
 		}
 
-		//Divide avaliable pixel into the x and y ratio
+		// Divide avaliable pixel into the x and y ratio
 		int xPixels, yPixels;
 		if (x > y) {
 			xPixels = 185;
@@ -51,8 +56,7 @@ public class PanelRectangle extends JPanel {
 		g2d.drawRect(5, 5, xPixels, yPixels);
 		g2d.setColor(Color.red);
 
-		g2d.fillOval((int) (xPixels * ((float) comX / x)) + 2,
-				(int) (yPixels * ((float) comY / y)) + 2, 4, 4);
+		g2d.fillOval((int) (xPixels * ((float) comX / x)) + 2, (int) (yPixels * ((float) comY / y)) + 2, 4, 4);
 	}
 
 	/**
@@ -82,10 +86,18 @@ public class PanelRectangle extends JPanel {
 		this.y = (int) y;
 	}
 
+	/**
+	 * @param x
+	 *            the x value of the center of mass
+	 */
 	public void setCOMX(double x) {
 		this.comX = (int) x;
 	}
 
+	/**
+	 * @param y
+	 *            the y value of the center of mass
+	 */
 	public void setCOMY(double y) {
 		this.comY = (int) y;
 	}

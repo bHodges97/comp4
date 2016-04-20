@@ -69,8 +69,7 @@ public class Frame extends JFrame {
 	 * 3 u1 <br>
 	 * 4 i1
 	 */
-	public Var[] colVarA;
-	public Var[] colVarB;
+	public Var[] colVarA, colVarB;
 	public Var colVarE;
 	ColDiagram colDiagram;
 	JTextField[] colField = new JTextField[6];
@@ -91,17 +90,15 @@ public class Frame extends JFrame {
 	public Var[] circVars;
 	public List<String> circTextA = new ArrayList<String>();
 	public List<String> circTextB = new ArrayList<String>();
-	public CircTopDown circTopDown;
-	public CircVertical circVertical;
-	Var[] circVarB;
-	JTextField[] circText = new JTextField[8];
-	JTextField circX;
-	JTextField circY;
 	public List<JTextField> circF = new ArrayList<JTextField>();
 	public List<JTextField> circT = new ArrayList<JTextField>();
-	public JLabel circLblX;
-	public JLabel circLblY;
+	public JLabel circLblX, circLblY;
+	public CircTopDown circTopDown;
+	public CircVertical circVertical;
 	public JPanel circSouthS;
+	Var[] circVarB;
+	JTextField[] circText = new JTextField[8];
+	JTextField circX, circY;
 
 	// CenterOfMass
 	public COMPanel panelCOM;
@@ -166,8 +163,7 @@ public class Frame extends JFrame {
 				};
 				update.start();
 				// print time taken to start
-				System.out.println("GUI initialised in " + (System.currentTimeMillis() - timer)
-						+ " milliseconds");
+				System.out.println("GUI initialised in " + (System.currentTimeMillis() - timer) + " milliseconds");
 			}
 		});
 	}
@@ -233,8 +229,8 @@ public class Frame extends JFrame {
 		c.gridx++;
 		panelDiagram.add(circVertical);
 
-		c = new GridBagConstraints(0, 0, 1, 1, 1, 0, GridBagConstraints.FIRST_LINE_START,
-				GridBagConstraints.HORIZONTAL, new Insets(2, 2, 2, 2), 0, 0);
+		c = new GridBagConstraints(0, 0, 1, 1, 1, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.HORIZONTAL,
+				new Insets(2, 2, 2, 2), 0, 0);
 
 		// Column 1;
 		panelFields.add(Explanation, c);
@@ -303,16 +299,16 @@ public class Frame extends JFrame {
 
 		// add listeners
 		ListenerAdder adder = new ListenerAdder(this);
-		adder.addListener(circText[0], circVars[0], 2, null);
-		adder.addListener(circText[1], circVars[1], 1, null);
-		adder.addListener(circText[2], circVars[2], 4, null);
-		adder.addListener(circText[3], circVars[3], 4, null);
-		adder.addListener(circText[4], circVars[4], -1, null);
-		adder.addListener(circText[5], circVars[5], 1, null);
-		adder.addListener(circText[6], circVars[6], 1, null);
-		adder.addListener(circText[7], circVars[7], 1, null);
-		adder.addListener(circX, circVarB[0], -1, null);
-		adder.addListener(circY, circVarB[1], -1, null);
+		adder.addListener(circText[0], circVars[0], ListenerAdder.NONE_ZERO, null);
+		adder.addListener(circText[1], circVars[1], ListenerAdder.GREATER_OR_EQUAL_TO_ZERO, null);
+		adder.addListener(circText[2], circVars[2], ListenerAdder.ANGLE_VERIF, null);
+		adder.addListener(circText[3], circVars[3], ListenerAdder.ANGLE_VERIF, null);
+		adder.addListener(circText[4], circVars[4], ListenerAdder.ISNUMBER, null);
+		adder.addListener(circText[5], circVars[5], ListenerAdder.GREATER_OR_EQUAL_TO_ZERO, null);
+		adder.addListener(circText[6], circVars[6], ListenerAdder.GREATER_OR_EQUAL_TO_ZERO, null);
+		adder.addListener(circText[7], circVars[7], ListenerAdder.GREATER_OR_EQUAL_TO_ZERO, null);
+		adder.addListener(circX, circVarB[0], ListenerAdder.ISNUMBER, null);
+		adder.addListener(circY, circVarB[1], ListenerAdder.ISNUMBER, null);
 		circAddForce.addActionListener(new ButtonActionListener(this));
 	}
 
@@ -332,10 +328,9 @@ public class Frame extends JFrame {
 		// Set borders
 		southPanel.setBorder(border);
 		projDiagram.setBorder(border);
-		before.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(),
-				"Initial conditions"));
-		after.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(),
-				"When object hits someting"));
+		before.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), "Initial conditions"));
+		after.setBorder(
+				BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), "When object hits someting"));
 
 		// Add components to pane
 		sidePanel.add(createNotesPanel(), BorderLayout.NORTH);
@@ -416,19 +411,19 @@ public class Frame extends JFrame {
 
 		// addListeners
 		ListenerAdder adder = new ListenerAdder(this);
-		adder.addListener(projText[0], projVars[0], 4, null);
-		adder.addListener(projText[1], projVars[1], -1, null);
-		adder.addListener(projText[2], projVars[2], -1, null);
-		adder.addListener(projText[3], projVars[3], -1, null);
-		adder.addListener(projText[4], projVars[4], 0, null);
-		adder.addListener(projText[5], projVars[5], 0, null);
-		adder.addListener(projText[6], projVars[6], 0, null);
-		adder.addListener(projText[7], projVars[7], -1, null);
-		adder.addListener(projText[8], projVars[8], 0, null);
-		adder.addListener(projText[9], projVars[9], -1, null);
-		adder.addListener(projText[10], projVars[10], 0, null);
-		adder.addListener(projText[12], projVars[12], 0, null);
-		adder.addListener(projText[11], projVars[11], -2, null);
+		adder.addListener(projText[0], projVars[0], ListenerAdder.ANGLE_VERIF, null);
+		adder.addListener(projText[1], projVars[1], ListenerAdder.ISNUMBER, null);
+		adder.addListener(projText[2], projVars[2], ListenerAdder.ISNUMBER, null);
+		adder.addListener(projText[3], projVars[3], ListenerAdder.ISNUMBER, null);
+		adder.addListener(projText[4], projVars[4], ListenerAdder.GREATER_THAN_ZERO, null);
+		adder.addListener(projText[5], projVars[5], ListenerAdder.GREATER_THAN_ZERO, null);
+		adder.addListener(projText[6], projVars[6], ListenerAdder.GREATER_THAN_ZERO, null);
+		adder.addListener(projText[7], projVars[7], ListenerAdder.ISNUMBER, null);
+		adder.addListener(projText[8], projVars[8], ListenerAdder.GREATER_THAN_ZERO, null);
+		adder.addListener(projText[9], projVars[9], ListenerAdder.ISNUMBER, null);
+		adder.addListener(projText[10], projVars[10], ListenerAdder.GREATER_THAN_ZERO, null);
+		adder.addListener(projText[12], projVars[12], ListenerAdder.GREATER_THAN_ZERO, null);
+		adder.addListener(projText[11], projVars[11], ListenerAdder.NO_VERIF, null);
 	}
 
 	void initCollisions() {
@@ -480,12 +475,12 @@ public class Frame extends JFrame {
 
 		// add listeners
 		ListenerAdder adder = new ListenerAdder(this);
-		adder.addListener(colField[0], colVarE, 5, colVarE);
-		adder.addListener(colField[1], colVarA[0], -2, colVarB[0]);
-		adder.addListener(colField[2], colVarA[1], 0, colVarB[1]);
-		adder.addListener(colField[3], colVarA[2], -1, colVarB[2]);
-		adder.addListener(colField[4], colVarA[3], -1, colVarB[3]);
-		adder.addListener(colField[5], colVarA[4], -1, colVarB[4]);
+		adder.addListener(colField[0], colVarE, ListenerAdder.E_VERIF, colVarE);
+		adder.addListener(colField[1], colVarA[0], ListenerAdder.NO_VERIF, colVarB[0]);
+		adder.addListener(colField[2], colVarA[1], ListenerAdder.GREATER_THAN_ZERO, colVarB[1]);
+		adder.addListener(colField[3], colVarA[2], ListenerAdder.ISNUMBER, colVarB[2]);
+		adder.addListener(colField[4], colVarA[3], ListenerAdder.ISNUMBER, colVarB[3]);
+		adder.addListener(colField[5], colVarA[4], ListenerAdder.ISNUMBER, colVarB[4]);
 	}
 
 	void initCenterOfMass() {
@@ -565,10 +560,9 @@ public class Frame extends JFrame {
 			}
 		}
 		topicDesc.setText("\nEquation of trajectory:\n •y = x*tan(θ)-g*x^2/(2*v^2*cos^2(θ))\n");
-		topicDesc
-				.append("Acceleration:\n •Constant acceleration of 9.8 ms^-2 downwards.\n •No horizontal acceleration, horizontal velocity is constant.\n");
-		topicDesc
-				.append("Velocity\n •Velocity in x direction is V*cos(θ) \n •Velocity in y direction is V*sin(θ).\n");
+		topicDesc.append(
+				"Acceleration:\n •Constant acceleration of 9.8 ms^-2 downwards.\n •No horizontal acceleration, horizontal velocity is constant.\n");
+		topicDesc.append("Velocity\n •Velocity in x direction is V*cos(θ) \n •Velocity in y direction is V*sin(θ).\n");
 
 		JTextField topicTitle = new JTextField(getTitle() + " notes");
 		topicTitle.setEditable(false);
@@ -595,10 +589,8 @@ public class Frame extends JFrame {
 			double x = 0;
 			double y = 0;
 			for (int i = 0; i < circTextA.size(); i++) {
-				x += Double.parseDouble(circTextA.get(i))
-						* Math.cos(Double.parseDouble(circTextB.get(i)));
-				y += Double.parseDouble(circTextA.get(i))
-						* Math.sin(Double.parseDouble(circTextB.get(i)));
+				x += Double.parseDouble(circTextA.get(i)) * Math.cos(Double.parseDouble(circTextB.get(i)));
+				y += Double.parseDouble(circTextA.get(i)) * Math.sin(Double.parseDouble(circTextB.get(i)));
 				System.out.println(x);
 			}
 			circX.setText(circVarB[0].contents);

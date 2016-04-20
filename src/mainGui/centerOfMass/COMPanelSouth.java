@@ -20,7 +20,12 @@ import math.MathUtil;
 import math.Obj;
 import math.Plane;
 
+/**
+ * The COMPanelSouth class is a panel that is used to hold obj specific fields
+ * and buttons
+ */
 public class COMPanelSouth extends JPanel {
+	private static final long serialVersionUID = 1L;
 
 	JLabel planeCom = new JLabel("Plane Center of mass");
 	JLabel planeComVal = new JLabel("");
@@ -37,23 +42,38 @@ public class COMPanelSouth extends JPanel {
 	JButton translate = new JButton("Translate");
 	JButton changeCOM = new JButton("Change center of mass");
 
-	JButton lastObj = new JButton("Previous");
-	JButton nextObj = new JButton("Next");
+	JButton lastObj = new JButton("< Previous");
+	JButton nextObj = new JButton("Next >");
 	Plane plane;
 
 	public Obj current;
 
+	/**
+	 * Construct a new instance of this class
+	 * 
+	 * @param frame
+	 *            The frame this panel belongs to
+	 */
 	public COMPanelSouth(Frame frame) {
 		this.plane = frame.panelCOM.plane;
 		setLayout();
 		addActionListeners();
 	}
 
-	public void setObj(Obj o) {
-		current = o;
+	/**
+	 * Sets the current Obj
+	 * 
+	 * @param obj
+	 *            The new current Obj
+	 */
+	public void setObj(Obj obj) {
+		current = obj;
 		updateFields();
 	}
 
+	/**
+	 * Update the fields
+	 */
 	public void updateFields() {
 		if (current == null) {
 			return;
@@ -65,11 +85,11 @@ public class COMPanelSouth extends JPanel {
 	}
 
 	/**
-	 * Adds the actionlisteners;
+	 * Adds the action listeners;
 	 */
 	private void addActionListeners() {
+		// Sets name
 		varName.addKeyListener(new KeyListener() {
-
 			@Override
 			public void keyTyped(KeyEvent e) {
 			}
@@ -85,6 +105,7 @@ public class COMPanelSouth extends JPanel {
 			public void keyPressed(KeyEvent e) {
 			}
 		});
+		// Sets mass
 		varMass.addKeyListener(new KeyListener() {
 
 			@Override
@@ -102,7 +123,7 @@ public class COMPanelSouth extends JPanel {
 			public void keyPressed(KeyEvent e) {
 			}
 		});
-
+		// Rotate obj
 		rotate.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
@@ -120,8 +141,9 @@ public class COMPanelSouth extends JPanel {
 					if (MathUtil.isNumeric(responce)) {
 						double x = Double.parseDouble(responce);
 						boolean radians = true;
-						if (c == 'D' || c == 'd')
+						if (c == 'D' || c == 'd') {
 							radians = false;
+						}
 						current.rotate(x, radians, current.getCOM());
 					} else {
 						JOptionPane.showMessageDialog(null, "Not a valid input!");
@@ -132,6 +154,7 @@ public class COMPanelSouth extends JPanel {
 				}
 			}
 		});
+		// Translate obj
 		translate.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -168,10 +191,10 @@ public class COMPanelSouth extends JPanel {
 				}
 			}
 		});
+		// Shift the center of mass
 		changeCOM.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				// TODO Auto-generated method stub
 				if (current != null) {
 					JPanel message = new JPanel(new GridBagLayout());
 					GridBagConstraints gbc = new GridBagConstraints();
@@ -208,6 +231,7 @@ public class COMPanelSouth extends JPanel {
 				}
 			}
 		});
+		// Select next obj
 		nextObj.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
@@ -224,6 +248,7 @@ public class COMPanelSouth extends JPanel {
 				updateFields();
 			}
 		});
+		// Select last obj
 		lastObj.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
@@ -286,9 +311,7 @@ public class COMPanelSouth extends JPanel {
 		c.gridy++;
 		add(changeCOM, c);
 
-		/*
-		 * Fixed Size so changing text doesn't change layout.
-		 */
+		// Fixed Size so changing text doesn't change layout.
 		varName.setColumns(9);
 		varMass.setColumns(9);
 		varCOM.setColumns(9);

@@ -23,8 +23,12 @@ import math.MyPoint;
 import math.Obj;
 import math.Plane;
 
-@SuppressWarnings("serial")
+/**
+ * The COMPanel class is a panel that is used to illustrate the variables in the
+ * center of mass topic
+ */
 public class COMPanel extends JPanel {
+	private static final long serialVersionUID = 1L;
 	String topic;
 	public Plane plane;
 	public double scale = 0.05d;
@@ -64,9 +68,14 @@ public class COMPanel extends JPanel {
 		repaint();
 	}
 
+	/**
+	 * Write the current panel as an image to the location specified
+	 * 
+	 * @param path
+	 *            The path to write the file to
+	 */
 	public void print(String path) {
-		BufferedImage img = new BufferedImage(this.getWidth(), this.getHeight(),
-				BufferedImage.TYPE_INT_RGB);
+		BufferedImage img = new BufferedImage(this.getWidth(), this.getHeight(), BufferedImage.TYPE_INT_RGB);
 		Graphics print = img.getGraphics();
 		printAll(print);
 		try {
@@ -76,6 +85,12 @@ public class COMPanel extends JPanel {
 		}
 	}
 
+	/**
+	 * Construct a new instance of the COMPanel class
+	 * 
+	 * @param frame
+	 *            The frame this panel belongs to
+	 */
 	public COMPanel(final Frame frame) {
 		this.frame = frame;
 		setBorder(BorderFactory.createEtchedBorder(1));
@@ -154,8 +169,7 @@ public class COMPanel extends JPanel {
 				if (counter % Math.ceil(40 * scale) == 0) {
 					// make text right aligned
 					FontMetrics fontMetrics = g2d.getFontMetrics();
-					g2d.drawString("-" + counter, ox - fontMetrics.stringWidth("-" + counter) - 2,
-							i + 5);
+					g2d.drawString("-" + counter, ox - fontMetrics.stringWidth("-" + counter) - 2, i + 5);
 				}
 			}
 			counter++;
@@ -165,8 +179,7 @@ public class COMPanel extends JPanel {
 			if (counter != 0) {
 				if (counter % Math.ceil(40 * scale) == 0) {
 					FontMetrics fontMetrics = g2d.getFontMetrics();
-					g2d.drawString("" + counter, u - fontMetrics.stringWidth("" + counter) / 2,
-							oy + 12);
+					g2d.drawString("" + counter, u - fontMetrics.stringWidth("" + counter) / 2, oy + 12);
 				}
 			}
 			counter++;
@@ -176,8 +189,7 @@ public class COMPanel extends JPanel {
 			if (counter != 0) {
 				if (counter % Math.ceil(40 * scale) == 0) {
 					FontMetrics fontMetrics = g2d.getFontMetrics();
-					g2d.drawString("" + counter, ox - fontMetrics.stringWidth("" + counter) - 2,
-							i + 5);
+					g2d.drawString("" + counter, ox - fontMetrics.stringWidth("" + counter) - 2, i + 5);
 				}
 			}
 			counter++;
@@ -187,8 +199,7 @@ public class COMPanel extends JPanel {
 			if (counter != 0) {
 				if (counter % Math.ceil(40 * scale) == 0) {
 					FontMetrics fontMetrics = g2d.getFontMetrics();
-					g2d.drawString("-" + counter, u - fontMetrics.stringWidth("-" + counter) / 2,
-							oy + 12);
+					g2d.drawString("-" + counter, u - fontMetrics.stringWidth("-" + counter) / 2, oy + 12);
 				}
 			}
 			counter++;
@@ -223,6 +234,9 @@ public class COMPanel extends JPanel {
 		update();
 	}
 
+	/**
+	 * 
+	 */
 	private void update() {
 		if (plane.objects.isEmpty())
 			return;

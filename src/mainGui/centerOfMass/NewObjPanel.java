@@ -12,7 +12,12 @@ import math.MyPoint;
 import math.MyVector;
 import math.Shape;
 
+/**
+ * The NewObjPanel class is the panel that is used to illustrate a new obj for
+ * DialogNewObj
+ */
 public class NewObjPanel extends JPanel {
+	private static final long serialVersionUID = 1L;
 	Shape s;
 	double scale;
 	int[] xpoints;
@@ -20,6 +25,9 @@ public class NewObjPanel extends JPanel {
 	int x = -1;
 	int y = -1;
 
+	/**
+	 * Construct a new instance of this class
+	 */
 	public NewObjPanel() {
 		setPreferredSize(new Dimension(200, 200));
 		setBorder(BorderFactory.createEtchedBorder(1));
@@ -51,6 +59,12 @@ public class NewObjPanel extends JPanel {
 		g2d.fillOval(x - 1, y - 1, 3, 3);
 	}
 
+	/**
+	 * Set the shape to illustrate
+	 * 
+	 * @param shape
+	 *            the shape to illustrate
+	 */
 	public void setShape(Shape shape) {
 		s = shape;
 		MyVector r = s.getRange();
@@ -67,6 +81,12 @@ public class NewObjPanel extends JPanel {
 
 	}
 
+	/**
+	 * Set the new COM
+	 * 
+	 * @param com
+	 *            the new COM
+	 */
 	public void setCOM(MyPoint com) {
 		x = (int) ((com.x - s.getMinX()) / scale) + 10;
 		y = (int) (this.getHeight() - (com.y - s.getMinY()) / scale) - 10;

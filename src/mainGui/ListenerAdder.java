@@ -14,14 +14,14 @@ import math.Var;
 public class ListenerAdder {
 	Frame frame;
 
-	public static int NO_VERIF = -2;
-	public static int ISNUMBER_VERIF = -1;
-	public static int GREATER_THAN_ZERO = 0;
-	public static int GREATER_OR_EQUAL_TO_ZERO = 1;
-	public static int NOT_ZERO = 2;
-	public static int LESS_OR_EQUAL_TO_ZERO = 3;
-	public static int ANGLE_VERIF = 4;
-	public static int E_VERIF = 5;
+	public static int NO_VERIF = 0;
+	public static int ISNUMBER = 1;
+	public static int GREATER_THAN_ZERO = 2;
+	public static int GREATER_OR_EQUAL_TO_ZERO = 3;
+	public static int NONE_ZERO = 4;
+	public static int LESS_OR_EQUAL_TO_ZERO = 5;
+	public static int ANGLE_VERIF = 6;
+	public static int E_VERIF = 7;
 
 	public ListenerAdder(Frame frame) {
 		this.frame = frame;
@@ -42,8 +42,7 @@ public class ListenerAdder {
 	 *            NOT_ZERO, LESS_OR_EQUAL_TO_ZERO, ANGLE_VERIF, E_VERIF,
 	 * 
 	 */
-	public void addListener(final JTextField textField, final Var var1, final int type,
-			final Var var2) {
+	public void addListener(final JTextField textField, final Var var1, final int type, final Var var2) {
 		textField.addFocusListener(new FocusListener() {
 			@Override
 			public void focusGained(FocusEvent arg0) {
@@ -94,7 +93,7 @@ public class ListenerAdder {
 			showErrorMsg("Input is too long!");
 			return;
 		}
-		if (type >= ISNUMBER_VERIF && !MathUtil.isNumeric(textField.getText())) {
+		if (type >= ISNUMBER && !MathUtil.isNumeric(textField.getText())) {
 			showErrorMsg("Not a number!");
 			return;
 		}
@@ -106,7 +105,7 @@ public class ListenerAdder {
 			showErrorMsg("Must be greater than 0.");
 			return;
 		}
-		if (type == NOT_ZERO && Double.parseDouble(textField.getText()) == 0) {
+		if (type == NONE_ZERO && Double.parseDouble(textField.getText()) == 0) {
 			showErrorMsg("Must not equal 0.");
 			return;
 		}

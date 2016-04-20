@@ -19,7 +19,11 @@ import math.MathUtil;
 import math.MyPoint;
 import math.Obj;
 
+/**
+ * The DialogPointMass class creates a new dialog for creating a new pointmass
+ */
 public class DialogPointMass extends JDialog {
+	private static final long serialVersionUID = 1L;
 	Dimension prefSize = new Dimension(200, 200);
 	JTextField x = new JTextField(5);
 	JTextField y = new JTextField(5);
@@ -28,6 +32,9 @@ public class DialogPointMass extends JDialog {
 	boolean filled = false;
 	Obj returnObj = new Obj();
 
+	/**
+	 * Construct a new instance of this class
+	 */
 	public DialogPointMass() {
 		setLayout(new GridBagLayout());
 		GridBagConstraints gbc = new GridBagConstraints();
@@ -66,9 +73,8 @@ public class DialogPointMass extends JDialog {
 						if (MathUtil.isNumeric(mass.getText())) {
 							float massval = Float.valueOf(mass.getText());
 							if (massval >= 0) {
-								//TODO: mass < 0?
-								returnObj = new Obj(Obj.POINTMASS, new MyPoint(xval, yval), null,
-										massval);
+								// TODO: mass < 0?
+								returnObj = new Obj(Obj.POINTMASS, new MyPoint(xval, yval), null, massval);
 								filled = true;
 								close();
 								return;
@@ -90,6 +96,9 @@ public class DialogPointMass extends JDialog {
 
 	}
 
+	/**
+	 * show the dialog
+	 */
 	public void open() {
 		filled = false;
 		x.setText("");
@@ -98,6 +107,9 @@ public class DialogPointMass extends JDialog {
 		this.setVisible(true);
 	}
 
+	/**
+	 * hide the dialog
+	 */
 	public void close() {
 		this.setVisible(false);
 	}
