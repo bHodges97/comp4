@@ -36,9 +36,9 @@ public class COMPanelSouth extends JPanel {
 	JLabel objMass = new JLabel("Mass");
 	JLabel objCOM = new JLabel("Position");
 
-	JTextField varName = new JTextField("NULL");
-	JTextField varMass = new JTextField("NULL");
-	JTextField varCOM = new JTextField("NULL");
+	JTextField varName = new JTextField(9);
+	JTextField varMass = new JTextField(9);
+	JTextField varCOM = new JTextField(9);
 
 	JButton rotate = new JButton("Rotate");
 	JButton translate = new JButton("Translate");
@@ -82,6 +82,8 @@ public class COMPanelSouth extends JPanel {
 			varName.setText("NULL");
 			varMass.setText("NULL");
 			varCOM.setText("NULL");
+			varName.setEditable(false);
+			varMass.setEditable(false);
 			varCOM.setEditable(false);
 			return;
 		}
@@ -89,8 +91,7 @@ public class COMPanelSouth extends JPanel {
 		varName.setText(current.getName());
 		varMass.setText(current.getMass() + "");
 		// truncated
-		varCOM.setText(Math.floor(current.getCOM().x * 100) / 100 + ","
-				+ Math.floor(current.getCOM().y * 100) / 100);
+		varCOM.setText(Math.floor(current.getCOM().x * 100) / 100 + "," + Math.floor(current.getCOM().y * 100) / 100);
 	}
 
 	/**
@@ -139,9 +140,13 @@ public class COMPanelSouth extends JPanel {
 
 			@Override
 			public void keyReleased(KeyEvent e) {
-				if (current != null
-						&& varCOM.getText().matches("-?[0-9]+(\\.)?[0-9]+,-?[0-9]+(\\.)?[0-9]+")) {
-					current.moveto(new MyPoint(0, 0), 1.2, 1, 1);
+				if (current != null && varCOM.getText().matches("-?[0-9]+(\\.[0-9]+)?,-?[0-9]+(\\.[0-9]+)?")) {
+					String[] text = varCOM.getText().split(",");
+					double x = Double.parseDouble(text[0]);
+					double y = Double.parseDouble(text[1]);
+					current.moveto(new MyPoint(x, y));
+					updateFields();
+					System.out.println(x + " " + y);
 				}
 			}
 
@@ -154,12 +159,10 @@ public class COMPanelSouth extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				if (current != null) {
-					String responce = JOptionPane
-							.showInputDialog(
-									frame,
-									"Enter angle with suffix 'r' for radians or 'd' for degrees."
-											+ "\n Default is radians if nothing is suffixed. Do not use character π!",
-									"Rotate", JOptionPane.QUESTION_MESSAGE);
+					String responce = JOptionPane.showInputDialog(frame,
+							"Enter angle with suffix 'r' for radians or 'd' for degrees."
+									+ "\n Default is radians if nothing is suffixed. Do not use character π!",
+							"Rotate", JOptionPane.QUESTION_MESSAGE);
 					if (responce == null) {
 						return;
 					}
@@ -208,15 +211,12 @@ public class COMPanelSouth extends JPanel {
 					gbc.gridy = 1;
 					message.add(fieldX, gbc);
 
-					JOptionPane.showMessageDialog(frame, message, "Translate",
-							JOptionPane.PLAIN_MESSAGE);
+					JOptionPane.showMessageDialog(frame, message, "Translate", JOptionPane.PLAIN_MESSAGE);
 
-					if (!MathUtil.isNumeric(fieldX.getText())
-							|| !MathUtil.isNumeric(fieldY.getText())) {
+					if (!MathUtil.isNumeric(fieldX.getText()) || !MathUtil.isNumeric(fieldY.getText())) {
 						showErrorMsg("Not a number.");
 					} else {
-						current.translate(Double.parseDouble(fieldX.getText()),
-								Double.parseDouble(fieldY.getText()));
+						current.translate(Double.parseDouble(fieldX.getText()), Double.parseDouble(fieldY.getText()));
 					}
 				} else {
 					showErrorMsg("No object selected.");
@@ -251,15 +251,12 @@ public class COMPanelSouth extends JPanel {
 					gbc.gridy = 1;
 					message.add(fieldX, gbc);
 
-					JOptionPane.showMessageDialog(frame, message, "Translate",
-							JOptionPane.PLAIN_MESSAGE);
+					JOptionPane.showMessageDialog(frame, message, "Translate", JOptionPane.PLAIN_MESSAGE);
 
-					if (!MathUtil.isNumeric(fieldX.getText())
-							|| !MathUtil.isNumeric(fieldY.getText())) {
+					if (!MathUtil.isNumeric(fieldX.getText()) || !MathUtil.isNumeric(fieldY.getText())) {
 						showErrorMsg("Not a number.");
 					} else {
-						current.shiftCOM(Double.parseDouble(fieldX.getText()),
-								Double.parseDouble(fieldY.getText()));
+						current.shiftCOM(Double.parseDouble(fieldX.getText()), Double.parseDouble(fieldY.getText()));
 					}
 				} else {
 					showErrorMsg("No object selected.");
@@ -300,7 +297,7 @@ public class COMPanelSouth extends JPanel {
 				updateFields();
 			}
 		});
-		//delete current obj
+		// delete current obj
 		delete.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
@@ -308,9 +305,9 @@ public class COMPanelSouth extends JPanel {
 					showErrorMsg("No object selected.");
 					return;
 				}
-				//Confirm user choice
-				if (JOptionPane.showConfirmDialog(frame, "Are you sure you want to delete this",
-						"Confirm", JOptionPane.YES_NO_OPTION) == JOptionPane.NO_OPTION) {
+				// Confirm user choice
+				if (JOptionPane.showConfirmDialog(frame, "Are you sure you want to delete this", "Confirm",
+						JOptionPane.YES_NO_OPTION) == JOptionPane.NO_OPTION) {
 					return;
 				}
 				plane.remove(current);
@@ -376,9 +373,6 @@ public class COMPanelSouth extends JPanel {
 		c.gridy++;
 		add(delete, c);
 
-		// Fixed Size so changing text doesn't change layout.
-		varName.setColumns(9);
-		varMass.setColumns(9);
-		varCOM.setColumns(9);
+		updateFields();
 	}
 }
