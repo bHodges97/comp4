@@ -43,8 +43,7 @@ import math.Var;
 /**
  * Comp4 CourseWork Creates main window for application
  * 
- * @author j00791
- * @version 0;
+ * @version 1;
  */
 public class Frame extends JFrame {
 	private static final long serialVersionUID = 1L;
@@ -121,6 +120,11 @@ public class Frame extends JFrame {
 	ProjDiagram projDiagram;
 	JTextField[] projText = new JTextField[13];
 
+	/**
+	 * Construct a new instance of this class for the chosen topic
+	 * 
+	 * @param popupTopic
+	 */
 	public Frame(String popupTopic) {
 		try {// Set to os style
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -166,7 +170,14 @@ public class Frame extends JFrame {
 		});
 	}
 
-	public static List<Component> getAllPanels(final Container container) {
+	/**
+	 * Gets all panels with in the container
+	 * 
+	 * @param container
+	 *            The container to get panels from
+	 * @return List of panels inside the container
+	 */
+	private static List<Component> getAllPanels(final Container container) {
 		Component[] panels = container.getComponents();
 		List<Component> panelList = new ArrayList<Component>();
 		for (Component panel : panels) {
@@ -178,6 +189,9 @@ public class Frame extends JFrame {
 		return panelList;
 	}
 
+	/**
+	 * Initialise and layout components for topic CIRCLES
+	 */
 	void initCircularMotion() {
 		// Initialised panels;
 		JPanel panelDiagram = new JPanel(new GridLayout());
@@ -310,6 +324,9 @@ public class Frame extends JFrame {
 		circAddForce.addActionListener(new ButtonActionListener(this));
 	}
 
+	/**
+	 * Initialise and layout components for topic PROJECTILES
+	 */
 	void initProjectiles() {
 		// initialise variables
 		projVars = Var.createVars(Var.PROJ_VARS);
@@ -425,6 +442,9 @@ public class Frame extends JFrame {
 		adder.addListener(projText[11], projVars[11], ListenerAdder.NO_VERIF, null);
 	}
 
+	/**
+	 * Initialise and layout components for topic COLLISIONS
+	 */
 	void initCollisions() {
 		// Initialise vars and panels
 		colVarA = Var.createVars(Var.COL_VAR_A);
@@ -482,6 +502,9 @@ public class Frame extends JFrame {
 		adder.addListener(colField[5], colVarA[4], ListenerAdder.ISNUMBER, colVarB[4]);
 	}
 
+	/**
+	 * Initialise and layout components for topic CENTER
+	 */
 	void initCenterOfMass() {
 		panelCOM = new COMPanel(this);
 		JPanel sidePanel = new JPanel(new GridBagLayout());

@@ -33,9 +33,9 @@ public class Solver {
 
 		// Sets the references.
 		for (Definition c : defs) {
-			for (Var var : c.vars) {
+			for (int i = 0; i < c.vars.length; i++) {
 				for (Var v : vars) {
-					var = v;
+					c.vars[i] = v;
 				}
 			}
 		}

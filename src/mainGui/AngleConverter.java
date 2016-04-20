@@ -17,6 +17,11 @@ import javax.swing.event.DocumentListener;
 
 import math.MathUtil;
 
+/**
+ * The AngleConveter class is used to show a popup that allows the user to
+ * convet angles between radians and degrees.
+ * 
+ */
 public class AngleConverter extends JDialog {
 	private static final long serialVersionUID = 1L;
 
@@ -27,8 +32,11 @@ public class AngleConverter extends JDialog {
 	DocumentListener docB;
 	DocumentListener docA;
 
+	/**
+	 * Construct a new instance of this class
+	 */
 	public AngleConverter() {
-		placeField();
+		placeFields();
 		setTitle("Degrees & radians converter");
 		setResizable(false);
 		setDefaultCloseOperation(JDialog.HIDE_ON_CLOSE);
@@ -137,7 +145,10 @@ public class AngleConverter extends JDialog {
 
 	}
 
-	private void placeField() {
+	/**
+	 * Sets up the dialog layout
+	 */
+	private void placeFields() {
 		setLayout(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
 		c.insets = new Insets(2, 2, 2, 2);
