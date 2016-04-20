@@ -38,12 +38,9 @@ import math.Var;
  * 
  */
 public class MyMenuBar extends JMenuBar {
-	final Frame frame;
+	private static final long serialVersionUID = 11L;
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -1764943131583829011L;
+	final Frame frame;
 
 	/**
 	 * Construct a new menubar for the Frame

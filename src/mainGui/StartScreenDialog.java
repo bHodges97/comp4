@@ -17,10 +17,8 @@ import javax.swing.JDialog;
  * 
  */
 public class StartScreenDialog extends JDialog {
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
+
 	private Dimension prefSize = new Dimension(500, 500);
 	private String topic = Frame.CENTER;
 

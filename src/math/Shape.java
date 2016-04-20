@@ -8,10 +8,8 @@ import java.util.ArrayList;
  * 
  */
 public class Shape implements Serializable {
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
+
 	private MyPoint[] points;
 	private int nPoints;
 	private Double area;

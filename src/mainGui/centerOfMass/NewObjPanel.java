@@ -18,6 +18,7 @@ import math.Shape;
  */
 public class NewObjPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
+
 	Shape s;
 	double scale;
 	int[] xpoints;

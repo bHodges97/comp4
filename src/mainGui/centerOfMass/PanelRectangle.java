@@ -14,6 +14,7 @@ import javax.swing.JPanel;
  */
 public class PanelRectangle extends JPanel {
 	private static final long serialVersionUID = 1L;
+
 	private int x, y, comX = -1, comY = -1;
 
 	/**
@@ -56,7 +57,8 @@ public class PanelRectangle extends JPanel {
 		g2d.drawRect(5, 5, xPixels, yPixels);
 		g2d.setColor(Color.red);
 
-		g2d.fillOval((int) (xPixels * ((float) comX / x)) + 2, (int) (yPixels * ((float) comY / y)) + 2, 4, 4);
+		g2d.fillOval((int) (xPixels * ((float) comX / x)) + 2,
+				(int) (yPixels * ((float) comY / y)) + 2, 4, 4);
 	}
 
 	/**

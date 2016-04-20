@@ -24,6 +24,7 @@ import math.Obj;
  */
 public class DialogPointMass extends JDialog {
 	private static final long serialVersionUID = 1L;
+
 	Dimension prefSize = new Dimension(200, 200);
 	JTextField x = new JTextField(5);
 	JTextField y = new JTextField(5);
@@ -74,7 +75,8 @@ public class DialogPointMass extends JDialog {
 							float massval = Float.valueOf(mass.getText());
 							if (massval >= 0) {
 								// TODO: mass < 0?
-								returnObj = new Obj(Obj.POINTMASS, new MyPoint(xval, yval), null, massval);
+								returnObj = new Obj(Obj.POINTMASS, new MyPoint(xval, yval), null,
+										massval);
 								filled = true;
 								close();
 								return;

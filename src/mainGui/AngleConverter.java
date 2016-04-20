@@ -18,11 +18,8 @@ import javax.swing.event.DocumentListener;
 import math.MathUtil;
 
 public class AngleConverter extends JDialog {
+	private static final long serialVersionUID = 1L;
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 8781753606284159308L;
 	JTextField a = new JTextField("0", 10);
 	JTextField b = new JTextField("0", 10);
 	JButton done = new JButton("Close");
@@ -35,8 +32,7 @@ public class AngleConverter extends JDialog {
 		setTitle("Degrees & radians converter");
 		setResizable(false);
 		setDefaultCloseOperation(JDialog.HIDE_ON_CLOSE);
-		GraphicsEnvironment g = GraphicsEnvironment
-				.getLocalGraphicsEnvironment();
+		GraphicsEnvironment g = GraphicsEnvironment.getLocalGraphicsEnvironment();
 		setLocation(g.getCenterPoint().x / 2, g.getCenterPoint().y / 2);
 		pack();
 		done.addActionListener(new ActionListener() {
@@ -53,8 +49,7 @@ public class AngleConverter extends JDialog {
 					public void run() {
 						b.getDocument().removeDocumentListener(docB);
 						if (MathUtil.isNumeric(a.getText())) {
-							String t = ("" + Math.toRadians(Double
-									.parseDouble(a.getText())));
+							String t = ("" + Math.toRadians(Double.parseDouble(a.getText())));
 							if (t.length() - t.indexOf(".") > 4) {
 								t = t.substring(0, t.indexOf(".") + 4);
 							}
@@ -91,8 +86,7 @@ public class AngleConverter extends JDialog {
 						a.getDocument().removeDocumentListener(docA);
 						;
 						if (MathUtil.isNumeric(b.getText())) {
-							String t = ("" + Math.toDegrees(Double
-									.parseDouble(b.getText())));
+							String t = ("" + Math.toDegrees(Double.parseDouble(b.getText())));
 							if (t.length() - t.indexOf(".") > 4) {
 								t = t.substring(0, t.indexOf(".") + 4);
 							}

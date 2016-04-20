@@ -5,10 +5,8 @@ package math;
  * 
  */
 public class Var implements java.io.Serializable {
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
+
 	public String contents;
 	public String name;
 	public String label;

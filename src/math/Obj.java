@@ -9,11 +9,8 @@ import java.io.Serializable;
  * 
  */
 public class Obj implements Serializable {
-
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
+
 	private String name;
 	private float density;
 	private float mass;

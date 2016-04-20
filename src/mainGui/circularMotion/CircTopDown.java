@@ -21,11 +21,8 @@ import math.Var;
  * 
  */
 public class CircTopDown extends JPanel {
-
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
+
 	private Font font;
 	private Font largeFont;
 	private Stroke norm;

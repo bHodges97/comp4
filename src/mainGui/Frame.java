@@ -47,9 +47,6 @@ import math.Var;
  * @version 0;
  */
 public class Frame extends JFrame {
-	/**
-	 * Don't plan on serialising but conform anyway.
-	 */
 	private static final long serialVersionUID = 1L;
 
 	String topic = "Default";
@@ -163,7 +160,8 @@ public class Frame extends JFrame {
 				};
 				update.start();
 				// print time taken to start
-				System.out.println("GUI initialised in " + (System.currentTimeMillis() - timer) + " milliseconds");
+				System.out.println("GUI initialised in " + (System.currentTimeMillis() - timer)
+						+ " milliseconds");
 			}
 		});
 	}
@@ -229,8 +227,8 @@ public class Frame extends JFrame {
 		c.gridx++;
 		panelDiagram.add(circVertical);
 
-		c = new GridBagConstraints(0, 0, 1, 1, 1, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.HORIZONTAL,
-				new Insets(2, 2, 2, 2), 0, 0);
+		c = new GridBagConstraints(0, 0, 1, 1, 1, 0, GridBagConstraints.FIRST_LINE_START,
+				GridBagConstraints.HORIZONTAL, new Insets(2, 2, 2, 2), 0, 0);
 
 		// Column 1;
 		panelFields.add(Explanation, c);
@@ -328,9 +326,10 @@ public class Frame extends JFrame {
 		// Set borders
 		southPanel.setBorder(border);
 		projDiagram.setBorder(border);
-		before.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), "Initial conditions"));
-		after.setBorder(
-				BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), "When object hits someting"));
+		before.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(),
+				"Initial conditions"));
+		after.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(),
+				"When object hits someting"));
 
 		// Add components to pane
 		sidePanel.add(createNotesPanel(), BorderLayout.NORTH);
@@ -560,9 +559,10 @@ public class Frame extends JFrame {
 			}
 		}
 		topicDesc.setText("\nEquation of trajectory:\n •y = x*tan(θ)-g*x^2/(2*v^2*cos^2(θ))\n");
-		topicDesc.append(
-				"Acceleration:\n •Constant acceleration of 9.8 ms^-2 downwards.\n •No horizontal acceleration, horizontal velocity is constant.\n");
-		topicDesc.append("Velocity\n •Velocity in x direction is V*cos(θ) \n •Velocity in y direction is V*sin(θ).\n");
+		topicDesc
+				.append("Acceleration:\n •Constant acceleration of 9.8 ms^-2 downwards.\n •No horizontal acceleration, horizontal velocity is constant.\n");
+		topicDesc
+				.append("Velocity\n •Velocity in x direction is V*cos(θ) \n •Velocity in y direction is V*sin(θ).\n");
 
 		JTextField topicTitle = new JTextField(getTitle() + " notes");
 		topicTitle.setEditable(false);
@@ -589,8 +589,10 @@ public class Frame extends JFrame {
 			double x = 0;
 			double y = 0;
 			for (int i = 0; i < circTextA.size(); i++) {
-				x += Double.parseDouble(circTextA.get(i)) * Math.cos(Double.parseDouble(circTextB.get(i)));
-				y += Double.parseDouble(circTextA.get(i)) * Math.sin(Double.parseDouble(circTextB.get(i)));
+				x += Double.parseDouble(circTextA.get(i))
+						* Math.cos(Double.parseDouble(circTextB.get(i)));
+				y += Double.parseDouble(circTextA.get(i))
+						* Math.sin(Double.parseDouble(circTextB.get(i)));
 				System.out.println(x);
 			}
 			circX.setText(circVarB[0].contents);

@@ -6,9 +6,6 @@ import java.util.ArrayList;
  * The Plane class is used to hold a collection of the Obj class
  */
 public class Plane implements java.io.Serializable {
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
 	public ArrayList<Obj> objects;

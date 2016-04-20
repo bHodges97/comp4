@@ -35,6 +35,7 @@ import math.Shape;
  */
 public class DialogRect extends JDialog {
 	private static final long serialVersionUID = 1L;
+
 	Dimension prefSize = new Dimension(200, 200);
 	JTextField comx = new JTextField(9);
 	JTextField comy = new JTextField(9);
@@ -103,7 +104,8 @@ public class DialogRect extends JDialog {
 						for (Component component : ((JPanel) panel).getComponents()) {
 							if (component instanceof JTextField) {
 								if (!MathUtil.isNumeric(((JTextField) component).getText())) {
-									JOptionPane.showMessageDialog(null, "All fields must be numeric.");
+									JOptionPane.showMessageDialog(null,
+											"All fields must be numeric.");
 									return;
 								}
 							}
@@ -117,8 +119,9 @@ public class DialogRect extends JDialog {
 				h = Double.parseDouble(height.getText());
 				cx = Double.parseDouble(comx.getText());
 				cy = Double.parseDouble(comy.getText());
-				Shape s = new Shape(new MyPoint[] { new MyPoint(0 - cx, h - cy), new MyPoint(w - cx, h - cy),
-						new MyPoint(w - cx, 0 - cy), new MyPoint(0 - cx, 0 - cy) });
+				Shape s = new Shape(new MyPoint[] { new MyPoint(0 - cx, h - cy),
+						new MyPoint(w - cx, h - cy), new MyPoint(w - cx, 0 - cy),
+						new MyPoint(0 - cx, 0 - cy) });
 				returnObj = new Obj(Obj.POLYGON, new MyPoint(xval + cx, yval + cy), s, massval);
 				dispose();
 			}
