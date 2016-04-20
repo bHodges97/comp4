@@ -17,6 +17,7 @@ import javax.swing.JTextField;
 
 import mainGui.Frame;
 import math.MathUtil;
+import math.MyPoint;
 import math.Obj;
 import math.Plane;
 
@@ -27,6 +28,7 @@ import math.Plane;
 public class COMPanelSouth extends JPanel {
 	private static final long serialVersionUID = 1L;
 
+	Plane plane;
 	JLabel planeCom = new JLabel("Plane Center of mass");
 	JLabel planeComVal = new JLabel("");
 
@@ -41,12 +43,12 @@ public class COMPanelSouth extends JPanel {
 	JButton rotate = new JButton("Rotate");
 	JButton translate = new JButton("Translate");
 	JButton changeCOM = new JButton("Change center of mass");
-
 	JButton lastObj = new JButton("< Previous");
 	JButton nextObj = new JButton("Next >");
-	Plane plane;
+	JButton delete = new JButton("Delete");
 
 	public Obj current;
+	Frame frame;
 
 	/**
 	 * Construct a new instance of this class
@@ -55,6 +57,7 @@ public class COMPanelSouth extends JPanel {
 	 *            The frame this panel belongs to
 	 */
 	public COMPanelSouth(Frame frame) {
+		this.frame = frame;
 		this.plane = frame.panelCOM.plane;
 		setLayout();
 		addActionListeners();
@@ -76,12 +79,18 @@ public class COMPanelSouth extends JPanel {
 	 */
 	public void updateFields() {
 		if (current == null) {
+			varName.setText("NULL");
+			varMass.setText("NULL");
+			varCOM.setText("NULL");
+			varCOM.setEditable(false);
 			return;
 		}
+		varCOM.setEditable(true);
 		varName.setText(current.getName());
 		varMass.setText(current.getMass() + "");
 		// truncated
-		varCOM.setText(Math.floor(current.getCOM().x * 100) / 100 + "," + Math.floor(current.getCOM().y * 100) / 100);
+		varCOM.setText(Math.floor(current.getCOM().x * 100) / 100 + ","
+				+ Math.floor(current.getCOM().y * 100) / 100);
 	}
 
 	/**
@@ -107,7 +116,6 @@ public class COMPanelSouth extends JPanel {
 		});
 		// Sets mass
 		varMass.addKeyListener(new KeyListener() {
-
 			@Override
 			public void keyTyped(KeyEvent e) {
 			}
@@ -123,17 +131,38 @@ public class COMPanelSouth extends JPanel {
 			public void keyPressed(KeyEvent e) {
 			}
 		});
+		// Sets pos
+		varCOM.addKeyListener(new KeyListener() {
+			@Override
+			public void keyTyped(KeyEvent e) {
+			}
+
+			@Override
+			public void keyReleased(KeyEvent e) {
+				if (current != null
+						&& varCOM.getText().matches("-?[0-9]+(\\.)?[0-9]+,-?[0-9]+(\\.)?[0-9]+")) {
+					current.moveto(new MyPoint(0, 0), 1.2, 1, 1);
+				}
+			}
+
+			@Override
+			public void keyPressed(KeyEvent e) {
+			}
+		});
 		// Rotate obj
 		rotate.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				if (current != null) {
-					String responce = JOptionPane.showInputDialog(null,
-							"Enter angle with suffix 'r' for radians or 'd' for degrees."
-									+ "\n Default is radians if nothing is suffixed. Do not use character π!",
-							"Rotate", JOptionPane.QUESTION_MESSAGE);
-					if (responce == null)
+					String responce = JOptionPane
+							.showInputDialog(
+									frame,
+									"Enter angle with suffix 'r' for radians or 'd' for degrees."
+											+ "\n Default is radians if nothing is suffixed. Do not use character π!",
+									"Rotate", JOptionPane.QUESTION_MESSAGE);
+					if (responce == null) {
 						return;
+					}
 					char c = responce.charAt(responce.length() - 1);
 					if (!Character.isDigit(c)) {
 						responce = responce.substring(0, responce.length() - 1);
@@ -146,11 +175,11 @@ public class COMPanelSouth extends JPanel {
 						}
 						current.rotate(x, radians, current.getCOM());
 					} else {
-						JOptionPane.showMessageDialog(null, "Not a valid input!");
+						showErrorMsg("Not a valid input!");
 						System.out.println(responce);
 					}
 				} else {
-					JOptionPane.showMessageDialog(null, "No object selected.", "Error", JOptionPane.ERROR_MESSAGE);
+					showErrorMsg("No object selected.");
 				}
 			}
 		});
@@ -179,15 +208,18 @@ public class COMPanelSouth extends JPanel {
 					gbc.gridy = 1;
 					message.add(fieldX, gbc);
 
-					JOptionPane.showMessageDialog(null, message, "Translate", JOptionPane.PLAIN_MESSAGE);
+					JOptionPane.showMessageDialog(frame, message, "Translate",
+							JOptionPane.PLAIN_MESSAGE);
 
-					if (!MathUtil.isNumeric(fieldX.getText()) || !MathUtil.isNumeric(fieldY.getText())) {
-						JOptionPane.showMessageDialog(null, "Not a number.", "Error", JOptionPane.ERROR_MESSAGE);
+					if (!MathUtil.isNumeric(fieldX.getText())
+							|| !MathUtil.isNumeric(fieldY.getText())) {
+						showErrorMsg("Not a number.");
 					} else {
-						current.translate(Double.parseDouble(fieldX.getText()), Double.parseDouble(fieldY.getText()));
+						current.translate(Double.parseDouble(fieldX.getText()),
+								Double.parseDouble(fieldY.getText()));
 					}
 				} else {
-					JOptionPane.showMessageDialog(null, "No object selected.", "Error", JOptionPane.ERROR_MESSAGE);
+					showErrorMsg("No object selected.");
 				}
 			}
 		});
@@ -219,15 +251,18 @@ public class COMPanelSouth extends JPanel {
 					gbc.gridy = 1;
 					message.add(fieldX, gbc);
 
-					JOptionPane.showMessageDialog(null, message, "Translate", JOptionPane.PLAIN_MESSAGE);
+					JOptionPane.showMessageDialog(frame, message, "Translate",
+							JOptionPane.PLAIN_MESSAGE);
 
-					if (!MathUtil.isNumeric(fieldX.getText()) || !MathUtil.isNumeric(fieldY.getText())) {
-						JOptionPane.showMessageDialog(null, "Not a number.", "Error", JOptionPane.ERROR_MESSAGE);
+					if (!MathUtil.isNumeric(fieldX.getText())
+							|| !MathUtil.isNumeric(fieldY.getText())) {
+						showErrorMsg("Not a number.");
 					} else {
-						current.shiftCOM(Double.parseDouble(fieldX.getText()), Double.parseDouble(fieldY.getText()));
+						current.shiftCOM(Double.parseDouble(fieldX.getText()),
+								Double.parseDouble(fieldY.getText()));
 					}
 				} else {
-					JOptionPane.showMessageDialog(null, "No object selected.", "Error", JOptionPane.ERROR_MESSAGE);
+					showErrorMsg("No object selected.");
 				}
 			}
 		});
@@ -236,7 +271,7 @@ public class COMPanelSouth extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				if (current == null) {
-					JOptionPane.showMessageDialog(null, "No object selected.", "Error", JOptionPane.ERROR_MESSAGE);
+					showErrorMsg("No object selected.");
 					return;
 				}
 				System.out.println(plane.objects.indexOf(current) + " " + plane.objects.size());
@@ -253,7 +288,7 @@ public class COMPanelSouth extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				if (current == null) {
-					JOptionPane.showMessageDialog(null, "No object selected.", "Error", JOptionPane.ERROR_MESSAGE);
+					showErrorMsg("No object selected.");
 					return;
 				}
 				System.out.println(plane.objects.indexOf(current) + " " + plane.objects.size());
@@ -265,6 +300,34 @@ public class COMPanelSouth extends JPanel {
 				updateFields();
 			}
 		});
+		//delete current obj
+		delete.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				if (current == null) {
+					showErrorMsg("No object selected.");
+					return;
+				}
+				//Confirm user choice
+				if (JOptionPane.showConfirmDialog(frame, "Are you sure you want to delete this",
+						"Confirm", JOptionPane.YES_NO_OPTION) == JOptionPane.NO_OPTION) {
+					return;
+				}
+				plane.remove(current);
+				updateFields();
+			}
+		});
+
+	}
+
+	/**
+	 * Shows an error message
+	 * 
+	 * @param msg
+	 *            The error message
+	 */
+	private void showErrorMsg(String msg) {
+		JOptionPane.showMessageDialog(frame, msg, "Error", JOptionPane.ERROR_MESSAGE);
 	}
 
 	/**
@@ -310,12 +373,12 @@ public class COMPanelSouth extends JPanel {
 		add(translate, c);
 		c.gridy++;
 		add(changeCOM, c);
+		c.gridy++;
+		add(delete, c);
 
 		// Fixed Size so changing text doesn't change layout.
 		varName.setColumns(9);
 		varMass.setColumns(9);
 		varCOM.setColumns(9);
-
-		varCOM.setEditable(false);
 	}
 }
