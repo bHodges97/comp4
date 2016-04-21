@@ -145,12 +145,12 @@ public class Obj implements Serializable {
 	 * For lines and points test if distance from cursor is with the tolerance.
 	 * Tolerance is 1/4 of the inverse of the display scale.
 	 * 
-	 * @see <a href="https://en.wikipedia.org/wiki/Ray_casting">
-	 *      https://en.wikipedia.org/wiki/Ray_casting</a>
+	 * @see <a href="https://en.wikipedia.org/wiki/Ray_casting"> https://en.
+	 *      wikipedia.org/wiki/Ray_casting</a>
 	 * @see <a href=
 	 *      "http://mathworld.wolfram.com/Point-LineDistance2-Dimensional.html">
 	 *      http://mathworld.wolfram.com/Point-LineDistance2-Dimensional.html
-
+	 * 
 	 *      </a>
 	 * @param point
 	 *            The point to test
@@ -175,8 +175,7 @@ public class Obj implements Serializable {
 				int y1 = renderPoly.ypoints[i];
 				int y2 = renderPoly.ypoints[j];
 
-				if (((y1 >= point.y) != (y2 >= point.y))
-						&& (point.x <= (x2 - x1) * (point.y - y1) / (y2 - y1) + x1)) {
+				if (((y1 >= point.y) != (y2 >= point.y)) && (point.x <= (x2 - x1) * (point.y - y1) / (y2 - y1) + x1)) {
 					test = !test;
 				}
 			}
@@ -192,9 +191,9 @@ public class Obj implements Serializable {
 		// PolyLine
 		else if (type == POLYLINE) {
 			for (int i = 0; i < renderPoly.npoints - 1; i++) {
-				if (MathUtil.PointInLineSegment(new MyPoint(point.x, point.y), new MyPoint(
-						renderPoly.xpoints[i], renderPoly.ypoints[i]), new MyPoint(
-						renderPoly.xpoints[i + 1], renderPoly.ypoints[i + 1]), tolerance)) {
+				if (MathUtil.PointInLineSegment(new MyPoint(point.x, point.y),
+						new MyPoint(renderPoly.xpoints[i], renderPoly.ypoints[i]),
+						new MyPoint(renderPoly.xpoints[i + 1], renderPoly.ypoints[i + 1]), tolerance)) {
 					return true;
 				}
 			}
@@ -208,7 +207,7 @@ public class Obj implements Serializable {
 	 * Set the object to a location. Not translation.
 	 * 
 	 * @param myPoint
-	 *            The Point in world space to move it to.
+	 *            The Point in display area to move it to.
 	 * @param offx
 	 *            Offset x
 	 * @param offy
@@ -217,9 +216,19 @@ public class Obj implements Serializable {
 	 *            Scale of canvas
 	 */
 	public void moveto(MyPoint myPoint, double scale, int offx, int offy) {
-
 		this.COM.x = (myPoint.x - offx) * scale;
 		this.COM.y = (offy - myPoint.y) * scale;
+		updateWorldSpace();
+	}
+
+	/**
+	 * Set the object to a location. Not translation.
+	 * 
+	 * @param myPoint
+	 *            The Point in world space to move it to.
+	 */
+	public void moveto(MyPoint myPoint) {
+		COM = myPoint;
 		updateWorldSpace();
 	}
 
@@ -241,10 +250,10 @@ public class Obj implements Serializable {
 			origin = new MyPoint(0, 0);
 		}
 
-		//offset by origin
+		// offset by origin
 		COM = new MyPoint(COM.x - origin.x, COM.y - origin.y);
 		MathUtil.rotate(COM, angle);
-		//undo offset
+		// undo offset
 		COM = new MyPoint(COM.x + origin.x, COM.y + origin.y);
 
 		shape.rotate(angle);
@@ -345,5 +354,4 @@ public class Obj implements Serializable {
 	public void setMass(String mass) throws NumberFormatException {
 		this.mass = Float.parseFloat(mass);
 	}
-
 }
