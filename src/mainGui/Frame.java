@@ -138,13 +138,15 @@ public class Frame extends JFrame {
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
 				long timer = System.currentTimeMillis();
-				setExtendedState(MAXIMIZED_BOTH);// FullScreen
 				setJMenuBar(new MyMenuBar(Frame.this));
 				setTopic(topic);
 				setMinimumSize(new Dimension(640, 480));
 				setDefaultCloseOperation(EXIT_ON_CLOSE);
 				pack();
 				setVisible(true);
+				setPreferredSize(new Dimension(640, 480));
+				setExtendedState(MAXIMIZED_BOTH);// FullScreen
+				setMaximumSize(getSize());
 
 				// Thread that updates GUI
 				Thread update = new Thread() {
@@ -251,7 +253,7 @@ public class Frame extends JFrame {
 		// Initialised panels;
 		JPanel panelDiagram = new JPanel(new GridLayout());
 		JPanel panelFields = new JPanel(new GridBagLayout());
-		JPanel panelWest = new JPanel(new GridLayout(0, 1, 5, 5));
+		JPanel panelWest = new JPanel(new GridLayout(0, 1));
 		circSouthS = new JPanel(new GridBagLayout());
 		JPanel panelSouth = new JPanel(new GridLayout(0, 1));
 		JPanel panelSouthN = new JPanel(new GridBagLayout());
@@ -386,8 +388,7 @@ public class Frame extends JFrame {
 		// initialise variables
 		projVars = Var.createVars(Var.PROJ_VARS);
 		projDiagram = new ProjDiagram(projVars);
-		JPanel sidePanel = new JPanel(new BorderLayout(0, 0));
-		JPanel southPanel = new JPanel(new GridLayout(0, 1));
+		JPanel sidePanel = new JPanel(new GridLayout(0, 1));
 		JPanel others = new JPanel(new GridBagLayout());
 		JPanel before = new JPanel(new GridBagLayout());
 		JPanel after = new JPanel(new GridBagLayout());
@@ -396,19 +397,16 @@ public class Frame extends JFrame {
 		}
 
 		// Set borders
-		southPanel.setBorder(border);
-		projDiagram.setBorder(border);
 		before.setBorder(BorderFactory.createTitledBorder(border, "Initial conditions"));
 		after.setBorder(BorderFactory.createTitledBorder(border, "When object hits someting"));
 
 		// Add components to pane
-		sidePanel.add(createNotesPanel(), BorderLayout.NORTH);
-		sidePanel.add(new JScrollPane(southPanel), BorderLayout.CENTER);
-		add(projDiagram, BorderLayout.CENTER);
+		sidePanel.add(createNotesPanel());
+		sidePanel.add(new JScrollPane(before));
+		sidePanel.add(new JScrollPane(after));
+		sidePanel.add(new JScrollPane(others));
 		add(sidePanel, BorderLayout.WEST);
-		southPanel.add(new JScrollPane(before));
-		southPanel.add(new JScrollPane(after));
-		southPanel.add(new JScrollPane(others));
+		add(projDiagram, BorderLayout.CENTER);
 
 		GridBagConstraints c = new GridBagConstraints(0, 0, 1, 1, 1, 0, GridBagConstraints.WEST,
 				GridBagConstraints.HORIZONTAL, new Insets(2, 2, 2, 2), 0, 0);
@@ -512,10 +510,8 @@ public class Frame extends JFrame {
 		// layout
 		this.add(westPanel, BorderLayout.WEST);
 		this.add(colDiagram, BorderLayout.CENTER);
-		westPanel.add(new JScrollPane(createNotesPanel()));
+		westPanel.add(createNotesPanel());
 		westPanel.add(new JScrollPane(fields));
-		colDiagram.setBorder(border);
-		fields.setBorder(border);
 
 		// initialise constraints
 		GridBagConstraints gbc = new GridBagConstraints(0, 0, 2, 1, 1, 0, GridBagConstraints.WEST,
@@ -565,7 +561,6 @@ public class Frame extends JFrame {
 		this.add(sidePanel, BorderLayout.WEST);
 		COMPanelNorth sideNorth = new COMPanelNorth(this);
 		sideSouth = new COMPanelSouth(this);
-		sidePanel.setBorder(border);
 
 		GridBagConstraints c = new GridBagConstraints();
 		c.weighty = 1;
