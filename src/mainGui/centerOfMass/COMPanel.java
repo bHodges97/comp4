@@ -214,18 +214,20 @@ public class COMPanel extends JPanel {
 		g2d.drawString("0", ox - 10, oy + 15);// Skip this as it's been done in
 												// axis already.
 
+		//draw objs
 		if (plane == null) {
 			return;
 		}
 		int s = (int) (1 / scale) / 4;
 		for (Obj obj : plane.objects) {
+			g2d.setColor(obj.getColor());
 			obj.prepareForPaint(ox, oy, scale);
 			Polygon renderPoly = null;
 			if (obj.getType() != Obj.POINTMASS) {
 				renderPoly = obj.getRenderPoly();
 			}
 			if (obj.getType() == Obj.POLYGON) {
-				g2d.drawPolygon(renderPoly);
+				g2d.fillPolygon(renderPoly);
 			} else if (obj.getType() == Obj.POLYLINE) {
 				g2d.drawPolyline(renderPoly.xpoints, renderPoly.ypoints, renderPoly.npoints);
 			}

@@ -5,6 +5,7 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 
+import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 
 /**
@@ -22,6 +23,7 @@ public class PanelRectangle extends JPanel {
 	 */
 	public PanelRectangle() {
 		setPreferredSize(new Dimension(200, 200));
+		setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
 	}
 
 	@Override

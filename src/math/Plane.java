@@ -1,5 +1,6 @@
 package math;
 
+import java.awt.Color;
 import java.util.ArrayList;
 
 /**
@@ -54,7 +55,6 @@ public class Plane implements java.io.Serializable {
 	 * 
 	 */
 	public void add(Obj obj) {
-		objects.add(obj);
 		if (obj.getName() == null) {
 			if (objects.indexOf(obj) + 'A' <= 'Z') {
 				obj.setName((char) (objects.indexOf(obj) + 'A') + "");
@@ -62,6 +62,10 @@ public class Plane implements java.io.Serializable {
 				obj.setName("Object " + objects.indexOf(obj));
 			}
 		}
+		while (isColorUsed(obj.getColor())) {
+			obj.setColor(null);
+		}
+		objects.add(obj);
 		System.out.println("Object added(" + obj.getName() + ")");
 	}
 
@@ -72,5 +76,21 @@ public class Plane implements java.io.Serializable {
 	public void remove(Obj obj) {
 		int i = objects.indexOf(obj);
 		objects.remove(i);
+	}
+
+	/**
+	 * Check if there is an obj in this plane with specified color
+	 * 
+	 * @param color
+	 *            The color to test
+	 * @return True if color is in use, false if otherwise
+	 */
+	public boolean isColorUsed(Color color) {
+		for (Obj obj : objects) {
+			if (obj.getColor().equals(color)) {
+				return true;
+			}
+		}
+		return false;
 	}
 }

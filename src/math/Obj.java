@@ -1,8 +1,10 @@
 package math;
 
+import java.awt.Color;
 import java.awt.Point;
 import java.awt.Polygon;
 import java.io.Serializable;
+import java.util.Random;
 
 /**
  * The Obj class represents shapes used in mechanics 2
@@ -10,15 +12,15 @@ import java.io.Serializable;
  */
 public class Obj implements Serializable {
 	private static final long serialVersionUID = 1L;
+	public static final int POLYGON = 0;
+	public static final int POINTMASS = 1;
+	public static final int POLYLINE = 2;
 
 	private String name;
 	private float density;
 	private float mass;
-
+	private Color color;
 	private int type = 0;
-	static public final int POLYGON = 0;
-	static public final int POINTMASS = 1;
-	static public final int POLYLINE = 2;
 
 	/**
 	 * Center Of mass, Used as position of object in world space. The shape
@@ -45,6 +47,7 @@ public class Obj implements Serializable {
 		this.shape = new Shape();
 		this.COM = shape.findCenter();
 		this.type = POLYGON;
+		setColor(null);
 		updateWorldSpace();
 	}
 
@@ -63,6 +66,7 @@ public class Obj implements Serializable {
 		this.shape = new Shape(points);
 		this.COM = centerOfMass;
 		this.type = POLYGON;
+		setColor(null);
 		updateWorldSpace();
 	}
 
@@ -83,6 +87,7 @@ public class Obj implements Serializable {
 		this.type = type;
 		this.shape = shape;
 		this.COM = centerOfMass;
+		setColor(null);
 		updateWorldSpace();
 	}
 
@@ -146,11 +151,12 @@ public class Obj implements Serializable {
 	 * Tolerance is 1/4 of the inverse of the display scale.
 	 * 
 	 * @see <a href="https://en.wikipedia.org/wiki/Ray_casting"> https://en.
+
 	 *      wikipedia.org/wiki/Ray_casting</a>
 	 * @see <a href=
 	 *      "http://mathworld.wolfram.com/Point-LineDistance2-Dimensional.html">
 	 *      http://mathworld.wolfram.com/Point-LineDistance2-Dimensional.html
-	 * 
+
 	 *      </a>
 	 * @param point
 	 *            The point to test
@@ -175,7 +181,8 @@ public class Obj implements Serializable {
 				int y1 = renderPoly.ypoints[i];
 				int y2 = renderPoly.ypoints[j];
 
-				if (((y1 >= point.y) != (y2 >= point.y)) && (point.x <= (x2 - x1) * (point.y - y1) / (y2 - y1) + x1)) {
+				if (((y1 >= point.y) != (y2 >= point.y))
+						&& (point.x <= (x2 - x1) * (point.y - y1) / (y2 - y1) + x1)) {
 					test = !test;
 				}
 			}
@@ -191,9 +198,9 @@ public class Obj implements Serializable {
 		// PolyLine
 		else if (type == POLYLINE) {
 			for (int i = 0; i < renderPoly.npoints - 1; i++) {
-				if (MathUtil.PointInLineSegment(new MyPoint(point.x, point.y),
-						new MyPoint(renderPoly.xpoints[i], renderPoly.ypoints[i]),
-						new MyPoint(renderPoly.xpoints[i + 1], renderPoly.ypoints[i + 1]), tolerance)) {
+				if (MathUtil.PointInLineSegment(new MyPoint(point.x, point.y), new MyPoint(
+						renderPoly.xpoints[i], renderPoly.ypoints[i]), new MyPoint(
+						renderPoly.xpoints[i + 1], renderPoly.ypoints[i + 1]), tolerance)) {
 					return true;
 				}
 			}
@@ -279,6 +286,14 @@ public class Obj implements Serializable {
 	}
 
 	/**
+	 * 
+	 * @return the color of this obj
+	 */
+	public Color getColor() {
+		return color;
+	}
+
+	/**
 	 * @return the mass value
 	 */
 	public float getMass() {
@@ -353,5 +368,21 @@ public class Obj implements Serializable {
 	 */
 	public void setMass(String mass) throws NumberFormatException {
 		this.mass = Float.parseFloat(mass);
+	}
+
+	/**
+	 * Sets the color of this obj
+	 * 
+	 * @param color
+	 *            the new color
+	 */
+	public void setColor(Color color) {
+		Random r = new Random(System.currentTimeMillis());
+		if (color != null) {
+			this.color = color;
+		} else {
+			this.color = new Color(Math.abs(r.nextInt() % 256), Math.abs(r.nextInt() % 256),
+					Math.abs(r.nextInt() % 256));
+		}
 	}
 }

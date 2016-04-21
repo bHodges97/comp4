@@ -37,6 +37,7 @@ public class DialogPointMass extends JDialog {
 	 * Construct a new instance of this class
 	 */
 	public DialogPointMass() {
+		returnObj = new Obj();
 		setLayout(new GridBagLayout());
 		GridBagConstraints gbc = new GridBagConstraints();
 		gbc.gridx = 0;
