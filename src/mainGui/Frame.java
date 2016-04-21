@@ -141,12 +141,11 @@ public class Frame extends JFrame {
 				setJMenuBar(new MyMenuBar(Frame.this));
 				setTopic(topic);
 				setMinimumSize(new Dimension(640, 480));
+				setPreferredSize(new Dimension(800, 600));
 				setDefaultCloseOperation(EXIT_ON_CLOSE);
 				pack();
 				setVisible(true);
-				setPreferredSize(new Dimension(640, 480));
-				setExtendedState(MAXIMIZED_BOTH);// FullScreen
-				setMaximumSize(getSize());
+				setExtendedState(MAXIMIZED_BOTH);
 
 				// Thread that updates GUI
 				Thread update = new Thread() {
