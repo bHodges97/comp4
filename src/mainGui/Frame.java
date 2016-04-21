@@ -311,16 +311,16 @@ public class Frame extends JFrame {
 
 		// add listeners
 		ListenerAdder adder = new ListenerAdder(this);
-		adder.addListener(circText[0], circVars[0], ListenerAdder.NONE_ZERO, null);
-		adder.addListener(circText[1], circVars[1], ListenerAdder.GREATER_OR_EQUAL_TO_ZERO, null);
-		adder.addListener(circText[2], circVars[2], ListenerAdder.ANGLE_VERIF, null);
-		adder.addListener(circText[3], circVars[3], ListenerAdder.ANGLE_VERIF, null);
-		adder.addListener(circText[4], circVars[4], ListenerAdder.ISNUMBER, null);
-		adder.addListener(circText[5], circVars[5], ListenerAdder.GREATER_OR_EQUAL_TO_ZERO, null);
-		adder.addListener(circText[6], circVars[6], ListenerAdder.GREATER_OR_EQUAL_TO_ZERO, null);
-		adder.addListener(circText[7], circVars[7], ListenerAdder.GREATER_OR_EQUAL_TO_ZERO, null);
-		adder.addListener(circX, circVarB[0], ListenerAdder.ISNUMBER, null);
-		adder.addListener(circY, circVarB[1], ListenerAdder.ISNUMBER, null);
+		adder.addListener(circText[0], circVars[0], null, ListenerAdder.NONE_ZERO);
+		adder.addListener(circText[1], circVars[1], null, ListenerAdder.GREATER_OR_EQUAL_TO_ZERO);
+		adder.addListener(circText[2], circVars[2], null, ListenerAdder.ANGLE_VERIF);
+		adder.addListener(circText[3], circVars[3], null, ListenerAdder.ANGLE_VERIF);
+		adder.addListener(circText[4], circVars[4], null, ListenerAdder.ISNUMBER);
+		adder.addListener(circText[5], circVars[5], null, ListenerAdder.GREATER_OR_EQUAL_TO_ZERO);
+		adder.addListener(circText[6], circVars[6], null, ListenerAdder.GREATER_OR_EQUAL_TO_ZERO);
+		adder.addListener(circText[7], circVars[7], null, ListenerAdder.GREATER_OR_EQUAL_TO_ZERO);
+		adder.addListener(circX, circVarB[0], null, ListenerAdder.ISNUMBER);
+		adder.addListener(circY, circVarB[1], null, ListenerAdder.ISNUMBER);
 		circAddForce.addActionListener(new ButtonActionListener(this));
 	}
 
@@ -427,19 +427,19 @@ public class Frame extends JFrame {
 
 		// addListeners
 		ListenerAdder adder = new ListenerAdder(this);
-		adder.addListener(projText[0], projVars[0], ListenerAdder.ANGLE_VERIF, null);
-		adder.addListener(projText[1], projVars[1], ListenerAdder.ISNUMBER, null);
-		adder.addListener(projText[2], projVars[2], ListenerAdder.ISNUMBER, null);
-		adder.addListener(projText[3], projVars[3], ListenerAdder.ISNUMBER, null);
-		adder.addListener(projText[4], projVars[4], ListenerAdder.GREATER_THAN_ZERO, null);
-		adder.addListener(projText[5], projVars[5], ListenerAdder.GREATER_THAN_ZERO, null);
-		adder.addListener(projText[6], projVars[6], ListenerAdder.GREATER_THAN_ZERO, null);
-		adder.addListener(projText[7], projVars[7], ListenerAdder.ISNUMBER, null);
-		adder.addListener(projText[8], projVars[8], ListenerAdder.GREATER_THAN_ZERO, null);
-		adder.addListener(projText[9], projVars[9], ListenerAdder.ISNUMBER, null);
-		adder.addListener(projText[10], projVars[10], ListenerAdder.GREATER_THAN_ZERO, null);
-		adder.addListener(projText[12], projVars[12], ListenerAdder.GREATER_THAN_ZERO, null);
-		adder.addListener(projText[11], projVars[11], ListenerAdder.NO_VERIF, null);
+		adder.addListener(projText[0], projVars[0], null, ListenerAdder.ANGLE_VERIF);
+		adder.addListener(projText[1], projVars[1], null, ListenerAdder.ISNUMBER);
+		adder.addListener(projText[2], projVars[2], null, ListenerAdder.ISNUMBER);
+		adder.addListener(projText[3], projVars[3], null, ListenerAdder.ISNUMBER);
+		adder.addListener(projText[4], projVars[4], null, ListenerAdder.GREATER_THAN_ZERO);
+		adder.addListener(projText[5], projVars[5], null, ListenerAdder.GREATER_THAN_ZERO);
+		adder.addListener(projText[6], projVars[6], null, ListenerAdder.GREATER_THAN_ZERO);
+		adder.addListener(projText[7], projVars[7], null, ListenerAdder.ISNUMBER);
+		adder.addListener(projText[8], projVars[8], null, ListenerAdder.GREATER_THAN_ZERO);
+		adder.addListener(projText[9], projVars[9], null, ListenerAdder.ISNUMBER);
+		adder.addListener(projText[10], projVars[10], null, ListenerAdder.GREATER_THAN_ZERO);
+		adder.addListener(projText[12], projVars[12], null, ListenerAdder.GREATER_THAN_ZERO);
+		adder.addListener(projText[11], projVars[11], null, ListenerAdder.NO_VERIF);
 	}
 
 	/**
@@ -494,12 +494,12 @@ public class Frame extends JFrame {
 
 		// add listeners
 		ListenerAdder adder = new ListenerAdder(this);
-		adder.addListener(colField[0], colVarE, ListenerAdder.E_VERIF, colVarE);
-		adder.addListener(colField[1], colVarA[0], ListenerAdder.NO_VERIF, colVarB[0]);
-		adder.addListener(colField[2], colVarA[1], ListenerAdder.GREATER_THAN_ZERO, colVarB[1]);
-		adder.addListener(colField[3], colVarA[2], ListenerAdder.ISNUMBER, colVarB[2]);
-		adder.addListener(colField[4], colVarA[3], ListenerAdder.ISNUMBER, colVarB[3]);
-		adder.addListener(colField[5], colVarA[4], ListenerAdder.ISNUMBER, colVarB[4]);
+		adder.addListener(colField[0], colVarE, colVarE, ListenerAdder.E_VERIF);
+		adder.addListener(colField[1], colVarA[0], colVarB[0], ListenerAdder.NO_VERIF);
+		adder.addListener(colField[2], colVarA[1], colVarB[1], ListenerAdder.GREATER_THAN_ZERO);
+		adder.addListener(colField[3], colVarA[2], colVarB[2], ListenerAdder.ISNUMBER);
+		adder.addListener(colField[4], colVarA[3], colVarB[3], ListenerAdder.ISNUMBER);
+		adder.addListener(colField[5], colVarA[4], colVarB[4], ListenerAdder.ISNUMBER);
 	}
 
 	/**

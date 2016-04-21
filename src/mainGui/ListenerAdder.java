@@ -42,7 +42,8 @@ public class ListenerAdder {
 	 *            NOT_ZERO, LESS_OR_EQUAL_TO_ZERO, ANGLE_VERIF, E_VERIF,
 	 * 
 	 */
-	public void addListener(final JTextField textField, final Var var1, final int type, final Var var2) {
+	public void addListener(final JTextField textField, final Var var1, final Var var2,
+			final int type) {
 		textField.addFocusListener(new FocusListener() {
 			@Override
 			public void focusGained(FocusEvent arg0) {
@@ -53,20 +54,20 @@ public class ListenerAdder {
 
 			@Override
 			public void focusLost(FocusEvent arg0) {
-				addVerification(textField, var1, type, var2);
+				verify(textField, var1, var2, type);
 			}
 		});
 
 		textField.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				addVerification(textField, var1, type, var2);
+				verify(textField, var1, var2, type);
 			}
 		});
 	}
 
 	/**
-	 * Adds a focus listener and action listener to a component.
+	 * Verifies the content in the textfield
 	 * 
 	 * @param textField
 	 *            Text field to add listeners to.
@@ -81,47 +82,46 @@ public class ListenerAdder {
 	 * 
 	 * 
 	 */
-	public void addVerification(JTextField textField, Var var1, int type, Var var2) {
+	private void verify(String text, Var var1, Var var2, int type) {
 
 		Var v = (var2 != null && !frame.colA) ? var2 : var1;
 
-		if (textField.getText().equals("?")) {
-			v.setContents(textField.getText(), false);
+		if (text.equals("?")) {
+			v.setContents(text, false);
 			return;
 		}
-		if (textField.getText().length() > 10) {
+		if (text.length() > 10) {
 			showErrorMsg("Input is too long!");
 			return;
 		}
-		if (type >= ISNUMBER && !MathUtil.isNumeric(textField.getText())) {
+		if (type >= ISNUMBER && !MathUtil.isNumeric(text)) {
 			showErrorMsg("Not a number!");
 			return;
 		}
-		if (type == GREATER_THAN_ZERO && Double.parseDouble(textField.getText()) < 0) {
+		if (type == GREATER_THAN_ZERO && Double.parseDouble(text) < 0) {
 			showErrorMsg("Must be greater than or equal to 0.");
 			return;
 		}
-		if (type == GREATER_OR_EQUAL_TO_ZERO && Double.parseDouble(textField.getText()) <= 0) {
+		if (type == GREATER_OR_EQUAL_TO_ZERO && Double.parseDouble(text) <= 0) {
 			showErrorMsg("Must be greater than 0.");
 			return;
 		}
-		if (type == NONE_ZERO && Double.parseDouble(textField.getText()) == 0) {
+		if (type == NONE_ZERO && Double.parseDouble(text) == 0) {
 			showErrorMsg("Must not equal 0.");
 			return;
 		}
-		if (type == LESS_OR_EQUAL_TO_ZERO && Double.parseDouble(textField.getText()) > 0) {
+		if (type == LESS_OR_EQUAL_TO_ZERO && Double.parseDouble(text) > 0) {
 			showErrorMsg("Must be less than 0.");
 			return;
 		}
-		if (type == ANGLE_VERIF && Math.abs(Double.parseDouble(textField.getText())) > 6.28) {
+		if (type == ANGLE_VERIF && Math.abs(Double.parseDouble(text)) > 6.28) {
 			showErrorMsg("Careful this value is greater than 2 PI");
 		}
-		if (type == E_VERIF && Double.parseDouble(textField.getText()) > 1
-				|| Double.parseDouble(textField.getText()) < 0) {
+		if (type == E_VERIF && Double.parseDouble(text) > 1 || Double.parseDouble(text) < 0) {
 			showErrorMsg("Must follow: 0 <= e <= 1");
 			return;
 		}
-		v.setContents(new String(textField.getText()), true);
+		v.setContents(new String(text), true);
 	}
 
 	/**
