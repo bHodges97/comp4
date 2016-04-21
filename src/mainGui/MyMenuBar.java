@@ -77,8 +77,8 @@ public class MyMenuBar extends JMenuBar {
 		menuFile.setMnemonic(KeyEvent.VK_T);
 		final JMenuItem initCirc = new JMenuItem("Circular Motion", KeyEvent.VK_M);
 		final JMenuItem initCOM = new JMenuItem("Center of mass", KeyEvent.VK_O);
-		final JMenuItem initColl = new JMenuItem(Frame.COLLISIONS, KeyEvent.VK_C);
-		final JMenuItem initProj = new JMenuItem(Frame.PROJECTILES, KeyEvent.VK_P);
+		final JMenuItem initColl = new JMenuItem("Collisons and Restitution", KeyEvent.VK_C);
+		final JMenuItem initProj = new JMenuItem("Projectile Motion", KeyEvent.VK_P);//TODO: fix name
 		menuTopic.add(initCirc);
 		menuTopic.add(initCOM);
 		menuTopic.add(initColl);
@@ -177,7 +177,7 @@ public class MyMenuBar extends JMenuBar {
 		add(menuTools);
 		add(menuTopic);
 		add(menuSolve);
-		if (frame.topic.equals(Frame.CENTER)) {
+		if (frame.topic == Frame.CENTER) {
 			add(menuZoom);
 		}
 	}
@@ -192,7 +192,7 @@ public class MyMenuBar extends JMenuBar {
 		if (pathName.endsWith(".png")) {
 			pathName.replace(".png", "");
 		}
-		if (frame.topic.equals(Frame.CIRCLES)) {
+		if (frame.topic == Frame.CIRCLES) {
 			BufferedImage imgA = frame.circTopDown.getImg();
 			BufferedImage imgB = frame.circVertical.getImg();
 			int width = imgA.getWidth() + imgB.getWidth();
@@ -210,13 +210,13 @@ public class MyMenuBar extends JMenuBar {
 				e.printStackTrace();
 			}
 		}
-		if (frame.topic.equals(Frame.CENTER)) {
+		if (frame.topic == Frame.CENTER) {
 			frame.panelCOM.print(pathName);
 		}
-		if (frame.topic.equals(Frame.COLLISIONS)) {
+		if (frame.topic == Frame.COLLISIONS) {
 			frame.colDiagram.print(pathName);
 		}
-		if (frame.topic.equals(Frame.PROJECTILES)) {
+		if (frame.topic == Frame.PROJECTILES) {
 			frame.projDiagram.print(pathName);
 		}
 	}
@@ -244,21 +244,21 @@ public class MyMenuBar extends JMenuBar {
 		}
 		try {
 			Object[] saves = (Object[]) savedItem;
-			String topic = ((String) saves[0]);
+			int topic = ((int) saves[0]);
 			frame.setTopic(topic);
-			if (topic.equals(Frame.CIRCLES)) {
+			if (topic == Frame.CIRCLES) {
 				frame.circVars = (Var[]) saves[1];
 				frame.circVarB = (Var[]) saves[2];
 				Component[] fields = (Component[]) saves[3];
 				//this class has the right method.
 				new ButtonActionListener(frame).loadFields(fields);
-			} else if (topic.equals(Frame.CENTER)) {
+			} else if (topic == Frame.CENTER) {
 				frame.panelCOM.plane = (Plane) saves[1];
-			} else if (topic.equals(Frame.COLLISIONS)) {
+			} else if (topic == Frame.COLLISIONS) {
 				frame.colVarA = (Var[]) saves[1];
 				frame.colVarB = (Var[]) saves[2];
 				frame.colVarE = (Var) saves[3];
-			} else if (topic.equals(Frame.PROJECTILES)) {
+			} else if (topic == Frame.PROJECTILES) {
 				frame.projVars = (Var[]) saves[1];
 			} else {
 				throw new ClassCastException("No matching topic");
@@ -280,18 +280,18 @@ public class MyMenuBar extends JMenuBar {
 	 */
 	private void save(String pathName) {
 		Object savedItem = null;
-		if (frame.topic.equals(Frame.CIRCLES)) {
+		if (frame.topic == Frame.CIRCLES) {
 			savedItem = new Object[] { Frame.CIRCLES, frame.circVars, frame.circVarB,
 					frame.circSouthS.getComponents() };
 		}
-		if (frame.topic.equals(Frame.CENTER)) {
+		if (frame.topic == Frame.CENTER) {
 			savedItem = new Object[] { Frame.CENTER, frame.panelCOM.plane };
 		}
-		if (frame.topic.equals(Frame.COLLISIONS)) {
+		if (frame.topic == Frame.COLLISIONS) {
 			savedItem = new Object[] { Frame.COLLISIONS, frame.colVarA, frame.colVarB,
 					frame.colVarE };
 		}
-		if (frame.topic.equals(Frame.PROJECTILES)) {
+		if (frame.topic == Frame.PROJECTILES) {
 			savedItem = new Object[] { Frame.PROJECTILES, frame.projVars };
 		}
 
@@ -312,7 +312,7 @@ public class MyMenuBar extends JMenuBar {
 	 * Attempts to sovle
 	 */
 	public void solve() {
-		String topic = frame.topic;
+		int topic = frame.topic;
 		Var[] circVars = frame.circVars;
 		Var[] circVarB = frame.circVars;
 		Var[] projVars = frame.projVars;
@@ -321,7 +321,7 @@ public class MyMenuBar extends JMenuBar {
 		Var e = frame.colVarE;
 
 		long startTime = System.currentTimeMillis();
-		if (topic.equals(Frame.CIRCLES)) {
+		if (topic == Frame.CIRCLES) {
 			int confirm = JOptionPane.showConfirmDialog(frame,
 					"Attempts to find unkown variables if possible.", "Solver",
 					JOptionPane.OK_CANCEL_OPTION);
@@ -345,7 +345,7 @@ public class MyMenuBar extends JMenuBar {
 			defs[8] = new Definition("r=v^2/a");
 			Solver s = new Solver(defs, circVars);
 
-		} else if (topic.equals(Frame.PROJECTILES)) {
+		} else if (topic == Frame.PROJECTILES) {
 			int confirm = JOptionPane.showConfirmDialog(frame,
 					"Attempts to find unkown variables if possible.", "Solver",
 					JOptionPane.OK_CANCEL_OPTION);
@@ -370,7 +370,7 @@ public class MyMenuBar extends JMenuBar {
 			defs[10] = new Definition("v=(u^2)+0.5*a*(y-h)^1/2");
 			Solver s = new Solver(defs, projVars);
 
-		} else if (topic.equals(Frame.COLLISIONS)) {
+		} else if (topic == Frame.COLLISIONS) {
 			// Not using solver as simultaneous equations are too complex to be
 			// represented.
 			while (true) {
@@ -438,7 +438,7 @@ public class MyMenuBar extends JMenuBar {
 				}
 			}
 
-		} else if (topic.equals(Frame.CENTER)) {
+		} else if (topic == Frame.CENTER) {
 			JOptionPane.showMessageDialog(frame, "Not avaliable.");
 		}
 		System.out.println("Solver completed in " + (System.currentTimeMillis() - startTime)
@@ -453,16 +453,16 @@ public class MyMenuBar extends JMenuBar {
 		JTextArea textArea = frame.topicDesc;
 		String path = "";
 
-		if (frame.topic.equals(Frame.CIRCLES)) {
+		if (frame.topic == Frame.CIRCLES) {
 			path = "m2/notes/circlesNotes.txt";
 		}
-		if (frame.topic.equals(Frame.CENTER)) {
+		if (frame.topic == Frame.CENTER) {
 			path = "m2/notes/comNotes.txt";
 		}
-		if (frame.topic.equals(Frame.COLLISIONS)) {
+		if (frame.topic == Frame.COLLISIONS) {
 			path = "m2/notes/collisionNotes.txt";
 		}
-		if (frame.topic.equals(Frame.PROJECTILES)) {
+		if (frame.topic == Frame.PROJECTILES) {
 			path = "m2/notes/projectileNotes.txt";
 		}
 		//Create file if none exists.

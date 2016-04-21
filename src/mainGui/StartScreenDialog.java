@@ -20,7 +20,7 @@ public class StartScreenDialog extends JDialog {
 	private static final long serialVersionUID = 1L;
 
 	private Dimension prefSize = new Dimension(500, 500);
-	private String topic = Frame.CENTER;
+	private int topic = Frame.CENTER;
 
 	/**
 	 * Construct the gui
@@ -44,14 +44,14 @@ public class StartScreenDialog extends JDialog {
 		frame.add(topicCenter);
 		frame.add(topicProjectiles);
 
-		topicCircles.setActionCommand(Frame.CIRCLES);
-		topicRestitute.setActionCommand(Frame.COLLISIONS);
-		topicCenter.setActionCommand(Frame.CENTER);
-		topicProjectiles.setActionCommand(Frame.PROJECTILES);
+		topicCircles.setActionCommand("" + Frame.CIRCLES);
+		topicRestitute.setActionCommand("" + Frame.COLLISIONS);
+		topicCenter.setActionCommand("" + Frame.CENTER + "");
+		topicProjectiles.setActionCommand("" + Frame.PROJECTILES);
 		ActionListener tpcListener = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				topic = e.getActionCommand();
+				topic = Integer.parseInt(e.getActionCommand());
 				setVisible(false);
 			}
 		};
@@ -77,7 +77,7 @@ public class StartScreenDialog extends JDialog {
 	/**
 	 * @return The chosen topic
 	 */
-	public String getTopic() {
+	public int getTopic() {
 		return topic;
 	}
 }
