@@ -1,9 +1,12 @@
 package mainGui;
 
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
@@ -22,9 +25,13 @@ public class ListenerAdder {
 	public static int LESS_OR_EQUAL_TO_ZERO = 5;
 	public static int ANGLE_VERIF = 6;
 	public static int E_VERIF = 7;
+	private static Color red = new Color(255, 204, 204);
+
+	private boolean showPopUp = false;
 
 	public ListenerAdder(Frame frame) {
 		this.frame = frame;
+
 	}
 
 	/**
@@ -47,30 +54,62 @@ public class ListenerAdder {
 		textField.addFocusListener(new FocusListener() {
 			@Override
 			public void focusGained(FocusEvent arg0) {
-				if (textField.getText().equals("?")) {
-					textField.setText("");
-				}
+
 			}
 
 			@Override
 			public void focusLost(FocusEvent arg0) {
-				verify(textField, var1, var2, type);
+				if (textField.getText().equals("?")) {
+					textField.setText("");
+				} else {
+					showPopUp = true;
+					if (!verify(textField.getText(), var1, var2, type)) {
+						textField.setBackground(red);
+					} else {
+						textField.setBackground(Color.white);
+					}
+				}
 			}
 		});
 
 		textField.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				verify(textField, var1, var2, type);
+				showPopUp = true;
+				if (!verify(textField.getText(), var1, var2, type)) {
+					textField.setBackground(red);
+				} else {
+					textField.setBackground(Color.white);
+				}
+			}
+		});
+		textField.addKeyListener(new KeyListener() {
+
+			@Override
+			public void keyTyped(KeyEvent e) {
+			}
+
+			@Override
+			public void keyReleased(KeyEvent e) {
+				showPopUp = false;
+				if (!verify(textField.getText(), var1, var2, type)) {
+					textField.setBackground(red);
+				} else {
+					textField.setBackground(Color.white);
+				}
+			}
+
+			@Override
+			public void keyPressed(KeyEvent e) {
 			}
 		});
 	}
 
 	/**
-	 * Verifies the content in the textfield
+	 * Verifies the text
 	 * 
-	 * @param textField
-	 *            Text field to add listeners to.
+	 * @param text
+	 *            The text to verify
 	 * @param var1
 	 *            Variable text field is associated with.
 	 * @param var2
@@ -82,46 +121,48 @@ public class ListenerAdder {
 	 * 
 	 * 
 	 */
-	private void verify(String text, Var var1, Var var2, int type) {
+	private boolean verify(String text, Var var1, Var var2, int type) {
 
-		Var v = (var2 != null && !frame.colA) ? var2 : var1;
+		//select one of the two variables
+		Var v = (var2 == null && frame.colA) ? var1 : var2;
 
 		if (text.equals("?")) {
 			v.setContents(text, false);
-			return;
+			return false;
 		}
 		if (text.length() > 10) {
-			showErrorMsg("Input is too long!");
-			return;
+			showError("Input is too long!");
+			return false;
 		}
 		if (type >= ISNUMBER && !MathUtil.isNumeric(text)) {
-			showErrorMsg("Not a number!");
-			return;
+			showError("Not a number!");
+			return false;
 		}
 		if (type == GREATER_THAN_ZERO && Double.parseDouble(text) < 0) {
-			showErrorMsg("Must be greater than or equal to 0.");
-			return;
+			showError("Must be greater than or equal to 0.");
+			return false;
 		}
 		if (type == GREATER_OR_EQUAL_TO_ZERO && Double.parseDouble(text) <= 0) {
-			showErrorMsg("Must be greater than 0.");
-			return;
+			showError("Must be greater than 0.");
+			return false;
 		}
 		if (type == NONE_ZERO && Double.parseDouble(text) == 0) {
-			showErrorMsg("Must not equal 0.");
-			return;
+			showError("Must not equal 0.");
+			return false;
 		}
 		if (type == LESS_OR_EQUAL_TO_ZERO && Double.parseDouble(text) > 0) {
-			showErrorMsg("Must be less than 0.");
-			return;
+			showError("Must be less than 0.");
+			return false;
 		}
 		if (type == ANGLE_VERIF && Math.abs(Double.parseDouble(text)) > 6.28) {
-			showErrorMsg("Careful this value is greater than 2 PI");
+			JOptionPane.showMessageDialog(null, "This value is greater than 2 PI");
 		}
-		if (type == E_VERIF && Double.parseDouble(text) > 1 || Double.parseDouble(text) < 0) {
-			showErrorMsg("Must follow: 0 <= e <= 1");
-			return;
+		if (type == E_VERIF && (Double.parseDouble(text) > 1 || Double.parseDouble(text) < 0)) {
+			showError("Must follow: 0 <= e <= 1");
+			return false;
 		}
 		v.setContents(new String(text), true);
+		return true;
 	}
 
 	/**
@@ -130,7 +171,9 @@ public class ListenerAdder {
 	 * @param msg
 	 *            The message to show
 	 */
-	private void showErrorMsg(String msg) {
-		JOptionPane.showMessageDialog(frame, msg, "Error", JOptionPane.ERROR_MESSAGE);
+	private void showError(String msg) {
+		if (showPopUp) {
+			JOptionPane.showMessageDialog(frame, msg, "Error", JOptionPane.ERROR_MESSAGE);
+		}
 	}
 }
