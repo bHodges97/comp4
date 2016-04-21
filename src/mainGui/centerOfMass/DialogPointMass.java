@@ -73,8 +73,7 @@ public class DialogPointMass extends JDialog {
 						double yval = Double.parseDouble(y.getText());
 						if (MathUtil.isNumeric(mass.getText())) {
 							float massval = Float.valueOf(mass.getText());
-							if (massval >= 0) {
-								// TODO: mass < 0?
+							if (massval != 0) {
 								returnObj = new Obj(Obj.POINTMASS, new MyPoint(xval, yval), null,
 										massval);
 								filled = true;

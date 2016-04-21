@@ -35,7 +35,7 @@ public class CircTopDown extends JPanel {
 	public CircTopDown() {
 		this.setVisible(true);
 		this.setFocusable(true);
-		setBorder(BorderFactory.createEtchedBorder(1));
+		setBorder(BorderFactory.createEtchedBorder());
 	}
 
 	/**

@@ -1,6 +1,7 @@
 package mainGui;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
@@ -54,7 +55,7 @@ public class Frame extends JFrame {
 	public static int PROJECTILES = 3;
 	public int topic = 2;
 
-	Border border = BorderFactory.createEtchedBorder(1);
+	Border border = BorderFactory.createLineBorder(Color.LIGHT_GRAY);
 	JTextArea topicDesc;
 
 	// collision
@@ -397,10 +398,8 @@ public class Frame extends JFrame {
 		// Set borders
 		southPanel.setBorder(border);
 		projDiagram.setBorder(border);
-		before.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(),
-				"Initial conditions"));
-		after.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(),
-				"When object hits someting"));
+		before.setBorder(BorderFactory.createTitledBorder(border, "Initial conditions"));
+		after.setBorder(BorderFactory.createTitledBorder(border, "When object hits someting"));
 
 		// Add components to pane
 		sidePanel.add(createNotesPanel(), BorderLayout.NORTH);
