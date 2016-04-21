@@ -49,8 +49,7 @@ public class ListenerAdder {
 	 *            NOT_ZERO, LESS_OR_EQUAL_TO_ZERO, ANGLE_VERIF, E_VERIF,
 	 * 
 	 */
-	public void addListener(final JTextField textField, final Var var1, final Var var2,
-			final int type) {
+	public void addListener(final JTextField textField, final Var var1, final Var var2, final int type) {
 		textField.addFocusListener(new FocusListener() {
 			@Override
 			public void focusGained(FocusEvent arg0) {
@@ -105,6 +104,68 @@ public class ListenerAdder {
 		});
 	}
 
+	public void addListener(final JTextField field, final boolean isTextA) {
+		field.addFocusListener(new FocusListener() {
+			@Override
+			public void focusLost(FocusEvent e) {
+				showPopUp = true;
+				if (!verify(field, isTextA)) {
+					field.setBackground(red);
+				} else {
+					field.setBackground(Color.white);
+				}
+			}
+
+			@Override
+			public void focusGained(FocusEvent e) {
+			}
+		});
+		field.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				showPopUp = true;
+				if (!verify(field, isTextA)) {
+					field.setBackground(red);
+				} else {
+					field.setBackground(Color.white);
+				}
+			}
+		});
+		field.addKeyListener(new KeyListener() {
+			@Override
+			public void keyTyped(KeyEvent e) {
+			}
+
+			@Override
+			public void keyReleased(KeyEvent e) {
+				showPopUp = false;
+				if (!verify(field, isTextA)) {
+					field.setBackground(red);
+				} else {
+					field.setBackground(Color.white);
+				}
+			}
+
+			@Override
+			public void keyPressed(KeyEvent e) {
+			}
+		});
+	}
+
+	private boolean verify(final JTextField field, boolean isTextA) {
+		if (!MathUtil.isNumeric(field.getText())) {
+			showError("Not a number");
+			return false;
+		}
+		if (isTextA) {
+			frame.circTextA.set(frame.circF.indexOf(field), field.getText());
+		} else {
+			frame.circTextB.set(frame.circT.indexOf(field), field.getText());
+		}
+		frame.updateFields();
+		return true;
+	}
+
 	/**
 	 * Verifies the text
 	 * 
@@ -123,7 +184,7 @@ public class ListenerAdder {
 	 */
 	private boolean verify(String text, Var var1, Var var2, int type) {
 
-		//select one of the two variables
+		// select one of the two variables
 		Var v = (var2 == null && frame.colA) ? var1 : var2;
 
 		if (text.equals("?")) {

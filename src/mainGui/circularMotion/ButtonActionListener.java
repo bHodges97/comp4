@@ -4,15 +4,12 @@ import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
 
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
 import mainGui.Frame;
-import math.MathUtil;
+import mainGui.ListenerAdder;
 
 /**
  * The ButtonActionListener class handles ActionEvent thrown when the user
@@ -76,61 +73,10 @@ public class ButtonActionListener implements ActionListener {
 		c.gridx = 1;
 		frame.circSouthS.add(b, c);
 
-		//add listeners
-		a.addFocusListener(new FocusListener() {
-			@Override
-			public void focusLost(FocusEvent e) {
-				if (!MathUtil.isNumeric(a.getText())) {
-					JOptionPane.showMessageDialog(frame, "Not a number!.");
-					return;
-				}
-				frame.circTextA.set(frame.circF.indexOf(a), a.getText());
-				frame.updateFields();
-			}
-
-			@Override
-			public void focusGained(FocusEvent e) {
-				// Do nothing
-			}
-		});
-		a.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				if (!MathUtil.isNumeric(a.getText())) {
-					JOptionPane.showMessageDialog(frame, "Not a number!");
-					return;
-				}
-				frame.circTextA.set(frame.circF.indexOf(a), a.getText());
-				frame.updateFields();
-			}
-		});
-		b.addFocusListener(new FocusListener() {
-			@Override
-			public void focusLost(FocusEvent e) {
-				if (!MathUtil.isNumeric(b.getText())) {
-					JOptionPane.showMessageDialog(frame, "Not a number!");
-					return;
-				}
-				frame.circTextB.set(frame.circT.indexOf(b), b.getText());
-				frame.updateFields();
-			}
-
-			@Override
-			public void focusGained(FocusEvent e) {
-				// Do nothing
-			}
-		});
-		b.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				if (!MathUtil.isNumeric(b.getText())) {
-					JOptionPane.showMessageDialog(frame, "Not a number!");
-					return;
-				}
-				frame.circTextB.set(frame.circT.indexOf(b), b.getText());
-				frame.updateFields();
-			}
-		});
+		// add listeners
+		ListenerAdder adder = new ListenerAdder(frame);
+		adder.addListener(a, true);
+		adder.addListener(b, false);
 	}
 
 	/**

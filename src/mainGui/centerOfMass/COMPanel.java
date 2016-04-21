@@ -74,8 +74,7 @@ public class COMPanel extends JPanel {
 	 *            The path to write the file to
 	 */
 	public void print(String path) {
-		BufferedImage img = new BufferedImage(this.getWidth(), this.getHeight(),
-				BufferedImage.TYPE_INT_RGB);
+		BufferedImage img = new BufferedImage(this.getWidth(), this.getHeight(), BufferedImage.TYPE_INT_RGB);
 		Graphics print = img.getGraphics();
 		printAll(print);
 		try {
@@ -168,8 +167,7 @@ public class COMPanel extends JPanel {
 				if (counter % Math.ceil(40 * scale) == 0) {
 					// make text right aligned
 					FontMetrics fontMetrics = g2d.getFontMetrics();
-					g2d.drawString("-" + counter, ox - fontMetrics.stringWidth("-" + counter) - 2,
-							i + 5);
+					g2d.drawString("-" + counter, ox - fontMetrics.stringWidth("-" + counter) - 2, i + 5);
 				}
 			}
 			counter++;
@@ -179,8 +177,7 @@ public class COMPanel extends JPanel {
 			if (counter != 0) {
 				if (counter % Math.ceil(40 * scale) == 0) {
 					FontMetrics fontMetrics = g2d.getFontMetrics();
-					g2d.drawString("" + counter, u - fontMetrics.stringWidth("" + counter) / 2,
-							oy + 12);
+					g2d.drawString("" + counter, u - fontMetrics.stringWidth("" + counter) / 2, oy + 12);
 				}
 			}
 			counter++;
@@ -190,8 +187,7 @@ public class COMPanel extends JPanel {
 			if (counter != 0) {
 				if (counter % Math.ceil(40 * scale) == 0) {
 					FontMetrics fontMetrics = g2d.getFontMetrics();
-					g2d.drawString("" + counter, ox - fontMetrics.stringWidth("" + counter) - 2,
-							i + 5);
+					g2d.drawString("" + counter, ox - fontMetrics.stringWidth("" + counter) - 2, i + 5);
 				}
 			}
 			counter++;
@@ -201,8 +197,7 @@ public class COMPanel extends JPanel {
 			if (counter != 0) {
 				if (counter % Math.ceil(40 * scale) == 0) {
 					FontMetrics fontMetrics = g2d.getFontMetrics();
-					g2d.drawString("-" + counter, u - fontMetrics.stringWidth("-" + counter) / 2,
-							oy + 12);
+					g2d.drawString("-" + counter, u - fontMetrics.stringWidth("-" + counter) / 2, oy + 12);
 				}
 			}
 			counter++;
@@ -214,7 +209,7 @@ public class COMPanel extends JPanel {
 		g2d.drawString("0", ox - 10, oy + 15);// Skip this as it's been done in
 												// axis already.
 
-		//draw objs
+		// draw objs
 		if (plane == null) {
 			return;
 		}
@@ -228,6 +223,8 @@ public class COMPanel extends JPanel {
 			}
 			if (obj.getType() == Obj.POLYGON) {
 				g2d.fillPolygon(renderPoly);
+				g2d.setColor(Color.black);
+				g2d.drawPolygon(renderPoly);
 			} else if (obj.getType() == Obj.POLYLINE) {
 				g2d.drawPolyline(renderPoly.xpoints, renderPoly.ypoints, renderPoly.npoints);
 			}

@@ -136,17 +136,17 @@ public class DialogNewObj extends JDialog {
 				String PosY = txtPosY.getText();
 
 				if (!MathUtil.isNumeric(mass)) {
-					JOptionPane.showMessageDialog(getParent(), "Please enter a valid number(mass)!", "Oops",
+					JOptionPane.showMessageDialog(getParent(), "Please enter a valid number for mass!", "Error",
 							JOptionPane.ERROR_MESSAGE);
 					return;
 				}
 				if (!MathUtil.isNumeric(comX) || !MathUtil.isNumeric(comY)) {
-					JOptionPane.showMessageDialog(getParent(), "Please enter a valid number(fenter of mass)!", "Oops",
-							JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(getParent(), "Please enter a valid number for center of mass!",
+							"Error", JOptionPane.ERROR_MESSAGE);
 					return;
 				}
 				if (!MathUtil.isNumeric(PosX) || !MathUtil.isNumeric(PosY)) {
-					JOptionPane.showMessageDialog(getParent(), "Please enter a valid number(position)!", "Oops",
+					JOptionPane.showMessageDialog(getParent(), "Please enter a valid number for position!", "Error",
 							JOptionPane.ERROR_MESSAGE);
 					return;
 				}
