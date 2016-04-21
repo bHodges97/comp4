@@ -171,28 +171,82 @@ public class Frame extends JFrame {
 	}
 
 	/**
-	 * Gets all panels with in the container
+	 * Sets current topic
 	 * 
-	 * @param container
-	 *            The container to get panels from
-	 * @return List of panels inside the container
+	 * @param topic
+	 *            The new topic.
+	 * 
 	 */
-	private static List<Component> getAllPanels(final Container container) {
-		Component[] panels = container.getComponents();
-		List<Component> panelList = new ArrayList<Component>();
-		for (Component panel : panels) {
-			if (panel instanceof Container) {
-				panelList.add(panel);
-				panelList.addAll(getAllPanels((Container) panel));
+	public void setTopic(int topic) {
+		getContentPane().removeAll();
+		this.topic = topic;
+		if (topic == CIRCLES) {
+			initCircularMotion();
+			circVertical.text = circVarB;
+			circVertical.force = circTextA;
+			circVertical.angle = circTextB;
+			circTopDown.vars = circVars;
+			setTitle("Uniform Motion in a Circle");
+		}
+		if (topic == CENTER) {
+			initCenterOfMass();
+			setTitle("Center of Mass");
+		}
+		if (topic == COLLISIONS) {
+			initCollisions();
+			setTitle("Coefficient of Restitution; Impulse");
+		}
+		if (topic == PROJECTILES) {
+			initProjectiles();
+			setTitle("Motion of a Projectile");
+		}
+		updateFields();
+	}
+
+	/**
+	 * Updates text fields to show variable contents.
+	 */
+	public void updateFields() {
+		if (topic == PROJECTILES) {
+			for (int i = 0; i < projText.length; i++) {
+				projText[i].setText(MathUtil.round(projVars[i].contents));
 			}
 		}
-		return panelList;
+		if (topic == CIRCLES) {
+			for (int i = 0; i < circText.length; i++) {
+				circText[i].setText(MathUtil.round(circVars[i].contents));
+			}
+			double x = 0;
+			double y = 0;
+			for (int i = 0; i < circTextA.size(); i++) {
+				x += Double.parseDouble(circTextA.get(i))
+						* Math.cos(Double.parseDouble(circTextB.get(i)));
+				y += Double.parseDouble(circTextA.get(i))
+						* Math.sin(Double.parseDouble(circTextB.get(i)));
+				System.out.println(x);
+			}
+			circX.setText(circVarB[0].contents);
+			circY.setText(circVarB[1].contents);
+			circLblX.setText("Sum of horizontal forces: " + MathUtil.round("" + x));
+			circLblY.setText("Sum of vertical forces  : " + MathUtil.round("" + y));
+		}
+		if (topic == COLLISIONS) {
+			if (colA) {
+				for (int i = 0; i < colVarA.length; i++) {
+					colField[i + 1].setText(MathUtil.round(colVarA[i].contents));
+				}
+			} else {
+				for (int i = 0; i < colVarB.length; i++) {
+					colField[i + 1].setText(MathUtil.round(colVarB[i].contents));
+				}
+			}
+		}
 	}
 
 	/**
 	 * Initialise and layout components for topic CIRCLES
 	 */
-	void initCircularMotion() {
+	private void initCircularMotion() {
 		// Initialised panels;
 		JPanel panelDiagram = new JPanel(new GridLayout());
 		JPanel panelFields = new JPanel(new GridBagLayout());
@@ -327,7 +381,7 @@ public class Frame extends JFrame {
 	/**
 	 * Initialise and layout components for topic PROJECTILES
 	 */
-	void initProjectiles() {
+	private void initProjectiles() {
 		// initialise variables
 		projVars = Var.createVars(Var.PROJ_VARS);
 		projDiagram = new ProjDiagram(projVars);
@@ -445,7 +499,7 @@ public class Frame extends JFrame {
 	/**
 	 * Initialise and layout components for topic COLLISIONS
 	 */
-	void initCollisions() {
+	private void initCollisions() {
 		// Initialise vars and panels
 		colVarA = Var.createVars(Var.COL_VAR_A);
 		colVarB = Var.createVars(Var.COL_VAR_B);
@@ -505,7 +559,7 @@ public class Frame extends JFrame {
 	/**
 	 * Initialise and layout components for topic CENTER
 	 */
-	void initCenterOfMass() {
+	private void initCenterOfMass() {
 		panelCOM = new COMPanel(this);
 		JPanel sidePanel = new JPanel(new GridBagLayout());
 		this.add(panelCOM, BorderLayout.CENTER);
@@ -581,12 +635,6 @@ public class Frame extends JFrame {
 				// Do nothing
 			}
 		}
-		topicDesc.setText("\nEquation of trajectory:\n •y = x*tan(θ)-g*x^2/(2*v^2*cos^2(θ))\n");
-		topicDesc
-				.append("Acceleration:\n •Constant acceleration of 9.8 ms^-2 downwards.\n •No horizontal acceleration, horizontal velocity is constant.\n");
-		topicDesc
-				.append("Velocity\n •Velocity in x direction is V*cos(θ) \n •Velocity in y direction is V*sin(θ).\n");
-
 		JTextField topicTitle = new JTextField(getTitle() + " notes");
 		topicTitle.setEditable(false);
 		topicTitle.setFont(topicTitle.getFont().deriveFont(1.2f * topicTitle.getFont().getSize()));
@@ -597,85 +645,22 @@ public class Frame extends JFrame {
 	}
 
 	/**
-	 * Updates text fields to show variable contents.
+	 * Gets all panels with in the container
+	 * 
+	 * @param container
+	 *            The container to get panels from
+	 * @return List of panels inside the container
 	 */
-	public void updateFields() {
-		if (topic == PROJECTILES) {
-			for (int i = 0; i < projText.length; i++) {
-				projText[i].setText(MathUtil.round(projVars[i].contents));
+	private static List<Component> getAllPanels(final Container container) {
+		Component[] panels = container.getComponents();
+		List<Component> panelList = new ArrayList<Component>();
+		for (Component panel : panels) {
+			if (panel instanceof Container) {
+				panelList.add(panel);
+				panelList.addAll(getAllPanels((Container) panel));
 			}
 		}
-		if (topic == CIRCLES) {
-			for (int i = 0; i < circText.length; i++) {
-				circText[i].setText(MathUtil.round(circVars[i].contents));
-			}
-			double x = 0;
-			double y = 0;
-			for (int i = 0; i < circTextA.size(); i++) {
-				x += Double.parseDouble(circTextA.get(i))
-						* Math.cos(Double.parseDouble(circTextB.get(i)));
-				y += Double.parseDouble(circTextA.get(i))
-						* Math.sin(Double.parseDouble(circTextB.get(i)));
-				System.out.println(x);
-			}
-			circX.setText(circVarB[0].contents);
-			circY.setText(circVarB[1].contents);
-			circLblX.setText("Sum of horizontal forces: " + MathUtil.round("" + x));
-			circLblY.setText("Sum of vertical forces  : " + MathUtil.round("" + y));
-		}
-		if (topic == COLLISIONS) {
-			if (colA) {
-				for (int i = 0; i < colVarA.length; i++) {
-					colField[i + 1].setText(MathUtil.round(colVarA[i].contents));
-				}
-			} else {
-				for (int i = 0; i < colVarB.length; i++) {
-					colField[i + 1].setText(MathUtil.round(colVarB[i].contents));
-				}
-			}
-		}
+		return panelList;
 	}
 
-	/**
-	 * Sets current topic
-	 * 
-	 * @param topic
-	 *            The new topic.
-	 * 
-	 */
-	public void setTopic(int topic) {
-		getContentPane().removeAll();
-		this.topic = topic;
-		if (topic == CIRCLES) {
-			initCircularMotion();
-			circVertical.text = circVarB;
-			circVertical.force = circTextA;
-			circVertical.angle = circTextB;
-			circTopDown.vars = circVars;
-			setTitle("Uniform Motion in a Circle");
-		}
-		if (topic == CENTER) {
-			initCenterOfMass();
-			setTitle("Center of Mass");
-		}
-		if (topic == COLLISIONS) {
-			initCollisions();
-			setTitle("Coefficient of Restitution; Impulse");
-		}
-		if (topic == PROJECTILES) {
-			initProjectiles();
-			setTitle("Motion of a Projectile");
-		}
-		updateFields();
-	}
-
-	/**
-	 * MAIN METHOD
-	 * 
-	 * @param Args
-	 */
-	public static void main(String[] Args) {
-		StartScreenDialog popup = new StartScreenDialog();
-		Frame window = new Frame(popup.getTopic());
-	}
 }
