@@ -55,15 +55,15 @@ public class Plane implements java.io.Serializable {
 	 * 
 	 */
 	public void add(Obj obj) {
-		if (obj.getName() == null) {
-			if (objects.indexOf(obj) + 'A' <= 'Z') {
-				obj.setName((char) (objects.indexOf(obj) + 'A') + "");
-			} else {
-				obj.setName("Object " + objects.indexOf(obj));
-			}
-		}
 		while (isColorUsed(obj.getColor())) {
 			obj.setColor(null);
+		}
+		if (obj.getName() == null || obj.getName().equals("")) {
+			if (objects.indexOf(obj) + 'A' <= 'Z') {
+				obj.setName("" + (char) (objects.size() + 'A'));
+			} else {
+				obj.setName("Object " + objects.size());
+			}
 		}
 		objects.add(obj);
 		System.out.println("Object added(" + obj.getName() + ")");

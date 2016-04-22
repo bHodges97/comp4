@@ -1,5 +1,6 @@
 package mainGui.centerOfMass;
 
+import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -9,6 +10,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 import javax.swing.JButton;
+import javax.swing.JColorChooser;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -45,6 +47,7 @@ public class COMPanelSouth extends JPanel {
 	JButton lastObj = new JButton("< Previous");
 	JButton nextObj = new JButton("Next >");
 	JButton delete = new JButton("Delete");
+	JButton color = new JButton("Set colour");
 
 	public Obj current;
 	Frame frame;
@@ -86,6 +89,8 @@ public class COMPanelSouth extends JPanel {
 			varCOM.setEditable(false);
 			return;
 		}
+		varName.setEditable(true);
+		varMass.setEditable(true);
 		varCOM.setEditable(true);
 		varName.setText(current.getName());
 		varMass.setText(current.getMass() + "");
@@ -125,6 +130,9 @@ public class COMPanelSouth extends JPanel {
 			public void keyReleased(KeyEvent e) {
 				if (current != null && MathUtil.isNumeric(varMass.getText())) {
 					current.setMass(varMass.getText());
+					varMass.setBackground(Color.white);
+				} else {
+					varMass.setBackground(new Color(255, 204, 204));
 				}
 			}
 
@@ -147,7 +155,9 @@ public class COMPanelSouth extends JPanel {
 					double y = Double.parseDouble(text[1]);
 					current.moveto(new MyPoint(x, y));
 					updateFields();
-					System.out.println(x + " " + y);
+					varMass.setBackground(Color.white);
+				} else {
+					varMass.setBackground(new Color(255, 204, 204));
 				}
 			}
 
@@ -323,6 +333,18 @@ public class COMPanelSouth extends JPanel {
 				updateFields();
 			}
 		});
+		color.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				if (current == null) {
+					showErrorMsg("No object selected.");
+					return;
+				}
+				Color newColor = JColorChooser.showDialog(null, "Choose a color",
+						current.getColor());
+				current.setColor(newColor);
+			}
+		});
 
 	}
 
@@ -371,15 +393,18 @@ public class COMPanelSouth extends JPanel {
 
 		// Add buttons
 		c.gridx = 0;
-		c.gridy++;
 		c.gridwidth = 2;
+		c.gridy++;
+		c.insets = new Insets(2, 50, 2, 50);
+		add(delete, c);
+		c.gridy++;
 		add(rotate, c);
 		c.gridy++;
 		add(translate, c);
 		c.gridy++;
 		add(changeCOM, c);
 		c.gridy++;
-		add(delete, c);
+		add(color, c);
 
 		updateFields();
 	}
