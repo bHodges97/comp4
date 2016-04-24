@@ -2,8 +2,8 @@ package mainGui;
 
 import java.awt.Container;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.GraphicsEnvironment;
+import java.awt.GridLayout;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -19,7 +19,7 @@ import javax.swing.JDialog;
 public class StartScreenDialog extends JDialog {
 	private static final long serialVersionUID = 1L;
 
-	private Dimension prefSize = new Dimension(500, 500);
+	private Dimension prefSize = new Dimension(200, 200);
 	private int topic = Frame.CENTER;
 
 	/**
@@ -33,10 +33,10 @@ public class StartScreenDialog extends JDialog {
 		setResizable(false);
 
 		Container frame = this.getContentPane();
-		frame.setLayout(new FlowLayout(FlowLayout.LEFT));
-		JButton topicCircles = new JButton("circles");
-		JButton topicRestitute = new JButton("Collisons");
-		JButton topicCenter = new JButton("topicCenterOfMass");
+		frame.setLayout(new GridLayout(4, 0));
+		JButton topicCircles = new JButton("Circular Motion");
+		JButton topicRestitute = new JButton("Collisons and Restitution");
+		JButton topicCenter = new JButton("Center Of Mass");
 		JButton topicProjectiles = new JButton("Projectile Motion");
 
 		frame.add(topicCircles);

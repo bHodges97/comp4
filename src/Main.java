@@ -1,5 +1,4 @@
 import mainGui.Frame;
-import mainGui.StartScreenDialog;
 
 public class Main {
 
@@ -9,8 +8,8 @@ public class Main {
 	 * @param Args
 	 */
 	public static void main(String[] Args) {
-		StartScreenDialog popup = new StartScreenDialog();
-		Frame window = new Frame(popup.getTopic());
+		// StartScreenDialog popup = new StartScreenDialog();
+		Frame window = new Frame(Frame.CENTER);
 	}
 
 }
