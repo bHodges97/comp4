@@ -1,5 +1,6 @@
 package mainGui;
 
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
@@ -17,6 +18,7 @@ import java.io.OutputStreamWriter;
 import java.io.Writer;
 
 import javax.imageio.ImageIO;
+import javax.swing.JColorChooser;
 import javax.swing.JFileChooser;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -39,6 +41,14 @@ import math.Var;
  */
 public class MyMenuBar extends JMenuBar {
 	private static final long serialVersionUID = 11L;
+	AngleConverter dialogConverter;
+	JFileChooser imageChooser, fileChooser;
+	JMenuItem saveImage, saveFile, loadFile, saveNotes;
+	JMenuItem initCirc, initCOM, initColl, initProj;
+	JMenuItem mConverter, mTrig;
+	JMenuItem toggleColor, setBackground;
+	JMenuItem menuSolve;
+	JMenuItem zoomIn, zoomOut, zoomReset;
 
 	final Frame frame;
 
@@ -50,23 +60,21 @@ public class MyMenuBar extends JMenuBar {
 	 */
 	public MyMenuBar(final Frame main) {
 		frame = main;
-		final AngleConverter dialogConverter = new AngleConverter();
-
-		final JFileChooser imageChooser = new JFileChooser();
-		final JFileChooser fileChooser = new JFileChooser();
+		dialogConverter = new AngleConverter();
+		imageChooser = new JFileChooser();
+		fileChooser = new JFileChooser();
 		FileNameExtensionFilter filterFile = new FileNameExtensionFilter("m2 files (*.m2)", "m2");
-		FileNameExtensionFilter filterImage = new FileNameExtensionFilter("PNG files (*.png)",
-				"png");
+		FileNameExtensionFilter filterImage = new FileNameExtensionFilter("PNG files (*.png)", "png");
 		imageChooser.setFileFilter(filterImage);
 		fileChooser.setFileFilter(filterFile);
 
 		// File
 		JMenu menuFile = new JMenu("File");
 		menuFile.setMnemonic(KeyEvent.VK_F);
-		final JMenuItem saveImage = new JMenuItem("Export image", KeyEvent.VK_I);
-		final JMenuItem saveFile = new JMenuItem("Save as...", KeyEvent.VK_F);
-		final JMenuItem loadFile = new JMenuItem("Open File...", KeyEvent.VK_O);
-		final JMenuItem saveNotes = new JMenuItem("Save Notes", KeyEvent.VK_T);
+		saveImage = new JMenuItem("Export image", KeyEvent.VK_I);
+		saveFile = new JMenuItem("Save as...", KeyEvent.VK_F);
+		loadFile = new JMenuItem("Open File...", KeyEvent.VK_O);
+		saveNotes = new JMenuItem("Save Notes", KeyEvent.VK_T);
 		menuFile.add(loadFile);
 		menuFile.add(saveFile);
 		menuFile.add(saveImage);
@@ -75,10 +83,11 @@ public class MyMenuBar extends JMenuBar {
 		// Topic
 		JMenu menuTopic = new JMenu("Topic");
 		menuFile.setMnemonic(KeyEvent.VK_T);
-		final JMenuItem initCirc = new JMenuItem("Circular Motion", KeyEvent.VK_M);
-		final JMenuItem initCOM = new JMenuItem("Center of mass", KeyEvent.VK_O);
-		final JMenuItem initColl = new JMenuItem("Collisons and Restitution", KeyEvent.VK_C);
-		final JMenuItem initProj = new JMenuItem("Projectile Motion", KeyEvent.VK_P);//TODO: fix name
+		initCirc = new JMenuItem("Circular Motion", KeyEvent.VK_M);
+		initCOM = new JMenuItem("Center of mass", KeyEvent.VK_O);
+		initColl = new JMenuItem("Collisons and Restitution", KeyEvent.VK_C);
+		initProj = new JMenuItem("Projectile Motion", KeyEvent.VK_P);
+
 		menuTopic.add(initCirc);
 		menuTopic.add(initCOM);
 		menuTopic.add(initColl);
@@ -87,10 +96,17 @@ public class MyMenuBar extends JMenuBar {
 		// Tools
 		JMenu menuTools = new JMenu("Tools");
 		menuTools.setMnemonic(KeyEvent.VK_T);
-		final JMenuItem mConverter = new JMenuItem("Degrees & radians converter", KeyEvent.VK_D);
-		final JMenuItem mTrig = new JMenuItem("Trig calculator", KeyEvent.VK_T);
+		mConverter = new JMenuItem("Degrees & radians converter", KeyEvent.VK_D);
+		mTrig = new JMenuItem("Trig calculator", KeyEvent.VK_T);
 		menuTools.add(mConverter);
 		menuTools.add(mTrig);
+
+		// Image
+		JMenu menuImage = new JMenu("Image");
+		toggleColor = new JMenuItem("Toggle colours", KeyEvent.VK_T);
+		setBackground = new JMenuItem("Background colour", KeyEvent.VK_B);
+		menuImage.add(toggleColor);
+		menuImage.add(setBackground);
 
 		// Solve
 		final JMenuItem menuSolve = new JMenuItem("Solve");
@@ -98,9 +114,9 @@ public class MyMenuBar extends JMenuBar {
 		// Zoom
 		JMenu menuZoom = new JMenu("Zoom");
 		menuTools.setMnemonic(KeyEvent.VK_Z);
-		final JMenuItem zoomIn = new JMenuItem("Zoom in");
-		final JMenuItem zoomOut = new JMenuItem("Zoom out");
-		final JMenuItem zoomReset = new JMenuItem("Reset zoom");
+		zoomIn = new JMenuItem("Zoom in");
+		zoomOut = new JMenuItem("Zoom out");
+		zoomReset = new JMenuItem("Reset zoom");
 		menuZoom.add(zoomIn);
 		menuZoom.add(zoomOut);
 		menuZoom.add(zoomReset);
@@ -153,6 +169,12 @@ public class MyMenuBar extends JMenuBar {
 				if (e.getSource() == initProj) {
 					frame.setTopic(Frame.PROJECTILES);
 				}
+				if (e.getSource() == toggleColor) {
+					toggleColor();
+				}
+				if (e.getSource() == setBackground) {
+					setBackground();
+				}
 			}
 
 		};
@@ -171,11 +193,14 @@ public class MyMenuBar extends JMenuBar {
 		initCOM.addActionListener(listener);
 		initColl.addActionListener(listener);
 		initProj.addActionListener(listener);
+		toggleColor.addActionListener(listener);
+		setBackground.addActionListener(listener);
 
 		// Add all menu items;
 		add(menuFile);
 		add(menuTools);
 		add(menuTopic);
+		add(menuImage);
 		add(menuSolve);
 		if (frame.topic == Frame.CENTER) {
 			add(menuZoom);
@@ -197,8 +222,7 @@ public class MyMenuBar extends JMenuBar {
 			BufferedImage imgB = frame.circVertical.getImg();
 			int width = imgA.getWidth() + imgB.getWidth();
 			int height = imgA.getHeight();
-			BufferedImage combinedImage = new BufferedImage(width, height,
-					BufferedImage.TYPE_INT_ARGB);
+			BufferedImage combinedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
 			Graphics2D g2d = combinedImage.createGraphics();
 			g2d.fillRect(0, 0, width, height);
 			g2d.drawImage(imgA, null, 0, 0);
@@ -238,8 +262,8 @@ public class MyMenuBar extends JMenuBar {
 
 		} catch (Exception e) {
 			e.printStackTrace();
-			JOptionPane.showMessageDialog(null, "<html>Failed to load!<br>" + e.getMessage(),
-					"Error", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, "<html>Failed to load!<br>" + e.getMessage(), "Error",
+					JOptionPane.ERROR_MESSAGE);
 			return;
 		}
 		try {
@@ -250,7 +274,7 @@ public class MyMenuBar extends JMenuBar {
 				frame.circVars = (Var[]) saves[1];
 				frame.circVarB = (Var[]) saves[2];
 				Component[] fields = (Component[]) saves[3];
-				//this class has the right method.
+				// this class has the right method.
 				new ButtonActionListener(frame).loadFields(fields);
 			} else if (topic == Frame.CENTER) {
 				frame.panelCOM.plane = (Plane) saves[1];
@@ -267,8 +291,8 @@ public class MyMenuBar extends JMenuBar {
 			JOptionPane.showMessageDialog(null, "Loaded successfully!");
 		} catch (ClassCastException e) {
 			e.printStackTrace();
-			JOptionPane.showMessageDialog(null, "<html>File is corrupted!<br>" + e.getMessage(),
-					"Error", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, "<html>File is corrupted!<br>" + e.getMessage(), "Error",
+					JOptionPane.ERROR_MESSAGE);
 		}
 	}
 
@@ -288,8 +312,7 @@ public class MyMenuBar extends JMenuBar {
 			savedItem = new Object[] { Frame.CENTER, frame.panelCOM.plane };
 		}
 		if (frame.topic == Frame.COLLISIONS) {
-			savedItem = new Object[] { Frame.COLLISIONS, frame.colVarA, frame.colVarB,
-					frame.colVarE };
+			savedItem = new Object[] { Frame.COLLISIONS, frame.colVarA, frame.colVarB, frame.colVarE };
 		}
 		if (frame.topic == Frame.PROJECTILES) {
 			savedItem = new Object[] { Frame.PROJECTILES, frame.projVars };
@@ -303,8 +326,8 @@ public class MyMenuBar extends JMenuBar {
 			JOptionPane.showMessageDialog(null, "Saved successfully!");
 		} catch (IOException e) {
 			e.printStackTrace();
-			JOptionPane.showMessageDialog(null, "<html>Failed to save!<br>" + e.getMessage(),
-					"Error", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, "<html>Failed to save!<br>" + e.getMessage(), "Error",
+					JOptionPane.ERROR_MESSAGE);
 		}
 	}
 
@@ -322,9 +345,8 @@ public class MyMenuBar extends JMenuBar {
 
 		long startTime = System.currentTimeMillis();
 		if (topic == Frame.CIRCLES) {
-			int confirm = JOptionPane.showConfirmDialog(frame,
-					"Attempts to find unkown variables if possible.", "Solver",
-					JOptionPane.OK_CANCEL_OPTION);
+			int confirm = JOptionPane.showConfirmDialog(frame, "Attempts to find unkown variables if possible.",
+					"Solver", JOptionPane.OK_CANCEL_OPTION);
 			if (confirm == JOptionPane.CANCEL_OPTION || confirm == JOptionPane.CLOSED_OPTION) {
 				return;
 			}
@@ -346,15 +368,13 @@ public class MyMenuBar extends JMenuBar {
 			Solver s = new Solver(defs, circVars);
 
 		} else if (topic == Frame.PROJECTILES) {
-			int confirm = JOptionPane.showConfirmDialog(frame,
-					"Attempts to find unkown variables if possible.", "Solver",
-					JOptionPane.OK_CANCEL_OPTION);
+			int confirm = JOptionPane.showConfirmDialog(frame, "Attempts to find unkown variables if possible.",
+					"Solver", JOptionPane.OK_CANCEL_OPTION);
 			if (confirm == JOptionPane.CANCEL_OPTION || confirm == JOptionPane.CLOSED_OPTION) {
 				return;
 			}
 			if (!projVars[9].isUnknown() && !projVars[8].isUnknown()) {
-				projVars[0].setContents(
-						"" + Math.atan(projVars[9].getVal() / projVars[8].getVal()), false);
+				projVars[0].setContents("" + Math.atan(projVars[9].getVal() / projVars[8].getVal()), false);
 			}
 			Definition[] defs = new Definition[11];
 			defs[0] = new Definition("d=u*cos(a)");
@@ -383,21 +403,17 @@ public class MyMenuBar extends JMenuBar {
 				double c = e.getVal();// c since e is used.
 
 				// mass 1
-				if (!a[1].isUnknown()
-						&& (b[1].isUnknown() && b[2].isUnknown() && b[3].isUnknown()
-								&& a[3].isUnknown() && a[2].isUnknown())) {
+				if (!a[1].isUnknown() && (b[1].isUnknown() && b[2].isUnknown() && b[3].isUnknown() && a[3].isUnknown()
+						&& a[2].isUnknown())) {
 					a[1].setContents("" + (m2 * (v2 - u2) / (u1 - v1)), false);
 				}
 				// mass 2
-				if (!b[1].isUnknown()
-						&& (a[1].isUnknown() && a[2].isUnknown() && a[3].isUnknown()
-								&& b[3].isUnknown() && b[2].isUnknown())) {
+				if (!b[1].isUnknown() && (a[1].isUnknown() && a[2].isUnknown() && a[3].isUnknown() && b[3].isUnknown()
+						&& b[2].isUnknown())) {
 					b[1].setContents("" + (m1 * (u1 - v1) / (v2 - u2)), false);
 				}
 				// e
-				if (!e.isUnknown()
-						&& (a[2].isUnknown() && a[3].isUnknown() && b[2].isUnknown() && b[3]
-								.isUnknown())) {
+				if (!e.isUnknown() && (a[2].isUnknown() && a[3].isUnknown() && b[2].isUnknown() && b[3].isUnknown())) {
 					e.setContents("" + ((v2 - v1) / (u1 - u2)), false);
 					break;// Exit loop as all var must be known by now.
 				}
@@ -424,9 +440,7 @@ public class MyMenuBar extends JMenuBar {
 				}
 				// u1 && u2
 				if (!b[3].isUnknown() && !a[3].isUnknown() && b[2].isUnknown() && a[2].isUnknown()) {
-					b[3].setContents(
-							""
-									+ ((m1 * v1 / m2 - m1 / m2 * ((v2 - v1) / c) + u2 / m2 + v2) / (1 - 1 / m2)),
+					b[3].setContents("" + ((m1 * v1 / m2 - m1 / m2 * ((v2 - v1) / c) + u2 / m2 + v2) / (1 - 1 / m2)),
 							false);
 					a[3].setContents("" + (v1 + (m2 * v2 - m2 * u2) / m1), false);
 				}
@@ -441,8 +455,7 @@ public class MyMenuBar extends JMenuBar {
 		} else if (topic == Frame.CENTER) {
 			JOptionPane.showMessageDialog(frame, "Not avaliable.");
 		}
-		System.out.println("Solver completed in " + (System.currentTimeMillis() - startTime)
-				+ " ms");
+		System.out.println("Solver completed in " + (System.currentTimeMillis() - startTime) + " ms");
 		frame.updateFields();
 	}
 
@@ -465,7 +478,7 @@ public class MyMenuBar extends JMenuBar {
 		if (frame.topic == Frame.PROJECTILES) {
 			path = "m2/notes/projectileNotes.txt";
 		}
-		//Create file if none exists.
+		// Create file if none exists.
 		File file = new File(path);
 		if (!file.exists()) {
 			try {
@@ -475,7 +488,7 @@ public class MyMenuBar extends JMenuBar {
 				e.printStackTrace();
 			}
 		}
-		//Overwrite the file in the selected path
+		// Overwrite the file in the selected path
 		Writer writer = null;
 		try {
 			FileOutputStream fout = new FileOutputStream(file, false);
@@ -484,13 +497,28 @@ public class MyMenuBar extends JMenuBar {
 			JOptionPane.showMessageDialog(null, "Notes saved");
 		} catch (Exception e) {
 			e.printStackTrace();
-			JOptionPane.showMessageDialog(null, "Failed to save notes!", "Error",
-					JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, "Failed to save notes!", "Error", JOptionPane.ERROR_MESSAGE);
 		} finally {
 			try {
 				writer.close();
 			} catch (Exception e) {
 			}
 		}
+	}
+
+	/**
+	 * Toggle black and white
+	 */
+	private void toggleColor() {
+		frame.color = !frame.color;
+	}
+
+	/**
+	 * Set background colour
+	 */
+	private void setBackground() {
+		Color newColor = JColorChooser.showDialog(null, "Choose a color", Color.white);
+		frame.bgColor = newColor;
+		setBackground.setBackground(newColor);
 	}
 }

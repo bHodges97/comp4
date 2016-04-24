@@ -14,6 +14,7 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
+import mainGui.Frame;
 import math.MathUtil;
 import math.Var;
 
@@ -25,6 +26,7 @@ import math.Var;
 public class ProjDiagram extends JPanel {
 	private static final long serialVersionUID = 1L;
 
+	Frame frame;
 	Var[] v;
 
 	/**
@@ -33,8 +35,9 @@ public class ProjDiagram extends JPanel {
 	 * @param projVars
 	 *            The variables to display
 	 */
-	public ProjDiagram(Var[] projVars) {
-		v = projVars;
+	public ProjDiagram(Frame frame) {
+		this.frame = frame;
+		v = frame.projVars;
 	}
 
 	/**
@@ -44,8 +47,7 @@ public class ProjDiagram extends JPanel {
 	 *            The path to write the file to
 	 */
 	public void print(String pathName) {
-		BufferedImage img = new BufferedImage(this.getWidth(), this.getHeight(),
-				BufferedImage.TYPE_INT_RGB);
+		BufferedImage img = new BufferedImage(this.getWidth(), this.getHeight(), BufferedImage.TYPE_INT_RGB);
 		Graphics print = img.getGraphics();
 		printAll(print);
 		try {
@@ -61,7 +63,7 @@ public class ProjDiagram extends JPanel {
 		Graphics2D g2d = (Graphics2D) g;
 		Dimension d = getSize();
 		String label = "TEST";
-		g2d.setColor(Color.white);
+		g2d.setColor(frame.color?frame.bgColor:Color.white);
 		g2d.fillRect(0, 0, getWidth(), getHeight());
 		g2d.setColor(Color.black);
 		if (v == null || v[0] == null) {
@@ -79,19 +81,19 @@ public class ProjDiagram extends JPanel {
 		int r = (int) (d.getHeight() * 0.03);
 		int widthDivByTen = (int) (d.getWidth() / 10);
 
-		//Draw ground.
-		g2d.drawLine((int) (widthDivByTen - r), (int) (d.getHeight() * 0.8),
-				(int) (widthDivByTen * 9), (int) (d.getHeight() * 0.8));
+		// Draw ground.
+		g2d.drawLine((int) (widthDivByTen - r), (int) (d.getHeight() * 0.8), (int) (widthDivByTen * 9),
+				(int) (d.getHeight() * 0.8));
 
-		//Draw height arrow
+		// Draw height arrow
 		if (v[4].isZero()) {
 			y = (int) (d.getHeight() * 0.8 - r);
 		} else {
 			y = (int) (d.getHeight() * 0.4);
-			MathUtil.drawArrow(g2d, (int) (widthDivByTen), (int) (d.getHeight() * 0.8),
-					(int) (widthDivByTen), y + r, r / 2);
-			MathUtil.drawArrow(g2d, (int) (widthDivByTen), y + r, (int) (widthDivByTen),
-					(int) (d.getHeight() * 0.8), r / 2);
+			MathUtil.drawArrow(g2d, (int) (widthDivByTen), (int) (d.getHeight() * 0.8), (int) (widthDivByTen), y + r,
+					r / 2);
+			MathUtil.drawArrow(g2d, (int) (widthDivByTen), y + r, (int) (widthDivByTen), (int) (d.getHeight() * 0.8),
+					r / 2);
 			label = new String(v[4].isUnknown() ? v[4].name : v[4].contents);
 			g2d.drawString(label + " m", (int) (widthDivByTen) - r, (int) (1.5 * y));
 		}
@@ -118,10 +120,8 @@ public class ProjDiagram extends JPanel {
 		if (!v[10].isZero()) {
 			int t = ry;
 			ry = (int) (d.getHeight() * 0.8 - r);
-			MathUtil.drawArrow(g2d, (int) (widthDivByTen + r), (int) (ry + 1.5 * r), rx,
-					(int) (ry + 1.5 * r), r);
-			MathUtil.drawArrow(g2d, rx, (int) (ry + 1.5 * r), (int) (widthDivByTen + r),
-					(int) (ry + 1.5 * r), r);
+			MathUtil.drawArrow(g2d, (int) (widthDivByTen + r), (int) (ry + 1.5 * r), rx, (int) (ry + 1.5 * r), r);
+			MathUtil.drawArrow(g2d, rx, (int) (ry + 1.5 * r), (int) (widthDivByTen + r), (int) (ry + 1.5 * r), r);
 			label = new String(v[10].isUnknown() ? v[10].label : v[10].contents);
 			g2d.drawString(label + " m", rx / 2, (int) (ry + 1.9 * r));
 			ry = t;
@@ -130,15 +130,13 @@ public class ProjDiagram extends JPanel {
 		label = new String(v[11].contents);
 		g2d.drawString(label, (int) (widthDivByTen), y + r / 2);
 
-		//Control values for where the curve passes through.
+		// Control values for where the curve passes through.
 		int ctrlY = 0;
-		int ctrlX = (int) (((d.getWidth() * 0.7 + r / 2) - (widthDivByTen + r / 2)) / 2 + (d
-				.getWidth() / 10 + r / 2));
+		int ctrlX = (int) (((d.getWidth() * 0.7 + r / 2) - (widthDivByTen + r / 2)) / 2 + (d.getWidth() / 10 + r / 2));
 
-		// draw  initial arrows
+		// draw initial arrows
 		if (v[9].getVal() > 0 || v[9].isUnknown()) {
-			MathUtil.drawArrow(g2d, (int) (widthDivByTen + r / 2), y,
-					(int) (widthDivByTen + r / 2), y - 2 * r, r);
+			MathUtil.drawArrow(g2d, (int) (widthDivByTen + r / 2), y, (int) (widthDivByTen + r / 2), y - 2 * r, r);
 			ctrlY = (int) (y * 0.1 + r);
 			g2d.drawArc(widthDivByTen - r, y - r, 3 * r, 3 * r, 0,
 					(int) Math.toDegrees(Math.atan(d.getHeight() / d.getWidth())));
@@ -148,17 +146,11 @@ public class ProjDiagram extends JPanel {
 			g2d.drawString(label + " m/s", (int) (widthDivByTen + r / 2), (int) (y * 0.94));
 
 		} else if (v[9].getVal() < 0) {
-			MathUtil.drawArrow(g2d, (int) (widthDivByTen + r / 2), y,
-					(int) (widthDivByTen + r / 2), y + 3 * r, r);
+			MathUtil.drawArrow(g2d, (int) (widthDivByTen + r / 2), y, (int) (widthDivByTen + r / 2), y + 3 * r, r);
 			ctrlY = (int) (y * 1.2 + r);
 			ctrlX *= 1.6;
 
-			g2d.drawArc(
-					widthDivByTen - r,
-					y - r,
-					3 * r,
-					3 * r,
-					0,
+			g2d.drawArc(widthDivByTen - r, y - r, 3 * r, 3 * r, 0,
 					(int) (Math.toDegrees(Math.atan((ctrlY - d.getHeight() * 0.8 - r) / ctrlX))) + 10);
 
 			label = new String(v[0].isUnknown() ? v[0].label : v[0].contents);
@@ -170,20 +162,18 @@ public class ProjDiagram extends JPanel {
 		}
 
 		if (!v[8].isZero()) {
-			MathUtil.drawArrow(g2d, (int) (widthDivByTen + r), y + r / 2,
-					(int) (widthDivByTen + 3 * r), y + r / 2, r);
+			MathUtil.drawArrow(g2d, (int) (widthDivByTen + r), y + r / 2, (int) (widthDivByTen + 3 * r), y + r / 2, r);
 			label = new String(v[8].isUnknown() ? v[8].label : v[8].contents);
 			g2d.drawString(label + " m/s", (int) (widthDivByTen + 2 * r), (int) (y + r));
 		}
 
-		//Draw arc.
+		// Draw arc.
 		if (!v[10].isZero()) {
 			Stroke norm = g2d.getStroke();
-			Stroke dashed = new BasicStroke(1, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0,
-					new float[] { 8 }, 0);
+			Stroke dashed = new BasicStroke(1, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[] { 8 }, 0);
 			g2d.setStroke(dashed);
-			QuadCurve2D.Double curve = new QuadCurve2D.Double((int) (widthDivByTen) + r / 2, y + r
-					/ 2, ctrlX, ctrlY, rx + r / 2, ry + r / 2);
+			QuadCurve2D.Double curve = new QuadCurve2D.Double((int) (widthDivByTen) + r / 2, y + r / 2, ctrlX, ctrlY,
+					rx + r / 2, ry + r / 2);
 			g2d.draw(curve);
 			g2d.setStroke(norm);
 		}

@@ -29,6 +29,7 @@ public class ColDiagram extends JPanel {
 	Var[] a;
 	Var[] b;
 	Var e;
+	Frame frame;
 
 	/**
 	 * Construct a new instance of this panel
@@ -36,7 +37,8 @@ public class ColDiagram extends JPanel {
 	 * @param frame
 	 *            The frame this panel belongs to
 	 */
-	public ColDiagram(final Frame frame) {
+	public ColDiagram(Frame window) {
+		this.frame = window;
 		this.a = frame.colVarA;
 		this.b = frame.colVarB;
 		this.e = frame.colVarE;
@@ -86,8 +88,7 @@ public class ColDiagram extends JPanel {
 	 *            The path to write the file to
 	 */
 	public void print(String path) {
-		BufferedImage img = new BufferedImage(this.getWidth(), this.getHeight(),
-				BufferedImage.TYPE_INT_RGB);
+		BufferedImage img = new BufferedImage(this.getWidth(), this.getHeight(), BufferedImage.TYPE_INT_RGB);
 		Graphics print = img.getGraphics();
 		printAll(print);
 		try {
@@ -101,15 +102,15 @@ public class ColDiagram extends JPanel {
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		Graphics2D g2d = (Graphics2D) g;
-		g2d.setColor(Color.white);
+		g2d.setColor(frame.color?frame.bgColor:Color.white);
 		g2d.fillRect(0, 0, getWidth(), getHeight());
 		g2d.setColor(Color.black);
+
 		Dimension d = ColDiagram.this.getSize();
 		int lx = (int) (d.getWidth() / 4);
 		int ly = (int) (d.getHeight() / 2);
 
-		g2d.drawLine((int) (lx - lx * 0.6), (int) (ly * 1.1), (int) (lx + lx * 0.6),
-				(int) (ly * 1.1));
+		g2d.drawLine((int) (lx - lx * 0.6), (int) (ly * 1.1), (int) (lx + lx * 0.6), (int) (ly * 1.1));
 		g2d.fillOval((int) (lx - lx * 0.5), ly, (int) (ly * 0.1), (int) (ly * 0.1));
 		g2d.fillOval((int) (lx + lx * 0.5 - ly * 0.05), ly, (int) (ly * 0.1), (int) (ly * 0.1));
 
@@ -125,8 +126,7 @@ public class ColDiagram extends JPanel {
 		Font font = g2d.getFont();
 		g2d.setFont(font.deriveFont(font.getSize() * 1.5f));
 		g2d.drawString("Before", (int) (d.getWidth() / 16), (int) (d.getHeight() / 4));
-		g2d.drawString("After", (int) (d.getWidth() / 2 + d.getWidth() / 16),
-				(int) (d.getHeight() / 4));
+		g2d.drawString("After", (int) (d.getWidth() / 2 + d.getWidth() / 16), (int) (d.getHeight() / 4));
 		g2d.setFont(font);
 		if (!e.contents.equals("=")) {
 			g2d.drawString("e = " + e.contents, lx, ly);
@@ -137,8 +137,8 @@ public class ColDiagram extends JPanel {
 		g2d.drawString(a[0].contents, (int) (lx - lx * 0.55), (int) (ly));
 
 		if (!a[2].isZero()) {
-			g2d.drawLine((int) (lx - lx * 0.5 + ly * 0.05 - ly * 0.1), (int) (ly * 0.95), (int) (lx
-					- lx * 0.5 + ly * 0.05 + ly * 0.1), (int) (ly * 0.95));
+			g2d.drawLine((int) (lx - lx * 0.5 + ly * 0.05 - ly * 0.1), (int) (ly * 0.95),
+					(int) (lx - lx * 0.5 + ly * 0.05 + ly * 0.1), (int) (ly * 0.95));
 			if (MathUtil.isNumeric(a[2].contents) && Double.parseDouble(a[2].contents) < 0) {
 				// remove negative sign
 				label = new String(a[2].contents).substring(1, a[2].contents.length());
@@ -178,8 +178,8 @@ public class ColDiagram extends JPanel {
 
 		if (!b[2].isZero()) {
 
-			g2d.drawLine((int) (lx + lx * 0.5 - ly * 0.1), (int) (ly * 0.95),
-					(int) (lx + lx * 0.5 + ly * 0.1), (int) (ly * 0.95));
+			g2d.drawLine((int) (lx + lx * 0.5 - ly * 0.1), (int) (ly * 0.95), (int) (lx + lx * 0.5 + ly * 0.1),
+					(int) (ly * 0.95));
 			if (MathUtil.isNumeric(b[2].contents) && Double.parseDouble(b[2].contents) < 0) {
 				// removes negative sign
 				label = new String(b[2].contents).substring(1, b[2].contents.length());
@@ -224,8 +224,7 @@ public class ColDiagram extends JPanel {
 		ly = (int) (d.getHeight() / 2);
 		int c = 2 * lx;
 
-		g2d.drawLine((int) (lx - lx * 0.6 + c), (int) (ly * 1.1), (int) (lx + lx * 0.6 + c),
-				(int) (ly * 1.1));
+		g2d.drawLine((int) (lx - lx * 0.6 + c), (int) (ly * 1.1), (int) (lx + lx * 0.6 + c), (int) (ly * 1.1));
 		g2d.fillOval((int) (lx - lx * 0.5 + c), ly, (int) (ly * 0.1), (int) (ly * 0.1));
 		g2d.fillOval((int) (lx + lx * 0.5 - ly * 0.05 + c), ly, (int) (ly * 0.1), (int) (ly * 0.1));
 
@@ -283,8 +282,8 @@ public class ColDiagram extends JPanel {
 
 		if (!b[3].isZero()) {
 
-			g2d.drawLine((int) (lx * 1.5 - ly * 0.1 + c), (int) (ly * 0.95),
-					(int) (c + lx * 1.5 + ly * 0.1), (int) (ly * 0.95));
+			g2d.drawLine((int) (lx * 1.5 - ly * 0.1 + c), (int) (ly * 0.95), (int) (c + lx * 1.5 + ly * 0.1),
+					(int) (ly * 0.95));
 			if (MathUtil.isNumeric(b[3].contents) && Double.parseDouble(b[3].contents) < 0) {
 				// removes negative sign
 				label = new String(b[3].contents).substring(1, b[3].contents.length());

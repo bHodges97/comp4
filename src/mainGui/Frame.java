@@ -54,6 +54,8 @@ public class Frame extends JFrame {
 	public static int CENTER = 2;
 	public static int PROJECTILES = 3;
 	public int topic = 2;
+	public boolean color = true;
+	public Color bgColor = Color.white;
 
 	Border border = BorderFactory.createLineBorder(Color.LIGHT_GRAY);
 	JTextArea topicDesc;
@@ -117,7 +119,7 @@ public class Frame extends JFrame {
 	 * 11 label<br>
 	 * 12 y y<br>
 	 */
-	Var[] projVars;
+	public Var[] projVars;
 	ProjDiagram projDiagram;
 	JTextField[] projText = new JTextField[13];
 
@@ -166,8 +168,7 @@ public class Frame extends JFrame {
 				};
 				update.start();
 				// print time taken to start
-				System.out.println("GUI initialised in " + (System.currentTimeMillis() - timer)
-						+ " milliseconds");
+				System.out.println("GUI initialised in " + (System.currentTimeMillis() - timer) + " milliseconds");
 			}
 		});
 	}
@@ -221,10 +222,8 @@ public class Frame extends JFrame {
 			double x = 0;
 			double y = 0;
 			for (int i = 0; i < circTextA.size(); i++) {
-				x += Double.parseDouble(circTextA.get(i))
-						* Math.cos(Double.parseDouble(circTextB.get(i)));
-				y += Double.parseDouble(circTextA.get(i))
-						* Math.sin(Double.parseDouble(circTextB.get(i)));
+				x += Double.parseDouble(circTextA.get(i)) * Math.cos(Double.parseDouble(circTextB.get(i)));
+				y += Double.parseDouble(circTextA.get(i)) * Math.sin(Double.parseDouble(circTextB.get(i)));
 				System.out.println(x);
 			}
 			circX.setText(circVarB[0].contents);
@@ -263,8 +262,8 @@ public class Frame extends JFrame {
 		panelSouth.setBorder(border);
 
 		// initiate components
-		circVertical = new CircVertical();
-		circTopDown = new CircTopDown();
+		circVertical = new CircVertical(this);
+		circTopDown = new CircTopDown(this);
 		JLabel Explanation = new JLabel("Leave unknowns as \"?\".");
 		circX = new JTextField("?", 7);
 		circY = new JTextField("?", 7);
@@ -297,8 +296,8 @@ public class Frame extends JFrame {
 		c.gridx++;
 		panelDiagram.add(circVertical);
 
-		c = new GridBagConstraints(0, 0, 1, 1, 1, 0, GridBagConstraints.FIRST_LINE_START,
-				GridBagConstraints.HORIZONTAL, new Insets(2, 2, 2, 2), 0, 0);
+		c = new GridBagConstraints(0, 0, 1, 1, 1, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.HORIZONTAL,
+				new Insets(2, 2, 2, 2), 0, 0);
 
 		// Column 1;
 		panelFields.add(Explanation, c);
@@ -386,7 +385,7 @@ public class Frame extends JFrame {
 	private void initProjectiles() {
 		// initialise variables
 		projVars = Var.createVars(Var.PROJ_VARS);
-		projDiagram = new ProjDiagram(projVars);
+		projDiagram = new ProjDiagram(this);
 		JPanel sidePanel = new JPanel(new GridLayout(0, 1));
 		JPanel others = new JPanel(new GridBagLayout());
 		JPanel before = new JPanel(new GridBagLayout());
