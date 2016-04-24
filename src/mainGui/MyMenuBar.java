@@ -72,9 +72,9 @@ public class MyMenuBar extends JMenuBar {
 		JMenu menuFile = new JMenu("File");
 		menuFile.setMnemonic(KeyEvent.VK_F);
 		saveImage = new JMenuItem("Export image", KeyEvent.VK_I);
-		saveFile = new JMenuItem("Save as...", KeyEvent.VK_F);
-		loadFile = new JMenuItem("Open File...", KeyEvent.VK_O);
-		saveNotes = new JMenuItem("Save Notes", KeyEvent.VK_T);
+		saveFile = new JMenuItem("Save as...", KeyEvent.VK_S);
+		loadFile = new JMenuItem("Open File...", KeyEvent.VK_E);
+		saveNotes = new JMenuItem("Save Notes", KeyEvent.VK_N);
 		menuFile.add(loadFile);
 		menuFile.add(saveFile);
 		menuFile.add(saveImage);
@@ -83,9 +83,9 @@ public class MyMenuBar extends JMenuBar {
 		// Topic
 		JMenu menuTopic = new JMenu("Topic");
 		menuFile.setMnemonic(KeyEvent.VK_T);
-		initCirc = new JMenuItem("Circular Motion", KeyEvent.VK_M);
-		initCOM = new JMenuItem("Center of mass", KeyEvent.VK_O);
-		initColl = new JMenuItem("Collisons and Restitution", KeyEvent.VK_C);
+		initCirc = new JMenuItem("Circular Motion", KeyEvent.VK_C);
+		initCOM = new JMenuItem("Center of mass", KeyEvent.VK_M);
+		initColl = new JMenuItem("Collisons and Restitution", KeyEvent.VK_R);
 		initProj = new JMenuItem("Projectile Motion", KeyEvent.VK_P);
 
 		menuTopic.add(initCirc);
@@ -94,12 +94,14 @@ public class MyMenuBar extends JMenuBar {
 		menuTopic.add(initProj);
 
 		// Tools
-		JMenu menuTools = new JMenu("Tools");
-		menuTools.setMnemonic(KeyEvent.VK_T);
+		JMenu menuMaths = new JMenu("Maths");
+		menuMaths.setMnemonic(KeyEvent.VK_T);
 		mConverter = new JMenuItem("Degrees & radians converter", KeyEvent.VK_D);
 		mTrig = new JMenuItem("Trig calculator", KeyEvent.VK_T);
-		menuTools.add(mConverter);
-		menuTools.add(mTrig);
+		menuSolve = new JMenuItem("Solve", KeyEvent.VK_S);
+		menuMaths.add(mConverter);
+		menuMaths.add(mTrig);
+		menuMaths.add(menuSolve);
 
 		// Image
 		JMenu menuImage = new JMenu("Image");
@@ -108,12 +110,9 @@ public class MyMenuBar extends JMenuBar {
 		menuImage.add(toggleColor);
 		menuImage.add(setBackground);
 
-		// Solve
-		final JMenuItem menuSolve = new JMenuItem("Solve");
-
 		// Zoom
 		JMenu menuZoom = new JMenu("Zoom");
-		menuTools.setMnemonic(KeyEvent.VK_Z);
+		menuMaths.setMnemonic(KeyEvent.VK_Z);
 		zoomIn = new JMenuItem("Zoom in");
 		zoomOut = new JMenuItem("Zoom out");
 		zoomReset = new JMenuItem("Reset zoom");
@@ -198,10 +197,9 @@ public class MyMenuBar extends JMenuBar {
 
 		// Add all menu items;
 		add(menuFile);
-		add(menuTools);
+		add(menuMaths);
 		add(menuTopic);
 		add(menuImage);
-		add(menuSolve);
 		if (frame.topic == Frame.CENTER) {
 			add(menuZoom);
 		}

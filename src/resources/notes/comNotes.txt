@@ -1,1 +1,20 @@
-Missing notes file
+Moment:
+- Force * PERPENDICULAR 
+distance from pivot to line of action of force.
+
+Centers of Mass:
+Triangular lamina: 
+-2/3 along median from vertex
+Solid hemisphere: 
+-3/8 r from centre
+Hemispherical shell: 
+-1/2 r from centre
+Circular arc at centre 2a: 
+-r*sin(a)/a
+Sector of circle at centre 2a
+-2rsin(a)/3a
+Solide cone or pyramid of
+height h:
+-1/4h above the base  
+Conival shell of height h:
+-1/3h above the base

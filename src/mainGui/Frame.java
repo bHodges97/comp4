@@ -131,6 +131,7 @@ public class Frame extends JFrame {
 	public Frame(int popupTopic) {
 		try {// Set to os style
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+			UIManager.getDefaults().put("Button.showMnemonics", Boolean.TRUE);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -184,24 +185,24 @@ public class Frame extends JFrame {
 		getContentPane().removeAll();
 		this.topic = topic;
 		if (topic == CIRCLES) {
+			setTitle("Uniform Motion in a Circle");
 			initCircularMotion();
 			circVertical.text = circVarB;
 			circVertical.force = circTextA;
 			circVertical.angle = circTextB;
 			circTopDown.vars = circVars;
-			setTitle("Uniform Motion in a Circle");
 		}
 		if (topic == CENTER) {
-			initCenterOfMass();
 			setTitle("Center of Mass");
+			initCenterOfMass();
 		}
 		if (topic == COLLISIONS) {
-			initCollisions();
 			setTitle("Coefficient of Restitution; Impulse");
+			initCollisions();
 		}
 		if (topic == PROJECTILES) {
-			initProjectiles();
 			setTitle("Motion of a Projectile");
+			initProjectiles();
 		}
 		updateFields();
 	}
@@ -627,6 +628,7 @@ public class Frame extends JFrame {
 				// Do nothing
 			}
 		}
+		System.out.println(getTitle());
 		JTextField topicTitle = new JTextField(getTitle() + " notes");
 		topicTitle.setEditable(false);
 		topicTitle.setFont(topicTitle.getFont().deriveFont(1.2f * topicTitle.getFont().getSize()));

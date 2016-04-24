@@ -1,1 +1,7 @@
-Missing notes file
+w = angular speed (rads/s)
+v = tangential speed (m/s)
+
+
+-The acceleration towards the center of the circle is given by v^2/r or rw^2
+-The centripetal force is mv^2/r or mrw^2
+- T=2π/w is the time period of 1 complete circle 
