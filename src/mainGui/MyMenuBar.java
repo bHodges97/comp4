@@ -64,7 +64,8 @@ public class MyMenuBar extends JMenuBar {
 		imageChooser = new JFileChooser();
 		fileChooser = new JFileChooser();
 		FileNameExtensionFilter filterFile = new FileNameExtensionFilter("m2 files (*.m2)", "m2");
-		FileNameExtensionFilter filterImage = new FileNameExtensionFilter("PNG files (*.png)", "png");
+		FileNameExtensionFilter filterImage = new FileNameExtensionFilter("PNG files (*.png)",
+				"png");
 		imageChooser.setFileFilter(filterImage);
 		fileChooser.setFileFilter(filterFile);
 
@@ -220,7 +221,8 @@ public class MyMenuBar extends JMenuBar {
 			BufferedImage imgB = frame.circVertical.getImg();
 			int width = imgA.getWidth() + imgB.getWidth();
 			int height = imgA.getHeight();
-			BufferedImage combinedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+			BufferedImage combinedImage = new BufferedImage(width, height,
+					BufferedImage.TYPE_INT_ARGB);
 			Graphics2D g2d = combinedImage.createGraphics();
 			g2d.fillRect(0, 0, width, height);
 			g2d.drawImage(imgA, null, 0, 0);
@@ -260,8 +262,8 @@ public class MyMenuBar extends JMenuBar {
 
 		} catch (Exception e) {
 			e.printStackTrace();
-			JOptionPane.showMessageDialog(null, "<html>Failed to load!<br>" + e.getMessage(), "Error",
-					JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, "<html>Failed to load!<br>" + e.getMessage(),
+					"Error", JOptionPane.ERROR_MESSAGE);
 			return;
 		}
 		try {
@@ -286,11 +288,10 @@ public class MyMenuBar extends JMenuBar {
 				throw new ClassCastException("No matching topic");
 			}
 			frame.updateFields();
-			JOptionPane.showMessageDialog(null, "Loaded successfully!");
 		} catch (ClassCastException e) {
 			e.printStackTrace();
-			JOptionPane.showMessageDialog(null, "<html>File is corrupted!<br>" + e.getMessage(), "Error",
-					JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, "<html>File is corrupted!<br>" + e.getMessage(),
+					"Error", JOptionPane.ERROR_MESSAGE);
 		}
 	}
 
@@ -310,7 +311,8 @@ public class MyMenuBar extends JMenuBar {
 			savedItem = new Object[] { Frame.CENTER, frame.panelCOM.plane };
 		}
 		if (frame.topic == Frame.COLLISIONS) {
-			savedItem = new Object[] { Frame.COLLISIONS, frame.colVarA, frame.colVarB, frame.colVarE };
+			savedItem = new Object[] { Frame.COLLISIONS, frame.colVarA, frame.colVarB,
+					frame.colVarE };
 		}
 		if (frame.topic == Frame.PROJECTILES) {
 			savedItem = new Object[] { Frame.PROJECTILES, frame.projVars };
@@ -324,8 +326,8 @@ public class MyMenuBar extends JMenuBar {
 			JOptionPane.showMessageDialog(null, "Saved successfully!");
 		} catch (IOException e) {
 			e.printStackTrace();
-			JOptionPane.showMessageDialog(null, "<html>Failed to save!<br>" + e.getMessage(), "Error",
-					JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, "<html>Failed to save!<br>" + e.getMessage(),
+					"Error", JOptionPane.ERROR_MESSAGE);
 		}
 	}
 
@@ -337,123 +339,42 @@ public class MyMenuBar extends JMenuBar {
 		Var[] circVars = frame.circVars;
 		Var[] circVarB = frame.circVars;
 		Var[] projVars = frame.projVars;
-		Var[] a = frame.colVarA;
-		Var[] b = frame.colVarB;
-		Var e = frame.colVarE;
+		Solver solver = new Solver();
 
-		long startTime = System.currentTimeMillis();
-		if (topic == Frame.CIRCLES) {
-			int confirm = JOptionPane.showConfirmDialog(frame, "Attempts to find unkown variables if possible.",
-					"Solver", JOptionPane.OK_CANCEL_OPTION);
+		//Confirm if user wants to solve
+		if (topic == Frame.CENTER) {
+			JOptionPane.showMessageDialog(frame, "Not avaliable.");
+		} else {
+			int confirm = JOptionPane.showConfirmDialog(frame,
+					"Attempts to find unkown variables if possible.", "Solver",
+					JOptionPane.OK_CANCEL_OPTION);
 			if (confirm == JOptionPane.CANCEL_OPTION || confirm == JOptionPane.CLOSED_OPTION) {
 				return;
 			}
+		}
 
+		//start solving
+		long startTime = System.currentTimeMillis();
+		if (topic == Frame.CIRCLES) {
 			if (!circVarB[0].isUnknown() && circVars[5].isUnknown()) {
 				circVars[5].setContents(circVarB[0].contents, false);
 			}
 			System.out.println("Started");
-			Definition[] defs = new Definition[9];
-			defs[0] = new Definition("v=r*w");
-			defs[1] = new Definition("w=v/r");
-			defs[2] = new Definition("f=m*a");
-			defs[3] = new Definition("a=v^2/r");
-			defs[4] = new Definition("a=w^2*r");
-			defs[5] = new Definition("x=t*w+u");
-			defs[6] = new Definition("t=x-u/w");
-			defs[7] = new Definition("r=v/w");
-			defs[8] = new Definition("r=v^2/a");
-			Solver s = new Solver(defs, circVars);
+			solver.solve(Definition.createDefs(Frame.CIRCLES), circVars);
 
 		} else if (topic == Frame.PROJECTILES) {
-			int confirm = JOptionPane.showConfirmDialog(frame, "Attempts to find unkown variables if possible.",
-					"Solver", JOptionPane.OK_CANCEL_OPTION);
-			if (confirm == JOptionPane.CANCEL_OPTION || confirm == JOptionPane.CLOSED_OPTION) {
-				return;
-			}
 			if (!projVars[9].isUnknown() && !projVars[8].isUnknown()) {
-				projVars[0].setContents("" + Math.atan(projVars[9].getVal() / projVars[8].getVal()), false);
+				projVars[0].setContents(
+						"" + Math.atan(projVars[9].getVal() / projVars[8].getVal()), false);
 			}
-			Definition[] defs = new Definition[11];
-			defs[0] = new Definition("d=u*cos(a)");
-			defs[1] = new Definition("e=u*sin(a)");
-			defs[2] = new Definition("d=b");
-			defs[3] = new Definition("b=d");
-			defs[4] = new Definition("x=b*t");
-			defs[5] = new Definition("e=9.8*t+c");
-			defs[6] = new Definition("y=c+e/2*t+h");
-			defs[7] = new Definition("y=t^2*0.5*-9.8+(e*t)");
-			defs[8] = new Definition("v=(b^2)+(c^2)^1/2");
-			defs[9] = new Definition("u=(d^2)+(e^2)^1/2");
-			defs[10] = new Definition("v=(u^2)+0.5*a*(y-h)^1/2");
-			Solver s = new Solver(defs, projVars);
+			solver.solve(Definition.createDefs(Frame.PROJECTILES), projVars);
 
 		} else if (topic == Frame.COLLISIONS) {
-			// Not using solver as simultaneous equations are too complex to be
-			// represented.
-			while (true) {
-				double m1 = a[1].getVal();
-				double m2 = b[1].getVal();
-				double v1 = a[2].getVal();
-				double v2 = b[2].getVal();
-				double u1 = a[3].getVal();
-				double u2 = b[3].getVal();
-				double c = e.getVal();// c since e is used.
-
-				// mass 1
-				if (!a[1].isUnknown() && (b[1].isUnknown() && b[2].isUnknown() && b[3].isUnknown() && a[3].isUnknown()
-						&& a[2].isUnknown())) {
-					a[1].setContents("" + (m2 * (v2 - u2) / (u1 - v1)), false);
-				}
-				// mass 2
-				if (!b[1].isUnknown() && (a[1].isUnknown() && a[2].isUnknown() && a[3].isUnknown() && b[3].isUnknown()
-						&& b[2].isUnknown())) {
-					b[1].setContents("" + (m1 * (u1 - v1) / (v2 - u2)), false);
-				}
-				// e
-				if (!e.isUnknown() && (a[2].isUnknown() && a[3].isUnknown() && b[2].isUnknown() && b[3].isUnknown())) {
-					e.setContents("" + ((v2 - v1) / (u1 - u2)), false);
-					break;// Exit loop as all var must be known by now.
-				}
-				// v1
-				if (!a[2].isUnknown() && a[2].isUnknown() && b[3].isUnknown() && b[3].isUnknown()) {
-					a[2].setContents("" + (u1 + (m2 * u2 - m2 * v2) / m1), false);
-				}
-				// v2
-				if (!b[2].isUnknown() && a[2].isUnknown() && b[3].isUnknown() && a[3].isUnknown()) {
-					b[2].setContents("" + (u2 - (m1 * u1 - m1 * v1) / m2), false);
-				}
-				// u1
-				if (!a[3].isUnknown() && a[2].isUnknown() && b[2].isUnknown() && b[3].isUnknown()) {
-					a[3].setContents("" + (v1 + (m2 * v2 - m2 * u2) / m1), false);
-				}
-				// u2
-				if (!b[3].isUnknown() && a[2].isUnknown() && b[2].isUnknown() && a[3].isUnknown()) {
-					b[3].setContents("" + v2 + (m1 * v1 - m1 * u1) / m2, false);
-				}
-				// v1 && v2
-				if (!b[2].isUnknown() && !a[2].isUnknown() && b[3].isUnknown() && a[3].isUnknown()) {
-					a[2].setContents("" + (u1 + (m2 * u2 - m2 * (c * (u1 - u2) + v1)) / m1), false);
-					b[2].setContents("" + (u2 - (m1 * u1 - m1 * v1) / m2), false);
-				}
-				// u1 && u2
-				if (!b[3].isUnknown() && !a[3].isUnknown() && b[2].isUnknown() && a[2].isUnknown()) {
-					b[3].setContents("" + ((m1 * v1 / m2 - m1 / m2 * ((v2 - v1) / c) + u2 / m2 + v2) / (1 - 1 / m2)),
-							false);
-					a[3].setContents("" + (v1 + (m2 * v2 - m2 * u2) / m1), false);
-				}
-
-				// Escape if calc take too long
-				if (System.currentTimeMillis() - startTime > 500) {
-					System.out.println("Maximum time reached");
-					break;
-				}
-			}
-
-		} else if (topic == Frame.CENTER) {
-			JOptionPane.showMessageDialog(frame, "Not avaliable.");
+			solver.solve(frame.colVarA, frame.colVarB, frame.colVarE);
 		}
-		System.out.println("Solver completed in " + (System.currentTimeMillis() - startTime) + " ms");
+		System.out.println("Solver completed in " + (System.currentTimeMillis() - startTime)
+				+ " ms");
+		//solving completed, update gui
 		frame.updateFields();
 	}
 
@@ -495,7 +416,8 @@ public class MyMenuBar extends JMenuBar {
 			JOptionPane.showMessageDialog(null, "Notes saved");
 		} catch (Exception e) {
 			e.printStackTrace();
-			JOptionPane.showMessageDialog(null, "Failed to save notes!", "Error", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, "Failed to save notes!", "Error",
+					JOptionPane.ERROR_MESSAGE);
 		} finally {
 			try {
 				writer.close();

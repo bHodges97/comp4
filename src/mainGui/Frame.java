@@ -155,7 +155,7 @@ public class Frame extends JFrame {
 					public void run() {
 						while (true) {
 							repaint();
-							revalidate();
+							//revalidate();
 							for (Component c : getAllPanels(getContentPane())) {
 								c.repaint();// repaint every panel
 							}
@@ -169,7 +169,8 @@ public class Frame extends JFrame {
 				};
 				update.start();
 				// print time taken to start
-				System.out.println("GUI initialised in " + (System.currentTimeMillis() - timer) + " milliseconds");
+				System.out.println("GUI initialised in " + (System.currentTimeMillis() - timer)
+						+ " milliseconds");
 			}
 		});
 	}
@@ -223,8 +224,10 @@ public class Frame extends JFrame {
 			double x = 0;
 			double y = 0;
 			for (int i = 0; i < circTextA.size(); i++) {
-				x += Double.parseDouble(circTextA.get(i)) * Math.cos(Double.parseDouble(circTextB.get(i)));
-				y += Double.parseDouble(circTextA.get(i)) * Math.sin(Double.parseDouble(circTextB.get(i)));
+				x += Double.parseDouble(circTextA.get(i))
+						* Math.cos(Double.parseDouble(circTextB.get(i)));
+				y += Double.parseDouble(circTextA.get(i))
+						* Math.sin(Double.parseDouble(circTextB.get(i)));
 				System.out.println(x);
 			}
 			circX.setText(circVarB[0].contents);
@@ -243,6 +246,8 @@ public class Frame extends JFrame {
 				}
 			}
 		}
+		repaint();
+		revalidate();
 	}
 
 	/**
@@ -297,8 +302,8 @@ public class Frame extends JFrame {
 		c.gridx++;
 		panelDiagram.add(circVertical);
 
-		c = new GridBagConstraints(0, 0, 1, 1, 1, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.HORIZONTAL,
-				new Insets(2, 2, 2, 2), 0, 0);
+		c = new GridBagConstraints(0, 0, 1, 1, 1, 0, GridBagConstraints.FIRST_LINE_START,
+				GridBagConstraints.HORIZONTAL, new Insets(2, 2, 2, 2), 0, 0);
 
 		// Column 1;
 		panelFields.add(Explanation, c);

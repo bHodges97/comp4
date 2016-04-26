@@ -49,25 +49,26 @@ public class ListenerAdder {
 	 *            NOT_ZERO, LESS_OR_EQUAL_TO_ZERO, ANGLE_VERIF, E_VERIF,
 	 * 
 	 */
-	public void addListener(final JTextField textField, final Var var1, final Var var2, final int type) {
+	public void addListener(final JTextField textField, final Var var1, final Var var2,
+			final int type) {
 		textField.addFocusListener(new FocusListener() {
 			@Override
 			public void focusGained(FocusEvent arg0) {
-
+				if (textField.getText().equals("?")) {
+					textField.setText("");
+				}
 			}
 
 			@Override
 			public void focusLost(FocusEvent arg0) {
-				if (textField.getText().equals("?")) {
-					textField.setText("");
+
+				showPopUp = true;
+				if (!verify(textField.getText(), var1, var2, type)) {
+					textField.setBackground(red);
 				} else {
-					showPopUp = true;
-					if (!verify(textField.getText(), var1, var2, type)) {
-						textField.setBackground(red);
-					} else {
-						textField.setBackground(Color.white);
-					}
+					textField.setBackground(Color.white);
 				}
+
 			}
 		});
 
@@ -187,9 +188,9 @@ public class ListenerAdder {
 		// select one of the two variables
 		Var v = (var2 == null && frame.colA) ? var1 : var2;
 
-		if (text.equals("?")) {
-			v.setContents(text, false);
-			return false;
+		if (text.equals("?") || text.isEmpty()) {
+			v.setContents("?", false);
+			return true;
 		}
 		if (text.length() > 10) {
 			showError("Input is too long!");

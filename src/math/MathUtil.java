@@ -157,33 +157,40 @@ public class MathUtil {
 		/*
 		 * Resolves functions first. Functions should have numeric parameters.
 		 */
-		if (!isNumeric(operandA)) {
-			String a = operandA.substring(0, operandA.indexOf("("));
-			String b = operandA.substring(operandA.indexOf("(") + 1, operandA.length() - 1);
-			operandA = solveFunc(a, b);
-		}
-		if (operandB.contains("(")) {
-			String a = operandB.substring(0, operandB.indexOf("("));
-			String b = operandB.substring(operandB.indexOf("(") + 1, operandB.length() - 1);
-			operandB = solveFunc(a, b);
-		}
+		try {
+			if (!isNumeric(operandA)) {
+				String a = operandA.substring(0, operandA.indexOf("("));
+				String b = operandA.substring(operandA.indexOf("(") + 1, operandA.length() - 1);
+				operandA = solveFunc(a, b);
+			}
+			if (operandB.contains("(")) {
+				String a = operandB.substring(0, operandB.indexOf("("));
+				String b = operandB.substring(operandB.indexOf("(") + 1, operandB.length() - 1);
+				operandB = solveFunc(a, b);
+			}
 
-		if (operator.equals("+")) {
-			return "" + (Double.parseDouble(operandA) + Double.parseDouble(operandB));
+			if (operator.equals("+")) {
+				return "" + (Double.parseDouble(operandA) + Double.parseDouble(operandB));
+			}
+			if (operator.equals("*")) {
+				return "" + (Double.parseDouble(operandA) * Double.parseDouble(operandB));
+			}
+			if (operator.equals("-")) {
+				return "" + (Double.parseDouble(operandA) - Double.parseDouble(operandB));
+			}
+			if (operator.equals("/")) {
+				return "" + (Double.parseDouble(operandA) / Double.parseDouble(operandB));
+			}
+			if (operator.equals("^")) {
+				return "" + (pow(Double.parseDouble(operandA), Double.parseDouble(operandB)));
+			}
+			throw new IllegalArgumentException("Missing operator");
+		} catch (Exception e) {
+			System.out.println(operandA + " " + operator + " " + operandB);
+			e.printStackTrace();
+			System.exit(1);//Stop for debug
 		}
-		if (operator.equals("*")) {
-			return "" + (Double.parseDouble(operandA) * Double.parseDouble(operandB));
-		}
-		if (operator.equals("-")) {
-			return "" + (Double.parseDouble(operandA) - Double.parseDouble(operandB));
-		}
-		if (operator.equals("/")) {
-			return "" + (Double.parseDouble(operandA) / Double.parseDouble(operandB));
-		}
-		if (operator.equals("^")) {
-			return "" + (pow(Double.parseDouble(operandA), Double.parseDouble(operandB)));
-		}
-		throw new IllegalArgumentException("Missing operator");
+		return "";
 	}
 
 	/**
