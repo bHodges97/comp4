@@ -26,8 +26,8 @@ public class Definition {
 		if (!in.contains("=")) {
 			throw new IllegalArgumentException("Illegal Argument: Missing \"=\"");
 		}
-		if (in.contains("%") || in.contains("|") || in.contains("⋅") || in.contains("×")
-				|| in.contains("±") || in.contains("∓") || in.contains("÷") || in.contains("√")) {
+		if (in.contains("%") || in.contains("|") || in.contains("⋅") || in.contains("×") || in.contains("±")
+				|| in.contains("∓") || in.contains("÷") || in.contains("√")) {
 			throw new IllegalArgumentException("Illegal Argument: Illegal operators");
 		}
 		String[] parts = in.split("=", 2);
@@ -41,8 +41,7 @@ public class Definition {
 		 */
 		method = parts[1];
 		if (method.contains("=")) {
-			throw new IllegalArgumentException(
-					"Illegal Argument: Definition contains too many \"=\"");
+			throw new IllegalArgumentException("Illegal Argument: Definition contains too many \"=\"");
 		}
 		terms = method.split("((?<=[+*^/-])|(?=[+*^/-]))");
 
@@ -54,8 +53,7 @@ public class Definition {
 		for (int i = 0; i < terms.length; i += 2) {
 			if (!MathUtil.isNumeric(terms[i])) {
 				if (terms[i].contains("(")) {
-					String contents = terms[i].substring(terms[i].indexOf("(") + 1,
-							terms[i].length() - 1);
+					String contents = terms[i].substring(terms[i].indexOf("(") + 1, terms[i].length() - 1);
 					if (!MathUtil.isNumeric(contents)) {
 						tempList.add(new Var(new String(contents), "?", ""));
 					}
@@ -68,6 +66,7 @@ public class Definition {
 		vars = new Var[tempList.size()];
 		for (int i = 0; i < tempList.size(); i++) {
 			vars[i] = tempList.get(i);
+			// System.out.println("constructor" + vars[i].toString());
 		}
 	}
 
@@ -90,26 +89,23 @@ public class Definition {
 		for (int i = 0; i < terms.length; i++) {
 			if (!terms[i].contains("(")) {
 				for (Var v : vars) {
-					System.out.println(v.name + " " + v.contents + " " + v.label + " " + terms[i]);
+					if (terms[i].matches("[+-/*^]")) {
+						continue;
+					}
 					if (v.name.equals(terms[i])) {
 						if (v.isUnknown()) {
 							return;
 						}
 						terms[i] = new String(v.contents);
 					}
-					if (terms[i].matches("[+-/*^]")) {
-						continue;
-					}
 				}
 			} else {
 				for (Var v : vars) {
-					if (v.name.equals(terms[i].substring(terms[i].indexOf("(") + 1,
-							terms[i].length() - 1))) {
+					if (v.name.equals(terms[i].substring(terms[i].indexOf("(") + 1, terms[i].length() - 1))) {
 						if (v.isUnknown()) {
 							return;
 						}
-						terms[i] = terms[i].substring(0, terms[i].indexOf("(") + 1)
-								+ new String(v.contents) + ")";
+						terms[i] = terms[i].substring(0, terms[i].indexOf("(") + 1) + new String(v.contents) + ")";
 					}
 				}
 			}
@@ -118,13 +114,12 @@ public class Definition {
 			holder = MathUtil.evaluate(terms[0], terms[1], terms[2]);
 			for (int i = 3; i < terms.length; i += 2) {
 				holder = MathUtil.evaluate(holder, terms[i], terms[i + 1]);
-				System.out.println(holder);
 			}
 		} else {
 			holder = terms[0];
 		}
 		if (vars[0].given && !MathUtil.isEqual(vars[0].contents, holder)) {
-			JOptionPane.showMessageDialog(null, "Something has gone wrong!");
+			JOptionPane.showMessageDialog(null, "The variables do not conform!");
 		}
 		vars[0].contents = new String(holder);
 	}
@@ -151,7 +146,7 @@ public class Definition {
 			defs[9] = new Definition("u=(d^2)+(e^2)^1/2");
 			defs[10] = new Definition("v=(u^2)+0.5*a*(y-h)^1/2");
 		} else if (topic == Frame.CIRCLES) {
-			defs = new Definition[9];
+			defs = new Definition[10];
 			defs[0] = new Definition("v=r*w");
 			defs[1] = new Definition("w=v/r");
 			defs[2] = new Definition("f=m*a");
@@ -161,6 +156,7 @@ public class Definition {
 			defs[6] = new Definition("t=x-u/w");
 			defs[7] = new Definition("r=v/w");
 			defs[8] = new Definition("r=v^2/a");
+			defs[9] = new Definition("m=f/a");
 		}
 		return defs;
 	}

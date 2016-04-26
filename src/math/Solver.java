@@ -23,24 +23,14 @@ public class Solver {
 	 */
 	public void solve(Definition[] defs, Var[] vars) {
 
-		// Sets the references.
-		for (int k = 0; k < defs.length; k++) {
-			Definition c = defs[k];
-			for (int i = 0; i < c.vars.length; i++) {
-				for (int j = 0; j < vars.length; j++) {
-					c.vars[i] = vars[j];
-				}
-			}
-		}
-
 		// Links the variables Iterates through each def
 		// Iterates through defs.
 		for (int i = 0; i < defs.length; i++) {
 			// iterate through each var
-			for (int w = 0; w < defs[i].vars.length; w++) {
-				for (int x = 0; x < vars.length; x++) {
-					if (defs[i].vars[w].name.equals(vars[x].name)) {
-						defs[i].vars[w] = vars[x];
+			for (int j = 0; j < defs[i].vars.length; j++) {
+				for (int k = 0; k < vars.length; k++) {
+					if (defs[i].vars[j].name.equals(vars[k].name)) {
+						defs[i].vars[j] = vars[k];
 					}
 				}
 			}
@@ -85,21 +75,17 @@ public class Solver {
 			long startTime = System.currentTimeMillis();
 
 			// mass 1
-			if (!a[1].isUnknown()
-					&& (b[1].isUnknown() && b[2].isUnknown() && b[3].isUnknown()
-							&& a[3].isUnknown() && a[2].isUnknown())) {
+			if (!a[1].isUnknown() && (b[1].isUnknown() && b[2].isUnknown() && b[3].isUnknown() && a[3].isUnknown()
+					&& a[2].isUnknown())) {
 				a[1].setContents("" + (m2 * (v2 - u2) / (u1 - v1)), false);
 			}
 			// mass 2
-			if (!b[1].isUnknown()
-					&& (a[1].isUnknown() && a[2].isUnknown() && a[3].isUnknown()
-							&& b[3].isUnknown() && b[2].isUnknown())) {
+			if (!b[1].isUnknown() && (a[1].isUnknown() && a[2].isUnknown() && a[3].isUnknown() && b[3].isUnknown()
+					&& b[2].isUnknown())) {
 				b[1].setContents("" + (m1 * (u1 - v1) / (v2 - u2)), false);
 			}
 			// e
-			if (!e.isUnknown()
-					&& (a[2].isUnknown() && a[3].isUnknown() && b[2].isUnknown() && b[3]
-							.isUnknown())) {
+			if (!e.isUnknown() && (a[2].isUnknown() && a[3].isUnknown() && b[2].isUnknown() && b[3].isUnknown())) {
 				e.setContents("" + ((v2 - v1) / (u1 - u2)), false);
 				break;// Exit loop as all var must be known by now.
 			}
@@ -126,15 +112,13 @@ public class Solver {
 			}
 			// u1 && u2
 			if (!b[3].isUnknown() && !a[3].isUnknown() && b[2].isUnknown() && a[2].isUnknown()) {
-				b[3].setContents(
-						""
-								+ ((m1 * v1 / m2 - m1 / m2 * ((v2 - v1) / c) + u2 / m2 + v2) / (1 - 1 / m2)),
+				b[3].setContents("" + ((m1 * v1 / m2 - m1 / m2 * ((v2 - v1) / c) + u2 / m2 + v2) / (1 - 1 / m2)),
 						false);
 				a[3].setContents("" + (v1 + (m2 * v2 - m2 * u2) / m1), false);
 			}
 
 			// Escape if calc take too long
-			//No recursion used as the solution may not exist causing overflow
+			// No recursion used as the solution may not exist causing overflow
 			if (System.currentTimeMillis() - startTime > 500) {
 				System.out.println("Maximum time reached");
 				break;
