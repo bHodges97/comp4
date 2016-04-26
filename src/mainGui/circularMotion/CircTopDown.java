@@ -33,6 +33,9 @@ public class CircTopDown extends JPanel {
 
 	/**
 	 * Construct a new CircTopDown class
+	 * 
+	 * @param frame
+	 *            The frame this belongs to
 	 */
 	public CircTopDown(Frame frame) {
 		this.frame = frame;
@@ -47,7 +50,8 @@ public class CircTopDown extends JPanel {
 	 * @return A BufferedImage of the current panel
 	 */
 	public BufferedImage getImg() {
-		BufferedImage img = new BufferedImage(this.getWidth(), this.getHeight(), BufferedImage.TYPE_INT_RGB);
+		BufferedImage img = new BufferedImage(this.getWidth(), this.getHeight(),
+				BufferedImage.TYPE_INT_RGB);
 		Graphics print = img.getGraphics();
 		printAll(print);
 		return img;
@@ -57,7 +61,7 @@ public class CircTopDown extends JPanel {
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		Graphics2D g2d = (Graphics2D) g;
-		g2d.setColor(frame.color?frame.bgColor:Color.white);// Paint background
+		g2d.setColor(frame.color ? frame.bgColor : Color.white);// Paint background
 		g2d.fillRect(0, 0, getWidth(), getHeight());
 		g2d.setColor(Color.black);
 		g2d.setStroke(new BasicStroke(thickness));
@@ -74,8 +78,8 @@ public class CircTopDown extends JPanel {
 		if (norm == null) {
 			norm = g2d.getStroke();
 		}
-		Stroke dashed = new BasicStroke(thickness, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[] { 2 },
-				0);
+		Stroke dashed = new BasicStroke(thickness, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0,
+				new float[] { 2 }, 0);
 
 		// Draw title
 		g2d.drawString("Overview", 0, 20);
@@ -102,8 +106,8 @@ public class CircTopDown extends JPanel {
 
 		// Draw init pos?
 		double theta = vars[2].isUnknown() ? 0 : vars[2].getVal();
-		g2d.drawOval((int) (ox + r * Math.sin(theta)) - smallR, (int) (oy + r * Math.cos(theta)) - smallR, smallR * 2,
-				smallR * 2);
+		g2d.drawOval((int) (ox + r * Math.sin(theta)) - smallR, (int) (oy + r * Math.cos(theta))
+				- smallR, smallR * 2, smallR * 2);
 		g2d.drawLine(ox, oy, (int) (ox + r * Math.sin(theta)), (int) (oy + r * Math.cos(theta)));
 
 		// draw final pos
@@ -124,9 +128,10 @@ public class CircTopDown extends JPanel {
 
 		// Draw arc
 		int temp = (int) (Math.toDegrees(!vars[2].isUnknown() ? vars[2].getVal() : 0));
-		g2d.drawArc(ox - smallR, oy - smallR, smallR * 2, smallR * 2, temp + 270, (int) (Math.toDegrees(theta) - temp));
-		g2d.drawLine(ox, oy, (int) (ox + r * Math.sin(theta) - smallR * Math.sin(theta)),
-				(int) (oy + r * Math.cos(theta) - smallR * Math.cos(theta)));
+		g2d.drawArc(ox - smallR, oy - smallR, smallR * 2, smallR * 2, temp + 270,
+				(int) (Math.toDegrees(theta) - temp));
+		g2d.drawLine(ox, oy, (int) (ox + r * Math.sin(theta) - smallR * Math.sin(theta)), (int) (oy
+				+ r * Math.cos(theta) - smallR * Math.cos(theta)));
 
 		/*
 		 * draw tangents, swap cos and sin for normal
@@ -142,8 +147,8 @@ public class CircTopDown extends JPanel {
 		MathUtil.drawArrow(g2d, gx, gy, (gx - ox) / 2 + ox, (gy - oy) / 2 + oy, smallR * 2);
 
 		label = vars[6].isUnknown() ? vars[6].label : vars[6].contents;
-		g2d.drawString(" " + label + " m/s²", (int) (ox + r * 0.5 * Math.sin(theta)),
-				(int) (oy + r * 0.5 * Math.cos(theta)));
+		g2d.drawString(" " + label + " m/s²", (int) (ox + r * 0.5 * Math.sin(theta)), (int) (oy + r
+				* 0.5 * Math.cos(theta)));
 		label = vars[4].isUnknown() ? vars[4].label : vars[4].contents;
 		g2d.drawString(label, (int) (ox + (r + smallR * 3) * Math.sin(theta)),
 				(int) (oy + (r + smallR * 3) * Math.sin(theta)));
