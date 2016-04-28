@@ -35,6 +35,56 @@ public class ListenerAdder {
 	}
 
 	/**
+	 * Add listeners to the window based on topic.
+	 * 
+	 * @param topic
+	 *            The topic to add listeners for
+	 */
+	public void addListeners(int topic) {
+		if (topic == Frame.PROJECTILES) {
+			JTextField[] projText = frame.projField;
+			Var[] projVars = frame.projVars;
+			addListener(projText[0], projVars[0], null, ListenerAdder.ANGLE_VERIF);
+			addListener(projText[1], projVars[1], null, ListenerAdder.ISNUMBER);
+			addListener(projText[2], projVars[2], null, ListenerAdder.ISNUMBER);
+			addListener(projText[3], projVars[3], null, ListenerAdder.ISNUMBER);
+			addListener(projText[4], projVars[4], null, ListenerAdder.GREATER_THAN_ZERO);
+			addListener(projText[5], projVars[5], null, ListenerAdder.GREATER_THAN_ZERO);
+			addListener(projText[6], projVars[6], null, ListenerAdder.GREATER_THAN_ZERO);
+			addListener(projText[7], projVars[7], null, ListenerAdder.ISNUMBER);
+			addListener(projText[8], projVars[8], null, ListenerAdder.GREATER_THAN_ZERO);
+			addListener(projText[9], projVars[9], null, ListenerAdder.ISNUMBER);
+			addListener(projText[10], projVars[10], null, ListenerAdder.GREATER_THAN_ZERO);
+			addListener(projText[12], projVars[12], null, ListenerAdder.GREATER_THAN_ZERO);
+			addListener(projText[11], projVars[11], null, ListenerAdder.NO_VERIF);
+		} else if (topic == Frame.CIRCLES) {
+			JTextField[] circText = frame.circField;
+			Var[] circVars = frame.circVars;
+			addListener(circText[0], circVars[0], null, ListenerAdder.NONE_ZERO);
+			addListener(circText[1], circVars[1], null, ListenerAdder.GREATER_OR_EQUAL_TO_ZERO);
+			addListener(circText[2], circVars[2], null, ListenerAdder.ANGLE_VERIF);
+			addListener(circText[3], circVars[3], null, ListenerAdder.ANGLE_VERIF);
+			addListener(circText[4], circVars[4], null, ListenerAdder.ISNUMBER);
+			addListener(circText[5], circVars[5], null, ListenerAdder.GREATER_OR_EQUAL_TO_ZERO);
+			addListener(circText[6], circVars[6], null, ListenerAdder.GREATER_OR_EQUAL_TO_ZERO);
+			addListener(circText[7], circVars[7], null, ListenerAdder.GREATER_OR_EQUAL_TO_ZERO);
+			addListener(frame.circX, frame.circVarB[0], null, ListenerAdder.ISNUMBER);
+			addListener(frame.circY, frame.circVarB[1], null, ListenerAdder.ISNUMBER);
+		} else if (topic == Frame.COLLISIONS) {
+			JTextField[] colField = frame.colField;
+			Var[] colVarA = frame.colVarA;
+			Var[] colVarB = frame.colVarB;
+			addListener(colField[0], frame.colVarE, frame.colVarE, ListenerAdder.E_VERIF);
+			addListener(colField[1], colVarA[0], colVarB[0], ListenerAdder.NO_VERIF);
+			addListener(colField[2], colVarA[1], colVarB[1], ListenerAdder.GREATER_THAN_ZERO);
+			addListener(colField[3], colVarA[2], colVarB[2], ListenerAdder.ISNUMBER);
+			addListener(colField[4], colVarA[3], colVarB[3], ListenerAdder.ISNUMBER);
+			addListener(colField[5], colVarA[4], colVarB[4], ListenerAdder.ISNUMBER);
+		}
+
+	}
+
+	/**
 	 * Adds a focus listener and action listener to a component.
 	 * 
 	 * @param textField
@@ -49,8 +99,7 @@ public class ListenerAdder {
 	 *            NOT_ZERO, LESS_OR_EQUAL_TO_ZERO, ANGLE_VERIF, E_VERIF,
 	 * 
 	 */
-	public void addListener(final JTextField textField, final Var var1, final Var var2,
-			final int type) {
+	private void addListener(final JTextField textField, final Var var1, final Var var2, final int type) {
 		textField.addFocusListener(new FocusListener() {
 			@Override
 			public void focusGained(FocusEvent arg0) {

@@ -27,7 +27,7 @@ import javax.swing.UIManager;
  */
 public class StartScreenDialog extends JDialog {
 	private static final long serialVersionUID = 1L;
-	private int topic = Frame.CENTER;
+	private int topic = Frame.CIRCLES;
 
 	private JButton topicCircles = new JButton("Circular Motion");
 	private JButton topicRestitute = new JButton("Collisons and Restitution");

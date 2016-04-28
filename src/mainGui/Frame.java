@@ -48,7 +48,7 @@ import math.Var;
  */
 public class Frame extends JFrame {
 	private static final long serialVersionUID = 1L;
-
+	private static int fieldWidth = 8;
 	public static int CIRCLES = 0;
 	public static int COLLISIONS = 1;
 	public static int CENTER = 2;
@@ -93,7 +93,7 @@ public class Frame extends JFrame {
 	public CircVertical circVertical;
 	public JPanel circSouthS;
 	public Var[] circVarB;
-	public JTextField[] circText = new JTextField[8];
+	public JTextField[] circField = new JTextField[8];
 	public JTextField circX, circY;
 
 	// CenterOfMass
@@ -118,7 +118,7 @@ public class Frame extends JFrame {
 	 */
 	public Var[] projVars;
 	public ProjDiagram projDiagram;
-	public JTextField[] projText = new JTextField[13];
+	public JTextField[] projField = new JTextField[13];
 	private Border border = BorderFactory.createLineBorder(Color.LIGHT_GRAY);
 	JTextArea topicDesc;
 
@@ -212,13 +212,13 @@ public class Frame extends JFrame {
 	 */
 	public void updateFields() {
 		if (topic == PROJECTILES) {
-			for (int i = 0; i < projText.length; i++) {
-				projText[i].setText(MathUtil.round(projVars[i].contents));
+			for (int i = 0; i < projField.length; i++) {
+				projField[i].setText(MathUtil.round(projVars[i].contents));
 			}
 		}
 		if (topic == CIRCLES) {
-			for (int i = 0; i < circText.length; i++) {
-				circText[i].setText(MathUtil.round(circVars[i].contents));
+			for (int i = 0; i < circField.length; i++) {
+				circField[i].setText(MathUtil.round(circVars[i].contents));
 			}
 			double x = 0;
 			double y = 0;
@@ -267,13 +267,13 @@ public class Frame extends JFrame {
 		circVertical = new CircVertical(this);
 		circTopDown = new CircTopDown(this);
 		JLabel Explanation = new JLabel("Leave unknowns as \"?\".");
-		circX = new JTextField("?", 7);
-		circY = new JTextField("?", 7);
+		circX = new JTextField("?", fieldWidth);
+		circY = new JTextField("?", fieldWidth);
 		circLblX = new JLabel("Sum of horizontal forces: ?");
 		circLblY = new JLabel("Sum of vertical forces  : ?");
 		JButton circAddForce = new JButton("Add Force");
-		for (int i = 0; i < circText.length; i++) {
-			circText[i] = new JTextField("?", 9);
+		for (int i = 0; i < circField.length; i++) {
+			circField[i] = new JTextField("?", fieldWidth);
 		}
 
 		// initiate variables
@@ -323,21 +323,21 @@ public class Frame extends JFrame {
 		// Second Column
 		c.gridx = 1;
 		c.gridy = 1;
-		panelFields.add(circText[2], c);
+		panelFields.add(circField[2], c);
 		c.gridy++;
-		panelFields.add(circText[3], c);
+		panelFields.add(circField[3], c);
 		c.gridy++;
-		panelFields.add(circText[0], c);
+		panelFields.add(circField[0], c);
 		c.gridy++;
-		panelFields.add(circText[4], c);
+		panelFields.add(circField[4], c);
 		c.gridy++;
-		panelFields.add(circText[1], c);
+		panelFields.add(circField[1], c);
 		c.gridy++;
-		panelFields.add(circText[5], c);
+		panelFields.add(circField[5], c);
 		c.gridy++;
-		panelFields.add(circText[6], c);
+		panelFields.add(circField[6], c);
 		c.gridy++;
-		panelFields.add(circText[7], c);
+		panelFields.add(circField[7], c);
 
 		// Layout panelSouthN;
 		// row 1
@@ -368,16 +368,8 @@ public class Frame extends JFrame {
 
 		// add listeners
 		ListenerAdder adder = new ListenerAdder(this);
-		adder.addListener(circText[0], circVars[0], null, ListenerAdder.NONE_ZERO);
-		adder.addListener(circText[1], circVars[1], null, ListenerAdder.GREATER_OR_EQUAL_TO_ZERO);
-		adder.addListener(circText[2], circVars[2], null, ListenerAdder.ANGLE_VERIF);
-		adder.addListener(circText[3], circVars[3], null, ListenerAdder.ANGLE_VERIF);
-		adder.addListener(circText[4], circVars[4], null, ListenerAdder.ISNUMBER);
-		adder.addListener(circText[5], circVars[5], null, ListenerAdder.GREATER_OR_EQUAL_TO_ZERO);
-		adder.addListener(circText[6], circVars[6], null, ListenerAdder.GREATER_OR_EQUAL_TO_ZERO);
-		adder.addListener(circText[7], circVars[7], null, ListenerAdder.GREATER_OR_EQUAL_TO_ZERO);
-		adder.addListener(circX, circVarB[0], null, ListenerAdder.ISNUMBER);
-		adder.addListener(circY, circVarB[1], null, ListenerAdder.ISNUMBER);
+		adder.addListeners(Frame.CIRCLES);
+
 		circAddForce.addActionListener(new ButtonActionListener(this));
 	}
 
@@ -392,8 +384,8 @@ public class Frame extends JFrame {
 		JPanel others = new JPanel(new GridBagLayout());
 		JPanel before = new JPanel(new GridBagLayout());
 		JPanel after = new JPanel(new GridBagLayout());
-		for (int i = 0; i < projText.length; i++) {
-			projText[i] = new JTextField("?", 9);
+		for (int i = 0; i < projField.length; i++) {
+			projField[i] = new JTextField("?", fieldWidth);
 		}
 
 		// Set borders
@@ -424,15 +416,15 @@ public class Frame extends JFrame {
 		// column 2;
 		c.gridx = 1;
 		c.gridy = 0;
-		before.add(projText[4], c);
+		before.add(projField[4], c);
 		c.gridy++;
-		before.add(projText[0], c);
+		before.add(projField[0], c);
 		c.gridy++;
-		before.add(projText[7], c);
+		before.add(projField[7], c);
 		c.gridy++;
-		before.add(projText[8], c);
+		before.add(projField[8], c);
 		c.gridy++;
-		before.add(projText[9], c);
+		before.add(projField[9], c);
 
 		// layout panel after
 		// column 1
@@ -452,45 +444,33 @@ public class Frame extends JFrame {
 		// column 2
 		c.gridx = 1;
 		c.gridy = 0;
-		after.add(projText[6], c);
+		after.add(projField[6], c);
 		c.gridy++;
-		after.add(projText[1], c);
+		after.add(projField[1], c);
 		c.gridy++;
-		after.add(projText[2], c);
+		after.add(projField[2], c);
 		c.gridy++;
-		after.add(projText[3], c);
+		after.add(projField[3], c);
 		c.gridy++;
-		after.add(projText[10], c);
+		after.add(projField[10], c);
 		c.gridy++;
-		after.add(projText[12], c);
+		after.add(projField[12], c);
 
 		// layout panel others
 		c.gridx = 0;
 		c.gridy = 0;
 		others.add(new JLabel("Name:          "), c);
 		c.gridx = 1;
-		others.add(projText[11], c);
+		others.add(projField[11], c);
 		c.gridx = 0;
 		c.gridy = 1;
 		others.add(new JLabel("Max distance:                "), c);
 		c.gridx = 1;
-		others.add(projText[6], c);
+		others.add(projField[6], c);
 
 		// addListeners
 		ListenerAdder adder = new ListenerAdder(this);
-		adder.addListener(projText[0], projVars[0], null, ListenerAdder.ANGLE_VERIF);
-		adder.addListener(projText[1], projVars[1], null, ListenerAdder.ISNUMBER);
-		adder.addListener(projText[2], projVars[2], null, ListenerAdder.ISNUMBER);
-		adder.addListener(projText[3], projVars[3], null, ListenerAdder.ISNUMBER);
-		adder.addListener(projText[4], projVars[4], null, ListenerAdder.GREATER_THAN_ZERO);
-		adder.addListener(projText[5], projVars[5], null, ListenerAdder.GREATER_THAN_ZERO);
-		adder.addListener(projText[6], projVars[6], null, ListenerAdder.GREATER_THAN_ZERO);
-		adder.addListener(projText[7], projVars[7], null, ListenerAdder.ISNUMBER);
-		adder.addListener(projText[8], projVars[8], null, ListenerAdder.GREATER_THAN_ZERO);
-		adder.addListener(projText[9], projVars[9], null, ListenerAdder.ISNUMBER);
-		adder.addListener(projText[10], projVars[10], null, ListenerAdder.GREATER_THAN_ZERO);
-		adder.addListener(projText[12], projVars[12], null, ListenerAdder.GREATER_THAN_ZERO);
-		adder.addListener(projText[11], projVars[11], null, ListenerAdder.NO_VERIF);
+		adder.addListeners(PROJECTILES);
 	}
 
 	/**
@@ -537,18 +517,14 @@ public class Frame extends JFrame {
 		gbc.gridx = 1;
 		for (int i = 0; i < colField.length; i++) {
 			gbc.gridy = i + 1;
-			colField[i] = new JTextField("?", 10);// initialise each field
+			colField[i] = new JTextField("?", fieldWidth);// initialise each
+															// field
 			fields.add(colField[i], gbc);
 		}
 
 		// add listeners
 		ListenerAdder adder = new ListenerAdder(this);
-		adder.addListener(colField[0], colVarE, colVarE, ListenerAdder.E_VERIF);
-		adder.addListener(colField[1], colVarA[0], colVarB[0], ListenerAdder.NO_VERIF);
-		adder.addListener(colField[2], colVarA[1], colVarB[1], ListenerAdder.GREATER_THAN_ZERO);
-		adder.addListener(colField[3], colVarA[2], colVarB[2], ListenerAdder.ISNUMBER);
-		adder.addListener(colField[4], colVarA[3], colVarB[3], ListenerAdder.ISNUMBER);
-		adder.addListener(colField[5], colVarA[4], colVarB[4], ListenerAdder.ISNUMBER);
+		adder.addListeners(Frame.COLLISIONS);
 	}
 
 	/**
