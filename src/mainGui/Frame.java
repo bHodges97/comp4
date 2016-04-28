@@ -42,9 +42,8 @@ import math.MathUtil;
 import math.Var;
 
 /**
- * Comp4 CourseWork Creates main window for application
+ * Creates main window for application
  * 
- * @version 1;
  */
 public class Frame extends JFrame {
 	private static final long serialVersionUID = 1L;
@@ -213,12 +212,12 @@ public class Frame extends JFrame {
 	public void updateFields() {
 		if (topic == PROJECTILES) {
 			for (int i = 0; i < projField.length; i++) {
-				projField[i].setText(MathUtil.round(projVars[i].contents));
+				projField[i].setText(MathUtil.round(projVars[i].contents, 2));
 			}
 		}
 		if (topic == CIRCLES) {
 			for (int i = 0; i < circField.length; i++) {
-				circField[i].setText(MathUtil.round(circVars[i].contents));
+				circField[i].setText(MathUtil.round(circVars[i].contents, 2));
 			}
 			double x = 0;
 			double y = 0;
@@ -228,17 +227,17 @@ public class Frame extends JFrame {
 			}
 			circX.setText(circVarB[0].contents);
 			circY.setText(circVarB[1].contents);
-			circLblX.setText("Sum of horizontal forces: " + MathUtil.round("" + x));
-			circLblY.setText("Sum of vertical forces  : " + MathUtil.round("" + y));
+			circLblX.setText("Sum of horizontal forces: " + MathUtil.round("" + x, 2));
+			circLblY.setText("Sum of vertical forces  : " + MathUtil.round("" + y, 2));
 		}
 		if (topic == COLLISIONS) {
 			if (colA) {
 				for (int i = 0; i < colVarA.length; i++) {
-					colField[i + 1].setText(MathUtil.round(colVarA[i].contents));
+					colField[i + 1].setText(MathUtil.round(colVarA[i].contents, 2));
 				}
 			} else {
 				for (int i = 0; i < colVarB.length; i++) {
-					colField[i + 1].setText(MathUtil.round(colVarB[i].contents));
+					colField[i + 1].setText(MathUtil.round(colVarB[i].contents, 2));
 				}
 			}
 		}

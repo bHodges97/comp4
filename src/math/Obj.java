@@ -17,7 +17,6 @@ public class Obj implements Serializable {
 	public static final int POLYLINE = 2;
 
 	private String name;
-	private float density;
 	private float mass;
 	private Color color;
 	private int type = 0;
@@ -43,7 +42,7 @@ public class Obj implements Serializable {
 	private double[] xpoints;
 
 	public Obj() {
-		this.mass = 1;
+		this.mass = 0;
 		this.shape = new Shape();
 		this.COM = shape.findCenter();
 		this.type = POLYGON;
@@ -151,12 +150,12 @@ public class Obj implements Serializable {
 	 * Tolerance is 1/4 of the inverse of the display scale.
 	 * 
 	 * @see <a href="https://en.wikipedia.org/wiki/Ray_casting"> https://en.
-
+	 * 
 	 *      wikipedia.org/wiki/Ray_casting</a>
 	 * @see <a href=
 	 *      "http://mathworld.wolfram.com/Point-LineDistance2-Dimensional.html">
 	 *      http://mathworld.wolfram.com/Point-LineDistance2-Dimensional.html
-
+	 * 
 	 *      </a>
 	 * @param point
 	 *            The point to test
@@ -181,8 +180,7 @@ public class Obj implements Serializable {
 				int y1 = renderPoly.ypoints[i];
 				int y2 = renderPoly.ypoints[j];
 
-				if (((y1 >= point.y) != (y2 >= point.y))
-						&& (point.x <= (x2 - x1) * (point.y - y1) / (y2 - y1) + x1)) {
+				if (((y1 >= point.y) != (y2 >= point.y)) && (point.x <= (x2 - x1) * (point.y - y1) / (y2 - y1) + x1)) {
 					test = !test;
 				}
 			}
@@ -198,9 +196,9 @@ public class Obj implements Serializable {
 		// PolyLine
 		else if (type == POLYLINE) {
 			for (int i = 0; i < renderPoly.npoints - 1; i++) {
-				if (MathUtil.PointInLineSegment(new MyPoint(point.x, point.y), new MyPoint(
-						renderPoly.xpoints[i], renderPoly.ypoints[i]), new MyPoint(
-						renderPoly.xpoints[i + 1], renderPoly.ypoints[i + 1]), tolerance)) {
+				if (MathUtil.PointInLineSegment(new MyPoint(point.x, point.y),
+						new MyPoint(renderPoly.xpoints[i], renderPoly.ypoints[i]),
+						new MyPoint(renderPoly.xpoints[i + 1], renderPoly.ypoints[i + 1]), tolerance)) {
 					return true;
 				}
 			}

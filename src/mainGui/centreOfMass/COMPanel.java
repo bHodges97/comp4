@@ -235,17 +235,7 @@ public class COMPanel extends JPanel {
 
 		g2d.drawString("" + scale, 10, 15);// TODO: debug pls remove
 
-		update();
-	}
-
-	/**
-	 * 
-	 */
-	private void update() {
-		if (plane.objects.isEmpty()) {
-			return;
-		}
-		plane.findCOM();
+		frame.sideSouth.setCOM(plane.findCOM());
 	}
 
 }

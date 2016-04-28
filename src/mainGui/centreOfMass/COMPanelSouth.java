@@ -9,6 +9,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JColorChooser;
 import javax.swing.JLabel;
@@ -37,6 +38,7 @@ public class COMPanelSouth extends JPanel {
 	JLabel objMass = new JLabel("Mass");
 	JLabel objCOM = new JLabel("Position");
 
+	JTextField fieldCOM = new JTextField("Plane center of mass: (0,0)", 9);
 	JTextField varName = new JTextField(9);
 	JTextField varMass = new JTextField(9);
 	JTextField varCOM = new JTextField(9);
@@ -348,16 +350,24 @@ public class COMPanelSouth extends JPanel {
 	 * Place components in the correct position.
 	 */
 	private void setLayout() {
+		fieldCOM.setEditable(false);
+		fieldCOM.setBorder(BorderFactory.createEmptyBorder());
+
 		this.setLayout(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
 		c.anchor = GridBagConstraints.NORTHWEST;
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.insets = new Insets(1, 20, 5, 20);
 		c.weightx = 1.0;
 		c.weighty = 0;
 		c.gridx = 0;
 		c.gridy = 0;
-		c.fill = GridBagConstraints.HORIZONTAL;
-		c.insets = new Insets(1, 20, 5, 20);
+
 		// First Column
+		c.gridwidth = 2;
+		add(fieldCOM, c);
+		c.gridwidth = 1;
+		c.gridy = 1;
 		add(lastObj, c);
 		c.gridy++;
 		add(objName, c);
@@ -368,7 +378,7 @@ public class COMPanelSouth extends JPanel {
 
 		// Second column
 		c.gridx++;
-		c.gridy = 0;
+		c.gridy = 1;
 		add(nextObj, c);
 		c.gridy++;
 		add(varName, c);
@@ -393,5 +403,15 @@ public class COMPanelSouth extends JPanel {
 		add(color, c);
 
 		updateFields();
+	}
+
+	/**
+	 * Sets the display centre of mass
+	 * 
+	 * @param point
+	 *            The new centre of mass
+	 */
+	public void setCOM(MyPoint point) {
+		fieldCOM.setText("Plane centre of mass: (" + point + ")");
 	}
 }

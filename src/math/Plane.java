@@ -25,25 +25,27 @@ public class Plane implements java.io.Serializable {
 	 * @return The centre of mass of the plane
 	 */
 	public MyPoint findCOM() {
+
 		MyPoint COM = new MyPoint(0, 0);
-		;
 		Double x;
 		Double y;
 		Double sumMomx = 0d;
 		Double sumMomy = 0d;
 		Double sumMass = 0d;
 
-		// Sum of force * dx / sum of force
-		for (Obj obj : objects) {
-			sumMomx += obj.getCOM().x * obj.getMass() * g;
-			sumMomy += obj.getCOM().y * obj.getMass() * g;
-			sumMass += obj.getMass() * g;
+		if (!objects.isEmpty()) {
+			// Sum of force * dx / sum of force
+			for (Obj obj : objects) {
+				sumMomx += obj.getCOM().x * obj.getMass() * g;
+				sumMomy += obj.getCOM().y * obj.getMass() * g;
+				sumMass += obj.getMass() * g;
+			}
+			x = sumMomx / sumMass;
+			y = sumMomy / sumMass;
+			COM.x = x;
+			COM.y = y;
+			System.out.println("COM " + x + " " + y);
 		}
-		x = sumMomx / sumMass;
-		y = sumMomy / sumMass;
-		COM.x = x;
-		COM.y = y;
-		System.out.println("COM " + x + " " + y);
 		return COM;
 	}
 

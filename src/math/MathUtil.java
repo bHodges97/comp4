@@ -274,12 +274,14 @@ public class MathUtil {
 	 * 
 	 * @param contents
 	 *            The string to round
+	 * @param precision
+	 *            The decimal places to round to
 	 * @return The rounded string
 	 */
-	public static String round(String contents) {
+	public static String round(String contents, int precision) {
 		if (contents.contains(".")) {
-			if (contents.length() > contents.indexOf(".") + 4) {
-				contents = contents.substring(0, contents.indexOf(".") + 4);
+			if (contents.length() > contents.indexOf(".") + precision) {
+				contents = contents.substring(0, contents.indexOf(".") + precision);
 			}
 		}
 

@@ -51,6 +51,6 @@ public class MyPoint implements Serializable {
 	 * @return String representation of this point
 	 */
 	public String toString() {
-		return x + " " + y;
+		return MathUtil.round("" + x, 2) + "," + MathUtil.round("" + y, 2);
 	}
 }

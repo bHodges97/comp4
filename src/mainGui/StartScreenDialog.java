@@ -9,6 +9,8 @@ import java.awt.Insets;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -84,6 +86,16 @@ public class StartScreenDialog extends JDialog {
 		gbc.gridheight = 4;
 		add(new JScrollPane(textArea), gbc);
 
+		AddListeners();
+
+		pack();
+		centre();
+		setAlwaysOnTop(true);
+		setVisible(true);
+
+	}
+
+	private void AddListeners() {
 		topicCircles.setActionCommand("" + Frame.CIRCLES);
 		topicRestitute.setActionCommand("" + Frame.COLLISIONS);
 		topicCentre.setActionCommand("" + Frame.CENTER + "");
@@ -105,19 +117,43 @@ public class StartScreenDialog extends JDialog {
 		topicRestitute.addActionListener(tpcListener);
 		topicCentre.addActionListener(tpcListener);
 		buttonProjectiles.addActionListener(tpcListener);
+		addWindowListener(new WindowListener() {
 
+			@Override
+			public void windowOpened(WindowEvent e) {
+			}
+
+			@Override
+			public void windowIconified(WindowEvent e) {
+			}
+
+			@Override
+			public void windowDeiconified(WindowEvent e) {
+			}
+
+			@Override
+			public void windowDeactivated(WindowEvent e) {
+			}
+
+			@Override
+			public void windowClosing(WindowEvent e) {
+				System.exit(1);
+			}
+
+			@Override
+			public void windowClosed(WindowEvent e) {
+			}
+
+			@Override
+			public void windowActivated(WindowEvent e) {
+			}
+		});
 		buttonExit.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				dispose();
 			}
 		});
-
-		pack();
-		centre();
-		setAlwaysOnTop(true);
-		setVisible(true);
-
 	}
 
 	private void setupTextArea() {
