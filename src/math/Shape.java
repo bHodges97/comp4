@@ -124,9 +124,9 @@ public class Shape implements Serializable {
 	}
 
 	/**
-	 * Finds the geometric center of the shape
+	 * Finds the geometric centre of the shape
 	 * 
-	 * @return point representing the center of the shape.
+	 * @return point representing the centre of the shape.
 	 */
 	public MyPoint findCenter() {
 		int i;
@@ -134,7 +134,7 @@ public class Shape implements Serializable {
 
 		findArea();
 
-		// find x co-ords of center
+		// find x co-ords of centre
 		for (i = 0; i < nPoints - 1; i++) {// loops through each vertex
 			sum += (points[i].x + points[i + 1].x)
 					* (points[i].x * points[i + 1].y - points[i + 1].x * points[i].y);
@@ -143,7 +143,7 @@ public class Shape implements Serializable {
 				* (points[i].x * points[0].y - points[0].x * points[i].y);
 		Double centroidx = sum / (6 * area);
 
-		// find y co-ords of center
+		// find y co-ords of centre
 		i = 0;
 		sum = 0d;
 

@@ -1,4 +1,4 @@
-package mainGui.centerOfMass;
+package mainGui.centreOfMass;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -92,7 +92,7 @@ public class PanelRectangle extends JPanel {
 
 	/**
 	 * @param x
-	 *            the x value of the center of mass
+	 *            the x value of the centre of mass
 	 */
 	public void setCOMX(double x) {
 		this.comX = (int) x;
@@ -100,7 +100,7 @@ public class PanelRectangle extends JPanel {
 
 	/**
 	 * @param y
-	 *            the y value of the center of mass
+	 *            the y value of the centre of mass
 	 */
 	public void setCOMY(double y) {
 		this.comY = (int) y;

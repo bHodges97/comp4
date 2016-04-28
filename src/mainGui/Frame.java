@@ -30,9 +30,9 @@ import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.border.Border;
 
-import mainGui.centerOfMass.COMPanel;
-import mainGui.centerOfMass.COMPanelNorth;
-import mainGui.centerOfMass.COMPanelSouth;
+import mainGui.centreOfMass.COMPanel;
+import mainGui.centreOfMass.COMPanelNorth;
+import mainGui.centreOfMass.COMPanelSouth;
 import mainGui.circularMotion.ButtonActionListener;
 import mainGui.circularMotion.CircTopDown;
 import mainGui.circularMotion.CircVertical;

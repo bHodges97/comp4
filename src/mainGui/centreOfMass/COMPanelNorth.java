@@ -1,4 +1,4 @@
-package mainGui.centerOfMass;
+package mainGui.centreOfMass;
 
 import java.awt.Component;
 import java.awt.GridBagConstraints;

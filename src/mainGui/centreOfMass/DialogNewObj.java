@@ -1,4 +1,4 @@
-package mainGui.centerOfMass;
+package mainGui.centreOfMass;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -141,7 +141,7 @@ public class DialogNewObj extends JDialog {
 					return;
 				}
 				if (!MathUtil.isNumeric(comX) || !MathUtil.isNumeric(comY)) {
-					JOptionPane.showMessageDialog(getParent(), "Please enter a valid number for center of mass!",
+					JOptionPane.showMessageDialog(getParent(), "Please enter a valid number for centre of mass!",
 							"Error", JOptionPane.ERROR_MESSAGE);
 					return;
 				}
@@ -161,7 +161,7 @@ public class DialogNewObj extends JDialog {
 		});
 
 		setModal(true);
-		center();
+		centre();
 		pack();
 		setResizable(false);
 
@@ -196,11 +196,11 @@ public class DialogNewObj extends JDialog {
 	}
 
 	/**
-	 * centers the gui
+	 * centres the gui
 	 */
-	private void center() {
+	private void centre() {
 		GraphicsEnvironment g = GraphicsEnvironment.getLocalGraphicsEnvironment();
-		Point center = g.getCenterPoint();
-		setLocation(center.x - prefSize.width / 2, center.y - prefSize.height / 2);
+		Point centre = g.getCenterPoint();
+		setLocation(centre.x - prefSize.width / 2, centre.y - prefSize.height / 2);
 	}
 }

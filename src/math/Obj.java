@@ -54,17 +54,17 @@ public class Obj implements Serializable {
 	/**
 	 * Constructs a new Obj of type POLYGON based on parameters
 	 * 
-	 * @param centerOfMass
-	 *            Point representing the center of mass of the object
+	 * @param centreOfMass
+	 *            Point representing the centre of mass of the object
 	 * @param points
 	 *            Points representing the vertices of the shape
 	 * @param mass
 	 *            The mass of the obj
 	 */
-	public Obj(Float mass, MyPoint centerOfMass, MyPoint[] points) {
+	public Obj(Float mass, MyPoint centreOfMass, MyPoint[] points) {
 		this.mass = mass;
 		this.shape = new Shape(points);
-		this.COM = centerOfMass;
+		this.COM = centreOfMass;
 		this.type = POLYGON;
 		setColor(null);
 		updateWorldSpace();
@@ -75,18 +75,18 @@ public class Obj implements Serializable {
 	 * 
 	 * @param type
 	 *            Can be one of Obj.POLYGON, Obj.POINTMASS and Obj.POLYLINE
-	 * @param centerOfMass
-	 *            Point representing the center of mass of the object
+	 * @param centreOfMass
+	 *            Point representing the centre of mass of the object
 	 * @param shape
 	 *            The shape of the obj
 	 * @param mass
 	 *            The mass of the obj
 	 */
-	public Obj(int type, MyPoint centerOfMass, Shape shape, float mass) {
+	public Obj(int type, MyPoint centreOfMass, Shape shape, float mass) {
 		this.mass = mass;
 		this.type = type;
 		this.shape = shape;
-		this.COM = centerOfMass;
+		this.COM = centreOfMass;
 		setColor(null);
 		updateWorldSpace();
 	}
@@ -104,9 +104,9 @@ public class Obj implements Serializable {
 	 * Passes canvas info to use for render.
 	 * 
 	 * @param ox
-	 *            center of canvas (x axis)
+	 *            centre of canvas (x axis)
 	 * @param oy
-	 *            center of canvas on y axis,
+	 *            centre of canvas on y axis,
 	 * @param scale
 	 *            scale of the canvas
 	 */
@@ -240,14 +240,14 @@ public class Obj implements Serializable {
 	}
 
 	/**
-	 * Rotate object by angle theta about it's center of mass.
+	 * Rotate object by angle theta about it's centre of mass.
 	 * 
 	 * @param angle
 	 *            The angle to rotate by.
 	 * @param radians
 	 *            True if theta is in radians.
 	 * @param origin
-	 *            The center to rotate the shape by.
+	 *            The centre to rotate the shape by.
 	 */
 	public void rotate(Double angle, boolean radians, MyPoint origin) {
 		if (!radians) {
@@ -336,7 +336,7 @@ public class Obj implements Serializable {
 	}
 
 	/**
-	 * Translate the center of mass relative to the obj
+	 * Translate the centre of mass relative to the obj
 	 * 
 	 * @param x
 	 *            The x amount to translate

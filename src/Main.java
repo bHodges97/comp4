@@ -10,7 +10,7 @@ public class Main {
 	 */
 	public static void main(String[] Args) {
 		StartScreenDialog popup = new StartScreenDialog();
-		Frame window = new Frame(Frame.CENTER);
+		Frame window = new Frame(popup.getTopic());
 	}
 
 }

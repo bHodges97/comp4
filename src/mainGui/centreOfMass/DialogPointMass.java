@@ -1,4 +1,4 @@
-package mainGui.centerOfMass;
+package mainGui.centreOfMass;
 
 import java.awt.Dimension;
 import java.awt.GraphicsEnvironment;
@@ -92,8 +92,8 @@ public class DialogPointMass extends JDialog {
 		setResizable(false);
 		setModal(true);
 		GraphicsEnvironment g = GraphicsEnvironment.getLocalGraphicsEnvironment();
-		Point center = g.getCenterPoint();
-		setLocation(center.x - prefSize.width / 2, center.y - prefSize.height / 2);
+		Point centre = g.getCenterPoint();
+		setLocation(centre.x - prefSize.width / 2, centre.y - prefSize.height / 2);
 		pack();
 
 	}

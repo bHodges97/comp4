@@ -22,7 +22,7 @@ public class Plane implements java.io.Serializable {
 	/**
 	 * Finds the COM of this plane.
 	 * 
-	 * @return The center of mass of the plane
+	 * @return The centre of mass of the plane
 	 */
 	public MyPoint findCOM() {
 		MyPoint COM = new MyPoint(0, 0);

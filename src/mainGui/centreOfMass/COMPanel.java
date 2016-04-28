@@ -1,4 +1,4 @@
-package mainGui.centerOfMass;
+package mainGui.centreOfMass;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -24,7 +24,7 @@ import math.Plane;
 
 /**
  * The COMPanel class is a panel that is used to illustrate the variables in the
- * center of mass topic
+ * centre of mass topic
  */
 public class COMPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
