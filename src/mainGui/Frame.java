@@ -57,9 +57,6 @@ public class Frame extends JFrame {
 	public boolean color = true;
 	public Color bgColor = Color.white;
 
-	Border border = BorderFactory.createLineBorder(Color.LIGHT_GRAY);
-	JTextArea topicDesc;
-
 	// collision
 	/**
 	 * 0 a <br>
@@ -70,8 +67,8 @@ public class Frame extends JFrame {
 	 */
 	public Var[] colVarA, colVarB;
 	public Var colVarE;
-	ColDiagram colDiagram;
-	JTextField[] colField = new JTextField[6];
+	public ColDiagram colDiagram;
+	public JTextField[] colField = new JTextField[6];
 	public boolean colA = true;
 
 	// CircularMotion
@@ -95,9 +92,9 @@ public class Frame extends JFrame {
 	public CircTopDown circTopDown;
 	public CircVertical circVertical;
 	public JPanel circSouthS;
-	Var[] circVarB;
-	JTextField[] circText = new JTextField[8];
-	JTextField circX, circY;
+	public Var[] circVarB;
+	public JTextField[] circText = new JTextField[8];
+	public JTextField circX, circY;
 
 	// CenterOfMass
 	public COMPanel panelCOM;
@@ -120,8 +117,10 @@ public class Frame extends JFrame {
 	 * 12 y y<br>
 	 */
 	public Var[] projVars;
-	ProjDiagram projDiagram;
-	JTextField[] projText = new JTextField[13];
+	public ProjDiagram projDiagram;
+	public JTextField[] projText = new JTextField[13];
+	private Border border = BorderFactory.createLineBorder(Color.LIGHT_GRAY);
+	JTextArea topicDesc;
 
 	/**
 	 * Construct a new instance of this class for the chosen topic
@@ -183,10 +182,11 @@ public class Frame extends JFrame {
 	 * 
 	 */
 	public void setTopic(int topic) {
+		setTitle("M2 Drawer");
 		getContentPane().removeAll();
 		this.topic = topic;
 		if (topic == CIRCLES) {
-			setTitle("Uniform Motion in a Circle");
+			setTitle(getTitle() + " - Uniform Motion in a Circle");
 			initCircularMotion();
 			circVertical.text = circVarB;
 			circVertical.force = circTextA;
@@ -194,15 +194,15 @@ public class Frame extends JFrame {
 			circTopDown.vars = circVars;
 		}
 		if (topic == CENTER) {
-			setTitle("Center of Mass");
+			setTitle(getTitle() + " - Center of Mass");
 			initCenterOfMass();
 		}
 		if (topic == COLLISIONS) {
-			setTitle("Coefficient of Restitution; Impulse");
+			setTitle(getTitle() + "- Coefficient of Restitution; Impulse");
 			initCollisions();
 		}
 		if (topic == PROJECTILES) {
-			setTitle("Motion of a Projectile");
+			setTitle(getTitle() + "- Motion of a Projectile");
 			initProjectiles();
 		}
 		updateFields();
