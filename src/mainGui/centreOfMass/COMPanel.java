@@ -140,7 +140,7 @@ public class COMPanel extends JPanel {
 		oy = d.height / 2;
 
 		Graphics2D g2d = (Graphics2D) g;
-		g2d.setColor(frame.color?frame.bgColor:Color.white);
+		g2d.setColor(frame.color ? frame.bgColor : Color.white);
 		g2d.fillRect(0, 0, getWidth(), getHeight());
 		g2d.setColor(Color.black);
 
@@ -245,8 +245,7 @@ public class COMPanel extends JPanel {
 		if (plane.objects.isEmpty()) {
 			return;
 		}
-		// plane.findCOM();
-		// TODO : findCOM
+		plane.findCOM();
 	}
 
 }

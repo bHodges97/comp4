@@ -66,7 +66,6 @@ public class Plane implements java.io.Serializable {
 			}
 		}
 		objects.add(obj);
-		System.out.println("Object added(" + obj.getName() + ")");
 	}
 
 	/**

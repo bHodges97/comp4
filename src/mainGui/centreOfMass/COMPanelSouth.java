@@ -188,7 +188,6 @@ public class COMPanelSouth extends JPanel {
 						current.rotate(x, radians, current.getCOM());
 					} else {
 						showErrorMsg("Not a valid input!");
-						System.out.println(responce);
 					}
 				} else {
 					showErrorMsg("No object selected.");
@@ -280,7 +279,6 @@ public class COMPanelSouth extends JPanel {
 					showErrorMsg("No object selected.");
 					return;
 				}
-				System.out.println(plane.objects.indexOf(current) + " " + plane.objects.size());
 				if (plane.objects.indexOf(current) < plane.objects.size() - 1) {
 					current = plane.objects.get(plane.objects.indexOf(current) + 1);
 				} else {
@@ -297,7 +295,6 @@ public class COMPanelSouth extends JPanel {
 					showErrorMsg("No object selected.");
 					return;
 				}
-				System.out.println(plane.objects.indexOf(current) + " " + plane.objects.size());
 				if (plane.objects.indexOf(current) > 0) {
 					current = plane.objects.get(plane.objects.indexOf(current) - 1);
 				} else {

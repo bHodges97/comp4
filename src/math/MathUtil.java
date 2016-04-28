@@ -28,7 +28,6 @@ public class MathUtil {
 	 */
 	public static boolean isNumeric(String str) {
 		if (str == null) {
-			System.out.println("Evaluating null string!");
 			return false;
 		}
 		if (str.isEmpty()) {
@@ -186,9 +185,8 @@ public class MathUtil {
 			}
 			throw new IllegalArgumentException("Missing operator");
 		} catch (Exception e) {
-			System.out.println(operandA + " " + operator + " " + operandB);
 			e.printStackTrace();
-			System.exit(1);//Stop for debug
+			System.exit(1);// Stop for debug
 		}
 		return "";
 	}
@@ -266,10 +264,8 @@ public class MathUtil {
 			}
 		}
 
-		g2d.drawLine(x2, y2, (int) (x2 - size * cos(PI / 6 - theta)), (int) (y2 - size
-				* sin(PI / 6 - theta)));
-		g2d.drawLine(x2, y2, (int) (x2 - size * cos(-PI / 6 - theta)), (int) (y2 - size
-				* sin(-PI / 6 - theta)));
+		g2d.drawLine(x2, y2, (int) (x2 - size * cos(PI / 6 - theta)), (int) (y2 - size * sin(PI / 6 - theta)));
+		g2d.drawLine(x2, y2, (int) (x2 - size * cos(-PI / 6 - theta)), (int) (y2 - size * sin(-PI / 6 - theta)));
 
 	}
 

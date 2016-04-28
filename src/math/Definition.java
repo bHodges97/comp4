@@ -66,7 +66,6 @@ public class Definition {
 		vars = new Var[tempList.size()];
 		for (int i = 0; i < tempList.size(); i++) {
 			vars[i] = tempList.get(i);
-			// System.out.println("constructor" + vars[i].toString());
 		}
 	}
 
