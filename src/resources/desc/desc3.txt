@@ -1,0 +1,13 @@
+Candidates
+ should be able to:
+(a)
+model the motion of a projectile as a particle moving with constant acceleration and understand 
+any limitations of this model; 
+(b)
+use horizontal and vertical equations of motion to solve problems on the motion of projectiles, 
+including finding the ma
+gnitude and direction of the velocity at a given time or position, the 
+range on a horizontal plane and the greatest height reached;
+(c)
+derive and use the cartesian equation of the trajectory of a projectile, including problems in 
+which the initial speed and/or angle of projection may be unknown. 

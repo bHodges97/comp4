@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry excluding="resources/|resources/icons/|resources/notes/" kind="src" path="src"/>
-	<classpathentry excluding="icons/|notes/" kind="src" path="src/resources"/>
+	<classpathentry excluding="resources/|resources/icons/|resources/notes/|resources/desc/" kind="src" path="src"/>
+	<classpathentry excluding="icons/|notes/|desc/" kind="src" path="src/resources"/>
 	<classpathentry kind="src" path="src/resources/icons"/>
 	<classpathentry kind="src" path="src/resources/notes"/>
+	<classpathentry kind="src" path="src/resources/desc"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
