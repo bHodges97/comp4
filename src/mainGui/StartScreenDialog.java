@@ -26,7 +26,7 @@ import javax.swing.UIManager;
 
 /**
  * 
- * The StartScreenDialog class creates a popup menu for choosing the topic/
+ * The StartScreenDialog class creates a pop up menu for choosing the topic/
  * 
  */
 public class StartScreenDialog extends JDialog {
