@@ -57,6 +57,9 @@ public class Plane implements java.io.Serializable {
 	 * 
 	 */
 	public void add(Obj obj) {
+		if (obj == null) {
+			return;
+		}
 		while (isColorUsed(obj.getColor())) {
 			obj.setColor(null);
 		}

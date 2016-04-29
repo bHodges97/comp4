@@ -9,6 +9,8 @@ import java.awt.Insets;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.io.BufferedReader;
@@ -117,6 +119,36 @@ public class StartScreenDialog extends JDialog {
 		topicRestitute.addActionListener(tpcListener);
 		topicCentre.addActionListener(tpcListener);
 		buttonProjectiles.addActionListener(tpcListener);
+		MouseListener mouseListener = new MouseListener() {
+			@Override
+			public void mouseReleased(MouseEvent arg0) {
+			}
+
+			@Override
+			public void mousePressed(MouseEvent arg0) {
+			}
+
+			@Override
+			public void mouseExited(MouseEvent arg0) {
+			}
+
+			@Override
+			public void mouseEntered(MouseEvent arg0) {
+			}
+
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if (e.getClickCount() == 2) {
+					topic = Integer.parseInt(((JButton) e.getSource()).getActionCommand());
+					dispose();
+				}
+			}
+		};
+		topicCircles.addMouseListener(mouseListener);
+		topicRestitute.addMouseListener(mouseListener);
+		topicCentre.addMouseListener(mouseListener);
+		buttonProjectiles.addMouseListener(mouseListener);
+
 		addWindowListener(new WindowListener() {
 
 			@Override

@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -47,13 +48,13 @@ import math.Var;
  */
 public class Frame extends JFrame {
 	private static final long serialVersionUID = 1L;
-	private static int fieldWidth = 7;//amount of coloumns on textfield
+	private static int fieldWidth = 7;//amount of columns on textfield
 	public static int CIRCLES = 0;
 	public static int COLLISIONS = 1;
 	public static int CENTER = 2;
 	public static int PROJECTILES = 3;
 	public int topic = 2;//one of the 4 above
-	public boolean color = true;//Wherther or not show colour in diagram
+	public boolean color = true;//Whether or not show colour in diagram
 	public Color bgColor = Color.white;//background colour
 
 	// collision
@@ -130,6 +131,7 @@ public class Frame extends JFrame {
 		try {// Set to os style
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 			UIManager.getDefaults().put("Button.showMnemonics", Boolean.TRUE);
+			setIconImage(new ImageIcon(getClass().getResource("/prgmIcon.png")).getImage());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
