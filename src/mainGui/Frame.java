@@ -47,14 +47,14 @@ import math.Var;
  */
 public class Frame extends JFrame {
 	private static final long serialVersionUID = 1L;
-	private static int fieldWidth = 8;
+	private static int fieldWidth = 7;//amount of coloumns on textfield
 	public static int CIRCLES = 0;
 	public static int COLLISIONS = 1;
 	public static int CENTER = 2;
 	public static int PROJECTILES = 3;
-	public int topic = 2;
-	public boolean color = true;
-	public Color bgColor = Color.white;
+	public int topic = 2;//one of the 4 above
+	public boolean color = true;//Wherther or not show colour in diagram
+	public Color bgColor = Color.white;//background colour
 
 	// collision
 	/**
@@ -68,7 +68,7 @@ public class Frame extends JFrame {
 	public Var colVarE;
 	public ColDiagram colDiagram;
 	public JTextField[] colField = new JTextField[6];
-	public boolean colA = true;
+	public boolean colA = true;//where A is selected
 
 	// CircularMotion
 	/**
@@ -167,7 +167,8 @@ public class Frame extends JFrame {
 				};
 				update.start();
 				// print time taken to start
-				System.out.println("GUI initialised in " + (System.currentTimeMillis() - timer) + " milliseconds");
+				System.out.println("GUI initialised in " + (System.currentTimeMillis() - timer)
+						+ " milliseconds");
 			}
 		});
 	}
@@ -222,8 +223,10 @@ public class Frame extends JFrame {
 			double x = 0;
 			double y = 0;
 			for (int i = 0; i < circTextA.size(); i++) {
-				x += Double.parseDouble(circTextA.get(i)) * Math.cos(Double.parseDouble(circTextB.get(i)));
-				y += Double.parseDouble(circTextA.get(i)) * Math.sin(Double.parseDouble(circTextB.get(i)));
+				x += Double.parseDouble(circTextA.get(i))
+						* Math.cos(Double.parseDouble(circTextB.get(i)));
+				y += Double.parseDouble(circTextA.get(i))
+						* Math.sin(Double.parseDouble(circTextB.get(i)));
 			}
 			circX.setText(circVarB[0].contents);
 			circY.setText(circVarB[1].contents);
@@ -297,8 +300,8 @@ public class Frame extends JFrame {
 		c.gridx++;
 		panelDiagram.add(circVertical);
 
-		c = new GridBagConstraints(0, 0, 1, 1, 1, 0, GridBagConstraints.FIRST_LINE_START, GridBagConstraints.HORIZONTAL,
-				new Insets(2, 2, 2, 2), 0, 0);
+		c = new GridBagConstraints(0, 0, 1, 1, 1, 0, GridBagConstraints.FIRST_LINE_START,
+				GridBagConstraints.HORIZONTAL, new Insets(2, 2, 2, 2), 0, 0);
 
 		// Column 1;
 		panelFields.add(Explanation, c);

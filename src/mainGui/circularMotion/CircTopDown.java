@@ -28,7 +28,7 @@ public class CircTopDown extends JPanel {
 	private Font largeFont;
 	private Stroke norm;
 	public Var[] vars;
-	public float thickness = 2f;
+	public float thickness = 1.5f;
 	Frame frame;
 
 	/**
