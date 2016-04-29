@@ -90,8 +90,8 @@ public class MyMenuBar extends JMenuBar {
 		initProj = new JMenuItem("Projectile Motion", KeyEvent.VK_P);
 
 		menuTopic.add(initCirc);
-		menuTopic.add(initCOM);
 		menuTopic.add(initColl);
+		menuTopic.add(initCOM);
 		menuTopic.add(initProj);
 
 		// Tools

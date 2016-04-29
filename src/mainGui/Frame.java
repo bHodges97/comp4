@@ -607,7 +607,7 @@ public class Frame extends JFrame {
 				// Do nothing
 			}
 		}
-		JTextField topicTitle = new JTextField(getTitle() + " notes");
+		JTextField topicTitle = new JTextField(getTitle().replace("M2 Drawer - ", "") + " notes");
 		topicTitle.setEditable(false);
 		topicTitle.setFont(topicTitle.getFont().deriveFont(1.2f * topicTitle.getFont().getSize()));
 		panel.add(topicTitle, BorderLayout.NORTH);
