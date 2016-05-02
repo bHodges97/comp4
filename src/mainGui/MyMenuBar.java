@@ -49,6 +49,7 @@ public class MyMenuBar extends JMenuBar {
 	JMenuItem toggleColor, setBackground;
 	JMenuItem menuSolve;
 	JMenuItem zoomIn, zoomOut, zoomReset;
+	JMenu menuZoom;
 
 	final Frame frame;
 
@@ -64,8 +65,7 @@ public class MyMenuBar extends JMenuBar {
 		imageChooser = new JFileChooser();
 		fileChooser = new JFileChooser();
 		FileNameExtensionFilter filterFile = new FileNameExtensionFilter("m2 files (*.m2)", "m2");
-		FileNameExtensionFilter filterImage = new FileNameExtensionFilter("PNG files (*.png)",
-				"png");
+		FileNameExtensionFilter filterImage = new FileNameExtensionFilter("PNG files (*.png)", "png");
 		imageChooser.setFileFilter(filterImage);
 		fileChooser.setFileFilter(filterFile);
 
@@ -112,7 +112,7 @@ public class MyMenuBar extends JMenuBar {
 		menuImage.add(setBackground);
 
 		// Zoom
-		JMenu menuZoom = new JMenu("Zoom");
+		menuZoom = new JMenu("Zoom");
 		menuMaths.setMnemonic(KeyEvent.VK_Z);
 		zoomIn = new JMenuItem("Zoom in");
 		zoomOut = new JMenuItem("Zoom out");
@@ -159,15 +159,20 @@ public class MyMenuBar extends JMenuBar {
 				}
 				if (e.getSource() == initCirc) {
 					frame.setTopic(Frame.CIRCLES);
+					updateZoom();
 				}
 				if (e.getSource() == initCOM) {
 					frame.setTopic(Frame.CENTER);
+					updateZoom();
 				}
 				if (e.getSource() == initColl) {
 					frame.setTopic(Frame.COLLISIONS);
+					updateZoom();
 				}
 				if (e.getSource() == initProj) {
 					frame.setTopic(Frame.PROJECTILES);
+					updateZoom();
+
 				}
 				if (e.getSource() == toggleColor) {
 					toggleColor();
@@ -201,8 +206,17 @@ public class MyMenuBar extends JMenuBar {
 		add(menuMaths);
 		add(menuTopic);
 		add(menuImage);
+		updateZoom();
+	}
+
+	/**
+	 * Add or remove menuZoom based on topic/
+	 */
+	public void updateZoom() {
 		if (frame.topic == Frame.CENTER) {
 			add(menuZoom);
+		} else {
+			remove(menuZoom);
 		}
 	}
 
@@ -221,8 +235,7 @@ public class MyMenuBar extends JMenuBar {
 			BufferedImage imgB = frame.circVertical.getImg();
 			int width = imgA.getWidth() + imgB.getWidth();
 			int height = imgA.getHeight();
-			BufferedImage combinedImage = new BufferedImage(width, height,
-					BufferedImage.TYPE_INT_ARGB);
+			BufferedImage combinedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
 			Graphics2D g2d = combinedImage.createGraphics();
 			g2d.fillRect(0, 0, width, height);
 			g2d.drawImage(imgA, null, 0, 0);
@@ -262,8 +275,8 @@ public class MyMenuBar extends JMenuBar {
 
 		} catch (Exception e) {
 			e.printStackTrace();
-			JOptionPane.showMessageDialog(null, "<html>Failed to load!<br>" + e.getMessage(),
-					"Error", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, "<html>Failed to load!<br>" + e.getMessage(), "Error",
+					JOptionPane.ERROR_MESSAGE);
 			return;
 		}
 		try {
@@ -288,10 +301,11 @@ public class MyMenuBar extends JMenuBar {
 				throw new ClassCastException("No matching topic");
 			}
 			frame.updateFields();
+			JOptionPane.showMessageDialog(null, "Opened successfully!");
 		} catch (ClassCastException e) {
 			e.printStackTrace();
-			JOptionPane.showMessageDialog(null, "<html>File is corrupted!<br>" + e.getMessage(),
-					"Error", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, "<html>File is corrupted!<br>" + e.getMessage(), "Error",
+					JOptionPane.ERROR_MESSAGE);
 		}
 	}
 
@@ -311,8 +325,7 @@ public class MyMenuBar extends JMenuBar {
 			savedItem = new Object[] { Frame.CENTER, frame.panelCOM.plane };
 		}
 		if (frame.topic == Frame.COLLISIONS) {
-			savedItem = new Object[] { Frame.COLLISIONS, frame.colVarA, frame.colVarB,
-					frame.colVarE };
+			savedItem = new Object[] { Frame.COLLISIONS, frame.colVarA, frame.colVarB, frame.colVarE };
 		}
 		if (frame.topic == Frame.PROJECTILES) {
 			savedItem = new Object[] { Frame.PROJECTILES, frame.projVars };
@@ -326,8 +339,8 @@ public class MyMenuBar extends JMenuBar {
 			JOptionPane.showMessageDialog(null, "Saved successfully!");
 		} catch (IOException e) {
 			e.printStackTrace();
-			JOptionPane.showMessageDialog(null, "<html>Failed to save!<br>" + e.getMessage(),
-					"Error", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, "<html>Failed to save!<br>" + e.getMessage(), "Error",
+					JOptionPane.ERROR_MESSAGE);
 		}
 	}
 
@@ -341,19 +354,18 @@ public class MyMenuBar extends JMenuBar {
 		Var[] projVars = frame.projVars;
 		Solver solver = new Solver();
 
-		//Confirm if user wants to solve
+		// Confirm if user wants to solve
 		if (topic == Frame.CENTER) {
 			JOptionPane.showMessageDialog(frame, "Not avaliable.");
 		} else {
-			int confirm = JOptionPane.showConfirmDialog(frame,
-					"Attempts to find unkown variables if possible.", "Solver",
-					JOptionPane.OK_CANCEL_OPTION);
+			int confirm = JOptionPane.showConfirmDialog(frame, "Attempts to find unkown variables if possible.",
+					"Solver", JOptionPane.OK_CANCEL_OPTION);
 			if (confirm == JOptionPane.CANCEL_OPTION || confirm == JOptionPane.CLOSED_OPTION) {
 				return;
 			}
 		}
 
-		//start solving
+		// start solving
 		long startTime = System.currentTimeMillis();
 		if (topic == Frame.CIRCLES) {
 			if (!circVarB[0].isUnknown() && circVars[5].isUnknown()) {
@@ -364,17 +376,15 @@ public class MyMenuBar extends JMenuBar {
 
 		} else if (topic == Frame.PROJECTILES) {
 			if (!projVars[9].isUnknown() && !projVars[8].isUnknown()) {
-				projVars[0].setContents(
-						"" + Math.atan(projVars[9].getVal() / projVars[8].getVal()), false);
+				projVars[0].setContents("" + Math.atan(projVars[9].getVal() / projVars[8].getVal()), false);
 			}
 			solver.solve(Definition.createDefs(Frame.PROJECTILES), projVars);
 
 		} else if (topic == Frame.COLLISIONS) {
 			solver.solve(frame.colVarA, frame.colVarB, frame.colVarE);
 		}
-		System.out.println("Solver completed in " + (System.currentTimeMillis() - startTime)
-				+ " ms");
-		//solving completed, update gui
+		System.out.println("Solver completed in " + (System.currentTimeMillis() - startTime) + " ms");
+		// solving completed, update gui
 		frame.updateFields();
 	}
 
@@ -416,8 +426,7 @@ public class MyMenuBar extends JMenuBar {
 			JOptionPane.showMessageDialog(null, "Notes saved");
 		} catch (Exception e) {
 			e.printStackTrace();
-			JOptionPane.showMessageDialog(null, "Failed to save notes!", "Error",
-					JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, "Failed to save notes!", "Error", JOptionPane.ERROR_MESSAGE);
 		} finally {
 			try {
 				writer.close();

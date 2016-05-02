@@ -47,6 +47,7 @@ public class ButtonActionListener implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		addField("0", "0");
+		frame.revalidate();
 	}
 
 	/**

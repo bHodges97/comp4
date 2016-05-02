@@ -120,6 +120,8 @@ public class StartScreenDialog extends JDialog {
 		topicCentre.addActionListener(tpcListener);
 		buttonProjectiles.addActionListener(tpcListener);
 		MouseListener mouseListener = new MouseListener() {
+			long t = System.currentTimeMillis();
+
 			@Override
 			public void mouseReleased(MouseEvent arg0) {
 			}
@@ -138,10 +140,11 @@ public class StartScreenDialog extends JDialog {
 
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				if (e.getClickCount() == 2) {
+				if (System.currentTimeMillis() - t < 200) {
 					topic = Integer.parseInt(((JButton) e.getSource()).getActionCommand());
 					dispose();
 				}
+				t = System.currentTimeMillis();
 			}
 		};
 		topicCircles.addMouseListener(mouseListener);

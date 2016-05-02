@@ -162,6 +162,9 @@ public class COMPanelNorth extends JPanel {
 				lbl1.setText("Angle");
 				lbl2.setText("Mass");
 				lbl3.setText("Radius");
+				txt1.setText("");
+				txt2.setText("");
+				txt3.setText("");
 				JOptionPane.showMessageDialog(null, body, "Circle Sector", JOptionPane.QUESTION_MESSAGE);
 
 				if (!MathUtil.isNumeric(txt1.getText()) || !MathUtil.isNumeric(txt2.getText())
@@ -187,6 +190,9 @@ public class COMPanelNorth extends JPanel {
 				lbl1.setText("Direction");
 				lbl2.setText("Magnitude");
 				lbl3.setText("Mass");
+				txt1.setText("");
+				txt2.setText("");
+				txt3.setText("");
 				JOptionPane.showMessageDialog(null, body, "Rod", JOptionPane.QUESTION_MESSAGE);
 				if (!MathUtil.isNumeric(txt1.getText()) || !MathUtil.isNumeric(txt2.getText())
 						|| !MathUtil.isNumeric(txt3.getText())) {
@@ -210,6 +216,9 @@ public class COMPanelNorth extends JPanel {
 				lbl1.setText("Angle");
 				lbl2.setText("Mass");
 				lbl3.setText("Radius");
+				txt1.setText("");
+				txt2.setText("");
+				txt3.setText("");
 				JOptionPane.showMessageDialog(null, body, "Circle Sector", JOptionPane.QUESTION_MESSAGE);
 
 				if (!MathUtil.isNumeric(txt1.getText()) || !MathUtil.isNumeric(txt2.getText())

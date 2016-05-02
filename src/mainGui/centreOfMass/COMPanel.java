@@ -230,7 +230,9 @@ public class COMPanel extends JPanel {
 			} else if (obj.getType() == Obj.POLYLINE) {
 				g2d.drawPolyline(renderPoly.xpoints, renderPoly.ypoints, renderPoly.npoints);
 			}
+			// Draw centre of mass
 			g2d.fillOval(obj.getWorldX(scale, ox) - s / 2, obj.getWorldY(scale, oy) - s / 2, s, s);
+			g2d.drawString(obj.getName(), obj.getWorldX(scale, ox), obj.getWorldY(scale, oy));
 		}
 
 		g2d.drawString("" + scale, 10, 15);// TODO: debug pls remove

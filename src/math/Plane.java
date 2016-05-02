@@ -44,7 +44,7 @@ public class Plane implements java.io.Serializable {
 			y = sumMomy / sumMass;
 			COM.x = x;
 			COM.y = y;
-			System.out.println("COM " + x + " " + y);
+			// System.out.println("COM " + x + " " + y);
 		}
 		return COM;
 	}

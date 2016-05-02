@@ -156,9 +156,9 @@ public class COMPanelSouth extends JPanel {
 					double y = Double.parseDouble(text[1]);
 					current.moveto(new MyPoint(x, y));
 					updateFields();
-					varMass.setBackground(Color.white);
+					varCOM.setBackground(Color.white);
 				} else {
-					varMass.setBackground(new Color(255, 204, 204));
+					varCOM.setBackground(new Color(255, 204, 204));
 				}
 			}
 
