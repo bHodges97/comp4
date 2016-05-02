@@ -2,7 +2,7 @@ Moment:
 - Force * PERPENDICULAR 
 distance from pivot to line of action of force.
 
-Centers of Mass:
+Centres of Mass:
 Triangular lamina: 
 -2/3 along median from vertex
 Solid hemisphere: 

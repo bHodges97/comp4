@@ -81,7 +81,7 @@ public class DialogNewObj extends JDialog {
 		c.gridy++;
 		bot.add(new JLabel("Mass (kg)"), c);
 		c.gridy++;
-		bot.add(new JLabel("Center Of Mass"), c);
+		bot.add(new JLabel("Centre Of Mass"), c);
 		c.gridy++;
 		bot.add(new JLabel("Position"), c);
 		c.gridy++;
@@ -136,20 +136,17 @@ public class DialogNewObj extends JDialog {
 				String PosY = txtPosY.getText();
 
 				if (!MathUtil.isNumeric(mass)) {
-					JOptionPane.showMessageDialog(getParent(),
-							"Please enter a valid number for mass!", "Error",
+					JOptionPane.showMessageDialog(getParent(), "Please enter a valid number for mass!", "Error",
 							JOptionPane.ERROR_MESSAGE);
 					return;
 				}
 				if (!MathUtil.isNumeric(comX) || !MathUtil.isNumeric(comY)) {
-					JOptionPane.showMessageDialog(getParent(),
-							"Please enter a valid number for centre of mass!", "Error",
-							JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(getParent(), "Please enter a valid number for centre of mass!",
+							"Error", JOptionPane.ERROR_MESSAGE);
 					return;
 				}
 				if (!MathUtil.isNumeric(PosX) || !MathUtil.isNumeric(PosY)) {
-					JOptionPane.showMessageDialog(getParent(),
-							"Please enter a valid number for position!", "Error",
+					JOptionPane.showMessageDialog(getParent(), "Please enter a valid number for position!", "Error",
 							JOptionPane.ERROR_MESSAGE);
 					return;
 				}
@@ -157,8 +154,8 @@ public class DialogNewObj extends JDialog {
 				for (int i = 0; i < vertices.size(); i++) {
 					points[i] = new MyPoint(vertices.get(i).x - com.x, vertices.get(i).y - com.y);
 				}
-				object = new Obj(Float.valueOf(mass), new MyPoint(Double.parseDouble(PosX), Double
-						.valueOf(PosY)), points);
+				object = new Obj(Float.valueOf(mass), new MyPoint(Double.parseDouble(PosX), Double.valueOf(PosY)),
+						points);
 				setVisible(false);
 			}
 		});
@@ -186,11 +183,11 @@ public class DialogNewObj extends JDialog {
 		}
 		txtPoints.setText(text);
 
-		Shape ver = new Shape(copy);
+		Shape vertices = new Shape(copy);
 
-		p.setShape(ver);
-		if ((!txtManual || txtCOMX.getText().isEmpty()) && ver.getNPoints() > 2) {
-			com = ver.findCenter();
+		p.setShape(vertices);
+		if ((!txtManual || txtCOMX.getText().isEmpty()) && vertices.getNPoints() > 2) {
+			com = vertices.findCentre();
 			txtCOMX.setText("" + Math.round(com.x));
 			txtCOMY.setText("" + Math.round(com.y));
 			p.setCOM(com);

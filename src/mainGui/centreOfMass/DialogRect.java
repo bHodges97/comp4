@@ -170,13 +170,13 @@ public class DialogRect extends JDialog {
 		JPanel panelMass = new JPanel(new GridLayout(0, 2));
 		JPanel panelDimension = new JPanel(new GridLayout(0, 2));
 		JPanel panelPosition = new JPanel(new GridLayout(0, 2));
-		JPanel panelCenter = new JPanel(new GridLayout(0, 2));
+		JPanel panelCentre = new JPanel(new GridLayout(0, 2));
 		JPanel panelDone = new JPanel(new GridLayout(0, 2));
 
 		panelMass.setBorder(BorderFactory.createTitledBorder(etchedBorder, "Mass"));
 		panelDimension.setBorder(BorderFactory.createTitledBorder(etchedBorder, "Dimensions"));
 		panelPosition.setBorder(BorderFactory.createTitledBorder(etchedBorder, "Position"));
-		panelCenter.setBorder(BorderFactory.createTitledBorder(etchedBorder, "Center of mass"));
+		panelCentre.setBorder(BorderFactory.createTitledBorder(etchedBorder, "Centre of mass"));
 
 		gbc.gridx = 0;
 		gbc.gridy = 0;
@@ -188,7 +188,7 @@ public class DialogRect extends JDialog {
 		gbc.gridy = 3;
 		add(panelPosition, gbc);
 		gbc.gridy = 4;
-		add(panelCenter, gbc);
+		add(panelCentre, gbc);
 		gbc.gridy = 5;
 		add(panelDone, gbc);
 
@@ -202,10 +202,10 @@ public class DialogRect extends JDialog {
 		panelPosition.add(x);
 		panelPosition.add(new JLabel("Y (m):"));
 		panelPosition.add(y);
-		panelCenter.add(new JLabel("X (m):"));
-		panelCenter.add(comx);
-		panelCenter.add(new JLabel("Y (m):"));
-		panelCenter.add(comy);
+		panelCentre.add(new JLabel("X (m):"));
+		panelCentre.add(comx);
+		panelCentre.add(new JLabel("Y (m):"));
+		panelCentre.add(comy);
 		panelDone.add(new JLabel(""));// Fill space
 		panelDone.add(butDone);
 

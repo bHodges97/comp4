@@ -85,7 +85,7 @@ public class MyMenuBar extends JMenuBar {
 		JMenu menuTopic = new JMenu("Topic");
 		menuFile.setMnemonic(KeyEvent.VK_T);
 		initCirc = new JMenuItem("Circular Motion", KeyEvent.VK_C);
-		initCOM = new JMenuItem("Center of mass", KeyEvent.VK_M);
+		initCOM = new JMenuItem("Centre of mass", KeyEvent.VK_M);
 		initColl = new JMenuItem("Collisons and Restitution", KeyEvent.VK_R);
 		initProj = new JMenuItem("Projectile Motion", KeyEvent.VK_P);
 

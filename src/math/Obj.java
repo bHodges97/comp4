@@ -22,7 +22,7 @@ public class Obj implements Serializable {
 	private int type = 0;
 
 	/**
-	 * Center Of mass, Used as position of object in world space. The shape
+	 * Centre Of mass, Used as position of object in world space. The shape
 	 * associated with the object has COM as its origin.
 	 */
 	private MyPoint COM;
@@ -44,7 +44,7 @@ public class Obj implements Serializable {
 	public Obj() {
 		this.mass = 0;
 		this.shape = new Shape();
-		this.COM = shape.findCenter();
+		this.COM = shape.findCentre();
 		this.type = POLYGON;
 		setColor(null);
 		updateWorldSpace();

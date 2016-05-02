@@ -96,7 +96,7 @@ public class Frame extends JFrame {
 	public JTextField[] circField = new JTextField[8];
 	public JTextField circX, circY;
 
-	// CenterOfMass
+	// CentreOfMass
 	public COMPanel panelCOM;
 	public COMPanelSouth sideSouth;
 
@@ -195,8 +195,8 @@ public class Frame extends JFrame {
 			circTopDown.vars = circVars;
 		}
 		if (topic == CENTER) {
-			setTitle(getTitle() + " - Center of Mass");
-			initCenterOfMass();
+			setTitle(getTitle() + " - Centre of Mass");
+			initCentreOfMass();
 		}
 		if (topic == COLLISIONS) {
 			setTitle(getTitle() + "- Coefficient of Restitution; Impulse");
@@ -534,7 +534,7 @@ public class Frame extends JFrame {
 	/**
 	 * Initialise and layout components for topic CENTER
 	 */
-	private void initCenterOfMass() {
+	private void initCentreOfMass() {
 		panelCOM = new COMPanel(this);
 		JPanel sidePanel = new JPanel(new GridBagLayout());
 		this.add(panelCOM, BorderLayout.CENTER);

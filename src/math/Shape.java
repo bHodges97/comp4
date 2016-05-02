@@ -126,7 +126,7 @@ public class Shape implements Serializable {
 	 * 
 	 * @return point representing the centre of the shape.
 	 */
-	public MyPoint findCenter() {
+	public MyPoint findCentre() {
 		int i;
 		Double sum = 0d;
 

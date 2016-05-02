@@ -35,7 +35,7 @@ public class StartScreenDialog extends JDialog {
 
 	private JButton topicCircles = new JButton("Circular Motion");
 	private JButton topicRestitute = new JButton("Collisons and Restitution");
-	private JButton topicCentre = new JButton("Center Of Mass");
+	private JButton topicCentre = new JButton("Centre Of Mass");
 	private JButton buttonProjectiles = new JButton("Projectile Motion");
 	private JButton buttonExit = new JButton("Start");
 	private JTextArea textArea = new JTextArea(15, 20);
@@ -214,7 +214,7 @@ public class StartScreenDialog extends JDialog {
 	}
 
 	/**
-	 * Centers the popup
+	 * Centres the popup
 	 */
 	private void centre() {
 		GraphicsEnvironment g = GraphicsEnvironment.getLocalGraphicsEnvironment();
