@@ -218,6 +218,7 @@ public class MyMenuBar extends JMenuBar {
 		} else {
 			remove(menuZoom);
 		}
+		frame.revalidate();
 	}
 
 	/**
