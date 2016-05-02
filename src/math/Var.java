@@ -53,7 +53,7 @@ public class Var implements java.io.Serializable {
 	 * @param contents
 	 *            The new contents of the variable.
 	 * @param given
-	 *            <true> if contents is inputed by user.
+	 *            <b>true</b> if contents is inputed by user.
 	 */
 	public void setContents(String contents, boolean given) {
 		this.contents = new String(contents);
@@ -92,10 +92,10 @@ public class Var implements java.io.Serializable {
 	 * @param type
 	 *            an integer specifying the justification of the title -- one of
 	 *            the following:<br>
-	 *            •Var.CIRC_VARS <br>
-	 *            •Var.COL_VAR_A<br>
-	 *            •Var.COL_VAR_B <br>
-	 *            •Var.PROJ_VARS <br>
+	 *            <li>Var.CIRC_VARS
+	 *            <li>Var.COL_VAR_A
+	 *            <li>Var.COL_VAR_B
+	 *            <li>Var.PROJ_VARS
 	 * 
 	 * @return the <b>Var[]</b> object
 	 * 

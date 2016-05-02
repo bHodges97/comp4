@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project default="javadoc">
+    <target name="javadoc">
+        <javadoc access="public" additionalparam="-format pdf -out c:\javadoc.pdf" classpath="." packagenames="mainGui,mainGui.collision,mainGui.circularMotion,mainGui.projectileMotion,math,mainGui.centreOfMass" sourcefiles="src/Main.java" sourcepath="src/resources;src/resources/desc;src;src/resources/notes;src/resources/icons">
+            <doclet name="com.aurigalogic.doclet.core.Doclet" path="C:\Users\Ben\Downloads\AurigaDoclet-0.1b\aurigadoclet\bin\AurigaDoclet.jar"/>
+        </javadoc>
+    </target>
+</project>
