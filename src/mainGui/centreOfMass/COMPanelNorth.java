@@ -107,7 +107,7 @@ public class COMPanelNorth extends JPanel {
 		setLayout(new GridBagLayout());
 		gbc.gridx = 0;
 		gbc.gridy = 0;
-		add(new JLabel("<html> <b>Laminars</b>"), gbc);
+		add(new JLabel("<html> <b>Laminas</b>"), gbc);
 		gbc.gridy++;
 		add(b1, gbc);
 		gbc.gridy++;
@@ -219,7 +219,7 @@ public class COMPanelNorth extends JPanel {
 				txt1.setText("");
 				txt2.setText("");
 				txt3.setText("");
-				JOptionPane.showMessageDialog(null, body, "Circle Sector", JOptionPane.QUESTION_MESSAGE);
+				JOptionPane.showMessageDialog(null, body, "Arc", JOptionPane.QUESTION_MESSAGE);
 
 				if (!MathUtil.isNumeric(txt1.getText()) || !MathUtil.isNumeric(txt2.getText())
 						|| !MathUtil.isNumeric(txt3.getText())) {
@@ -241,7 +241,9 @@ public class COMPanelNorth extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				Dialogb6.open();
-				plane.add(Dialogb6.returnObj);
+				if (!(Dialogb6.returnObj == null)) {
+					plane.add(Dialogb6.returnObj);
+				}
 			}
 		});
 	}

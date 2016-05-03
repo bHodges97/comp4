@@ -34,12 +34,15 @@ public class Plane implements java.io.Serializable {
 		Double sumMass = 0d;
 
 		if (!objects.isEmpty()) {
-			// Sum of force * dx / sum of force
+			// Loop through each object
 			for (Obj obj : objects) {
+				// Sum up momentum in each axis
 				sumMomx += obj.getCOM().x * obj.getMass() * g;
 				sumMomy += obj.getCOM().y * obj.getMass() * g;
+				// sum up mass of each object
 				sumMass += obj.getMass() * g;
 			}
+			// divide the sum of momentum by the sum of mass to find the centre
 			x = sumMomx / sumMass;
 			y = sumMomy / sumMass;
 			COM.x = x;

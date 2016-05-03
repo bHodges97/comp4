@@ -312,6 +312,7 @@ public class MathUtil {
 	 *            The angle to rotate by;
 	 */
 	public static void rotate(MyPoint point, Double angle) {
+		// new x is stored in a holder until the new y value is calculated.
 		double tempx = point.x * Math.cos(angle) - point.y * Math.sin(angle);
 		point.y = point.x * Math.sin(angle) + point.y * Math.cos(angle);
 		point.x = tempx;

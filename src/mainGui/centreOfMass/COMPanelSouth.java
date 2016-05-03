@@ -150,14 +150,20 @@ public class COMPanelSouth extends JPanel {
 
 			@Override
 			public void keyReleased(KeyEvent e) {
+				// check if null and matches regex
 				if (current != null && varCOM.getText().matches("-?[0-9]+(\\.[0-9]+)?,-?[0-9]+(\\.[0-9]+)?")) {
+					// split up x and y
 					String[] text = varCOM.getText().split(",");
+					// cast to double
 					double x = Double.parseDouble(text[0]);
 					double y = Double.parseDouble(text[1]);
+					// move to new position
 					current.moveto(new MyPoint(x, y));
 					updateFields();
+					// remove any error highlight
 					varCOM.setBackground(Color.white);
 				} else {
+					// set red highlighting to show error
 					varCOM.setBackground(new Color(255, 204, 204));
 				}
 			}
@@ -262,7 +268,7 @@ public class COMPanelSouth extends JPanel {
 					gbc.gridy = 1;
 					message.add(fieldX, gbc);
 
-					JOptionPane.showMessageDialog(frame, message, "Translate", JOptionPane.PLAIN_MESSAGE);
+					JOptionPane.showMessageDialog(frame, message, "Shift Centre of Mass", JOptionPane.PLAIN_MESSAGE);
 
 					if (!MathUtil.isNumeric(fieldX.getText()) || !MathUtil.isNumeric(fieldY.getText())) {
 						showErrorMsg("Not a number.");

@@ -31,7 +31,7 @@ public class DialogPointMass extends JDialog {
 	JTextField mass = new JTextField(10);
 	JButton butDone = new JButton("Done");
 	boolean filled = false;
-	Obj returnObj = new Obj();
+	Obj returnObj = null;
 
 	/**
 	 * Construct a new instance of this class
@@ -75,8 +75,7 @@ public class DialogPointMass extends JDialog {
 						if (MathUtil.isNumeric(mass.getText())) {
 							float massval = Float.valueOf(mass.getText());
 							if (massval != 0) {
-								returnObj = new Obj(Obj.POINTMASS, new MyPoint(xval, yval), null,
-										massval);
+								returnObj = new Obj(Obj.POINTMASS, new MyPoint(xval, yval), null, massval);
 								filled = true;
 								close();
 								return;
@@ -84,6 +83,7 @@ public class DialogPointMass extends JDialog {
 						}
 					}
 				}
+				returnObj = null;
 				JOptionPane.showMessageDialog(null, "Something is not right.");
 			}
 
@@ -113,6 +113,7 @@ public class DialogPointMass extends JDialog {
 	 * hide the dialog
 	 */
 	public void close() {
+		returnObj = null;
 		this.setVisible(false);
 	}
 
