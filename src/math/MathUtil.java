@@ -14,7 +14,7 @@ import java.text.DecimalFormatSymbols;
 import java.util.ArrayList;
 
 /**
- * The MathUtil class contatins math methods not included in the java.lang.Math
+ * The MathUtil class contains math methods not included in the java.lang.Math
  * class;
  * 
  */
@@ -24,7 +24,7 @@ public class MathUtil {
 	 * 
 	 * @param str
 	 *            The string to be tested.
-	 * @return boolean true for numerical strings false if otherwire.
+	 * @return boolean true for numerical strings false if otherwise.
 	 */
 	public static boolean isNumeric(String str) {
 		if (str == null) {
