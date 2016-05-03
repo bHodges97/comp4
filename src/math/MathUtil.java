@@ -264,8 +264,10 @@ public class MathUtil {
 			}
 		}
 
-		g2d.drawLine(x2, y2, (int) (x2 - size * cos(PI / 6 - theta)), (int) (y2 - size * sin(PI / 6 - theta)));
-		g2d.drawLine(x2, y2, (int) (x2 - size * cos(-PI / 6 - theta)), (int) (y2 - size * sin(-PI / 6 - theta)));
+		g2d.drawLine(x2, y2, (int) (x2 - size * cos(PI / 6 - theta)), (int) (y2 - size
+				* sin(PI / 6 - theta)));
+		g2d.drawLine(x2, y2, (int) (x2 - size * cos(-PI / 6 - theta)), (int) (y2 - size
+				* sin(-PI / 6 - theta)));
 
 	}
 
@@ -279,7 +281,8 @@ public class MathUtil {
 	 * @return The rounded string
 	 */
 	public static String round(String contents, int precision) {
-		if (contents.contains(".")) {
+		precision++;
+		if (contents.contains(".") && isNumeric(contents)) {
 			if (contents.length() > contents.indexOf(".") + precision) {
 				contents = contents.substring(0, contents.indexOf(".") + precision);
 			}
@@ -311,7 +314,7 @@ public class MathUtil {
 	 * @param angle
 	 *            The angle to rotate by;
 	 */
-	public static void rotate(MyPoint point, Double angle) {
+	public static void rotate(MyPoint point, double angle) {
 		// new x is stored in a holder until the new y value is calculated.
 		double tempx = point.x * Math.cos(angle) - point.y * Math.sin(angle);
 		point.y = point.x * Math.sin(angle) + point.y * Math.cos(angle);
